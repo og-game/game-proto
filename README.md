@@ -63,4 +63,14 @@ SERVICES_LIST="newservice otherservice" make genrpc-newservice
 
 ---
 
+## 四、在其他服务中使用 game-proto
 
+如需在其他服务中引用 `game-proto` 中的 `.pb.go` 文件和定义，需要在对应项目中执行以下命令拉取依赖：
+
+```bash
+go get github.com/og-game/game-proto
+```
+
+确保 `game-proto` 已经推送至对应的 Git 仓库，且路径正确。
+
+---
