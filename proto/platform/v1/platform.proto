@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package platform.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1;platformv1";
+
+
+message PlatformReq{
+
+}
+
+message PlatformReply{
+
+}
+
+//////////////////  内部RPC   //////////////////
+service PlatformInnerService {
+  rpc Test(PlatformReq) returns (PlatformReply);
+}
+

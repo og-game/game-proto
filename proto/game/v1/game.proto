@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package game.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/game/v1;gamev1";
+
+import "common/v1/base.proto";
+import "game/v1/game_types.proto";
+
+
+message GameReq{
+
+}
+
+message GameReply{
+
+}
+
+
+//////////////////  内部RPC   //////////////////
+service GameInnerService {
+  rpc Test(GameReq) returns (GameReply);
+}
+
+
+
+
+//////////////////  暴露给API的RPC   //////////////////
+service GameApiService {
+  rpc CreateGameAddr(CreateGameAddrReq) returns (CreateGameAddrReply);
+}
+
+message CreateGameAddrReq {
+  GameType game_type = 2;
+  int64 user_id = 3;
+  map<string, string> params = 4;
+}
+
+message CreateGameAddrReply {
+  string game_id = 2;
+  GameInfo game_info = 3;
+}

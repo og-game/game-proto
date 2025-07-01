@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package fund.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/fund/v1;fundv1";
+
+
+message FundReq{
+
+}
+
+message FundReply{
+
+}
