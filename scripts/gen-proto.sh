@@ -20,6 +20,7 @@ PROTO_ROOT="${MODEL_ROOT}/proto"
 RPC_GATEWAY_ROOT="${PROJECT_ROOT}/rpc-gateway"
 APP_DIR="${RPC_GATEWAY_ROOT}/app"
 PROTO_GEN_GO="${MODEL_ROOT}/proto-gen-go"
+LOCAL_PROTOBUF_DIR="${MODEL_ROOT}/.protobuf-deps"
 
 # 服务列表 - 可以从环境变量或参数传入
 if [ -n "$SERVICES_LIST" ]; then
@@ -70,12 +71,157 @@ check_dependencies() {
     echo -e "${GREEN}所有依赖检查通过！${NC}"
 }
 
+
+# 检查 protobuf 标准库文件
+check_protobuf_stdlib() {
+    echo -e "\n${YELLOW}检查 protobuf 标准库...${NC}"
+
+    local protobuf_paths=()
+
+    # 检查 Homebrew 路径
+    if command -v brew >/dev/null 2>&1; then
+        local brew_protobuf="$(brew --prefix protobuf 2>/dev/null || true)"
+        if [ -n "$brew_protobuf" ] && [ -f "$brew_protobuf/include/google/protobuf/timestamp.proto" ]; then
+            protobuf_paths+=("$brew_protobuf/include")
+            echo -e "${GREEN}✓ 找到 Homebrew protobuf: $brew_protobuf/include${NC}"
+        fi
+    fi
+
+    # 检查系统路径
+    for sys_path in "/usr/local/include" "/usr/include" "/opt/local/include"; do
+        if [ -f "$sys_path/google/protobuf/timestamp.proto" ]; then
+            protobuf_paths+=("$sys_path")
+            echo -e "${GREEN}✓ 找到系统 protobuf: $sys_path${NC}"
+            break
+        fi
+    done
+
+    # 检查本地下载路径
+    if [ -f "$LOCAL_PROTOBUF_DIR/include/google/protobuf/timestamp.proto" ]; then
+        protobuf_paths+=("$LOCAL_PROTOBUF_DIR/include")
+        echo -e "${GREEN}✓ 找到本地 protobuf: $LOCAL_PROTOBUF_DIR/include${NC}"
+    fi
+
+    if [ ${#protobuf_paths[@]} -eq 0 ]; then
+        echo -e "${YELLOW}✗ 未找到 protobuf 标准库，将自动下载${NC}"
+        return 1
+    fi
+
+    # 导出找到的路径供其他函数使用
+    export PROTOBUF_INCLUDE_PATHS="${protobuf_paths[*]}"
+    return 0
+}
+
+# 自动安装 protobuf 依赖
+install_protobuf_deps() {
+    echo -e "\n${YELLOW}========== 自动安装 protobuf 依赖 ==========${NC}"
+
+    # 方法1: 尝试使用 Homebrew 安装
+    if command -v brew >/dev/null 2>&1; then
+        echo -e "${CYAN}尝试使用 Homebrew 安装 protobuf...${NC}"
+
+        if brew install protobuf 2>/dev/null; then
+            echo -e "${GREEN}✓ Homebrew 安装 protobuf 成功${NC}"
+
+            # 验证安装
+            local brew_protobuf="$(brew --prefix protobuf)"
+            if [ -f "$brew_protobuf/include/google/protobuf/timestamp.proto" ]; then
+                export PROTOBUF_INCLUDE_PATHS="$brew_protobuf/include"
+                echo -e "${GREEN}✓ 验证 Homebrew protobuf 安装成功${NC}"
+                return 0
+            fi
+        else
+            echo -e "${YELLOW}! Homebrew 安装失败，尝试手动下载${NC}"
+        fi
+    else
+        echo -e "${YELLOW}! 未找到 Homebrew，尝试手动下载${NC}"
+    fi
+
+    # 方法2: 手动下载标准 proto 文件
+    echo -e "${CYAN}手动下载 protobuf 标准库文件...${NC}"
+
+    local include_dir="$LOCAL_PROTOBUF_DIR/include/google/protobuf"
+    mkdir -p "$include_dir"
+
+    # 要下载的标准 proto 文件列表
+    local proto_files=(
+        "timestamp.proto"
+        "any.proto"
+        "duration.proto"
+        "descriptor.proto"
+        "empty.proto"
+        "field_mask.proto"
+        "struct.proto"
+        "wrappers.proto"
+        "source_context.proto"
+        "type.proto"
+        "api.proto"
+    )
+
+    local base_url="https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf"
+    local success_count=0
+
+    for proto_file in "${proto_files[@]}"; do
+        echo -e "  ${CYAN}下载: $proto_file${NC}"
+
+        if curl -sSL -o "$include_dir/$proto_file" "$base_url/$proto_file" 2>/dev/null; then
+            echo -e "    ${GREEN}✓ 成功${NC}"
+            ((success_count++))
+        else
+            echo -e "    ${YELLOW}! 失败，但继续${NC}"
+        fi
+    done
+
+    if [ $success_count -gt 0 ]; then
+        export PROTOBUF_INCLUDE_PATHS="$LOCAL_PROTOBUF_DIR/include"
+        echo -e "${GREEN}✓ 手动下载 protobuf 文件成功 ($success_count 个文件)${NC}"
+
+        # 验证关键文件
+        if [ -f "$include_dir/timestamp.proto" ] && [ -f "$include_dir/any.proto" ]; then
+            echo -e "${GREEN}✓ 验证关键文件存在${NC}"
+            return 0
+        fi
+    fi
+
+    echo -e "${RED}✗ 无法获取 protobuf 标准库文件${NC}"
+    return 1
+}
+
+# 确保 protobuf 依赖可用
+ensure_protobuf_deps() {
+    if ! check_protobuf_stdlib; then
+        echo -e "${YELLOW}正在自动下载 protobuf 依赖...${NC}"
+
+        if ! install_protobuf_deps; then
+            echo -e "${RED}错误: 无法安装 protobuf 依赖${NC}"
+            echo -e "${YELLOW}请手动安装: brew install protobuf${NC}"
+            exit 1
+        fi
+
+        # 重新检查
+        if ! check_protobuf_stdlib; then
+            echo -e "${RED}错误: 安装后仍无法找到 protobuf 标准库${NC}"
+            exit 1
+        fi
+    fi
+
+    echo -e "${GREEN}✓ protobuf 依赖已就绪${NC}"
+}
+
+
 # 生成 Proto PB 文件
 generate_proto() {
     echo -e "\n${YELLOW}========== 生成 Proto PB 文件 ==========${NC}"
 
+    # 确保 protobuf 依赖可用
+    ensure_protobuf_deps
+
     # 确保输出目录存在
     mkdir -p "$PROTO_GEN_GO"
+
+    # 获取 protobuf 包含路径
+    local protobuf_paths=($PROTOBUF_INCLUDE_PATHS)
+    echo -e "${CYAN}使用 protobuf 包含路径: ${protobuf_paths[*]}${NC}"
 
     # 查找所有 proto 文件
     local proto_files=$(find "${PROTO_ROOT}" -name "*.proto" -type f)
@@ -92,14 +238,28 @@ generate_proto() {
 
         echo -e "${CYAN}生成: ${relative_path}${NC}"
 
+        # 构建 protoc 参数
+        local protoc_args=(
+            "--proto_path=${PROTO_ROOT}"
+        )
+
+        # 添加所有 protobuf 包含路径
+        for path in "${protobuf_paths[@]}"; do
+            if [ -n "$path" ]; then
+                protoc_args+=("--proto_path=${path}")
+            fi
+        done
+
+        protoc_args+=(
+            "--go_out=${PROTO_GEN_GO}"
+            "--go_opt=paths=source_relative"
+            "--go-grpc_out=${PROTO_GEN_GO}"
+            "--go-grpc_opt=paths=source_relative"
+            "$proto_file"
+        )
+
         # 生成 pb 文件
-        if protoc \
-            --proto_path="${PROTO_ROOT}" \
-            --go_out="${PROTO_GEN_GO}" \
-            --go_opt=paths=source_relative \
-            --go-grpc_out="${PROTO_GEN_GO}" \
-            --go-grpc_opt=paths=source_relative \
-            "$proto_file"; then
+        if protoc "${protoc_args[@]}"; then
             ((count++))
         else
             echo -e "${RED}  ✗ 失败: ${relative_path}${NC}"
@@ -113,6 +273,52 @@ generate_proto() {
 
     [ $failed -eq 0 ]
 }
+
+
+
+# 生成 Proto PB 文件
+#generate_proto() {
+#    echo -e "\n${YELLOW}========== 生成 Proto PB 文件 ==========${NC}"
+#
+#    # 确保输出目录存在
+#    mkdir -p "$PROTO_GEN_GO"
+#
+#    # 查找所有 proto 文件
+#    local proto_files=$(find "${PROTO_ROOT}" -name "*.proto" -type f)
+#    local count=0
+#    local failed=0
+#
+#    for proto_file in $proto_files; do
+#        # 获取相对路径
+#        local relative_path="${proto_file#${PROTO_ROOT}/}"
+#        local output_dir="${PROTO_GEN_GO}/$(dirname "$relative_path")"
+#
+#        # 创建输出目录
+#        mkdir -p "$output_dir"
+#
+#        echo -e "${CYAN}生成: ${relative_path}${NC}"
+#
+#        # 生成 pb 文件
+#        if protoc \
+#            --proto_path="${PROTO_ROOT}" \
+#            --go_out="${PROTO_GEN_GO}" \
+#            --go_opt=paths=source_relative \
+#            --go-grpc_out="${PROTO_GEN_GO}" \
+#            --go-grpc_opt=paths=source_relative \
+#            "$proto_file"; then
+#            ((count++))
+#        else
+#            echo -e "${RED}  ✗ 失败: ${relative_path}${NC}"
+#            ((failed++))
+#        fi
+#    done
+#
+#    echo -e "\n${YELLOW}========== Proto 生成结果 ==========${NC}"
+#    echo -e "成功: ${GREEN}${count}${NC} 个文件"
+#    echo -e "失败: ${RED}${failed}${NC} 个文件"
+#
+#    [ $failed -eq 0 ]
+#}
 
 # 查找服务的主 proto 文件（优先查找 v1 目录）
 find_main_proto() {
