@@ -1,4 +1,4 @@
-module github.com/og-game/game-proto/proto-gen-go
+module github.com/og-game/game-proto
 
 go 1.24.4
 
