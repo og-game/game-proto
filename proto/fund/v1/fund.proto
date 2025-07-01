@@ -11,3 +11,27 @@ message FundReq{
 message FundReply{
 
 }
+
+
+
+//////////////////  内部RPC   //////////////////
+service GameInnerService {
+  rpc Test(FundReq) returns (FundReply);
+}
+
+
+
+
+//////////////////  暴露给API的RPC   //////////////////
+service GameApiService {
+  rpc Test(CreateGameAddrReq) returns (CreateGameAddrReply);
+}
+
+message CreateGameAddrReq {
+  int64 user_id = 3;
+  map<string, string> params = 4;
+}
+
+message CreateGameAddrReply {
+  string game_id = 2;
+}
