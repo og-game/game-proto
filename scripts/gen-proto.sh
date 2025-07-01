@@ -10,11 +10,9 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# 获取脚本所在目录（scripts）
+# 获取脚本路径
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# 获取 game-center-model 目录（上一级）
 MODEL_ROOT="$(dirname "$SCRIPT_DIR")"
-# 获取项目根目录（包含 rpc-gateway 的目录）
 PROJECT_ROOT="$(dirname "$MODEL_ROOT")"
 
 # 路径定义
@@ -23,40 +21,12 @@ RPC_GATEWAY_ROOT="${PROJECT_ROOT}/rpc-gateway"
 APP_DIR="${RPC_GATEWAY_ROOT}/app"
 PROTO_GEN_GO="${MODEL_ROOT}/proto-gen-go"
 
-# 服务列表 - 可以从环境变量或参数传入，否则自动扫描
+# 服务列表 - 可以从环境变量或参数传入
 if [ -n "$SERVICES_LIST" ]; then
-    # 从环境变量读取服务列表（以空格分隔）
     IFS=' ' read -ra SERVICES <<< "$SERVICES_LIST"
-    echo -e "${CYAN}使用指定的服务列表: ${SERVICES[*]}${NC}"
 else
-    # 自动扫描 proto 目录下的服务（排除 common）
-    SERVICES=()
-    if [ -d "$PROTO_ROOT" ]; then
-        for service_dir in "${PROTO_ROOT}"/*/; do
-            if [ -d "$service_dir" ]; then
-                service_name=$(basename "$service_dir")
-                # 排除 common 目录
-                if [ "$service_name" != "common" ]; then
-                    # 检查是否有 proto 文件
-                    if find "$service_dir" -name "*.proto" -type f | grep -q .; then
-                        SERVICES+=("$service_name")
-                    fi
-                fi
-            fi
-        done
-    fi
-
-    # 如果扫描失败，使用默认列表
-    if [ ${#SERVICES[@]} -eq 0 ]; then
-        SERVICES=("fund" "game" "manage" "platform")
-        echo -e "${YELLOW}使用默认服务列表: ${SERVICES[*]}${NC}"
-    else
-        echo -e "${CYAN}自动扫描到的服务: ${SERVICES[*]}${NC}"
-    fi
+    SERVICES=("fund" "game" "manage" "platform")
 fi
-
-# 全局变量
-VERBOSE=false
 
 # 检查依赖
 check_dependencies() {
@@ -64,19 +34,15 @@ check_dependencies() {
 
     local deps_missing=false
 
-    # 检查 protoc
     if ! command -v protoc &> /dev/null; then
         echo -e "${RED}✗ protoc 未安装${NC}"
-        echo "  请安装 protoc: https://grpc.io/docs/protoc-installation/"
         deps_missing=true
     else
-        echo -e "${GREEN}✓ protoc $(protoc --version)${NC}"
+        echo -e "${GREEN}✓ protoc 已安装${NC}"
     fi
 
-    # 检查 protoc 插件
     if ! command -v protoc-gen-go &> /dev/null; then
         echo -e "${RED}✗ protoc-gen-go 未安装${NC}"
-        echo "  请运行: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest"
         deps_missing=true
     else
         echo -e "${GREEN}✓ protoc-gen-go 已安装${NC}"
@@ -84,19 +50,16 @@ check_dependencies() {
 
     if ! command -v protoc-gen-go-grpc &> /dev/null; then
         echo -e "${RED}✗ protoc-gen-go-grpc 未安装${NC}"
-        echo "  请运行: go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest"
         deps_missing=true
     else
         echo -e "${GREEN}✓ protoc-gen-go-grpc 已安装${NC}"
     fi
 
-    # 检查 goctl
     if ! command -v goctl &> /dev/null; then
         echo -e "${RED}✗ goctl 未安装${NC}"
-        echo "  请运行: go install github.com/zeromicro/go-zero/tools/goctl@latest"
         deps_missing=true
     else
-        echo -e "${GREEN}✓ goctl $(goctl --version 2>&1 | head -n1)${NC}"
+        echo -e "${GREEN}✓ goctl 已安装${NC}"
     fi
 
     if [ "$deps_missing" = true ]; then
@@ -107,47 +70,6 @@ check_dependencies() {
     echo -e "${GREEN}所有依赖检查通过！${NC}"
 }
 
-# 扫描服务的所有版本
-scan_service_versions() {
-    local service=$1
-    local versions=()
-
-    # 扫描服务目录下的所有版本
-    if [ -d "${PROTO_ROOT}/${service}" ]; then
-        for version_dir in "${PROTO_ROOT}/${service}"/*/; do
-            if [ -d "$version_dir" ]; then
-                version=$(basename "$version_dir")
-                # 检查是否有 proto 文件
-                if ls "${version_dir}"*.proto 1> /dev/null 2>&1; then
-                    versions+=("$version")
-                fi
-            fi
-        done
-    fi
-
-    echo "${versions[@]}"
-}
-
-# 扫描版本目录下的所有 proto 文件
-scan_proto_files() {
-    local service=$1
-    local version=$2
-    local proto_files=()
-
-    local proto_dir="${PROTO_ROOT}/${service}/${version}"
-    if [ -d "$proto_dir" ]; then
-        for proto_file in "${proto_dir}"/*.proto; do
-            if [ -f "$proto_file" ]; then
-                # 获取相对路径
-                local relative_path="${service}/${version}/$(basename "$proto_file")"
-                proto_files+=("$relative_path")
-            fi
-        done
-    fi
-
-    echo "${proto_files[@]}"
-}
-
 # 生成 Proto PB 文件
 generate_proto() {
     echo -e "\n${YELLOW}========== 生成 Proto PB 文件 ==========${NC}"
@@ -155,39 +77,20 @@ generate_proto() {
     # 确保输出目录存在
     mkdir -p "$PROTO_GEN_GO"
 
-    # 获取所有 proto 文件
-    local all_proto_files=()
-
-    # 先添加 common 目录的文件
-    if [ -d "${PROTO_ROOT}/common" ]; then
-        while IFS= read -r -d '' file; do
-            all_proto_files+=("${file#${PROTO_ROOT}/}")
-        done < <(find "${PROTO_ROOT}/common" -name "*.proto" -type f -print0)
-    fi
-
-    # 添加各服务的文件
-    for service in "${SERVICES[@]}"; do
-        local versions=($(scan_service_versions "$service"))
-        for version in "${versions[@]}"; do
-            local proto_files=($(scan_proto_files "$service" "$version"))
-            all_proto_files+=("${proto_files[@]}")
-        done
-    done
-
-    # 生成所有 proto 文件
-    echo -e "${CYAN}找到 ${#all_proto_files[@]} 个 proto 文件${NC}"
-
-    local success=0
+    # 查找所有 proto 文件
+    local proto_files=$(find "${PROTO_ROOT}" -name "*.proto" -type f)
+    local count=0
     local failed=0
 
-    for proto_file in "${all_proto_files[@]}"; do
-        if [ "$VERBOSE" = true ]; then
-            echo -e "${CYAN}生成: ${proto_file}${NC}"
-        fi
+    for proto_file in $proto_files; do
+        # 获取相对路径
+        local relative_path="${proto_file#${PROTO_ROOT}/}"
+        local output_dir="${PROTO_GEN_GO}/$(dirname "$relative_path")"
 
-        # 确保输出目录存在
-        local output_dir="${PROTO_GEN_GO}/$(dirname "$proto_file")"
+        # 创建输出目录
         mkdir -p "$output_dir"
+
+        echo -e "${CYAN}生成: ${relative_path}${NC}"
 
         # 生成 pb 文件
         if protoc \
@@ -196,44 +99,227 @@ generate_proto() {
             --go_opt=paths=source_relative \
             --go-grpc_out="${PROTO_GEN_GO}" \
             --go-grpc_opt=paths=source_relative \
-            "${PROTO_ROOT}/${proto_file}" 2>/dev/null; then
-            ((success++))
-            [ "$VERBOSE" = true ] && echo -e "${GREEN}  ✓ 成功${NC}"
+            "$proto_file"; then
+            ((count++))
         else
+            echo -e "${RED}  ✗ 失败: ${relative_path}${NC}"
             ((failed++))
-            echo -e "${RED}  ✗ 失败: ${proto_file}${NC}"
         fi
     done
 
     echo -e "\n${YELLOW}========== Proto 生成结果 ==========${NC}"
-    echo -e "成功: ${GREEN}${success}${NC} 个文件"
+    echo -e "成功: ${GREEN}${count}${NC} 个文件"
     echo -e "失败: ${RED}${failed}${NC} 个文件"
 
     [ $failed -eq 0 ]
 }
 
-# 查找服务的主 proto 文件
+# 查找服务的主 proto 文件（优先查找 v1 目录）
 find_main_proto() {
     local service=$1
-    local versions=($(scan_service_versions "$service"))
 
-    for version in "${versions[@]}"; do
-        # 优先查找与服务同名的 proto 文件
-        if [ -f "${PROTO_ROOT}/${service}/${version}/${service}.proto" ]; then
-            echo "${service}/${version}/${service}.proto"
+    # 首先检查 v1 目录下的同名文件
+    if [ -f "${PROTO_ROOT}/${service}/v1/${service}.proto" ]; then
+        echo "${service}/v1/${service}.proto"
+        return 0
+    fi
+
+    # 查找包含 service 定义的 proto 文件
+    local proto_files=$(find "${PROTO_ROOT}/${service}" -name "*.proto" -type f 2>/dev/null)
+
+    for proto_file in $proto_files; do
+        if grep -q "^service" "$proto_file" 2>/dev/null; then
+            echo "${proto_file#${PROTO_ROOT}/}"
             return 0
         fi
-
-        # 查找包含 service 定义的文件
-        for proto_file in "${PROTO_ROOT}/${service}/${version}"/*.proto; do
-            if [ -f "$proto_file" ] && grep -q "^service" "$proto_file" 2>/dev/null; then
-                echo "${service}/${version}/$(basename "$proto_file")"
-                return 0
-            fi
-        done
     done
 
     return 1
+}
+
+# 解析 proto 文件的依赖
+parse_proto_dependencies() {
+    local proto_file=$1
+    local dependencies=()
+
+    echo -e "${CYAN}  分析 proto 文件依赖: $(basename "$proto_file")${NC}"
+
+    # 解析 import 语句
+    while IFS= read -r line; do
+        if [[ $line =~ ^import[[:space:]]+\"(.+)\" ]]; then
+            local import_file="${BASH_REMATCH[1]}"
+            dependencies+=("$import_file")
+            echo -e "    ${YELLOW}发现依赖: $import_file${NC}"
+        fi
+    done < "$proto_file"
+
+    printf '%s\n' "${dependencies[@]}"
+}
+
+# 复制依赖的 pb 文件到服务目录
+copy_proto_dependencies() {
+    local service=$1
+    local main_proto_file="${PROTO_ROOT}/$(find_main_proto "$service")"
+    local service_pb_dir="${APP_DIR}/${service}/pb/v1"
+
+    echo -e "${CYAN}  复制 ${service} 相关的 PB 文件...${NC}"
+
+    # 确保 pb 目录存在
+    mkdir -p "$service_pb_dir"
+
+    # 解析依赖
+    local dependencies=($(parse_proto_dependencies "$main_proto_file"))
+
+    # 复制依赖的 pb 文件
+    for dep in "${dependencies[@]}"; do
+        # 将 import 路径转换为对应的 pb 文件路径
+        local dep_dir=$(dirname "$dep")
+        local dep_name=$(basename "$dep" .proto)
+
+        echo -e "    ${CYAN}处理依赖: $dep${NC}"
+
+        # 查找对应的 pb 文件（包括 _grpc.pb.go 和 .pb.go）
+        local pb_files=$(find "${PROTO_GEN_GO}/${dep_dir}" -name "${dep_name}*.pb.go" 2>/dev/null)
+
+        if [ -n "$pb_files" ]; then
+            for pb_file in $pb_files; do
+                if [ -f "$pb_file" ]; then
+                    local filename=$(basename "$pb_file")
+                    cp "$pb_file" "$service_pb_dir/$filename"
+                    echo -e "      ${GREEN}✓ 复制: $filename${NC}"
+                fi
+            done
+        else
+            echo -e "      ${YELLOW}! 未找到对应的 pb 文件: ${dep_name}*.pb.go${NC}"
+        fi
+    done
+
+    # 复制服务自己的 pb 文件
+    echo -e "    ${CYAN}复制 ${service} 自己的 pb 文件...${NC}"
+    local service_pb_source="${PROTO_GEN_GO}/${service}"
+
+    if [ -d "$service_pb_source" ]; then
+        find "$service_pb_source" -name "*.pb.go" -type f | while read pb_file; do
+            local filename=$(basename "$pb_file")
+            cp "$pb_file" "$service_pb_dir/$filename"
+            echo -e "      ${GREEN}✓ 复制: $filename${NC}"
+        done
+    else
+        echo -e "      ${YELLOW}! 未找到 ${service} 的 pb 文件目录${NC}"
+    fi
+
+    # 显示最终复制的文件统计
+    local total_pb_files=$(ls "$service_pb_dir"/*.pb.go 2>/dev/null | wc -l)
+    echo -e "    ${GREEN}✓ 总共复制了 ${total_pb_files} 个 PB 文件到 ${service}/pb/v1/${NC}"
+}
+
+# 清理自带pb文件并修复导入路径
+cleanup_and_fix_imports() {
+    local service=$1
+    local service_dir="${APP_DIR}/${service}"
+    local pb_dir="${service_dir}/pb/v1"
+
+    echo -e "${CYAN}  清理自带pb文件并修复导入路径...${NC}"
+
+    # 1. 删除深层嵌套的pb文件目录
+    if [ -d "${service_dir}/github.com" ]; then
+        echo -e "    ${YELLOW}删除深层pb目录: github.com/${NC}"
+        rm -rf "${service_dir}/github.com"
+    fi
+
+    if [ -d "${service_dir}/types" ]; then
+        echo -e "    ${YELLOW}删除types目录${NC}"
+        rm -rf "${service_dir}/types"
+    fi
+
+    # 2. 移动任何散落的pb文件到pb/v1目录
+    find "$service_dir" -name "*.pb.go" -not -path "*/pb/*" | while read pb_file; do
+        if [ -f "$pb_file" ]; then
+            local filename=$(basename "$pb_file")
+            echo -e "    ${YELLOW}移动pb文件: $filename 到 pb/v1/${NC}"
+            mkdir -p "$pb_dir"
+            mv "$pb_file" "$pb_dir/$filename"
+        fi
+    done
+
+    # 3. 修复所有Go文件中的导入路径
+    echo -e "    ${CYAN}修复导入路径...${NC}"
+    fix_import_paths "$service"
+
+    # 4. 验证pb目录是否包含必要文件
+    local pb_count=$(ls "$pb_dir"/*.pb.go 2>/dev/null | wc -l)
+    if [ $pb_count -gt 0 ]; then
+        echo -e "    ${GREEN}✓ pb/v1目录包含 ${pb_count} 个pb文件${NC}"
+    else
+        echo -e "    ${RED}✗ pb/v1目录为空，可能存在问题${NC}"
+    fi
+}
+
+# 修复导入路径
+fix_import_paths() {
+    local service=$1
+    local service_dir="${APP_DIR}/${service}"
+    local old_import_pattern="rpc-gateway/app/${service}/github.com/og-game/game-proto/proto-gen-go/${service}/v1"
+    local new_import="rpc-gateway/app/${service}/pb/v1"
+
+    # 查找所有Go文件并修复导入路径
+    find "$service_dir" -name "*.go" -type f | while read go_file; do
+        # 检查文件是否包含需要替换的导入
+        if grep -q "$old_import_pattern" "$go_file" 2>/dev/null; then
+            echo -e "      ${CYAN}修复文件: $(basename "$go_file")${NC}"
+
+            # 备份文件
+            cp "$go_file" "$go_file.bak"
+
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                # MacOS
+                sed -i '' \
+                    -e "s|\"${old_import_pattern}\"|\"${new_import}\"|g" \
+                    -e "s|\"rpc-gateway/app/${service}/github\.com/[^\"]*\"|\"${new_import}\"|g" \
+                    "$go_file"
+            else
+                # Linux
+                sed -i \
+                    -e "s|\"${old_import_pattern}\"|\"${new_import}\"|g" \
+                    -e "s|\"rpc-gateway/app/${service}/github\.com/[^\"]*\"|\"${new_import}\"|g" \
+                    "$go_file"
+            fi
+
+            # 验证修改是否成功
+            if go fmt "$go_file" > /dev/null 2>&1; then
+                rm "$go_file.bak"
+                echo -e "        ${GREEN}✓ 成功修复导入路径${NC}"
+            else
+                echo -e "        ${RED}✗ 修复失败，恢复备份${NC}"
+                mv "$go_file.bak" "$go_file"
+            fi
+        fi
+    done
+
+    # 额外处理一些可能的导入模式
+    find "$service_dir" -name "*.go" -type f -exec grep -l "github\.com/og-game/game-proto" {} \; | while read go_file; do
+        echo -e "      ${CYAN}处理额外导入: $(basename "$go_file")${NC}"
+
+        cp "$go_file" "$go_file.bak"
+
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' \
+                -e "s|\"[^\"]*github\.com/og-game/game-proto/proto-gen-go/${service}/v1\"|\"${new_import}\"|g" \
+                "$go_file"
+        else
+            sed -i \
+                -e "s|\"[^\"]*github\.com/og-game/game-proto/proto-gen-go/${service}/v1\"|\"${new_import}\"|g" \
+                "$go_file"
+        fi
+
+        if go fmt "$go_file" > /dev/null 2>&1; then
+            rm "$go_file.bak"
+            echo -e "        ${GREEN}✓ 处理完成${NC}"
+        else
+            mv "$go_file.bak" "$go_file"
+            echo -e "        ${YELLOW}! 跳过此文件${NC}"
+        fi
+    done
 }
 
 # 生成单个 RPC 服务
@@ -247,53 +333,38 @@ generate_rpc_service() {
     local main_proto=$(find_main_proto "$service")
 
     if [ -z "$main_proto" ]; then
-        echo -e "${RED}✗ 未找到 ${service} 服务的主 proto 文件${NC}"
+        echo -e "${RED}✗ 未找到 ${service} 服务的 proto 文件${NC}"
         return 1
     fi
 
-    echo -e "${YELLOW}使用主 proto 文件: ${main_proto}${NC}"
+    echo -e "${YELLOW}使用 proto 文件: ${main_proto}${NC}"
 
-    # 如果服务目录已存在，询问是否覆盖
-    if [ -d "$service_dir" ]; then
-        echo -e "${YELLOW}⚠️  服务目录已存在: ${service_dir}${NC}"
-        echo -e "${YELLOW}是否覆盖? (y/n/s[kip])${NC}"
-        read -r overwrite
-        case "$overwrite" in
-            y|Y)
-                echo -e "${YELLOW}备份现有目录...${NC}"
-                mv "$service_dir" "${service_dir}.bak.$(date +%Y%m%d%H%M%S)"
-                ;;
-            s|S)
-                echo -e "${YELLOW}跳过 ${service} 服务${NC}"
-                return 0
-                ;;
-            *)
-                echo -e "${RED}取消生成 ${service} 服务${NC}"
-                return 1
-                ;;
-        esac
-    fi
-
-    # 创建服务目录
+    # 确保服务目录存在
     mkdir -p "$service_dir"
-
-    # 使用 goctl 生成服务
-    cd "$APP_DIR"
 
     echo -e "${YELLOW}生成 RPC 服务代码...${NC}"
 
+    # 使用 goctl 生成服务直接在目标目录生成
     if goctl rpc protoc \
         "${PROTO_ROOT}/${main_proto}" \
-        --go_out="${service_dir}/types" \
-        --go-grpc_out="${service_dir}/types" \
+        --proto_path="${PROTO_ROOT}" \
+        --go_out="${service_dir}" \
+        --go-grpc_out="${service_dir}" \
         --zrpc_out="${service_dir}" \
+        --client=true \
         --style=goZero -m \
         -I "${PROTO_ROOT}"; then
+
         echo -e "${GREEN}✓ ${service} RPC 服务生成成功${NC}"
 
-        # 显示生成的目录结构
-        echo -e "${CYAN}生成的目录结构:${NC}"
-        tree -L 2 "$service_dir" 2>/dev/null || ls -la "$service_dir"
+        # 合并客户端代码到 proto-gen-go
+        merge_client_code "$service"
+
+        # 复制所有相关的 pb 文件到服务目录
+        copy_proto_dependencies "$service"
+
+        # 清理自带pb文件并更新导入路径
+        cleanup_and_fix_imports "$service"
 
         return 0
     else
@@ -302,15 +373,55 @@ generate_rpc_service() {
     fi
 }
 
+# 合并客户端代码到 proto-gen-go
+merge_client_code() {
+    local service=$1
+    local client_dir="${APP_DIR}/${service}/client"
+    local target_dir="${PROTO_GEN_GO}/${service}/v1"
+
+    if [ ! -d "$client_dir" ]; then
+        echo -e "${YELLOW}  未找到客户端代码目录: ${client_dir}${NC}"
+        return 0
+    fi
+
+    echo -e "${CYAN}  合并客户端代码到: ${target_dir}${NC}"
+
+    # 确保目标目录存在
+    mkdir -p "$target_dir"
+
+    # 复制客户端代码
+    cp -rf "${client_dir}"/* "${target_dir}/" 2>/dev/null || true
+
+    # 删除原客户端目录
+    rm -rf "$client_dir"
+
+    # 替换导入路径
+   echo -e "\n${CYAN} 原路径 ${APP_DIR#$PROJECT_ROOT}/${service} ${NC}"
+    echo -e "${CYAN}  更新导入路径...${NC}"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # MacOS
+        find "$target_dir" -type f -name "*.go" -exec sed -i '' \
+            "s|${APP_DIR#$PROJECT_ROOT/}/${service}/|""|g" \
+            {} \;
+    else
+        # Linux
+        find "$target_dir" -type f -name "*.go" -exec sed -i \
+            "s|${APP_DIR#$PROJECT_ROOT/}/${service}/|""|g" \
+            {} \;
+    fi
+
+    echo -e "${GREEN}  ✓ 客户端代码合并完成${NC}"
+}
+
 # 生成所有 RPC 服务
 generate_all_rpc() {
-    local success=0
-    local failed=0
-
-    echo -e "${YELLOW}========== 生成所有 RPC 服务 ==========${NC}"
+    echo -e "${YELLOW}========== 生成 RPC 服务 ==========${NC}"
 
     # 确保 app 目录存在
     mkdir -p "$APP_DIR"
+
+    local success=0
+    local failed=0
 
     for service in "${SERVICES[@]}"; do
         if generate_rpc_service "$service"; then
@@ -329,29 +440,39 @@ generate_all_rpc() {
 show_info() {
     echo -e "${YELLOW}========== 服务信息 ==========${NC}"
     echo -e "${CYAN}工作目录: ${MODEL_ROOT}${NC}"
-    echo -e "${CYAN}当前服务: ${SERVICES[*]}${NC}"
-    echo ""
-    printf "%-15s %-10s %s\n" "服务" "版本" "Proto 文件"
-    printf "%-15s %-10s %s\n" "------" "------" "----------"
-
-    for service in "${SERVICES[@]}"; do
-        local versions=($(scan_service_versions "$service"))
-        if [ ${#versions[@]} -gt 0 ]; then
-            for version in "${versions[@]}"; do
-                local proto_files=($(scan_proto_files "$service" "$version"))
-                for proto_file in "${proto_files[@]}"; do
-                    printf "%-15s %-10s %s\n" "$service" "$version" "$(basename "$proto_file")"
-                done
-            done
-        else
-            printf "%-15s %-10s %s\n" "$service" "-" "未找到 proto 文件"
-        fi
-    done
-
-    echo ""
     echo -e "${CYAN}Proto 根目录: ${PROTO_ROOT}${NC}"
     echo -e "${CYAN}Proto 输出: ${PROTO_GEN_GO}${NC}"
     echo -e "${CYAN}RPC 输出: ${APP_DIR}${NC}"
+    echo -e "${CYAN}当前服务: ${SERVICES[*]}${NC}"
+    echo ""
+
+    echo -e "${YELLOW}服务状态:${NC}"
+    for service in "${SERVICES[@]}"; do
+        printf "  %-15s" "$service"
+
+        # 检查 proto 文件
+        if find_main_proto "$service" >/dev/null 2>&1; then
+            printf "${GREEN}[Proto ✓]${NC} "
+        else
+            printf "${RED}[Proto ✗]${NC} "
+        fi
+
+        # 检查 RPC 服务
+        if [ -d "${APP_DIR}/${service}" ]; then
+            printf "${GREEN}[RPC ✓]${NC} "
+        else
+            printf "${YELLOW}[RPC -]${NC} "
+        fi
+
+        # 检查 PB 文件
+        if [ -d "${APP_DIR}/${service}/pb" ] && [ "$(ls -A "${APP_DIR}/${service}/pb"/*.pb.go 2>/dev/null)" ]; then
+            printf "${GREEN}[PB ✓]${NC}"
+        else
+            printf "${YELLOW}[PB -]${NC}"
+        fi
+
+        echo ""
+    done
 }
 
 # 清理生成的文件
@@ -364,60 +485,52 @@ clean() {
         rm -rf "$PROTO_GEN_GO"
     fi
 
-    # 清理 RPC 服务
-    for service in "${SERVICES[@]}"; do
-        local service_dir="${APP_DIR}/${service}"
-        if [ -d "$service_dir" ]; then
-            echo -e "${YELLOW}删除: ${service_dir}${NC}"
-            rm -rf "$service_dir"
-        fi
-    done
+    # 清理 RPC 服务（需要确认）
+    echo -e "${RED}警告: 这将删除所有 RPC 服务目录，包括你的实现代码！${NC}"
+    echo -n "确定要继续吗？(y/N): "
+    read -r confirm
 
-    echo -e "${GREEN}✓ 清理完成${NC}"
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        for service in "${SERVICES[@]}"; do
+            local service_dir="${APP_DIR}/${service}"
+            if [ -d "$service_dir" ]; then
+                echo -e "${YELLOW}删除: ${service_dir}${NC}"
+                rm -rf "$service_dir"
+            fi
+        done
+        echo -e "${GREEN}✓ 清理完成${NC}"
+    else
+        echo -e "${YELLOW}取消清理 RPC 服务目录${NC}"
+    fi
 }
 
 # 显示帮助信息
 show_help() {
-    echo "用法: $0 [命令] [选项] [服务名...]"
+    echo "用法: $0 [命令] [服务名...]"
     echo ""
     echo "命令:"
-    echo "  proto           只生成 Proto PB 文件"
-    echo "  rpc             只生成 RPC 服务代码"
-    echo "  all             生成 Proto 和 RPC（默认）"
-    echo "  info            显示服务信息"
-    echo "  clean           清理生成的文件"
-    echo ""
-    echo "选项:"
-    echo "  -h, --help      显示帮助信息"
-    echo "  -v, --verbose   显示详细输出"
-    echo ""
-    echo "环境变量:"
-    echo "  SERVICES_LIST   指定要处理的服务列表（空格分隔）"
-    echo "                  例: SERVICES_LIST='game fund' $0 proto"
+    echo "  proto    只生成 Proto PB 文件"
+    echo "  rpc      只生成 RPC 服务代码"
+    echo "  all      生成 Proto 和 RPC（默认）"
+    echo "  info     显示服务信息"
+    echo "  clean    清理生成的文件"
+    echo "  help     显示帮助信息"
     echo ""
     echo "服务名:"
-    echo "  当前可用: ${SERVICES[*]}"
-    echo "  指定服务名时只处理指定的服务"
+    echo "  可用服务: ${SERVICES[*]}"
+    echo "  不指定服务名时处理所有服务"
+    echo ""
+    echo "说明:"
+    echo "  - goctl 使用 -m 参数自动保留用户实现的代码"
+    echo "  - 自动分析并复制所有依赖的 PB 文件到服务目录"
+    echo "  - 客户端代码会自动合并到 proto-gen-go 目录"
     echo ""
     echo "示例:"
-    echo "  $0                    # 生成所有 proto 和 rpc"
-    echo "  $0 proto              # 只生成 proto pb 文件"
-    echo "  $0 rpc                # 只生成 rpc 服务"
-    echo "  $0 rpc game fund      # 只生成 game 和 fund 的 rpc 服务"
-    echo "  $0 info               # 显示服务信息"
-    echo "  $0 clean              # 清理所有生成的文件"
-}
-
-# 检查服务名是否有效
-is_valid_service() {
-    local service=$1
-    local valid_service
-    for valid_service in "${SERVICES[@]}"; do
-        if [[ "$valid_service" == "$service" ]]; then
-            return 0
-        fi
-    done
-    return 1
+    echo "  $0              # 生成所有 proto 和 rpc"
+    echo "  $0 proto        # 只生成 proto pb 文件"
+    echo "  $0 rpc game     # 只生成 game 的 rpc 服务"
+    echo "  $0 info         # 显示服务信息"
+    echo "  $0 clean        # 清理所有生成的文件"
 }
 
 # 主函数
@@ -425,24 +538,28 @@ main() {
     local command="all"
     local specified_services=()
 
-    # 解析命令行参数
+    # 解析参数
     while [[ $# -gt 0 ]]; do
         case $1 in
-            -h|--help)
-                show_help
-                exit 0
-                ;;
-            -v|--verbose)
-                VERBOSE=true
-                shift
-                ;;
             proto|rpc|all|info|clean)
                 command="$1"
                 shift
                 ;;
+            help|-h|--help)
+                show_help
+                exit 0
+                ;;
             *)
                 # 检查是否是有效的服务名
-                if is_valid_service "$1"; then
+                local is_valid_service=false
+                for svc in "${SERVICES[@]}"; do
+                    if [[ "$svc" == "$1" ]]; then
+                        is_valid_service=true
+                        break
+                    fi
+                done
+
+                if [ "$is_valid_service" = true ]; then
                     specified_services+=("$1")
                 else
                     echo -e "${RED}未知的参数或服务: $1${NC}"
@@ -457,7 +574,6 @@ main() {
     # 如果指定了服务，更新服务列表
     if [ ${#specified_services[@]} -gt 0 ]; then
         SERVICES=("${specified_services[@]}")
-        echo -e "${CYAN}处理指定的服务: ${SERVICES[*]}${NC}"
     fi
 
     echo -e "${BLUE}========================================${NC}"
@@ -488,7 +604,5 @@ main() {
     esac
 }
 
-# 如果直接运行脚本，执行主函数
-if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
-    main "$@"
-fi
+# 执行主函数
+main "$@"

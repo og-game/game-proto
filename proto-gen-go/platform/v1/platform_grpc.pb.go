@@ -4,7 +4,7 @@
 // - protoc             v5.29.3
 // source: platform/v1/platform.proto
 
-package platformv1
+package v1
 
 import (
 	context "context"
