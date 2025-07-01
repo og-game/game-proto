@@ -14,11 +14,15 @@ import (
 )
 
 type (
-	PlatformReply = v1.PlatformReply
-	PlatformReq   = v1.PlatformReq
+	GetGameLinkReq     = v1.GetGameLinkReq
+	GetGameLinkResp    = v1.GetGameLinkResp
+	GetUserBalanceReq  = v1.GetUserBalanceReq
+	GetUserBalanceResp = v1.GetUserBalanceResp
 
 	PlatformInnerService interface {
-		Test(ctx context.Context, in *PlatformReq, opts ...grpc.CallOption) (*PlatformReply, error)
+		// 获取游戏链接
+		GetGameLink(ctx context.Context, in *GetGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error)
+		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 	}
 
 	defaultPlatformInnerService struct {
@@ -32,7 +36,13 @@ func NewPlatformInnerService(cli zrpc.Client) PlatformInnerService {
 	}
 }
 
-func (m *defaultPlatformInnerService) Test(ctx context.Context, in *PlatformReq, opts ...grpc.CallOption) (*PlatformReply, error) {
+// 获取游戏链接
+func (m *defaultPlatformInnerService) GetGameLink(ctx context.Context, in *GetGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
-	return client.Test(ctx, in, opts...)
+	return client.GetGameLink(ctx, in, opts...)
+}
+
+func (m *defaultPlatformInnerService) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.GetUserBalance(ctx, in, opts...)
 }
