@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package common.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/common/v1";
+
+
+// 交易类型枚举
+enum TransactionType {
+  TRANSACTION_TYPE_UNSPECIFIED = 0;   // 未知类型
+  TRANSACTION_TYPE_BET = 1;  // 投注 - 玩家扣款
+  TRANSACTION_TYPE_DEPOSIT_HOLD = 2;  // 押金 - 玩家扣款
+  TRANSACTION_TYPE_DEPOSIT_REFUND = 3;  // 返还押金 - 玩家入款
+  TRANSACTION_TYPE_SETTLEMENT_CANCEL = 4;  // 结算撤单 - 玩家扣款
+  TRANSACTION_TYPE_BET_CANCEL = 5;  // 取消投注 - 玩家入款
+  TRANSACTION_TYPE_PAYOUT = 6;  // 派奖 - 玩家入款
+  TRANSACTION_TYPE_REPAYOUT = 7;  // 重新派奖 - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
+}
+
+// 资金流向枚举（可选，用于明确标识）
+enum MoneyFlow {
+  MONEY_FLOW_UNSPECIFIED = 0;
+  MONEY_FLOW_DEBIT = 1;  // 玩家扣款
+  MONEY_FLOW_CREDIT = 2;   // 玩家入款
+  MONEY_FLOW_BOTH = 3;  // 双向（如重新派奖）
+}

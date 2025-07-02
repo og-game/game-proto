@@ -3,6 +3,8 @@ syntax = "proto3";
 package fund.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/fund/v1";
 
+import "common/v1/enum.proto";
+
 message FundReq{
 
 }
@@ -14,73 +16,86 @@ message FundReply{
 
 //////////////////  内部RPC   //////////////////
 service GameInnerService {
-  rpc Test(FundReq) returns (FundReply);
 
-  // 用户注册
-  rpc UserRegister(UserRegisterReq) returns (UserRegisterReply);
+  // 获取单个用户余额
+  rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceReply);
 
-  // 用户充值
-  rpc Deposit(DepositReq) returns (DepositReply);
+  // 批量获取用户余额
+  rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListReply);
 
+  // 处理交易（根据type字段处理不同类型）
+  rpc ProcessTransaction(TransactionReq) returns (TransactionReply);
+
+
+}
+
+// 获取单个用户余额请求
+message GetUserBalanceReq {
+  int64 user_id = 1;
+  int64 merchant_id = 2;
+  int64 platform_id = 3;
+}
+
+// 用户余额信息
+message UserBalanceInfo {
+  double balance = 1; // 游戏内余额
+  double frozen_balance = 2; // 游戏内冻结余额
+  double transferring_balance = 3; // 转账中余额
+}
+
+// 获取单个用户余额响应
+message GetUserBalanceReply {
+  UserBalanceInfo balance = 1;
+}
+
+// 批量获取用户余额请求
+message GetUserBalanceListReq {
+  int64 user_id = 1;
+  int64 merchant_id = 2;
+  int64 platform_id = 3;
+}
+
+// 批量获取用户余额响应
+message GetUserBalanceListReply {
+  map<int64, UserBalanceInfo> balances = 1; // platform_id => UserBalanceInfo
+}
+
+
+// 交易请求消息
+message TransactionReq {
+  common.v1.TransactionType type = 1;
+  int64 user_id = 2;
+  int64 merchant_id = 3;
+  int64 platform_id = 4;
+  double amount = 5;    // 需要变动的金额 >=0
+  string order_id = 6;  // 订单ID
+  string description = 7; // 描述备注
+  map<string, string> metadata = 8;
+}
+
+// 交易响应消息
+message TransactionReply {
+  bool success = 1;  // 是否成功
+  string transaction_id = 2; // 账变记录ID
+  double balance_before = 3; // 变更前余额
+  double balance_after = 4; // 变更后余额
+  int64 timestamp = 5; // 当前时间戳
+}
+
+
+//////////////////  暴露给API的RPC   //////////////////
+service GameApiService {
   // 用户提现
   rpc Withdraw(WithdrawReq) returns (WithdrawReply);
 
-  // 获取投注记录
-  rpc GetBetRecords(GetBetRecordsReq) returns (GetBetRecordsReply);
-
-  // 获取用户余额
-  rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceReply);
-
-  // 获取用户资金流水
-  rpc GetTransactionRecords(GetTransactionRecordsReq) returns (GetTransactionRecordsReply);
-}
-
-
-
-// 用户注册请求
-message UserRegisterReq {
-  string username = 1;
-  string password = 2;
-  string email = 3;
-  string phone = 4;
-  map<string, string> extra_info = 5;
-}
-
-// 用户注册响应
-message UserRegisterReply {
-  int32 code = 1;
-  string message = 2;
-  int64 user_id = 3;
-  string token = 4;
-}
-
-// 用户充值请求
-message DepositReq {
-  int64 user_id = 1;
-  double amount = 2;
-  string payment_method = 3; // 支付方式：alipay, wechat, bank_card等
-  string payment_channel = 4; // 支付渠道
-  string order_no = 5; // 外部订单号
-  map<string, string> extra_params = 6;
-}
-
-// 用户充值响应
-message DepositReply {
-  int32 code = 1;
-  string message = 2;
-  string transaction_id = 3; // 内部交易ID
-  string payment_url = 4; // 支付链接（如果需要跳转支付）
-  double balance = 5; // 充值后余额
 }
 
 // 用户提现请求
 message WithdrawReq {
   int64 user_id = 1;
   double amount = 2;
-  string withdraw_method = 3; // 提现方式：bank_card, alipay, wechat等
-  string account_info = 4; // 账户信息（银行卡号、支付宝账号等）
-  string account_name = 5; // 账户名
-  map<string, string> extra_params = 6;
+  int64 platform_id = 3;
+  map<string, string> extra_params = 4;
 }
 
 // 用户提现响应
@@ -91,104 +106,4 @@ message WithdrawReply {
   double balance = 4; // 提现后余额
   string status = 5; // 提现状态：pending, processing, completed, failed
   int64 estimated_time = 6; // 预计到账时间戳
-}
-
-// 投注记录查询请求
-message GetBetRecordsReq {
-  int64 user_id = 1;
-  string game_type = 2; // 游戏类型
-  int64 start_time = 3; // 开始时间戳
-  int64 end_time = 4; // 结束时间戳
-  int32 page = 5; // 页码
-  int32 page_size = 6; // 每页数量
-  string status = 7; // 投注状态：all, pending, win, lose
-}
-
-// 投注记录
-message BetRecord {
-  string bet_id = 1; // 投注ID
-  int64 user_id = 2; // 用户ID
-  string game_type = 3; // 游戏类型
-  string game_id = 4; // 游戏ID
-  double bet_amount = 5; // 投注金额
-  double win_amount = 6; // 中奖金额
-  string status = 7; // 状态：pending, win, lose
-  int64 bet_time = 8; // 投注时间
-  int64 settle_time = 9; // 结算时间
-  map<string, string> game_data = 10; // 游戏相关数据
-}
-
-// 投注记录查询响应
-message GetBetRecordsReply {
-  int32 code = 1;
-  string message = 2;
-  repeated BetRecord records = 3; // 投注记录列表
-  int32 total_count = 4; // 总记录数
-  int32 page = 5; // 当前页
-  int32 page_size = 6; // 每页数量
-}
-
-// 获取用户余额请求
-message GetUserBalanceReq {
-  int64 user_id = 1;
-}
-
-// 获取用户余额响应
-message GetUserBalanceReply {
-  int32 code = 1;
-  string message = 2;
-  double balance = 3; // 用户余额
-  double frozen_balance = 4; // 冻结余额
-}
-
-// 用户资金流水查询请求
-message GetTransactionRecordsReq {
-  int64 user_id = 1;
-  string transaction_type = 2; // 交易类型：deposit, withdraw, bet, win
-  int64 start_time = 3; // 开始时间戳
-  int64 end_time = 4; // 结束时间戳
-  int32 page = 5; // 页码
-  int32 page_size = 6; // 每页数量
-}
-
-// 资金流水记录
-message TransactionRecord {
-  string transaction_id = 1; // 交易ID
-  int64 user_id = 2; // 用户ID
-  string transaction_type = 3; // 交易类型
-  double amount = 4; // 交易金额
-  double balance_before = 5; // 交易前余额
-  double balance_after = 6; // 交易后余额
-  string status = 7; // 交易状态
-  int64 create_time = 8; // 创建时间
-  string description = 9; // 交易描述
-  map<string, string> extra_data = 10; // 额外数据
-}
-
-// 用户资金流水查询响应
-message GetTransactionRecordsReply {
-  int32 code = 1;
-  string message = 2;
-  repeated TransactionRecord records = 3; // 流水记录列表
-  int32 total_count = 4; // 总记录数
-  int32 page = 5; // 当前页
-  int32 page_size = 6; // 每页数量
-}
-
-
-
-
-
-//////////////////  暴露给API的RPC   //////////////////
-service GameApiService {
-  rpc Test(CreateGameAddrReq) returns (CreateGameAddrReply);
-}
-
-message CreateGameAddrReq {
-  int64 user_id = 3;
-  map<string, string> params = 4;
-}
-
-message CreateGameAddrReply {
-  string game_id = 2;
 }

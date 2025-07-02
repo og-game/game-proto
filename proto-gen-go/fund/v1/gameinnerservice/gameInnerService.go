@@ -14,39 +14,25 @@ import (
 )
 
 type (
-	BetRecord                  = v1.BetRecord
-	CreateGameAddrReply        = v1.CreateGameAddrReply
-	CreateGameAddrReq          = v1.CreateGameAddrReq
-	DepositReply               = v1.DepositReply
-	DepositReq                 = v1.DepositReq
-	FundReply                  = v1.FundReply
-	FundReq                    = v1.FundReq
-	GetBetRecordsReply         = v1.GetBetRecordsReply
-	GetBetRecordsReq           = v1.GetBetRecordsReq
-	GetTransactionRecordsReply = v1.GetTransactionRecordsReply
-	GetTransactionRecordsReq   = v1.GetTransactionRecordsReq
-	GetUserBalanceReply        = v1.GetUserBalanceReply
-	GetUserBalanceReq          = v1.GetUserBalanceReq
-	TransactionRecord          = v1.TransactionRecord
-	UserRegisterReply          = v1.UserRegisterReply
-	UserRegisterReq            = v1.UserRegisterReq
-	WithdrawReply              = v1.WithdrawReply
-	WithdrawReq                = v1.WithdrawReq
+	FundReply               = v1.FundReply
+	FundReq                 = v1.FundReq
+	GetUserBalanceListReply = v1.GetUserBalanceListReply
+	GetUserBalanceListReq   = v1.GetUserBalanceListReq
+	GetUserBalanceReply     = v1.GetUserBalanceReply
+	GetUserBalanceReq       = v1.GetUserBalanceReq
+	TransactionReply        = v1.TransactionReply
+	TransactionReq          = v1.TransactionReq
+	UserBalanceInfo         = v1.UserBalanceInfo
+	WithdrawReply           = v1.WithdrawReply
+	WithdrawReq             = v1.WithdrawReq
 
 	GameInnerService interface {
-		Test(ctx context.Context, in *FundReq, opts ...grpc.CallOption) (*FundReply, error)
-		// 用户注册
-		UserRegister(ctx context.Context, in *UserRegisterReq, opts ...grpc.CallOption) (*UserRegisterReply, error)
-		// 用户充值
-		Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositReply, error)
-		// 用户提现
-		Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error)
-		// 获取投注记录
-		GetBetRecords(ctx context.Context, in *GetBetRecordsReq, opts ...grpc.CallOption) (*GetBetRecordsReply, error)
-		// 获取用户余额
+		// 获取单个用户余额
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
-		// 获取用户资金流水
-		GetTransactionRecords(ctx context.Context, in *GetTransactionRecordsReq, opts ...grpc.CallOption) (*GetTransactionRecordsReply, error)
+		// 批量获取用户余额
+		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
+		// 处理交易（根据type字段处理不同类型）
+		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
 	}
 
 	defaultGameInnerService struct {
@@ -60,43 +46,20 @@ func NewGameInnerService(cli zrpc.Client) GameInnerService {
 	}
 }
 
-func (m *defaultGameInnerService) Test(ctx context.Context, in *FundReq, opts ...grpc.CallOption) (*FundReply, error) {
-	client := v1.NewGameInnerServiceClient(m.cli.Conn())
-	return client.Test(ctx, in, opts...)
-}
-
-// 用户注册
-func (m *defaultGameInnerService) UserRegister(ctx context.Context, in *UserRegisterReq, opts ...grpc.CallOption) (*UserRegisterReply, error) {
-	client := v1.NewGameInnerServiceClient(m.cli.Conn())
-	return client.UserRegister(ctx, in, opts...)
-}
-
-// 用户充值
-func (m *defaultGameInnerService) Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositReply, error) {
-	client := v1.NewGameInnerServiceClient(m.cli.Conn())
-	return client.Deposit(ctx, in, opts...)
-}
-
-// 用户提现
-func (m *defaultGameInnerService) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error) {
-	client := v1.NewGameInnerServiceClient(m.cli.Conn())
-	return client.Withdraw(ctx, in, opts...)
-}
-
-// 获取投注记录
-func (m *defaultGameInnerService) GetBetRecords(ctx context.Context, in *GetBetRecordsReq, opts ...grpc.CallOption) (*GetBetRecordsReply, error) {
-	client := v1.NewGameInnerServiceClient(m.cli.Conn())
-	return client.GetBetRecords(ctx, in, opts...)
-}
-
-// 获取用户余额
+// 获取单个用户余额
 func (m *defaultGameInnerService) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
 	client := v1.NewGameInnerServiceClient(m.cli.Conn())
 	return client.GetUserBalance(ctx, in, opts...)
 }
 
-// 获取用户资金流水
-func (m *defaultGameInnerService) GetTransactionRecords(ctx context.Context, in *GetTransactionRecordsReq, opts ...grpc.CallOption) (*GetTransactionRecordsReply, error) {
+// 批量获取用户余额
+func (m *defaultGameInnerService) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
 	client := v1.NewGameInnerServiceClient(m.cli.Conn())
-	return client.GetTransactionRecords(ctx, in, opts...)
+	return client.GetUserBalanceList(ctx, in, opts...)
+}
+
+// 处理交易（根据type字段处理不同类型）
+func (m *defaultGameInnerService) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
+	client := v1.NewGameInnerServiceClient(m.cli.Conn())
+	return client.ProcessTransaction(ctx, in, opts...)
 }
