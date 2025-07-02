@@ -14,10 +14,24 @@ import (
 )
 
 type (
-	CreateGameAddrReply = v1.CreateGameAddrReply
-	CreateGameAddrReq   = v1.CreateGameAddrReq
-	FundReply           = v1.FundReply
-	FundReq             = v1.FundReq
+	BetRecord                  = v1.BetRecord
+	CreateGameAddrReply        = v1.CreateGameAddrReply
+	CreateGameAddrReq          = v1.CreateGameAddrReq
+	DepositReply               = v1.DepositReply
+	DepositReq                 = v1.DepositReq
+	FundReply                  = v1.FundReply
+	FundReq                    = v1.FundReq
+	GetBetRecordsReply         = v1.GetBetRecordsReply
+	GetBetRecordsReq           = v1.GetBetRecordsReq
+	GetTransactionRecordsReply = v1.GetTransactionRecordsReply
+	GetTransactionRecordsReq   = v1.GetTransactionRecordsReq
+	GetUserBalanceReply        = v1.GetUserBalanceReply
+	GetUserBalanceReq          = v1.GetUserBalanceReq
+	TransactionRecord          = v1.TransactionRecord
+	UserRegisterReply          = v1.UserRegisterReply
+	UserRegisterReq            = v1.UserRegisterReq
+	WithdrawReply              = v1.WithdrawReply
+	WithdrawReq                = v1.WithdrawReq
 
 	GameApiService interface {
 		Test(ctx context.Context, in *CreateGameAddrReq, opts ...grpc.CallOption) (*CreateGameAddrReply, error)

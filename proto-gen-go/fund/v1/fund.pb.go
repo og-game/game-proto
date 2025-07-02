@@ -93,6 +93,1180 @@ func (*FundReply) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{1}
 }
 
+// 用户注册请求
+type UserRegisterReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Phone         string                 `protobuf:"bytes,4,opt,name=phone,proto3" json:"phone,omitempty"`
+	ExtraInfo     map[string]string      `protobuf:"bytes,5,rep,name=extra_info,json=extraInfo,proto3" json:"extra_info,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserRegisterReq) Reset() {
+	*x = UserRegisterReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserRegisterReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserRegisterReq) ProtoMessage() {}
+
+func (x *UserRegisterReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserRegisterReq.ProtoReflect.Descriptor instead.
+func (*UserRegisterReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UserRegisterReq) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *UserRegisterReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *UserRegisterReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserRegisterReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *UserRegisterReq) GetExtraInfo() map[string]string {
+	if x != nil {
+		return x.ExtraInfo
+	}
+	return nil
+}
+
+// 用户注册响应
+type UserRegisterReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Token         string                 `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserRegisterReply) Reset() {
+	*x = UserRegisterReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserRegisterReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserRegisterReply) ProtoMessage() {}
+
+func (x *UserRegisterReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserRegisterReply.ProtoReflect.Descriptor instead.
+func (*UserRegisterReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UserRegisterReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UserRegisterReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *UserRegisterReply) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UserRegisterReply) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+// 用户充值请求
+type DepositReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserId         int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Amount         float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	PaymentMethod  string                 `protobuf:"bytes,3,opt,name=payment_method,json=paymentMethod,proto3" json:"payment_method,omitempty"`    // 支付方式：alipay, wechat, bank_card等
+	PaymentChannel string                 `protobuf:"bytes,4,opt,name=payment_channel,json=paymentChannel,proto3" json:"payment_channel,omitempty"` // 支付渠道
+	OrderNo        string                 `protobuf:"bytes,5,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`                      // 外部订单号
+	ExtraParams    map[string]string      `protobuf:"bytes,6,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *DepositReq) Reset() {
+	*x = DepositReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DepositReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DepositReq) ProtoMessage() {}
+
+func (x *DepositReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DepositReq.ProtoReflect.Descriptor instead.
+func (*DepositReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DepositReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *DepositReq) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *DepositReq) GetPaymentMethod() string {
+	if x != nil {
+		return x.PaymentMethod
+	}
+	return ""
+}
+
+func (x *DepositReq) GetPaymentChannel() string {
+	if x != nil {
+		return x.PaymentChannel
+	}
+	return ""
+}
+
+func (x *DepositReq) GetOrderNo() string {
+	if x != nil {
+		return x.OrderNo
+	}
+	return ""
+}
+
+func (x *DepositReq) GetExtraParams() map[string]string {
+	if x != nil {
+		return x.ExtraParams
+	}
+	return nil
+}
+
+// 用户充值响应
+type DepositReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"` // 内部交易ID
+	PaymentUrl    string                 `protobuf:"bytes,4,opt,name=payment_url,json=paymentUrl,proto3" json:"payment_url,omitempty"`          // 支付链接（如果需要跳转支付）
+	Balance       float64                `protobuf:"fixed64,5,opt,name=balance,proto3" json:"balance,omitempty"`                                // 充值后余额
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DepositReply) Reset() {
+	*x = DepositReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DepositReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DepositReply) ProtoMessage() {}
+
+func (x *DepositReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DepositReply.ProtoReflect.Descriptor instead.
+func (*DepositReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DepositReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DepositReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *DepositReply) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *DepositReply) GetPaymentUrl() string {
+	if x != nil {
+		return x.PaymentUrl
+	}
+	return ""
+}
+
+func (x *DepositReply) GetBalance() float64 {
+	if x != nil {
+		return x.Balance
+	}
+	return 0
+}
+
+// 用户提现请求
+type WithdrawReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserId         int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Amount         float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	WithdrawMethod string                 `protobuf:"bytes,3,opt,name=withdraw_method,json=withdrawMethod,proto3" json:"withdraw_method,omitempty"` // 提现方式：bank_card, alipay, wechat等
+	AccountInfo    string                 `protobuf:"bytes,4,opt,name=account_info,json=accountInfo,proto3" json:"account_info,omitempty"`          // 账户信息（银行卡号、支付宝账号等）
+	AccountName    string                 `protobuf:"bytes,5,opt,name=account_name,json=accountName,proto3" json:"account_name,omitempty"`          // 账户名
+	ExtraParams    map[string]string      `protobuf:"bytes,6,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *WithdrawReq) Reset() {
+	*x = WithdrawReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WithdrawReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WithdrawReq) ProtoMessage() {}
+
+func (x *WithdrawReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WithdrawReq.ProtoReflect.Descriptor instead.
+func (*WithdrawReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *WithdrawReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *WithdrawReq) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *WithdrawReq) GetWithdrawMethod() string {
+	if x != nil {
+		return x.WithdrawMethod
+	}
+	return ""
+}
+
+func (x *WithdrawReq) GetAccountInfo() string {
+	if x != nil {
+		return x.AccountInfo
+	}
+	return ""
+}
+
+func (x *WithdrawReq) GetAccountName() string {
+	if x != nil {
+		return x.AccountName
+	}
+	return ""
+}
+
+func (x *WithdrawReq) GetExtraParams() map[string]string {
+	if x != nil {
+		return x.ExtraParams
+	}
+	return nil
+}
+
+// 用户提现响应
+type WithdrawReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`  // 内部交易ID
+	Balance       float64                `protobuf:"fixed64,4,opt,name=balance,proto3" json:"balance,omitempty"`                                 // 提现后余额
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`                                     // 提现状态：pending, processing, completed, failed
+	EstimatedTime int64                  `protobuf:"varint,6,opt,name=estimated_time,json=estimatedTime,proto3" json:"estimated_time,omitempty"` // 预计到账时间戳
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WithdrawReply) Reset() {
+	*x = WithdrawReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WithdrawReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WithdrawReply) ProtoMessage() {}
+
+func (x *WithdrawReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WithdrawReply.ProtoReflect.Descriptor instead.
+func (*WithdrawReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *WithdrawReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *WithdrawReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *WithdrawReply) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *WithdrawReply) GetBalance() float64 {
+	if x != nil {
+		return x.Balance
+	}
+	return 0
+}
+
+func (x *WithdrawReply) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *WithdrawReply) GetEstimatedTime() int64 {
+	if x != nil {
+		return x.EstimatedTime
+	}
+	return 0
+}
+
+// 投注记录查询请求
+type GetBetRecordsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	GameType      string                 `protobuf:"bytes,2,opt,name=game_type,json=gameType,proto3" json:"game_type,omitempty"`     // 游戏类型
+	StartTime     int64                  `protobuf:"varint,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"` // 开始时间戳
+	EndTime       int64                  `protobuf:"varint,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`       // 结束时间戳
+	Page          int32                  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`                            // 页码
+	PageSize      int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`    // 每页数量
+	Status        string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`                         // 投注状态：all, pending, win, lose
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBetRecordsReq) Reset() {
+	*x = GetBetRecordsReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBetRecordsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBetRecordsReq) ProtoMessage() {}
+
+func (x *GetBetRecordsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBetRecordsReq.ProtoReflect.Descriptor instead.
+func (*GetBetRecordsReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetBetRecordsReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReq) GetGameType() string {
+	if x != nil {
+		return x.GameType
+	}
+	return ""
+}
+
+func (x *GetBetRecordsReq) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReq) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReq) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+// 投注记录
+type BetRecord struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BetId         string                 `protobuf:"bytes,1,opt,name=bet_id,json=betId,proto3" json:"bet_id,omitempty"`                                                                                     // 投注ID
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                                                 // 用户ID
+	GameType      string                 `protobuf:"bytes,3,opt,name=game_type,json=gameType,proto3" json:"game_type,omitempty"`                                                                            // 游戏类型
+	GameId        string                 `protobuf:"bytes,4,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                                                                                  // 游戏ID
+	BetAmount     float64                `protobuf:"fixed64,5,opt,name=bet_amount,json=betAmount,proto3" json:"bet_amount,omitempty"`                                                                       // 投注金额
+	WinAmount     float64                `protobuf:"fixed64,6,opt,name=win_amount,json=winAmount,proto3" json:"win_amount,omitempty"`                                                                       // 中奖金额
+	Status        string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`                                                                                                // 状态：pending, win, lose
+	BetTime       int64                  `protobuf:"varint,8,opt,name=bet_time,json=betTime,proto3" json:"bet_time,omitempty"`                                                                              // 投注时间
+	SettleTime    int64                  `protobuf:"varint,9,opt,name=settle_time,json=settleTime,proto3" json:"settle_time,omitempty"`                                                                     // 结算时间
+	GameData      map[string]string      `protobuf:"bytes,10,rep,name=game_data,json=gameData,proto3" json:"game_data,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // 游戏相关数据
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BetRecord) Reset() {
+	*x = BetRecord{}
+	mi := &file_fund_v1_fund_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BetRecord) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BetRecord) ProtoMessage() {}
+
+func (x *BetRecord) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BetRecord.ProtoReflect.Descriptor instead.
+func (*BetRecord) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *BetRecord) GetBetId() string {
+	if x != nil {
+		return x.BetId
+	}
+	return ""
+}
+
+func (x *BetRecord) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *BetRecord) GetGameType() string {
+	if x != nil {
+		return x.GameType
+	}
+	return ""
+}
+
+func (x *BetRecord) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *BetRecord) GetBetAmount() float64 {
+	if x != nil {
+		return x.BetAmount
+	}
+	return 0
+}
+
+func (x *BetRecord) GetWinAmount() float64 {
+	if x != nil {
+		return x.WinAmount
+	}
+	return 0
+}
+
+func (x *BetRecord) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *BetRecord) GetBetTime() int64 {
+	if x != nil {
+		return x.BetTime
+	}
+	return 0
+}
+
+func (x *BetRecord) GetSettleTime() int64 {
+	if x != nil {
+		return x.SettleTime
+	}
+	return 0
+}
+
+func (x *BetRecord) GetGameData() map[string]string {
+	if x != nil {
+		return x.GameData
+	}
+	return nil
+}
+
+// 投注记录查询响应
+type GetBetRecordsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Records       []*BetRecord           `protobuf:"bytes,3,rep,name=records,proto3" json:"records,omitempty"`                          // 投注记录列表
+	TotalCount    int32                  `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"` // 总记录数
+	Page          int32                  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`                               // 当前页
+	PageSize      int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`       // 每页数量
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBetRecordsReply) Reset() {
+	*x = GetBetRecordsReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBetRecordsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBetRecordsReply) ProtoMessage() {}
+
+func (x *GetBetRecordsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBetRecordsReply.ProtoReflect.Descriptor instead.
+func (*GetBetRecordsReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetBetRecordsReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetBetRecordsReply) GetRecords() []*BetRecord {
+	if x != nil {
+		return x.Records
+	}
+	return nil
+}
+
+func (x *GetBetRecordsReply) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReply) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetBetRecordsReply) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+// 获取用户余额请求
+type GetUserBalanceReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserBalanceReq) Reset() {
+	*x = GetUserBalanceReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserBalanceReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserBalanceReq) ProtoMessage() {}
+
+func (x *GetUserBalanceReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserBalanceReq.ProtoReflect.Descriptor instead.
+func (*GetUserBalanceReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetUserBalanceReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// 获取用户余额响应
+type GetUserBalanceReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Balance       float64                `protobuf:"fixed64,3,opt,name=balance,proto3" json:"balance,omitempty"`                                  // 用户余额
+	FrozenBalance float64                `protobuf:"fixed64,4,opt,name=frozen_balance,json=frozenBalance,proto3" json:"frozen_balance,omitempty"` // 冻结余额
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserBalanceReply) Reset() {
+	*x = GetUserBalanceReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserBalanceReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserBalanceReply) ProtoMessage() {}
+
+func (x *GetUserBalanceReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserBalanceReply.ProtoReflect.Descriptor instead.
+func (*GetUserBalanceReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetUserBalanceReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetUserBalanceReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetUserBalanceReply) GetBalance() float64 {
+	if x != nil {
+		return x.Balance
+	}
+	return 0
+}
+
+func (x *GetUserBalanceReply) GetFrozenBalance() float64 {
+	if x != nil {
+		return x.FrozenBalance
+	}
+	return 0
+}
+
+// 用户资金流水查询请求
+type GetTransactionRecordsReq struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UserId          int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TransactionType string                 `protobuf:"bytes,2,opt,name=transaction_type,json=transactionType,proto3" json:"transaction_type,omitempty"` // 交易类型：deposit, withdraw, bet, win
+	StartTime       int64                  `protobuf:"varint,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`                  // 开始时间戳
+	EndTime         int64                  `protobuf:"varint,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`                        // 结束时间戳
+	Page            int32                  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`                                             // 页码
+	PageSize        int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`                     // 每页数量
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *GetTransactionRecordsReq) Reset() {
+	*x = GetTransactionRecordsReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionRecordsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionRecordsReq) ProtoMessage() {}
+
+func (x *GetTransactionRecordsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionRecordsReq.ProtoReflect.Descriptor instead.
+func (*GetTransactionRecordsReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetTransactionRecordsReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReq) GetTransactionType() string {
+	if x != nil {
+		return x.TransactionType
+	}
+	return ""
+}
+
+func (x *GetTransactionRecordsReq) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReq) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+// 资金流水记录
+type TransactionRecord struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TransactionId   string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                                                // 交易ID
+	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                                                    // 用户ID
+	TransactionType string                 `protobuf:"bytes,3,opt,name=transaction_type,json=transactionType,proto3" json:"transaction_type,omitempty"`                                                          // 交易类型
+	Amount          float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`                                                                                                 // 交易金额
+	BalanceBefore   float64                `protobuf:"fixed64,5,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"`                                                              // 交易前余额
+	BalanceAfter    float64                `protobuf:"fixed64,6,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`                                                                 // 交易后余额
+	Status          string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`                                                                                                   // 交易状态
+	CreateTime      int64                  `protobuf:"varint,8,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`                                                                        // 创建时间
+	Description     string                 `protobuf:"bytes,9,opt,name=description,proto3" json:"description,omitempty"`                                                                                         // 交易描述
+	ExtraData       map[string]string      `protobuf:"bytes,10,rep,name=extra_data,json=extraData,proto3" json:"extra_data,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // 额外数据
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *TransactionRecord) Reset() {
+	*x = TransactionRecord{}
+	mi := &file_fund_v1_fund_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransactionRecord) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransactionRecord) ProtoMessage() {}
+
+func (x *TransactionRecord) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransactionRecord.ProtoReflect.Descriptor instead.
+func (*TransactionRecord) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *TransactionRecord) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *TransactionRecord) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *TransactionRecord) GetTransactionType() string {
+	if x != nil {
+		return x.TransactionType
+	}
+	return ""
+}
+
+func (x *TransactionRecord) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *TransactionRecord) GetBalanceBefore() float64 {
+	if x != nil {
+		return x.BalanceBefore
+	}
+	return 0
+}
+
+func (x *TransactionRecord) GetBalanceAfter() float64 {
+	if x != nil {
+		return x.BalanceAfter
+	}
+	return 0
+}
+
+func (x *TransactionRecord) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *TransactionRecord) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *TransactionRecord) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *TransactionRecord) GetExtraData() map[string]string {
+	if x != nil {
+		return x.ExtraData
+	}
+	return nil
+}
+
+// 用户资金流水查询响应
+type GetTransactionRecordsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Records       []*TransactionRecord   `protobuf:"bytes,3,rep,name=records,proto3" json:"records,omitempty"`                          // 流水记录列表
+	TotalCount    int32                  `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"` // 总记录数
+	Page          int32                  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`                               // 当前页
+	PageSize      int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`       // 每页数量
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransactionRecordsReply) Reset() {
+	*x = GetTransactionRecordsReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionRecordsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionRecordsReply) ProtoMessage() {}
+
+func (x *GetTransactionRecordsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionRecordsReply.ProtoReflect.Descriptor instead.
+func (*GetTransactionRecordsReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetTransactionRecordsReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetTransactionRecordsReply) GetRecords() []*TransactionRecord {
+	if x != nil {
+		return x.Records
+	}
+	return nil
+}
+
+func (x *GetTransactionRecordsReply) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReply) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetTransactionRecordsReply) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
 type CreateGameAddrReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -103,7 +1277,7 @@ type CreateGameAddrReq struct {
 
 func (x *CreateGameAddrReq) Reset() {
 	*x = CreateGameAddrReq{}
-	mi := &file_fund_v1_fund_proto_msgTypes[2]
+	mi := &file_fund_v1_fund_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -115,7 +1289,7 @@ func (x *CreateGameAddrReq) String() string {
 func (*CreateGameAddrReq) ProtoMessage() {}
 
 func (x *CreateGameAddrReq) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[2]
+	mi := &file_fund_v1_fund_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -128,7 +1302,7 @@ func (x *CreateGameAddrReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGameAddrReq.ProtoReflect.Descriptor instead.
 func (*CreateGameAddrReq) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{2}
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *CreateGameAddrReq) GetUserId() int64 {
@@ -154,7 +1328,7 @@ type CreateGameAddrReply struct {
 
 func (x *CreateGameAddrReply) Reset() {
 	*x = CreateGameAddrReply{}
-	mi := &file_fund_v1_fund_proto_msgTypes[3]
+	mi := &file_fund_v1_fund_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -166,7 +1340,7 @@ func (x *CreateGameAddrReply) String() string {
 func (*CreateGameAddrReply) ProtoMessage() {}
 
 func (x *CreateGameAddrReply) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[3]
+	mi := &file_fund_v1_fund_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -179,7 +1353,7 @@ func (x *CreateGameAddrReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGameAddrReply.ProtoReflect.Descriptor instead.
 func (*CreateGameAddrReply) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{3}
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *CreateGameAddrReply) GetGameId() string {
@@ -195,7 +1369,132 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\n" +
 	"\x12fund/v1/fund.proto\x12\afund.v1\"\t\n" +
 	"\aFundReq\"\v\n" +
-	"\tFundReply\"\xa7\x01\n" +
+	"\tFundReply\"\xfb\x01\n" +
+	"\x0fUserRegisterReq\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
+	"\x05phone\x18\x04 \x01(\tR\x05phone\x12F\n" +
+	"\n" +
+	"extra_info\x18\x05 \x03(\v2'.fund.v1.UserRegisterReq.ExtraInfoEntryR\textraInfo\x1a<\n" +
+	"\x0eExtraInfoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"p\n" +
+	"\x11UserRegisterReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
+	"\auser_id\x18\x03 \x01(\x03R\x06userId\x12\x14\n" +
+	"\x05token\x18\x04 \x01(\tR\x05token\"\xb1\x02\n" +
+	"\n" +
+	"DepositReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\x01R\x06amount\x12%\n" +
+	"\x0epayment_method\x18\x03 \x01(\tR\rpaymentMethod\x12'\n" +
+	"\x0fpayment_channel\x18\x04 \x01(\tR\x0epaymentChannel\x12\x19\n" +
+	"\border_no\x18\x05 \x01(\tR\aorderNo\x12G\n" +
+	"\fextra_params\x18\x06 \x03(\v2$.fund.v1.DepositReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x10ExtraParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9e\x01\n" +
+	"\fDepositReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12\x1f\n" +
+	"\vpayment_url\x18\x04 \x01(\tR\n" +
+	"paymentUrl\x12\x18\n" +
+	"\abalance\x18\x05 \x01(\x01R\abalance\"\xb7\x02\n" +
+	"\vWithdrawReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\x01R\x06amount\x12'\n" +
+	"\x0fwithdraw_method\x18\x03 \x01(\tR\x0ewithdrawMethod\x12!\n" +
+	"\faccount_info\x18\x04 \x01(\tR\vaccountInfo\x12!\n" +
+	"\faccount_name\x18\x05 \x01(\tR\vaccountName\x12H\n" +
+	"\fextra_params\x18\x06 \x03(\v2%.fund.v1.WithdrawReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x10ExtraParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbd\x01\n" +
+	"\rWithdrawReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12\x18\n" +
+	"\abalance\x18\x04 \x01(\x01R\abalance\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\x12%\n" +
+	"\x0eestimated_time\x18\x06 \x01(\x03R\restimatedTime\"\xcb\x01\n" +
+	"\x10GetBetRecordsReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1b\n" +
+	"\tgame_type\x18\x02 \x01(\tR\bgameType\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x03 \x01(\x03R\tstartTime\x12\x19\n" +
+	"\bend_time\x18\x04 \x01(\x03R\aendTime\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x06 \x01(\x05R\bpageSize\x12\x16\n" +
+	"\x06status\x18\a \x01(\tR\x06status\"\xff\x02\n" +
+	"\tBetRecord\x12\x15\n" +
+	"\x06bet_id\x18\x01 \x01(\tR\x05betId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1b\n" +
+	"\tgame_type\x18\x03 \x01(\tR\bgameType\x12\x17\n" +
+	"\agame_id\x18\x04 \x01(\tR\x06gameId\x12\x1d\n" +
+	"\n" +
+	"bet_amount\x18\x05 \x01(\x01R\tbetAmount\x12\x1d\n" +
+	"\n" +
+	"win_amount\x18\x06 \x01(\x01R\twinAmount\x12\x16\n" +
+	"\x06status\x18\a \x01(\tR\x06status\x12\x19\n" +
+	"\bbet_time\x18\b \x01(\x03R\abetTime\x12\x1f\n" +
+	"\vsettle_time\x18\t \x01(\x03R\n" +
+	"settleTime\x12=\n" +
+	"\tgame_data\x18\n" +
+	" \x03(\v2 .fund.v1.BetRecord.GameDataEntryR\bgameData\x1a;\n" +
+	"\rGameDataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc2\x01\n" +
+	"\x12GetBetRecordsReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12,\n" +
+	"\arecords\x18\x03 \x03(\v2\x12.fund.v1.BetRecordR\arecords\x12\x1f\n" +
+	"\vtotal_count\x18\x04 \x01(\x05R\n" +
+	"totalCount\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x06 \x01(\x05R\bpageSize\",\n" +
+	"\x11GetUserBalanceReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\x84\x01\n" +
+	"\x13GetUserBalanceReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x18\n" +
+	"\abalance\x18\x03 \x01(\x01R\abalance\x12%\n" +
+	"\x0efrozen_balance\x18\x04 \x01(\x01R\rfrozenBalance\"\xc9\x01\n" +
+	"\x18GetTransactionRecordsReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12)\n" +
+	"\x10transaction_type\x18\x02 \x01(\tR\x0ftransactionType\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x03 \x01(\x03R\tstartTime\x12\x19\n" +
+	"\bend_time\x18\x04 \x01(\x03R\aendTime\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x06 \x01(\x05R\bpageSize\"\xc5\x03\n" +
+	"\x11TransactionRecord\x12%\n" +
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12)\n" +
+	"\x10transaction_type\x18\x03 \x01(\tR\x0ftransactionType\x12\x16\n" +
+	"\x06amount\x18\x04 \x01(\x01R\x06amount\x12%\n" +
+	"\x0ebalance_before\x18\x05 \x01(\x01R\rbalanceBefore\x12#\n" +
+	"\rbalance_after\x18\x06 \x01(\x01R\fbalanceAfter\x12\x16\n" +
+	"\x06status\x18\a \x01(\tR\x06status\x12\x1f\n" +
+	"\vcreate_time\x18\b \x01(\x03R\n" +
+	"createTime\x12 \n" +
+	"\vdescription\x18\t \x01(\tR\vdescription\x12H\n" +
+	"\n" +
+	"extra_data\x18\n" +
+	" \x03(\v2).fund.v1.TransactionRecord.ExtraDataEntryR\textraData\x1a<\n" +
+	"\x0eExtraDataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd2\x01\n" +
+	"\x1aGetTransactionRecordsReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x124\n" +
+	"\arecords\x18\x03 \x03(\v2\x1a.fund.v1.TransactionRecordR\arecords\x12\x1f\n" +
+	"\vtotal_count\x18\x04 \x01(\x05R\n" +
+	"totalCount\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x06 \x01(\x05R\bpageSize\"\xa7\x01\n" +
 	"\x11CreateGameAddrReq\x12\x17\n" +
 	"\auser_id\x18\x03 \x01(\x03R\x06userId\x12>\n" +
 	"\x06params\x18\x04 \x03(\v2&.fund.v1.CreateGameAddrReq.ParamsEntryR\x06params\x1a9\n" +
@@ -203,9 +1502,15 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\".\n" +
 	"\x13CreateGameAddrReply\x12\x17\n" +
-	"\agame_id\x18\x02 \x01(\tR\x06gameId2@\n" +
+	"\agame_id\x18\x02 \x01(\tR\x06gameId2\xed\x03\n" +
 	"\x10GameInnerService\x12,\n" +
-	"\x04Test\x12\x10.fund.v1.FundReq\x1a\x12.fund.v1.FundReply2R\n" +
+	"\x04Test\x12\x10.fund.v1.FundReq\x1a\x12.fund.v1.FundReply\x12D\n" +
+	"\fUserRegister\x12\x18.fund.v1.UserRegisterReq\x1a\x1a.fund.v1.UserRegisterReply\x125\n" +
+	"\aDeposit\x12\x13.fund.v1.DepositReq\x1a\x15.fund.v1.DepositReply\x128\n" +
+	"\bWithdraw\x12\x14.fund.v1.WithdrawReq\x1a\x16.fund.v1.WithdrawReply\x12G\n" +
+	"\rGetBetRecords\x12\x19.fund.v1.GetBetRecordsReq\x1a\x1b.fund.v1.GetBetRecordsReply\x12J\n" +
+	"\x0eGetUserBalance\x12\x1a.fund.v1.GetUserBalanceReq\x1a\x1c.fund.v1.GetUserBalanceReply\x12_\n" +
+	"\x15GetTransactionRecords\x12!.fund.v1.GetTransactionRecordsReq\x1a#.fund.v1.GetTransactionRecordsReply2R\n" +
 	"\x0eGameApiService\x12@\n" +
 	"\x04Test\x12\x1a.fund.v1.CreateGameAddrReq\x1a\x1c.fund.v1.CreateGameAddrReplyB4Z2github.com/og-game/game-proto/proto-gen-go/fund/v1b\x06proto3"
 
@@ -221,25 +1526,63 @@ func file_fund_v1_fund_proto_rawDescGZIP() []byte {
 	return file_fund_v1_fund_proto_rawDescData
 }
 
-var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_fund_v1_fund_proto_goTypes = []any{
-	(*FundReq)(nil),             // 0: fund.v1.FundReq
-	(*FundReply)(nil),           // 1: fund.v1.FundReply
-	(*CreateGameAddrReq)(nil),   // 2: fund.v1.CreateGameAddrReq
-	(*CreateGameAddrReply)(nil), // 3: fund.v1.CreateGameAddrReply
-	nil,                         // 4: fund.v1.CreateGameAddrReq.ParamsEntry
+	(*FundReq)(nil),                    // 0: fund.v1.FundReq
+	(*FundReply)(nil),                  // 1: fund.v1.FundReply
+	(*UserRegisterReq)(nil),            // 2: fund.v1.UserRegisterReq
+	(*UserRegisterReply)(nil),          // 3: fund.v1.UserRegisterReply
+	(*DepositReq)(nil),                 // 4: fund.v1.DepositReq
+	(*DepositReply)(nil),               // 5: fund.v1.DepositReply
+	(*WithdrawReq)(nil),                // 6: fund.v1.WithdrawReq
+	(*WithdrawReply)(nil),              // 7: fund.v1.WithdrawReply
+	(*GetBetRecordsReq)(nil),           // 8: fund.v1.GetBetRecordsReq
+	(*BetRecord)(nil),                  // 9: fund.v1.BetRecord
+	(*GetBetRecordsReply)(nil),         // 10: fund.v1.GetBetRecordsReply
+	(*GetUserBalanceReq)(nil),          // 11: fund.v1.GetUserBalanceReq
+	(*GetUserBalanceReply)(nil),        // 12: fund.v1.GetUserBalanceReply
+	(*GetTransactionRecordsReq)(nil),   // 13: fund.v1.GetTransactionRecordsReq
+	(*TransactionRecord)(nil),          // 14: fund.v1.TransactionRecord
+	(*GetTransactionRecordsReply)(nil), // 15: fund.v1.GetTransactionRecordsReply
+	(*CreateGameAddrReq)(nil),          // 16: fund.v1.CreateGameAddrReq
+	(*CreateGameAddrReply)(nil),        // 17: fund.v1.CreateGameAddrReply
+	nil,                                // 18: fund.v1.UserRegisterReq.ExtraInfoEntry
+	nil,                                // 19: fund.v1.DepositReq.ExtraParamsEntry
+	nil,                                // 20: fund.v1.WithdrawReq.ExtraParamsEntry
+	nil,                                // 21: fund.v1.BetRecord.GameDataEntry
+	nil,                                // 22: fund.v1.TransactionRecord.ExtraDataEntry
+	nil,                                // 23: fund.v1.CreateGameAddrReq.ParamsEntry
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
-	4, // 0: fund.v1.CreateGameAddrReq.params:type_name -> fund.v1.CreateGameAddrReq.ParamsEntry
-	0, // 1: fund.v1.GameInnerService.Test:input_type -> fund.v1.FundReq
-	2, // 2: fund.v1.GameApiService.Test:input_type -> fund.v1.CreateGameAddrReq
-	1, // 3: fund.v1.GameInnerService.Test:output_type -> fund.v1.FundReply
-	3, // 4: fund.v1.GameApiService.Test:output_type -> fund.v1.CreateGameAddrReply
-	3, // [3:5] is the sub-list for method output_type
-	1, // [1:3] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	18, // 0: fund.v1.UserRegisterReq.extra_info:type_name -> fund.v1.UserRegisterReq.ExtraInfoEntry
+	19, // 1: fund.v1.DepositReq.extra_params:type_name -> fund.v1.DepositReq.ExtraParamsEntry
+	20, // 2: fund.v1.WithdrawReq.extra_params:type_name -> fund.v1.WithdrawReq.ExtraParamsEntry
+	21, // 3: fund.v1.BetRecord.game_data:type_name -> fund.v1.BetRecord.GameDataEntry
+	9,  // 4: fund.v1.GetBetRecordsReply.records:type_name -> fund.v1.BetRecord
+	22, // 5: fund.v1.TransactionRecord.extra_data:type_name -> fund.v1.TransactionRecord.ExtraDataEntry
+	14, // 6: fund.v1.GetTransactionRecordsReply.records:type_name -> fund.v1.TransactionRecord
+	23, // 7: fund.v1.CreateGameAddrReq.params:type_name -> fund.v1.CreateGameAddrReq.ParamsEntry
+	0,  // 8: fund.v1.GameInnerService.Test:input_type -> fund.v1.FundReq
+	2,  // 9: fund.v1.GameInnerService.UserRegister:input_type -> fund.v1.UserRegisterReq
+	4,  // 10: fund.v1.GameInnerService.Deposit:input_type -> fund.v1.DepositReq
+	6,  // 11: fund.v1.GameInnerService.Withdraw:input_type -> fund.v1.WithdrawReq
+	8,  // 12: fund.v1.GameInnerService.GetBetRecords:input_type -> fund.v1.GetBetRecordsReq
+	11, // 13: fund.v1.GameInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
+	13, // 14: fund.v1.GameInnerService.GetTransactionRecords:input_type -> fund.v1.GetTransactionRecordsReq
+	16, // 15: fund.v1.GameApiService.Test:input_type -> fund.v1.CreateGameAddrReq
+	1,  // 16: fund.v1.GameInnerService.Test:output_type -> fund.v1.FundReply
+	3,  // 17: fund.v1.GameInnerService.UserRegister:output_type -> fund.v1.UserRegisterReply
+	5,  // 18: fund.v1.GameInnerService.Deposit:output_type -> fund.v1.DepositReply
+	7,  // 19: fund.v1.GameInnerService.Withdraw:output_type -> fund.v1.WithdrawReply
+	10, // 20: fund.v1.GameInnerService.GetBetRecords:output_type -> fund.v1.GetBetRecordsReply
+	12, // 21: fund.v1.GameInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceReply
+	15, // 22: fund.v1.GameInnerService.GetTransactionRecords:output_type -> fund.v1.GetTransactionRecordsReply
+	17, // 23: fund.v1.GameApiService.Test:output_type -> fund.v1.CreateGameAddrReply
+	16, // [16:24] is the sub-list for method output_type
+	8,  // [8:16] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_fund_v1_fund_proto_init() }
@@ -253,7 +1596,7 @@ func file_fund_v1_fund_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_fund_v1_fund_proto_rawDesc), len(file_fund_v1_fund_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
