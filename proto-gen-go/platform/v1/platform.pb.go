@@ -284,7 +284,7 @@ type TransferReq struct {
 	GameId        int64                  `protobuf:"varint,3,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                   // 游戏id
 	ThreeId       int64                  `protobuf:"varint,4,opt,name=three_id,json=threeId,proto3" json:"three_id,omitempty"`                // 三方id
 	CurrencyCode  int64                  `protobuf:"varint,5,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // 币种code
-	Balance       float64                `protobuf:"fixed64,6,opt,name=balance,proto3" json:"balance,omitempty"`                              // 金额 (正数存款 负数取款)
+	Amount        float64                `protobuf:"fixed64,6,opt,name=amount,proto3" json:"amount,omitempty"`                                // 金额 (正数存款 负数取款)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -354,9 +354,9 @@ func (x *TransferReq) GetCurrencyCode() int64 {
 	return 0
 }
 
-func (x *TransferReq) GetBalance() float64 {
+func (x *TransferReq) GetAmount() float64 {
 	if x != nil {
-		return x.Balance
+		return x.Amount
 	}
 	return 0
 }
@@ -427,15 +427,15 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x12GetUserBalanceResp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1a\n" +
 	"\bplatform\x18\x02 \x01(\x03R\bplatform\x12\x18\n" +
-	"\abalance\x18\x03 \x01(\x01R\abalance\"\xba\x01\n" +
+	"\abalance\x18\x03 \x01(\x01R\abalance\"\xb8\x01\n" +
 	"\vTransferReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12\x17\n" +
 	"\agame_id\x18\x03 \x01(\x03R\x06gameId\x12\x19\n" +
 	"\bthree_id\x18\x04 \x01(\x03R\athreeId\x12#\n" +
-	"\rcurrency_code\x18\x05 \x01(\x03R\fcurrencyCode\x12\x18\n" +
-	"\abalance\x18\x06 \x01(\x01R\abalance\")\n" +
+	"\rcurrency_code\x18\x05 \x01(\x03R\fcurrencyCode\x12\x16\n" +
+	"\x06amount\x18\x06 \x01(\x01R\x06amount\")\n" +
 	"\fTransferResp\x12\x19\n" +
 	"\btrade_no\x18\x01 \x01(\tR\atradeNo2\xf4\x01\n" +
 	"\x14PlatformInnerService\x12H\n" +

@@ -35,7 +35,7 @@ message TransferReq{
   int64 game_id = 3; // 游戏id
   int64 three_id = 4; // 三方id
   int64 currency_code = 5; // 币种code
-  double balance = 6; // 金额 (正数存款 负数取款)
+  double amount = 6; // 金额 (正数存款 负数取款)
 }
 
 message TransferResp{
