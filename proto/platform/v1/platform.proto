@@ -5,13 +5,13 @@ option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1";
 
 message GetGameLinkReq {
   int64  game_id = 1; // 游戏id
-  string user_id = 2; // 用户id
+  int64 user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   string client_ip = 4; // ip
   string device_id = 5; // 设备号
   string lang = 6; // 语言
   string trace_id = 7; // 链路id
-  float transfer_balance = 8; // 转入金额
+  double transfer_balance = 8; // 转入金额
 }
 
 message GetGameLinkResp {
@@ -19,14 +19,27 @@ message GetGameLinkResp {
 }
 
 message GetUserBalanceReq{
-  string user_id = 1; // 用户id
+  int64 user_id = 1; // 用户id
   int64 platform = 2; //
 }
 
 message GetUserBalanceResp{
-  string user_id = 1; // 用户id
+  int64 user_id = 1; // 用户id
   int64 platform = 2; // 厂商id
-  float balance = 3; // 余额
+  double balance = 3; // 余额
+}
+
+message TransferReq{
+  int64 user_id = 1; // 用户id
+  int64 platform_id = 2; // 厂商id
+  int64 game_id = 3; // 游戏id
+  int64 three_id = 4; // 三方id
+  int64 currency_code = 5; // 币种code
+  double amount = 6; // 金额 (正数存款 负数取款)
+}
+
+message TransferResp{
+  string trade_no = 1; // 交易订单号
 }
 
 service PlatformInnerService {
@@ -35,5 +48,8 @@ service PlatformInnerService {
   rpc GetGameLink(GetGameLinkReq) returns(GetGameLinkResp);
 
   rpc GetUserBalance(GetUserBalanceReq)returns (GetUserBalanceResp);
+
+  // 转账
+  rpc Transfer(TransferReq) returns (TransferResp);
 }
 

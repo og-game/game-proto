@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	PlatformInnerService_GetGameLink_FullMethodName    = "/platform.v1.PlatformInnerService/GetGameLink"
 	PlatformInnerService_GetUserBalance_FullMethodName = "/platform.v1.PlatformInnerService/GetUserBalance"
+	PlatformInnerService_Transfer_FullMethodName       = "/platform.v1.PlatformInnerService/Transfer"
 )
 
 // PlatformInnerServiceClient is the client API for PlatformInnerService service.
@@ -30,6 +31,8 @@ type PlatformInnerServiceClient interface {
 	// 获取游戏链接
 	GetGameLink(ctx context.Context, in *GetGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
+	// 转账
+	Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
 }
 
 type platformInnerServiceClient struct {
@@ -60,6 +63,16 @@ func (c *platformInnerServiceClient) GetUserBalance(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *platformInnerServiceClient) Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransferResp)
+	err := c.cc.Invoke(ctx, PlatformInnerService_Transfer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlatformInnerServiceServer is the server API for PlatformInnerService service.
 // All implementations must embed UnimplementedPlatformInnerServiceServer
 // for forward compatibility.
@@ -67,6 +80,8 @@ type PlatformInnerServiceServer interface {
 	// 获取游戏链接
 	GetGameLink(context.Context, *GetGameLinkReq) (*GetGameLinkResp, error)
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
+	// 转账
+	Transfer(context.Context, *TransferReq) (*TransferResp, error)
 	mustEmbedUnimplementedPlatformInnerServiceServer()
 }
 
@@ -82,6 +97,9 @@ func (UnimplementedPlatformInnerServiceServer) GetGameLink(context.Context, *Get
 }
 func (UnimplementedPlatformInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
+}
+func (UnimplementedPlatformInnerServiceServer) Transfer(context.Context, *TransferReq) (*TransferResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Transfer not implemented")
 }
 func (UnimplementedPlatformInnerServiceServer) mustEmbedUnimplementedPlatformInnerServiceServer() {}
 func (UnimplementedPlatformInnerServiceServer) testEmbeddedByValue()                              {}
@@ -140,6 +158,24 @@ func _PlatformInnerService_GetUserBalance_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlatformInnerService_Transfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlatformInnerServiceServer).Transfer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlatformInnerService_Transfer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlatformInnerServiceServer).Transfer(ctx, req.(*TransferReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlatformInnerService_ServiceDesc is the grpc.ServiceDesc for PlatformInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +190,10 @@ var PlatformInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserBalance",
 			Handler:    _PlatformInnerService_GetUserBalance_Handler,
+		},
+		{
+			MethodName: "Transfer",
+			Handler:    _PlatformInnerService_Transfer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
