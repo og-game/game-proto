@@ -23,8 +23,8 @@ const (
 
 type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	GameId          int64                  `protobuf:"varint,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                             // 游戏id
-	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                             // 用户id
+	GameId          string                 `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                              // 游戏id
+	UserId          string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                              // 用户id
 	CurrencyCode    string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`            // 币种code
 	ClientIp        string                 `protobuf:"bytes,4,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
 	DeviceId        string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
@@ -64,18 +64,18 @@ func (*GetGameLinkReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetGameLinkReq) GetGameId() int64 {
+func (x *GetGameLinkReq) GetGameId() string {
 	if x != nil {
 		return x.GameId
 	}
-	return 0
+	return ""
 }
 
-func (x *GetGameLinkReq) GetUserId() int64 {
+func (x *GetGameLinkReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
+	return ""
 }
 
 func (x *GetGameLinkReq) GetCurrencyCode() string {
@@ -403,8 +403,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xe0\x01\n" +
 	"\x0eGetGameLinkReq\x12\x17\n" +
-	"\agame_id\x18\x01 \x01(\x03R\x06gameId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
+	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1b\n" +
 	"\tclient_ip\x18\x04 \x01(\tR\bclientIp\x12\x1b\n" +
 	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12\x12\n" +
