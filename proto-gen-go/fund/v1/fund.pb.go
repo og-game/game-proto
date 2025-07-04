@@ -257,7 +257,7 @@ func (x *UserBalanceInfo) GetVersion() int64 {
 type GetUserBalanceListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	PlatformIds   []int64                `protobuf:"varint,2,rep,packed,name=platform_ids,json=platformIds,proto3" json:"platform_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -299,11 +299,11 @@ func (x *GetUserBalanceListReq) GetUserId() int64 {
 	return 0
 }
 
-func (x *GetUserBalanceListReq) GetPlatformId() int64 {
+func (x *GetUserBalanceListReq) GetPlatformIds() []int64 {
 	if x != nil {
-		return x.PlatformId
+		return x.PlatformIds
 	}
-	return 0
+	return nil
 }
 
 // 批量获取用户余额响应
@@ -853,11 +853,10 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\aversion\x18\x02 \x01(\x03R\aversion\"E\n" +
 	"\x0fUserBalanceInfo\x12\x18\n" +
 	"\abalance\x18\x01 \x01(\x01R\abalance\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\x03R\aversion\"Q\n" +
+	"\aversion\x18\x02 \x01(\x03R\aversion\"S\n" +
 	"\x15GetUserBalanceListReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
-	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\"\xbc\x01\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12!\n" +
+	"\fplatform_ids\x18\x02 \x03(\x03R\vplatformIds\"\xbc\x01\n" +
 	"\x17GetUserBalanceListReply\x12J\n" +
 	"\bbalances\x18\x01 \x03(\v2..fund.v1.GetUserBalanceListReply.BalancesEntryR\bbalances\x1aU\n" +
 	"\rBalancesEntry\x12\x10\n" +
