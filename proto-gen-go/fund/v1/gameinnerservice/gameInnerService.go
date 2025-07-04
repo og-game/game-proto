@@ -14,17 +14,19 @@ import (
 )
 
 type (
-	FundReply               = v1.FundReply
-	FundReq                 = v1.FundReq
-	GetUserBalanceListReply = v1.GetUserBalanceListReply
-	GetUserBalanceListReq   = v1.GetUserBalanceListReq
-	GetUserBalanceReply     = v1.GetUserBalanceReply
-	GetUserBalanceReq       = v1.GetUserBalanceReq
-	TransactionReply        = v1.TransactionReply
-	TransactionReq          = v1.TransactionReq
-	UserBalanceInfo         = v1.UserBalanceInfo
-	WithdrawReply           = v1.WithdrawReply
-	WithdrawReq             = v1.WithdrawReq
+	ApplyWithdrawReply       = v1.ApplyWithdrawReply
+	ApplyWithdrawReq         = v1.ApplyWithdrawReq
+	FundReply                = v1.FundReply
+	FundReq                  = v1.FundReq
+	GetUserBalanceListReply  = v1.GetUserBalanceListReply
+	GetUserBalanceListReq    = v1.GetUserBalanceListReq
+	GetUserBalanceReply      = v1.GetUserBalanceReply
+	GetUserBalanceReq        = v1.GetUserBalanceReq
+	QueryWithdrawStatusReply = v1.QueryWithdrawStatusReply
+	QueryWithdrawStatusReq   = v1.QueryWithdrawStatusReq
+	TransactionReply         = v1.TransactionReply
+	TransactionReq           = v1.TransactionReq
+	UserBalanceInfo          = v1.UserBalanceInfo
 
 	GameInnerService interface {
 		// 获取单个用户余额

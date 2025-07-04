@@ -14,21 +14,25 @@ import (
 )
 
 type (
-	FundReply               = v1.FundReply
-	FundReq                 = v1.FundReq
-	GetUserBalanceListReply = v1.GetUserBalanceListReply
-	GetUserBalanceListReq   = v1.GetUserBalanceListReq
-	GetUserBalanceReply     = v1.GetUserBalanceReply
-	GetUserBalanceReq       = v1.GetUserBalanceReq
-	TransactionReply        = v1.TransactionReply
-	TransactionReq          = v1.TransactionReq
-	UserBalanceInfo         = v1.UserBalanceInfo
-	WithdrawReply           = v1.WithdrawReply
-	WithdrawReq             = v1.WithdrawReq
+	ApplyWithdrawReply       = v1.ApplyWithdrawReply
+	ApplyWithdrawReq         = v1.ApplyWithdrawReq
+	FundReply                = v1.FundReply
+	FundReq                  = v1.FundReq
+	GetUserBalanceListReply  = v1.GetUserBalanceListReply
+	GetUserBalanceListReq    = v1.GetUserBalanceListReq
+	GetUserBalanceReply      = v1.GetUserBalanceReply
+	GetUserBalanceReq        = v1.GetUserBalanceReq
+	QueryWithdrawStatusReply = v1.QueryWithdrawStatusReply
+	QueryWithdrawStatusReq   = v1.QueryWithdrawStatusReq
+	TransactionReply         = v1.TransactionReply
+	TransactionReq           = v1.TransactionReq
+	UserBalanceInfo          = v1.UserBalanceInfo
 
 	GameApiService interface {
-		// 用户提现
-		Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error)
+		// 申请提现
+		ApplyWithdraw(ctx context.Context, in *ApplyWithdrawReq, opts ...grpc.CallOption) (*ApplyWithdrawReply, error)
+		// 申请提现状态查询
+		QueryWithdrawStatus(ctx context.Context, in *QueryWithdrawStatusReq, opts ...grpc.CallOption) (*QueryWithdrawStatusReply, error)
 	}
 
 	defaultGameApiService struct {
@@ -42,8 +46,14 @@ func NewGameApiService(cli zrpc.Client) GameApiService {
 	}
 }
 
-// 用户提现
-func (m *defaultGameApiService) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error) {
+// 申请提现
+func (m *defaultGameApiService) ApplyWithdraw(ctx context.Context, in *ApplyWithdrawReq, opts ...grpc.CallOption) (*ApplyWithdrawReply, error) {
 	client := v1.NewGameApiServiceClient(m.cli.Conn())
-	return client.Withdraw(ctx, in, opts...)
+	return client.ApplyWithdraw(ctx, in, opts...)
+}
+
+// 申请提现状态查询
+func (m *defaultGameApiService) QueryWithdrawStatus(ctx context.Context, in *QueryWithdrawStatusReq, opts ...grpc.CallOption) (*QueryWithdrawStatusReply, error) {
+	client := v1.NewGameApiServiceClient(m.cli.Conn())
+	return client.QueryWithdrawStatus(ctx, in, opts...)
 }

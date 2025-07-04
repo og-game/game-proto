@@ -32,8 +32,7 @@ service GameInnerService {
 // 获取单个用户余额请求
 message GetUserBalanceReq {
   int64 user_id = 1;
-  int64 merchant_id = 2;
-  int64 platform_id = 3;
+  int64 platform_id = 2;
 }
 
 // 用户余额信息
@@ -51,8 +50,7 @@ message GetUserBalanceReply {
 // 批量获取用户余额请求
 message GetUserBalanceListReq {
   int64 user_id = 1;
-  int64 merchant_id = 2;
-  int64 platform_id = 3;
+  int64 platform_id = 2;
 }
 
 // 批量获取用户余额响应
@@ -65,7 +63,7 @@ message GetUserBalanceListReply {
 message TransactionReq {
   common.v1.TransactionType type = 1;
   int64 user_id = 2;
-  int64 merchant_id = 3;
+  int64 game_id = 3;
   int64 platform_id = 4;
   double amount = 5;    // 需要变动的金额 >=0
   string order_id = 6;  // 订单ID
@@ -85,25 +83,45 @@ message TransactionReply {
 
 //////////////////  暴露给API的RPC   //////////////////
 service GameApiService {
-  // 用户提现
-  rpc Withdraw(WithdrawReq) returns (WithdrawReply);
+  // 申请提现
+  rpc ApplyWithdraw(ApplyWithdrawReq) returns (ApplyWithdrawReply);
 
+  // 申请提现状态查询
+  rpc QueryWithdrawStatus(QueryWithdrawStatusReq) returns (QueryWithdrawStatusReply);
 }
 
-// 用户提现请求
-message WithdrawReq {
+// 申请提现请求
+message ApplyWithdrawReq {
   int64 user_id = 1;
   double amount = 2;
   int64 platform_id = 3;
   map<string, string> extra_params = 4;
 }
 
-// 用户提现响应
-message WithdrawReply {
-  int32 code = 1;
+// 申请提现响应
+message ApplyWithdrawReply {
+  int64 code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
-  double balance = 4; // 提现后余额
-  string status = 5; // 提现状态：pending, processing, completed, failed
-  int64 estimated_time = 6; // 预计到账时间戳
+  common.v1.WithdrawStatus status = 4; // 提现状态：pending, processing, completed, failed
+  int64 estimated_time = 5; // 预计到账时间戳
+}
+
+// 查询提现状态请求
+message QueryWithdrawStatusReq {
+  int64 user_id = 1;
+  string transaction_id = 2; // 交易ID
+}
+
+// 查询提现状态响应
+message QueryWithdrawStatusReply {
+  int64 code = 1;
+  string message = 2;
+  string transaction_id = 3; // 内部交易ID
+  double amount = 4; // 提现金额
+  common.v1.WithdrawStatus status = 5; // 提现状态：pending, processing, completed, failed
+  int64 created_time = 6; // 申请时间戳
+  int64 updated_time = 7; // 最后更新时间戳
+  int64 estimated_time = 8; // 预计到账时间戳
+  string failure_reason = 9; // 失败原因（如果状态为failed）
 }
