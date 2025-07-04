@@ -207,7 +207,8 @@ var GameInnerService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	GameApiService_Withdraw_FullMethodName = "/fund.v1.GameApiService/Withdraw"
+	GameApiService_ApplyWithdraw_FullMethodName       = "/fund.v1.GameApiService/ApplyWithdraw"
+	GameApiService_QueryWithdrawStatus_FullMethodName = "/fund.v1.GameApiService/QueryWithdrawStatus"
 )
 
 // GameApiServiceClient is the client API for GameApiService service.
@@ -216,8 +217,10 @@ const (
 //
 // ////////////////  暴露给API的RPC   //////////////////
 type GameApiServiceClient interface {
-	// 用户提现
-	Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error)
+	// 申请提现
+	ApplyWithdraw(ctx context.Context, in *ApplyWithdrawReq, opts ...grpc.CallOption) (*ApplyWithdrawReply, error)
+	// 申请提现状态查询
+	QueryWithdrawStatus(ctx context.Context, in *QueryWithdrawStatusReq, opts ...grpc.CallOption) (*QueryWithdrawStatusReply, error)
 }
 
 type gameApiServiceClient struct {
@@ -228,10 +231,20 @@ func NewGameApiServiceClient(cc grpc.ClientConnInterface) GameApiServiceClient {
 	return &gameApiServiceClient{cc}
 }
 
-func (c *gameApiServiceClient) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error) {
+func (c *gameApiServiceClient) ApplyWithdraw(ctx context.Context, in *ApplyWithdrawReq, opts ...grpc.CallOption) (*ApplyWithdrawReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(WithdrawReply)
-	err := c.cc.Invoke(ctx, GameApiService_Withdraw_FullMethodName, in, out, cOpts...)
+	out := new(ApplyWithdrawReply)
+	err := c.cc.Invoke(ctx, GameApiService_ApplyWithdraw_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameApiServiceClient) QueryWithdrawStatus(ctx context.Context, in *QueryWithdrawStatusReq, opts ...grpc.CallOption) (*QueryWithdrawStatusReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(QueryWithdrawStatusReply)
+	err := c.cc.Invoke(ctx, GameApiService_QueryWithdrawStatus_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -244,8 +257,10 @@ func (c *gameApiServiceClient) Withdraw(ctx context.Context, in *WithdrawReq, op
 //
 // ////////////////  暴露给API的RPC   //////////////////
 type GameApiServiceServer interface {
-	// 用户提现
-	Withdraw(context.Context, *WithdrawReq) (*WithdrawReply, error)
+	// 申请提现
+	ApplyWithdraw(context.Context, *ApplyWithdrawReq) (*ApplyWithdrawReply, error)
+	// 申请提现状态查询
+	QueryWithdrawStatus(context.Context, *QueryWithdrawStatusReq) (*QueryWithdrawStatusReply, error)
 	mustEmbedUnimplementedGameApiServiceServer()
 }
 
@@ -256,8 +271,11 @@ type GameApiServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGameApiServiceServer struct{}
 
-func (UnimplementedGameApiServiceServer) Withdraw(context.Context, *WithdrawReq) (*WithdrawReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Withdraw not implemented")
+func (UnimplementedGameApiServiceServer) ApplyWithdraw(context.Context, *ApplyWithdrawReq) (*ApplyWithdrawReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyWithdraw not implemented")
+}
+func (UnimplementedGameApiServiceServer) QueryWithdrawStatus(context.Context, *QueryWithdrawStatusReq) (*QueryWithdrawStatusReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryWithdrawStatus not implemented")
 }
 func (UnimplementedGameApiServiceServer) mustEmbedUnimplementedGameApiServiceServer() {}
 func (UnimplementedGameApiServiceServer) testEmbeddedByValue()                        {}
@@ -280,20 +298,38 @@ func RegisterGameApiServiceServer(s grpc.ServiceRegistrar, srv GameApiServiceSer
 	s.RegisterService(&GameApiService_ServiceDesc, srv)
 }
 
-func _GameApiService_Withdraw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WithdrawReq)
+func _GameApiService_ApplyWithdraw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyWithdrawReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameApiServiceServer).Withdraw(ctx, in)
+		return srv.(GameApiServiceServer).ApplyWithdraw(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameApiService_Withdraw_FullMethodName,
+		FullMethod: GameApiService_ApplyWithdraw_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameApiServiceServer).Withdraw(ctx, req.(*WithdrawReq))
+		return srv.(GameApiServiceServer).ApplyWithdraw(ctx, req.(*ApplyWithdrawReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GameApiService_QueryWithdrawStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryWithdrawStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameApiServiceServer).QueryWithdrawStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GameApiService_QueryWithdrawStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameApiServiceServer).QueryWithdrawStatus(ctx, req.(*QueryWithdrawStatusReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -306,8 +342,12 @@ var GameApiService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GameApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Withdraw",
-			Handler:    _GameApiService_Withdraw_Handler,
+			MethodName: "ApplyWithdraw",
+			Handler:    _GameApiService_ApplyWithdraw_Handler,
+		},
+		{
+			MethodName: "QueryWithdrawStatus",
+			Handler:    _GameApiService_QueryWithdrawStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

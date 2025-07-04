@@ -378,6 +378,13 @@ copy_proto_dependencies() {
 
     # 复制依赖的 pb 文件
     for dep in "${dependencies[@]}"; do
+
+         # 跳过 common 目录下的依赖
+         if [[ "$dep" == common/* ]]; then
+             echo -e "    ${YELLOW}跳过 common 依赖: $dep${NC}"
+             continue
+         fi
+
         # 将 import 路径转换为对应的 pb 文件路径
         local dep_dir=$(dirname "$dep")
         local dep_name=$(basename "$dep" .proto)

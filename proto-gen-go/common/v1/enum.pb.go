@@ -139,6 +139,62 @@ func (MoneyFlow) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{1}
 }
 
+// 提现状态枚举
+type WithdrawStatus int32
+
+const (
+	WithdrawStatus_WITHDRAW_STATUS_UNSPECIFIED WithdrawStatus = 0 // 未指定状态
+	WithdrawStatus_WITHDRAW_STATUS_PENDING     WithdrawStatus = 1 // 待处理
+	WithdrawStatus_WITHDRAW_STATUS_PROCESSING  WithdrawStatus = 2 // 处理中
+	WithdrawStatus_WITHDRAW_STATUS_COMPLETED   WithdrawStatus = 3 // 已完成
+	WithdrawStatus_WITHDRAW_STATUS_FAILED      WithdrawStatus = 4 // 失败
+)
+
+// Enum value maps for WithdrawStatus.
+var (
+	WithdrawStatus_name = map[int32]string{
+		0: "WITHDRAW_STATUS_UNSPECIFIED",
+		1: "WITHDRAW_STATUS_PENDING",
+		2: "WITHDRAW_STATUS_PROCESSING",
+		3: "WITHDRAW_STATUS_COMPLETED",
+		4: "WITHDRAW_STATUS_FAILED",
+	}
+	WithdrawStatus_value = map[string]int32{
+		"WITHDRAW_STATUS_UNSPECIFIED": 0,
+		"WITHDRAW_STATUS_PENDING":     1,
+		"WITHDRAW_STATUS_PROCESSING":  2,
+		"WITHDRAW_STATUS_COMPLETED":   3,
+		"WITHDRAW_STATUS_FAILED":      4,
+	}
+)
+
+func (x WithdrawStatus) Enum() *WithdrawStatus {
+	p := new(WithdrawStatus)
+	*p = x
+	return p
+}
+
+func (x WithdrawStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (WithdrawStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[2].Descriptor()
+}
+
+func (WithdrawStatus) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[2]
+}
+
+func (x WithdrawStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WithdrawStatus.Descriptor instead.
+func (WithdrawStatus) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{2}
+}
+
 var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
@@ -157,7 +213,13 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x16MONEY_FLOW_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10MONEY_FLOW_DEBIT\x10\x01\x12\x15\n" +
 	"\x11MONEY_FLOW_CREDIT\x10\x02\x12\x13\n" +
-	"\x0fMONEY_FLOW_BOTH\x10\x03B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"\x0fMONEY_FLOW_BOTH\x10\x03*\xa9\x01\n" +
+	"\x0eWithdrawStatus\x12\x1f\n" +
+	"\x1bWITHDRAW_STATUS_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17WITHDRAW_STATUS_PENDING\x10\x01\x12\x1e\n" +
+	"\x1aWITHDRAW_STATUS_PROCESSING\x10\x02\x12\x1d\n" +
+	"\x19WITHDRAW_STATUS_COMPLETED\x10\x03\x12\x1a\n" +
+	"\x16WITHDRAW_STATUS_FAILED\x10\x04B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_enum_proto_rawDescOnce sync.Once
@@ -171,10 +233,11 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 	return file_common_v1_enum_proto_rawDescData
 }
 
-var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_common_v1_enum_proto_goTypes = []any{
 	(TransactionType)(0), // 0: common.v1.TransactionType
 	(MoneyFlow)(0),       // 1: common.v1.MoneyFlow
+	(WithdrawStatus)(0),  // 2: common.v1.WithdrawStatus
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -194,7 +257,7 @@ func file_common_v1_enum_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_enum_proto_rawDesc), len(file_common_v1_enum_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

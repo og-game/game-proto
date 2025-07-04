@@ -23,3 +23,13 @@ enum MoneyFlow {
   MONEY_FLOW_CREDIT = 2;   // 玩家入款
   MONEY_FLOW_BOTH = 3;  // 双向（如重新派奖）
 }
+
+
+// 提现状态枚举
+enum WithdrawStatus {
+  WITHDRAW_STATUS_UNSPECIFIED = 0; // 未指定状态
+  WITHDRAW_STATUS_PENDING = 1;     // 待处理
+  WITHDRAW_STATUS_PROCESSING = 2;  // 处理中
+  WITHDRAW_STATUS_COMPLETED = 3;   // 已完成
+  WITHDRAW_STATUS_FAILED = 4;      // 失败
+}
