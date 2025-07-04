@@ -11,6 +11,8 @@ message GetGameLinkReq {
   string device_id = 5; // 设备号
   string language_code = 6; // 语言
   double transfer_balance = 7; // 转入金额
+  int64 platform_id = 8 ; // 厂商id
+  int64 client_type = 9; // 设备类型 1 pc 2 手机 默认 2
 }
 
 message GetGameLinkResp {
@@ -38,6 +40,16 @@ message TransferResp {
   string trade_no = 1; // 交易订单号
 }
 
+message GetDemoGameLinkReq{
+  string  game_id = 1; // 游戏id
+  string  user_id = 2; // 用户id
+  string currency_code = 3; // 币种code
+  int64 client_type = 4; // 设备类型 1 pc 2 手机 默认 2
+  string client_ip = 5; // ip
+  string language = 6; // 语言
+  int64 platform_id = 7 ; // 厂商id
+}
+
 
 message GameInfo {
   string third_game_id = 1; // 三方游戏ID
@@ -60,6 +72,10 @@ service PlatformInnerService {
   // 获取游戏链接
   rpc GetGameLink(GetGameLinkReq) returns(GetGameLinkResp);
 
+  // 获取游戏试玩链接
+  rpc GetDemoGameLink(GetDemoGameLinkReq) returns (GetGameLinkResp);
+
+  // 获取用户余额
   rpc GetUserBalance(GetUserBalanceReq)returns (GetUserBalanceResp);
 
   // 转账

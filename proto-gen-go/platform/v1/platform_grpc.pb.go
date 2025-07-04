@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PlatformInnerService_GetGameLink_FullMethodName    = "/platform.v1.PlatformInnerService/GetGameLink"
-	PlatformInnerService_GetUserBalance_FullMethodName = "/platform.v1.PlatformInnerService/GetUserBalance"
-	PlatformInnerService_Transfer_FullMethodName       = "/platform.v1.PlatformInnerService/Transfer"
-	PlatformInnerService_GetGameList_FullMethodName    = "/platform.v1.PlatformInnerService/GetGameList"
+	PlatformInnerService_GetGameLink_FullMethodName     = "/platform.v1.PlatformInnerService/GetGameLink"
+	PlatformInnerService_GetDemoGameLink_FullMethodName = "/platform.v1.PlatformInnerService/GetDemoGameLink"
+	PlatformInnerService_GetUserBalance_FullMethodName  = "/platform.v1.PlatformInnerService/GetUserBalance"
+	PlatformInnerService_Transfer_FullMethodName        = "/platform.v1.PlatformInnerService/Transfer"
+	PlatformInnerService_GetGameList_FullMethodName     = "/platform.v1.PlatformInnerService/GetGameList"
 )
 
 // PlatformInnerServiceClient is the client API for PlatformInnerService service.
@@ -31,6 +32,9 @@ const (
 type PlatformInnerServiceClient interface {
 	// 获取游戏链接
 	GetGameLink(ctx context.Context, in *GetGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error)
+	// 获取游戏试玩链接
+	GetDemoGameLink(ctx context.Context, in *GetDemoGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error)
+	// 获取用户余额
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 	// 转账
 	Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
@@ -50,6 +54,16 @@ func (c *platformInnerServiceClient) GetGameLink(ctx context.Context, in *GetGam
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetGameLinkResp)
 	err := c.cc.Invoke(ctx, PlatformInnerService_GetGameLink_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *platformInnerServiceClient) GetDemoGameLink(ctx context.Context, in *GetDemoGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGameLinkResp)
+	err := c.cc.Invoke(ctx, PlatformInnerService_GetDemoGameLink_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,6 +106,9 @@ func (c *platformInnerServiceClient) GetGameList(ctx context.Context, in *GetGam
 type PlatformInnerServiceServer interface {
 	// 获取游戏链接
 	GetGameLink(context.Context, *GetGameLinkReq) (*GetGameLinkResp, error)
+	// 获取游戏试玩链接
+	GetDemoGameLink(context.Context, *GetDemoGameLinkReq) (*GetGameLinkResp, error)
+	// 获取用户余额
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
 	// 转账
 	Transfer(context.Context, *TransferReq) (*TransferResp, error)
@@ -109,6 +126,9 @@ type UnimplementedPlatformInnerServiceServer struct{}
 
 func (UnimplementedPlatformInnerServiceServer) GetGameLink(context.Context, *GetGameLinkReq) (*GetGameLinkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGameLink not implemented")
+}
+func (UnimplementedPlatformInnerServiceServer) GetDemoGameLink(context.Context, *GetDemoGameLinkReq) (*GetGameLinkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDemoGameLink not implemented")
 }
 func (UnimplementedPlatformInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
@@ -154,6 +174,24 @@ func _PlatformInnerService_GetGameLink_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PlatformInnerServiceServer).GetGameLink(ctx, req.(*GetGameLinkReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PlatformInnerService_GetDemoGameLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDemoGameLinkReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlatformInnerServiceServer).GetDemoGameLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlatformInnerService_GetDemoGameLink_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlatformInnerServiceServer).GetDemoGameLink(ctx, req.(*GetDemoGameLinkReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -222,6 +260,10 @@ var PlatformInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGameLink",
 			Handler:    _PlatformInnerService_GetGameLink_Handler,
+		},
+		{
+			MethodName: "GetDemoGameLink",
+			Handler:    _PlatformInnerService_GetDemoGameLink_Handler,
 		},
 		{
 			MethodName: "GetUserBalance",

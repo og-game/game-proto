@@ -15,6 +15,7 @@ import (
 
 type (
 	GameInfo           = v1.GameInfo
+	GetDemoGameLinkReq = v1.GetDemoGameLinkReq
 	GetGameLinkReq     = v1.GetGameLinkReq
 	GetGameLinkResp    = v1.GetGameLinkResp
 	GetGameListReq     = v1.GetGameListReq
@@ -27,6 +28,9 @@ type (
 	PlatformInnerService interface {
 		// 获取游戏链接
 		GetGameLink(ctx context.Context, in *GetGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error)
+		// 获取游戏试玩链接
+		GetDemoGameLink(ctx context.Context, in *GetDemoGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error)
+		// 获取用户余额
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 		// 转账
 		Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
@@ -51,6 +55,13 @@ func (m *defaultPlatformInnerService) GetGameLink(ctx context.Context, in *GetGa
 	return client.GetGameLink(ctx, in, opts...)
 }
 
+// 获取游戏试玩链接
+func (m *defaultPlatformInnerService) GetDemoGameLink(ctx context.Context, in *GetDemoGameLinkReq, opts ...grpc.CallOption) (*GetGameLinkResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.GetDemoGameLink(ctx, in, opts...)
+}
+
+// 获取用户余额
 func (m *defaultPlatformInnerService) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
 	return client.GetUserBalance(ctx, in, opts...)
