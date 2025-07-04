@@ -22,6 +22,7 @@ const (
 	PlatformInnerService_GetGameLink_FullMethodName    = "/platform.v1.PlatformInnerService/GetGameLink"
 	PlatformInnerService_GetUserBalance_FullMethodName = "/platform.v1.PlatformInnerService/GetUserBalance"
 	PlatformInnerService_Transfer_FullMethodName       = "/platform.v1.PlatformInnerService/Transfer"
+	PlatformInnerService_GetGameList_FullMethodName    = "/platform.v1.PlatformInnerService/GetGameList"
 )
 
 // PlatformInnerServiceClient is the client API for PlatformInnerService service.
@@ -33,6 +34,8 @@ type PlatformInnerServiceClient interface {
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 	// 转账
 	Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
+	// 获取厂商游戏列表
+	GetGameList(ctx context.Context, in *GetGameListReq, opts ...grpc.CallOption) (*GetGameListResp, error)
 }
 
 type platformInnerServiceClient struct {
@@ -73,6 +76,16 @@ func (c *platformInnerServiceClient) Transfer(ctx context.Context, in *TransferR
 	return out, nil
 }
 
+func (c *platformInnerServiceClient) GetGameList(ctx context.Context, in *GetGameListReq, opts ...grpc.CallOption) (*GetGameListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGameListResp)
+	err := c.cc.Invoke(ctx, PlatformInnerService_GetGameList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlatformInnerServiceServer is the server API for PlatformInnerService service.
 // All implementations must embed UnimplementedPlatformInnerServiceServer
 // for forward compatibility.
@@ -82,6 +95,8 @@ type PlatformInnerServiceServer interface {
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
 	// 转账
 	Transfer(context.Context, *TransferReq) (*TransferResp, error)
+	// 获取厂商游戏列表
+	GetGameList(context.Context, *GetGameListReq) (*GetGameListResp, error)
 	mustEmbedUnimplementedPlatformInnerServiceServer()
 }
 
@@ -100,6 +115,9 @@ func (UnimplementedPlatformInnerServiceServer) GetUserBalance(context.Context, *
 }
 func (UnimplementedPlatformInnerServiceServer) Transfer(context.Context, *TransferReq) (*TransferResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Transfer not implemented")
+}
+func (UnimplementedPlatformInnerServiceServer) GetGameList(context.Context, *GetGameListReq) (*GetGameListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGameList not implemented")
 }
 func (UnimplementedPlatformInnerServiceServer) mustEmbedUnimplementedPlatformInnerServiceServer() {}
 func (UnimplementedPlatformInnerServiceServer) testEmbeddedByValue()                              {}
@@ -176,6 +194,24 @@ func _PlatformInnerService_Transfer_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlatformInnerService_GetGameList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGameListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlatformInnerServiceServer).GetGameList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlatformInnerService_GetGameList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlatformInnerServiceServer).GetGameList(ctx, req.(*GetGameListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlatformInnerService_ServiceDesc is the grpc.ServiceDesc for PlatformInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -194,6 +230,10 @@ var PlatformInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Transfer",
 			Handler:    _PlatformInnerService_Transfer_Handler,
+		},
+		{
+			MethodName: "GetGameList",
+			Handler:    _PlatformInnerService_GetGameList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

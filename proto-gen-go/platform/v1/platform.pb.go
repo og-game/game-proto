@@ -23,12 +23,12 @@ const (
 
 type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	GameId          int64                  `protobuf:"varint,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                             // 游戏id
-	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                             // 用户id
+	ThirdGameId     string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`             // 三方游戏id
+	UserId          string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                              // 用户id
 	CurrencyCode    string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`            // 币种code
 	ClientIp        string                 `protobuf:"bytes,4,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
 	DeviceId        string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
-	Lang            string                 `protobuf:"bytes,6,opt,name=lang,proto3" json:"lang,omitempty"`                                                // 语言
+	LanguageCode    string                 `protobuf:"bytes,6,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty"`            // 语言
 	TransferBalance float64                `protobuf:"fixed64,7,opt,name=transfer_balance,json=transferBalance,proto3" json:"transfer_balance,omitempty"` // 转入金额
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -64,18 +64,18 @@ func (*GetGameLinkReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetGameLinkReq) GetGameId() int64 {
+func (x *GetGameLinkReq) GetThirdGameId() string {
 	if x != nil {
-		return x.GameId
+		return x.ThirdGameId
 	}
-	return 0
+	return ""
 }
 
-func (x *GetGameLinkReq) GetUserId() int64 {
+func (x *GetGameLinkReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
+	return ""
 }
 
 func (x *GetGameLinkReq) GetCurrencyCode() string {
@@ -99,9 +99,9 @@ func (x *GetGameLinkReq) GetDeviceId() string {
 	return ""
 }
 
-func (x *GetGameLinkReq) GetLang() string {
+func (x *GetGameLinkReq) GetLanguageCode() string {
 	if x != nil {
-		return x.Lang
+		return x.LanguageCode
 	}
 	return ""
 }
@@ -159,8 +159,7 @@ func (x *GetGameLinkResp) GetUrl() string {
 
 type GetUserBalanceReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	Platform      int64                  `protobuf:"varint,2,opt,name=platform,proto3" json:"platform,omitempty"`           //
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -195,25 +194,18 @@ func (*GetUserBalanceReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetUserBalanceReq) GetUserId() int64 {
+func (x *GetUserBalanceReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
-}
-
-func (x *GetUserBalanceReq) GetPlatform() int64 {
-	if x != nil {
-		return x.Platform
-	}
-	return 0
+	return ""
 }
 
 type GetUserBalanceResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	Platform      int64                  `protobuf:"varint,2,opt,name=platform,proto3" json:"platform,omitempty"`           // 厂商id
-	Balance       float64                `protobuf:"fixed64,3,opt,name=balance,proto3" json:"balance,omitempty"`            // 余额
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`              // 用户id
+	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"` // 厂商id
+	Balance       float64                `protobuf:"fixed64,3,opt,name=balance,proto3" json:"balance,omitempty"`                        // 余额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -248,16 +240,16 @@ func (*GetUserBalanceResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUserBalanceResp) GetUserId() int64 {
+func (x *GetUserBalanceResp) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
+	return ""
 }
 
-func (x *GetUserBalanceResp) GetPlatform() int64 {
+func (x *GetUserBalanceResp) GetPlatformId() int64 {
 	if x != nil {
-		return x.Platform
+		return x.PlatformId
 	}
 	return 0
 }
@@ -271,12 +263,10 @@ func (x *GetUserBalanceResp) GetBalance() float64 {
 
 type TransferReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                   // 用户id
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`       // 厂商id
-	GameId        int64                  `protobuf:"varint,3,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                   // 游戏id
-	ThreeId       int64                  `protobuf:"varint,4,opt,name=three_id,json=threeId,proto3" json:"three_id,omitempty"`                // 三方id
-	CurrencyCode  int64                  `protobuf:"varint,5,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // 币种code
-	Amount        float64                `protobuf:"fixed64,6,opt,name=amount,proto3" json:"amount,omitempty"`                                // 金额 (正数存款 负数取款)
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                   // 用户id
+	CurrencyCode  string                 `protobuf:"bytes,2,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // 币种code
+	IsDeposit     bool                   `protobuf:"varint,4,opt,name=is_deposit,json=isDeposit,proto3" json:"is_deposit,omitempty"`         // 是否存款 true 存款 false 取款
+	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`                               // 金额(正数)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -311,39 +301,25 @@ func (*TransferReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TransferReq) GetUserId() int64 {
+func (x *TransferReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
+	return ""
 }
 
-func (x *TransferReq) GetPlatformId() int64 {
-	if x != nil {
-		return x.PlatformId
-	}
-	return 0
-}
-
-func (x *TransferReq) GetGameId() int64 {
-	if x != nil {
-		return x.GameId
-	}
-	return 0
-}
-
-func (x *TransferReq) GetThreeId() int64 {
-	if x != nil {
-		return x.ThreeId
-	}
-	return 0
-}
-
-func (x *TransferReq) GetCurrencyCode() int64 {
+func (x *TransferReq) GetCurrencyCode() string {
 	if x != nil {
 		return x.CurrencyCode
 	}
-	return 0
+	return ""
+}
+
+func (x *TransferReq) GetIsDeposit() bool {
+	if x != nil {
+		return x.IsDeposit
+	}
+	return false
 }
 
 func (x *TransferReq) GetAmount() float64 {
@@ -397,42 +373,216 @@ func (x *TransferResp) GetTradeNo() string {
 	return ""
 }
 
+type GameInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"` // 三方游戏ID
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                                    // 游戏名称
+	State         int64                  `protobuf:"varint,3,opt,name=state,proto3" json:"state,omitempty"`                                 // 游戏状态
+	BetState      int64                  `protobuf:"varint,4,opt,name=bet_state,json=betState,proto3" json:"bet_state,omitempty"`           // 游戏投注状态
+	GameType      int64                  `protobuf:"varint,5,opt,name=game_type,json=gameType,proto3" json:"game_type,omitempty"`           // 游戏类型
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GameInfo) Reset() {
+	*x = GameInfo{}
+	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GameInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GameInfo) ProtoMessage() {}
+
+func (x *GameInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GameInfo.ProtoReflect.Descriptor instead.
+func (*GameInfo) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GameInfo) GetThirdGameId() string {
+	if x != nil {
+		return x.ThirdGameId
+	}
+	return ""
+}
+
+func (x *GameInfo) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GameInfo) GetState() int64 {
+	if x != nil {
+		return x.State
+	}
+	return 0
+}
+
+func (x *GameInfo) GetBetState() int64 {
+	if x != nil {
+		return x.BetState
+	}
+	return 0
+}
+
+func (x *GameInfo) GetGameType() int64 {
+	if x != nil {
+		return x.GameType
+	}
+	return 0
+}
+
+type GetGameListReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGameListReq) Reset() {
+	*x = GetGameListReq{}
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGameListReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameListReq) ProtoMessage() {}
+
+func (x *GetGameListReq) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameListReq.ProtoReflect.Descriptor instead.
+func (*GetGameListReq) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{7}
+}
+
+type GetGameListResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlatformId    int64                  `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"` // 厂商id
+	GameInfo      []*GameInfo            `protobuf:"bytes,2,rep,name=game_info,json=gameInfo,proto3" json:"game_info,omitempty"`        // 游戏列表
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGameListResp) Reset() {
+	*x = GetGameListResp{}
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGameListResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameListResp) ProtoMessage() {}
+
+func (x *GetGameListResp) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameListResp.ProtoReflect.Descriptor instead.
+func (*GetGameListResp) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetGameListResp) GetPlatformId() int64 {
+	if x != nil {
+		return x.PlatformId
+	}
+	return 0
+}
+
+func (x *GetGameListResp) GetGameInfo() []*GameInfo {
+	if x != nil {
+		return x.GameInfo
+	}
+	return nil
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xe0\x01\n" +
-	"\x0eGetGameLinkReq\x12\x17\n" +
-	"\agame_id\x18\x01 \x01(\x03R\x06gameId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
+	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xfc\x01\n" +
+	"\x0eGetGameLinkReq\x12\"\n" +
+	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1b\n" +
 	"\tclient_ip\x18\x04 \x01(\tR\bclientIp\x12\x1b\n" +
-	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12\x12\n" +
-	"\x04lang\x18\x06 \x01(\tR\x04lang\x12)\n" +
+	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12#\n" +
+	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12)\n" +
 	"\x10transfer_balance\x18\a \x01(\x01R\x0ftransferBalance\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\"H\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\",\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1a\n" +
-	"\bplatform\x18\x02 \x01(\x03R\bplatform\"c\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"h\n" +
 	"\x12GetUserBalanceResp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1a\n" +
-	"\bplatform\x18\x02 \x01(\x03R\bplatform\x12\x18\n" +
-	"\abalance\x18\x03 \x01(\x01R\abalance\"\xb8\x01\n" +
-	"\vTransferReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\x12\x17\n" +
-	"\agame_id\x18\x03 \x01(\x03R\x06gameId\x12\x19\n" +
-	"\bthree_id\x18\x04 \x01(\x03R\athreeId\x12#\n" +
-	"\rcurrency_code\x18\x05 \x01(\x03R\fcurrencyCode\x12\x16\n" +
-	"\x06amount\x18\x06 \x01(\x01R\x06amount\")\n" +
+	"platformId\x12\x18\n" +
+	"\abalance\x18\x03 \x01(\x01R\abalance\"\x82\x01\n" +
+	"\vTransferReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12#\n" +
+	"\rcurrency_code\x18\x02 \x01(\tR\fcurrencyCode\x12\x1d\n" +
+	"\n" +
+	"is_deposit\x18\x04 \x01(\bR\tisDeposit\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\")\n" +
 	"\fTransferResp\x12\x19\n" +
-	"\btrade_no\x18\x01 \x01(\tR\atradeNo2\xf4\x01\n" +
+	"\btrade_no\x18\x01 \x01(\tR\atradeNo\"\x92\x01\n" +
+	"\bGameInfo\x12\"\n" +
+	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05state\x18\x03 \x01(\x03R\x05state\x12\x1b\n" +
+	"\tbet_state\x18\x04 \x01(\x03R\bbetState\x12\x1b\n" +
+	"\tgame_type\x18\x05 \x01(\x03R\bgameType\"\x10\n" +
+	"\x0eGetGameListReq\"f\n" +
+	"\x0fGetGameListResp\x12\x1f\n" +
+	"\vplatform_id\x18\x01 \x01(\x03R\n" +
+	"platformId\x122\n" +
+	"\tgame_info\x18\x02 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo2\xbe\x02\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
 	"\x0eGetUserBalance\x12\x1e.platform.v1.GetUserBalanceReq\x1a\x1f.platform.v1.GetUserBalanceResp\x12?\n" +
-	"\bTransfer\x12\x18.platform.v1.TransferReq\x1a\x19.platform.v1.TransferRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
+	"\bTransfer\x12\x18.platform.v1.TransferReq\x1a\x19.platform.v1.TransferResp\x12H\n" +
+	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
 
 var (
 	file_platform_v1_platform_proto_rawDescOnce sync.Once
@@ -446,7 +596,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetGameLinkReq)(nil),     // 0: platform.v1.GetGameLinkReq
 	(*GetGameLinkResp)(nil),    // 1: platform.v1.GetGameLinkResp
@@ -454,19 +604,25 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetUserBalanceResp)(nil), // 3: platform.v1.GetUserBalanceResp
 	(*TransferReq)(nil),        // 4: platform.v1.TransferReq
 	(*TransferResp)(nil),       // 5: platform.v1.TransferResp
+	(*GameInfo)(nil),           // 6: platform.v1.GameInfo
+	(*GetGameListReq)(nil),     // 7: platform.v1.GetGameListReq
+	(*GetGameListResp)(nil),    // 8: platform.v1.GetGameListResp
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	0, // 0: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
-	2, // 1: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
-	4, // 2: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
-	1, // 3: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
-	3, // 4: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
-	5, // 5: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	6, // 0: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
+	0, // 1: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
+	2, // 2: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
+	4, // 3: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
+	7, // 4: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
+	1, // 5: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
+	3, // 6: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
+	5, // 7: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
+	8, // 8: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
+	5, // [5:9] is the sub-list for method output_type
+	1, // [1:5] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -480,7 +636,7 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

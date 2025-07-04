@@ -14,8 +14,11 @@ import (
 )
 
 type (
+	GameInfo           = v1.GameInfo
 	GetGameLinkReq     = v1.GetGameLinkReq
 	GetGameLinkResp    = v1.GetGameLinkResp
+	GetGameListReq     = v1.GetGameListReq
+	GetGameListResp    = v1.GetGameListResp
 	GetUserBalanceReq  = v1.GetUserBalanceReq
 	GetUserBalanceResp = v1.GetUserBalanceResp
 	TransferReq        = v1.TransferReq
@@ -27,6 +30,8 @@ type (
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 		// 转账
 		Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
+		// 获取厂商游戏列表
+		GetGameList(ctx context.Context, in *GetGameListReq, opts ...grpc.CallOption) (*GetGameListResp, error)
 	}
 
 	defaultPlatformInnerService struct {
@@ -55,4 +60,10 @@ func (m *defaultPlatformInnerService) GetUserBalance(ctx context.Context, in *Ge
 func (m *defaultPlatformInnerService) Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
 	return client.Transfer(ctx, in, opts...)
+}
+
+// 获取厂商游戏列表
+func (m *defaultPlatformInnerService) GetGameList(ctx context.Context, in *GetGameListReq, opts ...grpc.CallOption) (*GetGameListResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.GetGameList(ctx, in, opts...)
 }
