@@ -29,8 +29,7 @@ type GetGameLinkReq struct {
 	ClientIp        string                 `protobuf:"bytes,4,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
 	DeviceId        string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
 	Lang            string                 `protobuf:"bytes,6,opt,name=lang,proto3" json:"lang,omitempty"`                                                // 语言
-	TraceId         string                 `protobuf:"bytes,7,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`                           // 链路id
-	TransferBalance float64                `protobuf:"fixed64,8,opt,name=transfer_balance,json=transferBalance,proto3" json:"transfer_balance,omitempty"` // 转入金额
+	TransferBalance float64                `protobuf:"fixed64,7,opt,name=transfer_balance,json=transferBalance,proto3" json:"transfer_balance,omitempty"` // 转入金额
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -103,13 +102,6 @@ func (x *GetGameLinkReq) GetDeviceId() string {
 func (x *GetGameLinkReq) GetLang() string {
 	if x != nil {
 		return x.Lang
-	}
-	return ""
-}
-
-func (x *GetGameLinkReq) GetTraceId() string {
-	if x != nil {
-		return x.TraceId
 	}
 	return ""
 }
@@ -409,16 +401,15 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xfb\x01\n" +
+	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xe0\x01\n" +
 	"\x0eGetGameLinkReq\x12\x17\n" +
 	"\agame_id\x18\x01 \x01(\x03R\x06gameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1b\n" +
 	"\tclient_ip\x18\x04 \x01(\tR\bclientIp\x12\x1b\n" +
 	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12\x12\n" +
-	"\x04lang\x18\x06 \x01(\tR\x04lang\x12\x19\n" +
-	"\btrace_id\x18\a \x01(\tR\atraceId\x12)\n" +
-	"\x10transfer_balance\x18\b \x01(\x01R\x0ftransferBalance\"#\n" +
+	"\x04lang\x18\x06 \x01(\tR\x04lang\x12)\n" +
+	"\x10transfer_balance\x18\a \x01(\x01R\x0ftransferBalance\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"H\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
