@@ -5,13 +5,14 @@ option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1";
 
 message GetGameLinkReq {
   int64  game_id = 1; // 游戏id
-  string user_id = 2; // 用户id
-  string currency_code = 3; // 币种code
-  string client_ip = 4; // ip
-  string device_id = 5; // 设备号
-  string lang = 6; // 语言
-  string trace_id = 7; // 链路id
+  int64 user_id = 2; // 用户id
+  int64 merchant_id = 3; // 商户id
+  string currency_code = 4; // 币种code
+  string client_ip = 5; // ip
+  string device_id = 6; // 设备号
+  string lang = 7; // 语言
   float transfer_balance = 8; // 转入金额
+  bool is_demo = 9; // 是否试玩
 }
 
 message GetGameLinkResp {
