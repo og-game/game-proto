@@ -391,12 +391,12 @@ func (x *TransferResp) GetTradeNo() string {
 
 type GetDemoGameLinkReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	GameId        string                 `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                   // 游戏id
+	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`  // 三方游戏id
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                   // 用户id
 	CurrencyCode  string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // 币种code
 	ClientType    int64                  `protobuf:"varint,4,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`      // 设备类型 1 pc 2 手机 默认 2
 	ClientIp      string                 `protobuf:"bytes,5,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`             // ip
-	Language      string                 `protobuf:"bytes,6,opt,name=language,proto3" json:"language,omitempty"`                             // 语言
+	LanguageCode  string                 `protobuf:"bytes,6,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty"` // 语言
 	PlatformId    int64                  `protobuf:"varint,7,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`      // 厂商id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -432,9 +432,9 @@ func (*GetDemoGameLinkReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetDemoGameLinkReq) GetGameId() string {
+func (x *GetDemoGameLinkReq) GetThirdGameId() string {
 	if x != nil {
-		return x.GameId
+		return x.ThirdGameId
 	}
 	return ""
 }
@@ -467,9 +467,9 @@ func (x *GetDemoGameLinkReq) GetClientIp() string {
 	return ""
 }
 
-func (x *GetDemoGameLinkReq) GetLanguage() string {
+func (x *GetDemoGameLinkReq) GetLanguageCode() string {
 	if x != nil {
-		return x.Language
+		return x.LanguageCode
 	}
 	return ""
 }
@@ -678,15 +678,15 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"is_deposit\x18\x04 \x01(\bR\tisDeposit\x12\x16\n" +
 	"\x06amount\x18\x03 \x01(\x01R\x06amount\")\n" +
 	"\fTransferResp\x12\x19\n" +
-	"\btrade_no\x18\x01 \x01(\tR\atradeNo\"\xe6\x01\n" +
-	"\x12GetDemoGameLinkReq\x12\x17\n" +
-	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12\x17\n" +
+	"\btrade_no\x18\x01 \x01(\tR\atradeNo\"\xfa\x01\n" +
+	"\x12GetDemoGameLinkReq\x12\"\n" +
+	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1f\n" +
 	"\vclient_type\x18\x04 \x01(\x03R\n" +
 	"clientType\x12\x1b\n" +
-	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12\x1a\n" +
-	"\blanguage\x18\x06 \x01(\tR\blanguage\x12\x1f\n" +
+	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12#\n" +
+	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12\x1f\n" +
 	"\vplatform_id\x18\a \x01(\x03R\n" +
 	"platformId\"\x92\x01\n" +
 	"\bGameInfo\x12\"\n" +

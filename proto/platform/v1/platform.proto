@@ -41,12 +41,12 @@ message TransferResp {
 }
 
 message GetDemoGameLinkReq{
-  string  game_id = 1; // 游戏id
+  string third_game_id = 1; // 三方游戏id
   string  user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   int64 client_type = 4; // 设备类型 1 pc 2 手机 默认 2
   string client_ip = 5; // ip
-  string language = 6; // 语言
+  string language_code = 6; // 语言
   int64 platform_id = 7 ; // 厂商id
 }
 
