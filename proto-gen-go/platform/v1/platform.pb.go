@@ -25,13 +25,12 @@ type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	GameId          int64                  `protobuf:"varint,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                             // 游戏id
 	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                             // 用户id
-	MerchantId      int64                  `protobuf:"varint,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                 // 商户id
-	CurrencyCode    string                 `protobuf:"bytes,4,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`            // 币种code
-	ClientIp        string                 `protobuf:"bytes,5,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
-	DeviceId        string                 `protobuf:"bytes,6,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
-	Lang            string                 `protobuf:"bytes,7,opt,name=lang,proto3" json:"lang,omitempty"`                                                // 语言
-	TransferBalance float64                `protobuf:"fixed32,8,opt,name=transfer_balance,json=transferBalance,proto3" json:"transfer_balance,omitempty"` // 转入金额
-	IsDemo          bool                   `protobuf:"varint,9,opt,name=is_demo,json=isDemo,proto3" json:"is_demo,omitempty"`                             // 是否试玩
+	CurrencyCode    string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`            // 币种code
+	ClientIp        string                 `protobuf:"bytes,4,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
+	DeviceId        string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
+	Lang            string                 `protobuf:"bytes,6,opt,name=lang,proto3" json:"lang,omitempty"`                                                // 语言
+	TraceId         string                 `protobuf:"bytes,7,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`                           // 链路id
+	TransferBalance float64                `protobuf:"fixed64,8,opt,name=transfer_balance,json=transferBalance,proto3" json:"transfer_balance,omitempty"` // 转入金额
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -80,13 +79,6 @@ func (x *GetGameLinkReq) GetUserId() int64 {
 	return 0
 }
 
-func (x *GetGameLinkReq) GetMerchantId() int64 {
-	if x != nil {
-		return x.MerchantId
-	}
-	return 0
-}
-
 func (x *GetGameLinkReq) GetCurrencyCode() string {
 	if x != nil {
 		return x.CurrencyCode
@@ -115,18 +107,18 @@ func (x *GetGameLinkReq) GetLang() string {
 	return ""
 }
 
-func (x *GetGameLinkReq) GetTransferBalance() float32 {
+func (x *GetGameLinkReq) GetTraceId() string {
+	if x != nil {
+		return x.TraceId
+	}
+	return ""
+}
+
+func (x *GetGameLinkReq) GetTransferBalance() float64 {
 	if x != nil {
 		return x.TransferBalance
 	}
 	return 0
-}
-
-func (x *GetGameLinkReq) GetIsDemo() bool {
-	if x != nil {
-		return x.IsDemo
-	}
-	return false
 }
 
 type GetGameLinkResp struct {
@@ -417,18 +409,16 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\x9a\x02\n" +
+	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xfb\x01\n" +
 	"\x0eGetGameLinkReq\x12\x17\n" +
 	"\agame_id\x18\x01 \x01(\x03R\x06gameId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1f\n" +
-	"\vmerchant_id\x18\x03 \x01(\x03R\n" +
-	"merchantId\x12#\n" +
-	"\rcurrency_code\x18\x04 \x01(\tR\fcurrencyCode\x12\x1b\n" +
-	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12\x1b\n" +
-	"\tdevice_id\x18\x06 \x01(\tR\bdeviceId\x12\x12\n" +
-	"\x04lang\x18\a \x01(\tR\x04lang\x12)\n" +
-	"\x10transfer_balance\x18\b \x01(\x02R\x0ftransferBalance\x12\x17\n" +
-	"\ais_demo\x18\t \x01(\bR\x06isDemo\"#\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
+	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1b\n" +
+	"\tclient_ip\x18\x04 \x01(\tR\bclientIp\x12\x1b\n" +
+	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12\x12\n" +
+	"\x04lang\x18\x06 \x01(\tR\x04lang\x12\x19\n" +
+	"\btrace_id\x18\a \x01(\tR\atraceId\x12)\n" +
+	"\x10transfer_balance\x18\b \x01(\x01R\x0ftransferBalance\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"H\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
