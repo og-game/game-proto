@@ -17,10 +17,10 @@ message FundReply{
 //////////////////  内部RPC   //////////////////
 service GameInnerService {
 
-  // 获取单个用户余额
+  // 获取单个用户余额[实时更新的余额]
   rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceReply);
 
-  // 批量获取用户余额
+  // 批量获取用户余额[实时更新的余额]
   rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListReply);
 
   // 处理交易（根据type字段处理不同类型）
@@ -44,7 +44,7 @@ message UserBalanceInfo {
 
 // 获取单个用户余额响应
 message GetUserBalanceReply {
-  UserBalanceInfo balance = 1;
+  double balance = 1;
 }
 
 // 批量获取用户余额请求
@@ -55,7 +55,7 @@ message GetUserBalanceListReq {
 
 // 批量获取用户余额响应
 message GetUserBalanceListReply {
-  map<int64, UserBalanceInfo> balances = 1; // platform_id => UserBalanceInfo
+  map<int64, double> balances = 1; // platform_id => balance
 }
 
 

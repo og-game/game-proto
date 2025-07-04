@@ -30,9 +30,9 @@ const (
 //
 // ////////////////  内部RPC   //////////////////
 type GameInnerServiceClient interface {
-	// 获取单个用户余额
+	// 获取单个用户余额[实时更新的余额]
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
-	// 批量获取用户余额
+	// 批量获取用户余额[实时更新的余额]
 	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
@@ -82,9 +82,9 @@ func (c *gameInnerServiceClient) ProcessTransaction(ctx context.Context, in *Tra
 //
 // ////////////////  内部RPC   //////////////////
 type GameInnerServiceServer interface {
-	// 获取单个用户余额
+	// 获取单个用户余额[实时更新的余额]
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error)
-	// 批量获取用户余额
+	// 批量获取用户余额[实时更新的余额]
 	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error)

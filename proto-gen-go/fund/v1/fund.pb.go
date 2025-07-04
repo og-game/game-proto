@@ -211,7 +211,7 @@ func (x *UserBalanceInfo) GetTransferringBalance() float64 {
 // 获取单个用户余额响应
 type GetUserBalanceReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Balance       *UserBalanceInfo       `protobuf:"bytes,1,opt,name=balance,proto3" json:"balance,omitempty"`
+	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -246,11 +246,11 @@ func (*GetUserBalanceReply) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetUserBalanceReply) GetBalance() *UserBalanceInfo {
+func (x *GetUserBalanceReply) GetBalance() float64 {
 	if x != nil {
 		return x.Balance
 	}
-	return nil
+	return 0
 }
 
 // 批量获取用户余额请求
@@ -308,8 +308,8 @@ func (x *GetUserBalanceListReq) GetPlatformId() int64 {
 
 // 批量获取用户余额响应
 type GetUserBalanceListReply struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Balances      map[int64]*UserBalanceInfo `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // platform_id => UserBalanceInfo
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Balances      map[int64]float64      `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"` // platform_id => balance
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -344,7 +344,7 @@ func (*GetUserBalanceListReply) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetUserBalanceListReply) GetBalances() map[int64]*UserBalanceInfo {
+func (x *GetUserBalanceListReply) GetBalances() map[int64]float64 {
 	if x != nil {
 		return x.Balances
 	}
@@ -851,18 +851,18 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0fUserBalanceInfo\x12\x18\n" +
 	"\abalance\x18\x01 \x01(\x01R\abalance\x12%\n" +
 	"\x0efrozen_balance\x18\x02 \x01(\x01R\rfrozenBalance\x121\n" +
-	"\x14transferring_balance\x18\x03 \x01(\x01R\x13transferringBalance\"I\n" +
-	"\x13GetUserBalanceReply\x122\n" +
-	"\abalance\x18\x01 \x01(\v2\x18.fund.v1.UserBalanceInfoR\abalance\"Q\n" +
+	"\x14transferring_balance\x18\x03 \x01(\x01R\x13transferringBalance\"/\n" +
+	"\x13GetUserBalanceReply\x12\x18\n" +
+	"\abalance\x18\x01 \x01(\x01R\abalance\"Q\n" +
 	"\x15GetUserBalanceListReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\"\xbc\x01\n" +
+	"platformId\"\xa2\x01\n" +
 	"\x17GetUserBalanceListReply\x12J\n" +
-	"\bbalances\x18\x01 \x03(\v2..fund.v1.GetUserBalanceListReply.BalancesEntryR\bbalances\x1aU\n" +
+	"\bbalances\x18\x01 \x03(\v2..fund.v1.GetUserBalanceListReply.BalancesEntryR\bbalances\x1a;\n" +
 	"\rBalancesEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\x03R\x03key\x12.\n" +
-	"\x05value\x18\x02 \x01(\v2\x18.fund.v1.UserBalanceInfoR\x05value:\x028\x01\"\xe8\x02\n" +
+	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\xe8\x02\n" +
 	"\x0eTransactionReq\x12.\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1a.common.v1.TransactionTypeR\x04type\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x17\n" +
@@ -952,29 +952,27 @@ var file_fund_v1_fund_proto_goTypes = []any{
 	(v1.WithdrawStatus)(0),           // 17: common.v1.WithdrawStatus
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
-	3,  // 0: fund.v1.GetUserBalanceReply.balance:type_name -> fund.v1.UserBalanceInfo
-	13, // 1: fund.v1.GetUserBalanceListReply.balances:type_name -> fund.v1.GetUserBalanceListReply.BalancesEntry
-	16, // 2: fund.v1.TransactionReq.type:type_name -> common.v1.TransactionType
-	14, // 3: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
-	15, // 4: fund.v1.ApplyWithdrawReq.extra_params:type_name -> fund.v1.ApplyWithdrawReq.ExtraParamsEntry
-	17, // 5: fund.v1.ApplyWithdrawReply.status:type_name -> common.v1.WithdrawStatus
-	17, // 6: fund.v1.QueryWithdrawStatusReply.status:type_name -> common.v1.WithdrawStatus
-	3,  // 7: fund.v1.GetUserBalanceListReply.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
-	2,  // 8: fund.v1.GameInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
-	5,  // 9: fund.v1.GameInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
-	7,  // 10: fund.v1.GameInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
-	9,  // 11: fund.v1.GameApiService.ApplyWithdraw:input_type -> fund.v1.ApplyWithdrawReq
-	11, // 12: fund.v1.GameApiService.QueryWithdrawStatus:input_type -> fund.v1.QueryWithdrawStatusReq
-	4,  // 13: fund.v1.GameInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceReply
-	6,  // 14: fund.v1.GameInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListReply
-	8,  // 15: fund.v1.GameInnerService.ProcessTransaction:output_type -> fund.v1.TransactionReply
-	10, // 16: fund.v1.GameApiService.ApplyWithdraw:output_type -> fund.v1.ApplyWithdrawReply
-	12, // 17: fund.v1.GameApiService.QueryWithdrawStatus:output_type -> fund.v1.QueryWithdrawStatusReply
-	13, // [13:18] is the sub-list for method output_type
-	8,  // [8:13] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	13, // 0: fund.v1.GetUserBalanceListReply.balances:type_name -> fund.v1.GetUserBalanceListReply.BalancesEntry
+	16, // 1: fund.v1.TransactionReq.type:type_name -> common.v1.TransactionType
+	14, // 2: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
+	15, // 3: fund.v1.ApplyWithdrawReq.extra_params:type_name -> fund.v1.ApplyWithdrawReq.ExtraParamsEntry
+	17, // 4: fund.v1.ApplyWithdrawReply.status:type_name -> common.v1.WithdrawStatus
+	17, // 5: fund.v1.QueryWithdrawStatusReply.status:type_name -> common.v1.WithdrawStatus
+	2,  // 6: fund.v1.GameInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
+	5,  // 7: fund.v1.GameInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
+	7,  // 8: fund.v1.GameInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
+	9,  // 9: fund.v1.GameApiService.ApplyWithdraw:input_type -> fund.v1.ApplyWithdrawReq
+	11, // 10: fund.v1.GameApiService.QueryWithdrawStatus:input_type -> fund.v1.QueryWithdrawStatusReq
+	4,  // 11: fund.v1.GameInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceReply
+	6,  // 12: fund.v1.GameInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListReply
+	8,  // 13: fund.v1.GameInnerService.ProcessTransaction:output_type -> fund.v1.TransactionReply
+	10, // 14: fund.v1.GameApiService.ApplyWithdraw:output_type -> fund.v1.ApplyWithdrawReply
+	12, // 15: fund.v1.GameApiService.QueryWithdrawStatus:output_type -> fund.v1.QueryWithdrawStatusReply
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_fund_v1_fund_proto_init() }

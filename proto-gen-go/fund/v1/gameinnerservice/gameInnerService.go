@@ -29,9 +29,9 @@ type (
 	UserBalanceInfo          = v1.UserBalanceInfo
 
 	GameInnerService interface {
-		// 获取单个用户余额
+		// 获取单个用户余额[实时更新的余额]
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
-		// 批量获取用户余额
+		// 批量获取用户余额[实时更新的余额]
 		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
 		// 处理交易（根据type字段处理不同类型）
 		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
@@ -48,13 +48,13 @@ func NewGameInnerService(cli zrpc.Client) GameInnerService {
 	}
 }
 
-// 获取单个用户余额
+// 获取单个用户余额[实时更新的余额]
 func (m *defaultGameInnerService) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
 	client := v1.NewGameInnerServiceClient(m.cli.Conn())
 	return client.GetUserBalance(ctx, in, opts...)
 }
 
-// 批量获取用户余额
+// 批量获取用户余额[实时更新的余额]
 func (m *defaultGameInnerService) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
 	client := v1.NewGameInnerServiceClient(m.cli.Conn())
 	return client.GetUserBalanceList(ctx, in, opts...)
