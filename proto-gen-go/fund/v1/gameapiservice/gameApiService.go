@@ -14,27 +14,21 @@ import (
 )
 
 type (
-	BetRecord                  = v1.BetRecord
-	CreateGameAddrReply        = v1.CreateGameAddrReply
-	CreateGameAddrReq          = v1.CreateGameAddrReq
-	DepositReply               = v1.DepositReply
-	DepositReq                 = v1.DepositReq
-	FundReply                  = v1.FundReply
-	FundReq                    = v1.FundReq
-	GetBetRecordsReply         = v1.GetBetRecordsReply
-	GetBetRecordsReq           = v1.GetBetRecordsReq
-	GetTransactionRecordsReply = v1.GetTransactionRecordsReply
-	GetTransactionRecordsReq   = v1.GetTransactionRecordsReq
-	GetUserBalanceReply        = v1.GetUserBalanceReply
-	GetUserBalanceReq          = v1.GetUserBalanceReq
-	TransactionRecord          = v1.TransactionRecord
-	UserRegisterReply          = v1.UserRegisterReply
-	UserRegisterReq            = v1.UserRegisterReq
-	WithdrawReply              = v1.WithdrawReply
-	WithdrawReq                = v1.WithdrawReq
+	FundReply               = v1.FundReply
+	FundReq                 = v1.FundReq
+	GetUserBalanceListReply = v1.GetUserBalanceListReply
+	GetUserBalanceListReq   = v1.GetUserBalanceListReq
+	GetUserBalanceReply     = v1.GetUserBalanceReply
+	GetUserBalanceReq       = v1.GetUserBalanceReq
+	TransactionReply        = v1.TransactionReply
+	TransactionReq          = v1.TransactionReq
+	UserBalanceInfo         = v1.UserBalanceInfo
+	WithdrawReply           = v1.WithdrawReply
+	WithdrawReq             = v1.WithdrawReq
 
 	GameApiService interface {
-		Test(ctx context.Context, in *CreateGameAddrReq, opts ...grpc.CallOption) (*CreateGameAddrReply, error)
+		// 用户提现
+		Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error)
 	}
 
 	defaultGameApiService struct {
@@ -48,7 +42,8 @@ func NewGameApiService(cli zrpc.Client) GameApiService {
 	}
 }
 
-func (m *defaultGameApiService) Test(ctx context.Context, in *CreateGameAddrReq, opts ...grpc.CallOption) (*CreateGameAddrReply, error) {
+// 用户提现
+func (m *defaultGameApiService) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error) {
 	client := v1.NewGameApiServiceClient(m.cli.Conn())
-	return client.Test(ctx, in, opts...)
+	return client.Withdraw(ctx, in, opts...)
 }

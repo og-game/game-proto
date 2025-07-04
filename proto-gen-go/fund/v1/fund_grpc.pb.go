@@ -19,13 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GameInnerService_Test_FullMethodName                  = "/fund.v1.GameInnerService/Test"
-	GameInnerService_UserRegister_FullMethodName          = "/fund.v1.GameInnerService/UserRegister"
-	GameInnerService_Deposit_FullMethodName               = "/fund.v1.GameInnerService/Deposit"
-	GameInnerService_Withdraw_FullMethodName              = "/fund.v1.GameInnerService/Withdraw"
-	GameInnerService_GetBetRecords_FullMethodName         = "/fund.v1.GameInnerService/GetBetRecords"
-	GameInnerService_GetUserBalance_FullMethodName        = "/fund.v1.GameInnerService/GetUserBalance"
-	GameInnerService_GetTransactionRecords_FullMethodName = "/fund.v1.GameInnerService/GetTransactionRecords"
+	GameInnerService_GetUserBalance_FullMethodName     = "/fund.v1.GameInnerService/GetUserBalance"
+	GameInnerService_GetUserBalanceList_FullMethodName = "/fund.v1.GameInnerService/GetUserBalanceList"
+	GameInnerService_ProcessTransaction_FullMethodName = "/fund.v1.GameInnerService/ProcessTransaction"
 )
 
 // GameInnerServiceClient is the client API for GameInnerService service.
@@ -34,19 +30,12 @@ const (
 //
 // ////////////////  内部RPC   //////////////////
 type GameInnerServiceClient interface {
-	Test(ctx context.Context, in *FundReq, opts ...grpc.CallOption) (*FundReply, error)
-	// 用户注册
-	UserRegister(ctx context.Context, in *UserRegisterReq, opts ...grpc.CallOption) (*UserRegisterReply, error)
-	// 用户充值
-	Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositReply, error)
-	// 用户提现
-	Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error)
-	// 获取投注记录
-	GetBetRecords(ctx context.Context, in *GetBetRecordsReq, opts ...grpc.CallOption) (*GetBetRecordsReply, error)
-	// 获取用户余额
+	// 获取单个用户余额
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
-	// 获取用户资金流水
-	GetTransactionRecords(ctx context.Context, in *GetTransactionRecordsReq, opts ...grpc.CallOption) (*GetTransactionRecordsReply, error)
+	// 批量获取用户余额
+	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
+	// 处理交易（根据type字段处理不同类型）
+	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
 }
 
 type gameInnerServiceClient struct {
@@ -55,56 +44,6 @@ type gameInnerServiceClient struct {
 
 func NewGameInnerServiceClient(cc grpc.ClientConnInterface) GameInnerServiceClient {
 	return &gameInnerServiceClient{cc}
-}
-
-func (c *gameInnerServiceClient) Test(ctx context.Context, in *FundReq, opts ...grpc.CallOption) (*FundReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FundReply)
-	err := c.cc.Invoke(ctx, GameInnerService_Test_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *gameInnerServiceClient) UserRegister(ctx context.Context, in *UserRegisterReq, opts ...grpc.CallOption) (*UserRegisterReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserRegisterReply)
-	err := c.cc.Invoke(ctx, GameInnerService_UserRegister_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *gameInnerServiceClient) Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DepositReply)
-	err := c.cc.Invoke(ctx, GameInnerService_Deposit_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *gameInnerServiceClient) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(WithdrawReply)
-	err := c.cc.Invoke(ctx, GameInnerService_Withdraw_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *gameInnerServiceClient) GetBetRecords(ctx context.Context, in *GetBetRecordsReq, opts ...grpc.CallOption) (*GetBetRecordsReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetBetRecordsReply)
-	err := c.cc.Invoke(ctx, GameInnerService_GetBetRecords_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *gameInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
@@ -117,10 +56,20 @@ func (c *gameInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUser
 	return out, nil
 }
 
-func (c *gameInnerServiceClient) GetTransactionRecords(ctx context.Context, in *GetTransactionRecordsReq, opts ...grpc.CallOption) (*GetTransactionRecordsReply, error) {
+func (c *gameInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTransactionRecordsReply)
-	err := c.cc.Invoke(ctx, GameInnerService_GetTransactionRecords_FullMethodName, in, out, cOpts...)
+	out := new(GetUserBalanceListReply)
+	err := c.cc.Invoke(ctx, GameInnerService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransactionReply)
+	err := c.cc.Invoke(ctx, GameInnerService_ProcessTransaction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -133,19 +82,12 @@ func (c *gameInnerServiceClient) GetTransactionRecords(ctx context.Context, in *
 //
 // ////////////////  内部RPC   //////////////////
 type GameInnerServiceServer interface {
-	Test(context.Context, *FundReq) (*FundReply, error)
-	// 用户注册
-	UserRegister(context.Context, *UserRegisterReq) (*UserRegisterReply, error)
-	// 用户充值
-	Deposit(context.Context, *DepositReq) (*DepositReply, error)
-	// 用户提现
-	Withdraw(context.Context, *WithdrawReq) (*WithdrawReply, error)
-	// 获取投注记录
-	GetBetRecords(context.Context, *GetBetRecordsReq) (*GetBetRecordsReply, error)
-	// 获取用户余额
+	// 获取单个用户余额
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error)
-	// 获取用户资金流水
-	GetTransactionRecords(context.Context, *GetTransactionRecordsReq) (*GetTransactionRecordsReply, error)
+	// 批量获取用户余额
+	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error)
+	// 处理交易（根据type字段处理不同类型）
+	ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error)
 	mustEmbedUnimplementedGameInnerServiceServer()
 }
 
@@ -156,26 +98,14 @@ type GameInnerServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGameInnerServiceServer struct{}
 
-func (UnimplementedGameInnerServiceServer) Test(context.Context, *FundReq) (*FundReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Test not implemented")
-}
-func (UnimplementedGameInnerServiceServer) UserRegister(context.Context, *UserRegisterReq) (*UserRegisterReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UserRegister not implemented")
-}
-func (UnimplementedGameInnerServiceServer) Deposit(context.Context, *DepositReq) (*DepositReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Deposit not implemented")
-}
-func (UnimplementedGameInnerServiceServer) Withdraw(context.Context, *WithdrawReq) (*WithdrawReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Withdraw not implemented")
-}
-func (UnimplementedGameInnerServiceServer) GetBetRecords(context.Context, *GetBetRecordsReq) (*GetBetRecordsReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBetRecords not implemented")
-}
 func (UnimplementedGameInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
 }
-func (UnimplementedGameInnerServiceServer) GetTransactionRecords(context.Context, *GetTransactionRecordsReq) (*GetTransactionRecordsReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionRecords not implemented")
+func (UnimplementedGameInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
+}
+func (UnimplementedGameInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
 }
 func (UnimplementedGameInnerServiceServer) mustEmbedUnimplementedGameInnerServiceServer() {}
 func (UnimplementedGameInnerServiceServer) testEmbeddedByValue()                          {}
@@ -198,96 +128,6 @@ func RegisterGameInnerServiceServer(s grpc.ServiceRegistrar, srv GameInnerServic
 	s.RegisterService(&GameInnerService_ServiceDesc, srv)
 }
 
-func _GameInnerService_Test_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FundReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GameInnerServiceServer).Test(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GameInnerService_Test_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).Test(ctx, req.(*FundReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _GameInnerService_UserRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRegisterReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GameInnerServiceServer).UserRegister(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GameInnerService_UserRegister_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).UserRegister(ctx, req.(*UserRegisterReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _GameInnerService_Deposit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DepositReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GameInnerServiceServer).Deposit(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GameInnerService_Deposit_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).Deposit(ctx, req.(*DepositReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _GameInnerService_Withdraw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WithdrawReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GameInnerServiceServer).Withdraw(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GameInnerService_Withdraw_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).Withdraw(ctx, req.(*WithdrawReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _GameInnerService_GetBetRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetBetRecordsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GameInnerServiceServer).GetBetRecords(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GameInnerService_GetBetRecords_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).GetBetRecords(ctx, req.(*GetBetRecordsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _GameInnerService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserBalanceReq)
 	if err := dec(in); err != nil {
@@ -306,20 +146,38 @@ func _GameInnerService_GetUserBalance_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GameInnerService_GetTransactionRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTransactionRecordsReq)
+func _GameInnerService_GetUserBalanceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBalanceListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameInnerServiceServer).GetTransactionRecords(ctx, in)
+		return srv.(GameInnerServiceServer).GetUserBalanceList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameInnerService_GetTransactionRecords_FullMethodName,
+		FullMethod: GameInnerService_GetUserBalanceList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).GetTransactionRecords(ctx, req.(*GetTransactionRecordsReq))
+		return srv.(GameInnerServiceServer).GetUserBalanceList(ctx, req.(*GetUserBalanceListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GameInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransactionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameInnerServiceServer).ProcessTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GameInnerService_ProcessTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameInnerServiceServer).ProcessTransaction(ctx, req.(*TransactionReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -332,32 +190,16 @@ var GameInnerService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GameInnerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Test",
-			Handler:    _GameInnerService_Test_Handler,
-		},
-		{
-			MethodName: "UserRegister",
-			Handler:    _GameInnerService_UserRegister_Handler,
-		},
-		{
-			MethodName: "Deposit",
-			Handler:    _GameInnerService_Deposit_Handler,
-		},
-		{
-			MethodName: "Withdraw",
-			Handler:    _GameInnerService_Withdraw_Handler,
-		},
-		{
-			MethodName: "GetBetRecords",
-			Handler:    _GameInnerService_GetBetRecords_Handler,
-		},
-		{
 			MethodName: "GetUserBalance",
 			Handler:    _GameInnerService_GetUserBalance_Handler,
 		},
 		{
-			MethodName: "GetTransactionRecords",
-			Handler:    _GameInnerService_GetTransactionRecords_Handler,
+			MethodName: "GetUserBalanceList",
+			Handler:    _GameInnerService_GetUserBalanceList_Handler,
+		},
+		{
+			MethodName: "ProcessTransaction",
+			Handler:    _GameInnerService_ProcessTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -365,7 +207,7 @@ var GameInnerService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	GameApiService_Test_FullMethodName = "/fund.v1.GameApiService/Test"
+	GameApiService_Withdraw_FullMethodName = "/fund.v1.GameApiService/Withdraw"
 )
 
 // GameApiServiceClient is the client API for GameApiService service.
@@ -374,7 +216,8 @@ const (
 //
 // ////////////////  暴露给API的RPC   //////////////////
 type GameApiServiceClient interface {
-	Test(ctx context.Context, in *CreateGameAddrReq, opts ...grpc.CallOption) (*CreateGameAddrReply, error)
+	// 用户提现
+	Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error)
 }
 
 type gameApiServiceClient struct {
@@ -385,10 +228,10 @@ func NewGameApiServiceClient(cc grpc.ClientConnInterface) GameApiServiceClient {
 	return &gameApiServiceClient{cc}
 }
 
-func (c *gameApiServiceClient) Test(ctx context.Context, in *CreateGameAddrReq, opts ...grpc.CallOption) (*CreateGameAddrReply, error) {
+func (c *gameApiServiceClient) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateGameAddrReply)
-	err := c.cc.Invoke(ctx, GameApiService_Test_FullMethodName, in, out, cOpts...)
+	out := new(WithdrawReply)
+	err := c.cc.Invoke(ctx, GameApiService_Withdraw_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -401,7 +244,8 @@ func (c *gameApiServiceClient) Test(ctx context.Context, in *CreateGameAddrReq, 
 //
 // ////////////////  暴露给API的RPC   //////////////////
 type GameApiServiceServer interface {
-	Test(context.Context, *CreateGameAddrReq) (*CreateGameAddrReply, error)
+	// 用户提现
+	Withdraw(context.Context, *WithdrawReq) (*WithdrawReply, error)
 	mustEmbedUnimplementedGameApiServiceServer()
 }
 
@@ -412,8 +256,8 @@ type GameApiServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGameApiServiceServer struct{}
 
-func (UnimplementedGameApiServiceServer) Test(context.Context, *CreateGameAddrReq) (*CreateGameAddrReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Test not implemented")
+func (UnimplementedGameApiServiceServer) Withdraw(context.Context, *WithdrawReq) (*WithdrawReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Withdraw not implemented")
 }
 func (UnimplementedGameApiServiceServer) mustEmbedUnimplementedGameApiServiceServer() {}
 func (UnimplementedGameApiServiceServer) testEmbeddedByValue()                        {}
@@ -436,20 +280,20 @@ func RegisterGameApiServiceServer(s grpc.ServiceRegistrar, srv GameApiServiceSer
 	s.RegisterService(&GameApiService_ServiceDesc, srv)
 }
 
-func _GameApiService_Test_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateGameAddrReq)
+func _GameApiService_Withdraw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WithdrawReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameApiServiceServer).Test(ctx, in)
+		return srv.(GameApiServiceServer).Withdraw(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameApiService_Test_FullMethodName,
+		FullMethod: GameApiService_Withdraw_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameApiServiceServer).Test(ctx, req.(*CreateGameAddrReq))
+		return srv.(GameApiServiceServer).Withdraw(ctx, req.(*WithdrawReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -462,8 +306,8 @@ var GameApiService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GameApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Test",
-			Handler:    _GameApiService_Test_Handler,
+			MethodName: "Withdraw",
+			Handler:    _GameApiService_Withdraw_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
