@@ -22,61 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type BetStatus int32
-
-const (
-	BetStatus_BET_STATUS_UNKNOWN BetStatus = 0 // 未知
-	BetStatus_BET_STATUS_BET     BetStatus = 1 // 投注
-	BetStatus_BET_STATUS_SETTLE  BetStatus = 2 // 结算
-	BetStatus_BET_STATUS_CANCEL  BetStatus = 3 // 投注取消
-	BetStatus_BET_STATUS_DISCARD BetStatus = 4 // 结算取消
-)
-
-// Enum value maps for BetStatus.
-var (
-	BetStatus_name = map[int32]string{
-		0: "BET_STATUS_UNKNOWN",
-		1: "BET_STATUS_BET",
-		2: "BET_STATUS_SETTLE",
-		3: "BET_STATUS_CANCEL",
-		4: "BET_STATUS_DISCARD",
-	}
-	BetStatus_value = map[string]int32{
-		"BET_STATUS_UNKNOWN": 0,
-		"BET_STATUS_BET":     1,
-		"BET_STATUS_SETTLE":  2,
-		"BET_STATUS_CANCEL":  3,
-		"BET_STATUS_DISCARD": 4,
-	}
-)
-
-func (x BetStatus) Enum() *BetStatus {
-	p := new(BetStatus)
-	*p = x
-	return p
-}
-
-func (x BetStatus) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (BetStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_platform_v1_platform_proto_enumTypes[0].Descriptor()
-}
-
-func (BetStatus) Type() protoreflect.EnumType {
-	return &file_platform_v1_platform_proto_enumTypes[0]
-}
-
-func (x BetStatus) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use BetStatus.Descriptor instead.
-func (BetStatus) EnumDescriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
-}
-
 type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId     string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`             // 三方游戏id
@@ -283,8 +228,7 @@ func (x *GetUserBalanceReq) GetPlatformId() int64 {
 
 type GetUserBalanceResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	Balance       float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`            // 余额
+	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"` // 余额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -317,13 +261,6 @@ func (x *GetUserBalanceResp) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetUserBalanceResp.ProtoReflect.Descriptor instead.
 func (*GetUserBalanceResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *GetUserBalanceResp) GetUserId() int64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
 }
 
 func (x *GetUserBalanceResp) GetBalance() float64 {
@@ -789,8 +726,8 @@ func (x *GetTransferRecordReq) GetThirdOrderNo() string {
 
 type GetTransferRecordResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        int64                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`  // 交易状态 1-成功 2-失败 3-处理中
-	Amount        float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"` // 交易金额
+	Status        v1.TransferStatus      `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"` // 交易状态 1-待处理 2-处理中 3-已完成 4-失败
+	Amount        float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`                              // 交易金额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -825,11 +762,11 @@ func (*GetTransferRecordResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetTransferRecordResp) GetStatus() int64 {
+func (x *GetTransferRecordResp) GetStatus() v1.TransferStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return v1.TransferStatus(0)
 }
 
 func (x *GetTransferRecordResp) GetAmount() float64 {
@@ -886,7 +823,7 @@ func (x *GetBetRecordListReq) GetPlatformId() int64 {
 
 type GetBetRecordListResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        BetStatus              `protobuf:"varint,1,opt,name=status,proto3,enum=platform.v1.BetStatus" json:"status,omitempty"`       // 投注状态
+	Status        v1.BetStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.BetStatus" json:"status,omitempty"`         // 投注状态
 	Amount        float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`                                 // 投注金额
 	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方订单号
 	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`    // 三方游戏ID
@@ -927,11 +864,11 @@ func (*GetBetRecordListResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *GetBetRecordListResp) GetStatus() BetStatus {
+func (x *GetBetRecordListResp) GetStatus() v1.BetStatus {
 	if x != nil {
 		return x.Status
 	}
-	return BetStatus_BET_STATUS_UNKNOWN
+	return v1.BetStatus(0)
 }
 
 func (x *GetBetRecordListResp) GetAmount() float64 {
@@ -998,10 +935,9 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\"G\n" +
-	"\x12GetUserBalanceResp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x18\n" +
-	"\abalance\x18\x02 \x01(\x01R\abalance\"\xbe\x01\n" +
+	"platformId\".\n" +
+	"\x12GetUserBalanceResp\x12\x18\n" +
+	"\abalance\x18\x01 \x01(\x01R\abalance\"\xbe\x01\n" +
 	"\vTransferReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x17\n" +
@@ -1040,27 +976,21 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12$\n" +
-	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\"G\n" +
-	"\x15GetTransferRecordResp\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\x03R\x06status\x12\x16\n" +
+	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\"b\n" +
+	"\x15GetTransferRecordResp\x121\n" +
+	"\x06status\x18\x01 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\"6\n" +
 	"\x13GetBetRecordListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
-	"platformId\"\xf7\x01\n" +
-	"\x14GetBetRecordListResp\x12.\n" +
-	"\x06status\x18\x01 \x01(\x0e2\x16.platform.v1.BetStatusR\x06status\x12\x16\n" +
+	"platformId\"\xf5\x01\n" +
+	"\x14GetBetRecordListResp\x12,\n" +
+	"\x06status\x18\x01 \x01(\x0e2\x14.common.v1.BetStatusR\x06status\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\x12$\n" +
 	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\x12\"\n" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\x03R\x06userId\x12\x19\n" +
-	"\bwin_lost\x18\b \x01(\tR\awinLost*}\n" +
-	"\tBetStatus\x12\x16\n" +
-	"\x12BET_STATUS_UNKNOWN\x10\x00\x12\x12\n" +
-	"\x0eBET_STATUS_BET\x10\x01\x12\x15\n" +
-	"\x11BET_STATUS_SETTLE\x10\x02\x12\x15\n" +
-	"\x11BET_STATUS_CANCEL\x10\x03\x12\x16\n" +
-	"\x12BET_STATUS_DISCARD\x10\x042\xc5\x04\n" +
+	"\bwin_lost\x18\b \x01(\tR\awinLost2\xc5\x04\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
@@ -1082,51 +1012,52 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_platform_v1_platform_proto_goTypes = []any{
-	(BetStatus)(0),                // 0: platform.v1.BetStatus
-	(*GetGameLinkReq)(nil),        // 1: platform.v1.GetGameLinkReq
-	(*GetGameLinkResp)(nil),       // 2: platform.v1.GetGameLinkResp
-	(*GetUserBalanceReq)(nil),     // 3: platform.v1.GetUserBalanceReq
-	(*GetUserBalanceResp)(nil),    // 4: platform.v1.GetUserBalanceResp
-	(*TransferReq)(nil),           // 5: platform.v1.TransferReq
-	(*TransferResp)(nil),          // 6: platform.v1.TransferResp
-	(*GetDemoGameLinkReq)(nil),    // 7: platform.v1.GetDemoGameLinkReq
-	(*GameInfo)(nil),              // 8: platform.v1.GameInfo
-	(*GetGameListReq)(nil),        // 9: platform.v1.GetGameListReq
-	(*GetGameListResp)(nil),       // 10: platform.v1.GetGameListResp
-	(*GetTransferRecordReq)(nil),  // 11: platform.v1.GetTransferRecordReq
-	(*GetTransferRecordResp)(nil), // 12: platform.v1.GetTransferRecordResp
-	(*GetBetRecordListReq)(nil),   // 13: platform.v1.GetBetRecordListReq
-	(*GetBetRecordListResp)(nil),  // 14: platform.v1.GetBetRecordListResp
-	(v1.GameState)(0),             // 15: common.v1.GameState
-	(v1.GameBetState)(0),          // 16: common.v1.GameBetState
+	(*GetGameLinkReq)(nil),        // 0: platform.v1.GetGameLinkReq
+	(*GetGameLinkResp)(nil),       // 1: platform.v1.GetGameLinkResp
+	(*GetUserBalanceReq)(nil),     // 2: platform.v1.GetUserBalanceReq
+	(*GetUserBalanceResp)(nil),    // 3: platform.v1.GetUserBalanceResp
+	(*TransferReq)(nil),           // 4: platform.v1.TransferReq
+	(*TransferResp)(nil),          // 5: platform.v1.TransferResp
+	(*GetDemoGameLinkReq)(nil),    // 6: platform.v1.GetDemoGameLinkReq
+	(*GameInfo)(nil),              // 7: platform.v1.GameInfo
+	(*GetGameListReq)(nil),        // 8: platform.v1.GetGameListReq
+	(*GetGameListResp)(nil),       // 9: platform.v1.GetGameListResp
+	(*GetTransferRecordReq)(nil),  // 10: platform.v1.GetTransferRecordReq
+	(*GetTransferRecordResp)(nil), // 11: platform.v1.GetTransferRecordResp
+	(*GetBetRecordListReq)(nil),   // 12: platform.v1.GetBetRecordListReq
+	(*GetBetRecordListResp)(nil),  // 13: platform.v1.GetBetRecordListResp
+	(v1.GameState)(0),             // 14: common.v1.GameState
+	(v1.GameBetState)(0),          // 15: common.v1.GameBetState
+	(v1.TransferStatus)(0),        // 16: common.v1.TransferStatus
+	(v1.BetStatus)(0),             // 17: common.v1.BetStatus
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	15, // 0: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
-	16, // 1: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
-	8,  // 2: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
-	0,  // 3: platform.v1.GetBetRecordListResp.status:type_name -> platform.v1.BetStatus
-	1,  // 4: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
-	7,  // 5: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
-	3,  // 6: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
-	5,  // 7: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
-	9,  // 8: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
-	11, // 9: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordReq
-	13, // 10: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
-	2,  // 11: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
-	2,  // 12: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
-	4,  // 13: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
-	6,  // 14: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
-	10, // 15: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
-	12, // 16: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordResp
-	14, // 17: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
-	11, // [11:18] is the sub-list for method output_type
-	4,  // [4:11] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	14, // 0: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
+	15, // 1: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
+	7,  // 2: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
+	16, // 3: platform.v1.GetTransferRecordResp.status:type_name -> common.v1.TransferStatus
+	17, // 4: platform.v1.GetBetRecordListResp.status:type_name -> common.v1.BetStatus
+	0,  // 5: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
+	6,  // 6: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
+	2,  // 7: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
+	4,  // 8: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
+	8,  // 9: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
+	10, // 10: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordReq
+	12, // 11: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
+	1,  // 12: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
+	1,  // 13: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
+	3,  // 14: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
+	5,  // 15: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
+	9,  // 16: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
+	11, // 17: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordResp
+	13, // 18: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -1139,14 +1070,13 @@ func file_platform_v1_platform_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_platform_v1_platform_proto_goTypes,
 		DependencyIndexes: file_platform_v1_platform_proto_depIdxs,
-		EnumInfos:         file_platform_v1_platform_proto_enumTypes,
 		MessageInfos:      file_platform_v1_platform_proto_msgTypes,
 	}.Build()
 	File_platform_v1_platform_proto = out.File

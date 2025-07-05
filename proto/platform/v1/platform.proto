@@ -27,8 +27,7 @@ message GetUserBalanceReq {
 }
 
 message GetUserBalanceResp {
-  int64 user_id = 1; // 用户id
-  double balance = 2; // 余额
+  double balance = 1; // 余额
 }
 
 message TransferReq{
@@ -76,11 +75,12 @@ message GetGameListResp {
 message GetTransferRecordReq {
   int64 platform_id = 1;   // 厂商ID
   string order_no = 2;        // 交易订单号
-  string third_order_no = 3;  // 三方交易单号
+  string third_order_no = 3;  // 三方交易单号'
+  int64 user_id = 4; // 用户id
 }
 
 message GetTransferRecordResp {
-  int64 status = 1;     // 交易状态 1-成功 2-失败 3-处理中
+  common.v1.TransferStatus status = 1;     // 交易状态 1-待处理 2-处理中 3-已完成 4-失败
   double amount = 2;  // 交易金额
 }
 
@@ -89,16 +89,8 @@ message GetBetRecordListReq {
   int64 platform_id = 1;
 }
 
-enum BetStatus {
-  BET_STATUS_UNKNOWN = 0;   // 未知
-  BET_STATUS_BET = 1;       // 投注
-  BET_STATUS_SETTLE = 2;    // 结算
-  BET_STATUS_CANCEL = 3;    // 投注取消
-  BET_STATUS_DISCARD = 4;   // 结算取消
-}
-
 message GetBetRecordListResp {
-  BetStatus status = 1; // 投注状态
+  common.v1.BetStatus status = 1; // 投注状态
   double amount = 2;  // 投注金额
   string third_order_no = 3; // 三方订单号
   string third_game_id = 4;  // 三方游戏ID

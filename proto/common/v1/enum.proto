@@ -67,3 +67,12 @@ enum GameBetState {
   GAME_BET_STATE_OPEN = 1; // 开启
   GAME_BET_STATE_CLOSE = 2; // 关闭
 }
+
+// 用户投注状态
+enum BetStatus {
+  BET_STATUS_UNKNOWN = 0;   // 未知
+  BET_STATUS_BET = 1;       // 投注
+  BET_STATUS_SETTLE = 2;    // 结算
+  BET_STATUS_CANCEL = 3;    // 投注取消
+  BET_STATUS_DISCARD = 4;   // 结算取消
+}
