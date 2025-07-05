@@ -89,6 +89,9 @@ service FundApiService {
   // 发起转入操作
   rpc TransferIn(TransferInReq) returns (TransferInReply);
 
+  // 获取转出进度状态
+  rpc GetTransferInProgress(TransferInProgressReq) returns (TransferInProgressReply);
+
   // 发起转出操作
   rpc TransferOut(TransferOutReq) returns (TransferOutReply);
 
@@ -110,6 +113,20 @@ message UserBalanceListReply {
 }
 
 
+// 转账操作
+message TransferProgressInfo {
+  common.v1.ErrorCode code = 1;
+  string message = 2;
+  string transaction_id = 3; // 内部交易ID
+  double amount = 4; // 转账金额
+  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
+  int64 created_time = 6; // 申请时间戳
+  int64 updated_time = 7; // 最后更新时间戳
+  int64 estimated_time = 8; // 预计到账时间戳
+}
+
+
+
 // 发起转入操作
 message TransferInReq{
   int64 user_id = 1;
@@ -125,6 +142,18 @@ message TransferInReply{
   string message = 2;
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4;  // 商户订单ID
+  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
+}
+
+// 查询提现状态请求
+message TransferInProgressReq {
+  int64 user_id = 1;
+  repeated string transaction_ids = 2; // 交易ID
+}
+
+// 查询转入状态响应
+message TransferInProgressReply {
+  map<string, TransferProgressInfo> progress = 4; // transaction_id => progress
 }
 
 // 发起转出操作
@@ -142,8 +171,7 @@ message TransferOutReply {
   string message = 2;
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4;  // 商户订单ID
-  common.v1.WithdrawStatus status = 5; // 提现状态：pending, processing, completed, failed
-  int64 estimated_time = 6; // 预计到账时间戳
+  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
 }
 
 
@@ -153,20 +181,8 @@ message TransferOutProgressReq {
   repeated string transaction_ids = 2; // 交易ID
 }
 
-message TransferOutProgress {
-  common.v1.ErrorCode code = 1;
-  string message = 2;
-  string transaction_id = 3; // 内部交易ID
-  double amount = 4; // 提现金额
-  common.v1.WithdrawStatus status = 5; // 提现状态：pending, processing, completed, failed
-  int64 created_time = 6; // 申请时间戳
-  int64 updated_time = 7; // 最后更新时间戳
-  int64 estimated_time = 8; // 预计到账时间戳
-  string failure_reason = 9; // 失败原因（如果状态为failed）
-}
-
-// 查询提现状态响应
+// 查询转出状态响应
 message TransferOutProgressReply {
-  map<string, TransferOutProgress> progress = 4; // transaction_id => progress
+  map<string, TransferProgressInfo> progress = 4; // transaction_id => progress
 }
 

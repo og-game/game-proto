@@ -209,6 +209,7 @@ var FundInnerService_ServiceDesc = grpc.ServiceDesc{
 const (
 	FundApiService_GetUserBalanceList_FullMethodName     = "/fund.v1.FundApiService/GetUserBalanceList"
 	FundApiService_TransferIn_FullMethodName             = "/fund.v1.FundApiService/TransferIn"
+	FundApiService_GetTransferInProgress_FullMethodName  = "/fund.v1.FundApiService/GetTransferInProgress"
 	FundApiService_TransferOut_FullMethodName            = "/fund.v1.FundApiService/TransferOut"
 	FundApiService_GetTransferOutProgress_FullMethodName = "/fund.v1.FundApiService/GetTransferOutProgress"
 )
@@ -223,6 +224,8 @@ type FundApiServiceClient interface {
 	GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error)
 	// 发起转入操作
 	TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error)
+	// 获取转出进度状态
+	GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error)
 	// 发起转出操作
 	TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error)
 	// 获取转出进度状态
@@ -251,6 +254,16 @@ func (c *fundApiServiceClient) TransferIn(ctx context.Context, in *TransferInReq
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransferInReply)
 	err := c.cc.Invoke(ctx, FundApiService_TransferIn_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundApiServiceClient) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransferInProgressReply)
+	err := c.cc.Invoke(ctx, FundApiService_GetTransferInProgress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -287,6 +300,8 @@ type FundApiServiceServer interface {
 	GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListReply, error)
 	// 发起转入操作
 	TransferIn(context.Context, *TransferInReq) (*TransferInReply, error)
+	// 获取转出进度状态
+	GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressReply, error)
 	// 发起转出操作
 	TransferOut(context.Context, *TransferOutReq) (*TransferOutReply, error)
 	// 获取转出进度状态
@@ -306,6 +321,9 @@ func (UnimplementedFundApiServiceServer) GetUserBalanceList(context.Context, *Us
 }
 func (UnimplementedFundApiServiceServer) TransferIn(context.Context, *TransferInReq) (*TransferInReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferIn not implemented")
+}
+func (UnimplementedFundApiServiceServer) GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransferInProgress not implemented")
 }
 func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferOutReq) (*TransferOutReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferOut not implemented")
@@ -370,6 +388,24 @@ func _FundApiService_TransferIn_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FundApiService_GetTransferInProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferInProgressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundApiServiceServer).GetTransferInProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundApiService_GetTransferInProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundApiServiceServer).GetTransferInProgress(ctx, req.(*TransferInProgressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FundApiService_TransferOut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TransferOutReq)
 	if err := dec(in); err != nil {
@@ -420,6 +456,10 @@ var FundApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TransferIn",
 			Handler:    _FundApiService_TransferIn_Handler,
+		},
+		{
+			MethodName: "GetTransferInProgress",
+			Handler:    _FundApiService_GetTransferInProgress_Handler,
 		},
 		{
 			MethodName: "TransferOut",

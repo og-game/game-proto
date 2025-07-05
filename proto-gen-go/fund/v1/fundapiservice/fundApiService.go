@@ -22,13 +22,15 @@ type (
 	GetUserBalanceReq        = v1.GetUserBalanceReq
 	TransactionReply         = v1.TransactionReply
 	TransactionReq           = v1.TransactionReq
+	TransferInProgressReply  = v1.TransferInProgressReply
+	TransferInProgressReq    = v1.TransferInProgressReq
 	TransferInReply          = v1.TransferInReply
 	TransferInReq            = v1.TransferInReq
-	TransferOutProgress      = v1.TransferOutProgress
 	TransferOutProgressReply = v1.TransferOutProgressReply
 	TransferOutProgressReq   = v1.TransferOutProgressReq
 	TransferOutReply         = v1.TransferOutReply
 	TransferOutReq           = v1.TransferOutReq
+	TransferProgressInfo     = v1.TransferProgressInfo
 	UserBalanceInfo          = v1.UserBalanceInfo
 	UserBalanceListReply     = v1.UserBalanceListReply
 	UserBalanceListReq       = v1.UserBalanceListReq
@@ -38,6 +40,8 @@ type (
 		GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error)
 		// 发起转入操作
 		TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error)
+		// 获取转出进度状态
+		GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error)
 		// 发起转出操作
 		TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error)
 		// 获取转出进度状态
@@ -65,6 +69,12 @@ func (m *defaultFundApiService) GetUserBalanceList(ctx context.Context, in *User
 func (m *defaultFundApiService) TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.TransferIn(ctx, in, opts...)
+}
+
+// 获取转出进度状态
+func (m *defaultFundApiService) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error) {
+	client := v1.NewFundApiServiceClient(m.cli.Conn())
+	return client.GetTransferInProgress(ctx, in, opts...)
 }
 
 // 发起转出操作

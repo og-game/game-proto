@@ -22,13 +22,15 @@ type (
 	GetUserBalanceReq        = v1.GetUserBalanceReq
 	TransactionReply         = v1.TransactionReply
 	TransactionReq           = v1.TransactionReq
+	TransferInProgressReply  = v1.TransferInProgressReply
+	TransferInProgressReq    = v1.TransferInProgressReq
 	TransferInReply          = v1.TransferInReply
 	TransferInReq            = v1.TransferInReq
-	TransferOutProgress      = v1.TransferOutProgress
 	TransferOutProgressReply = v1.TransferOutProgressReply
 	TransferOutProgressReq   = v1.TransferOutProgressReq
 	TransferOutReply         = v1.TransferOutReply
 	TransferOutReq           = v1.TransferOutReq
+	TransferProgressInfo     = v1.TransferProgressInfo
 	UserBalanceInfo          = v1.UserBalanceInfo
 	UserBalanceListReply     = v1.UserBalanceListReply
 	UserBalanceListReq       = v1.UserBalanceListReq

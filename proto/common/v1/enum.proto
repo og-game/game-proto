@@ -25,13 +25,13 @@ enum MoneyFlow {
 }
 
 
-// 提现状态枚举
-enum WithdrawStatus {
-  WITHDRAW_STATUS_UNSPECIFIED = 0; // 未指定状态
-  WITHDRAW_STATUS_PENDING = 1;     // 待处理
-  WITHDRAW_STATUS_PROCESSING = 2;  // 处理中
-  WITHDRAW_STATUS_COMPLETED = 3;   // 已完成
-  WITHDRAW_STATUS_FAILED = 4;      // 失败
+// 转账状态枚举
+enum TransferStatus {
+  TRANSFER_STATUS_UNSPECIFIED = 0; // 未指定状态
+  TRANSFER_STATUS_PENDING = 1;     // 待处理
+  TRANSFER_STATUS_PROCESSING = 2;  // 处理中
+  TRANSFER_STATUS_COMPLETED = 3;   // 已完成
+  TRANSFER_STATUS_FAILED = 4;      // 失败
 }
 
 

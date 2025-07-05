@@ -139,59 +139,59 @@ func (MoneyFlow) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{1}
 }
 
-// 提现状态枚举
-type WithdrawStatus int32
+// 转账状态枚举
+type TransferStatus int32
 
 const (
-	WithdrawStatus_WITHDRAW_STATUS_UNSPECIFIED WithdrawStatus = 0 // 未指定状态
-	WithdrawStatus_WITHDRAW_STATUS_PENDING     WithdrawStatus = 1 // 待处理
-	WithdrawStatus_WITHDRAW_STATUS_PROCESSING  WithdrawStatus = 2 // 处理中
-	WithdrawStatus_WITHDRAW_STATUS_COMPLETED   WithdrawStatus = 3 // 已完成
-	WithdrawStatus_WITHDRAW_STATUS_FAILED      WithdrawStatus = 4 // 失败
+	TransferStatus_TRANSFER_STATUS_UNSPECIFIED TransferStatus = 0 // 未指定状态
+	TransferStatus_TRANSFER_STATUS_PENDING     TransferStatus = 1 // 待处理
+	TransferStatus_TRANSFER_STATUS_PROCESSING  TransferStatus = 2 // 处理中
+	TransferStatus_TRANSFER_STATUS_COMPLETED   TransferStatus = 3 // 已完成
+	TransferStatus_TRANSFER_STATUS_FAILED      TransferStatus = 4 // 失败
 )
 
-// Enum value maps for WithdrawStatus.
+// Enum value maps for TransferStatus.
 var (
-	WithdrawStatus_name = map[int32]string{
-		0: "WITHDRAW_STATUS_UNSPECIFIED",
-		1: "WITHDRAW_STATUS_PENDING",
-		2: "WITHDRAW_STATUS_PROCESSING",
-		3: "WITHDRAW_STATUS_COMPLETED",
-		4: "WITHDRAW_STATUS_FAILED",
+	TransferStatus_name = map[int32]string{
+		0: "TRANSFER_STATUS_UNSPECIFIED",
+		1: "TRANSFER_STATUS_PENDING",
+		2: "TRANSFER_STATUS_PROCESSING",
+		3: "TRANSFER_STATUS_COMPLETED",
+		4: "TRANSFER_STATUS_FAILED",
 	}
-	WithdrawStatus_value = map[string]int32{
-		"WITHDRAW_STATUS_UNSPECIFIED": 0,
-		"WITHDRAW_STATUS_PENDING":     1,
-		"WITHDRAW_STATUS_PROCESSING":  2,
-		"WITHDRAW_STATUS_COMPLETED":   3,
-		"WITHDRAW_STATUS_FAILED":      4,
+	TransferStatus_value = map[string]int32{
+		"TRANSFER_STATUS_UNSPECIFIED": 0,
+		"TRANSFER_STATUS_PENDING":     1,
+		"TRANSFER_STATUS_PROCESSING":  2,
+		"TRANSFER_STATUS_COMPLETED":   3,
+		"TRANSFER_STATUS_FAILED":      4,
 	}
 )
 
-func (x WithdrawStatus) Enum() *WithdrawStatus {
-	p := new(WithdrawStatus)
+func (x TransferStatus) Enum() *TransferStatus {
+	p := new(TransferStatus)
 	*p = x
 	return p
 }
 
-func (x WithdrawStatus) String() string {
+func (x TransferStatus) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (WithdrawStatus) Descriptor() protoreflect.EnumDescriptor {
+func (TransferStatus) Descriptor() protoreflect.EnumDescriptor {
 	return file_common_v1_enum_proto_enumTypes[2].Descriptor()
 }
 
-func (WithdrawStatus) Type() protoreflect.EnumType {
+func (TransferStatus) Type() protoreflect.EnumType {
 	return &file_common_v1_enum_proto_enumTypes[2]
 }
 
-func (x WithdrawStatus) Number() protoreflect.EnumNumber {
+func (x TransferStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WithdrawStatus.Descriptor instead.
-func (WithdrawStatus) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use TransferStatus.Descriptor instead.
+func (TransferStatus) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{2}
 }
 
@@ -279,12 +279,12 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x10MONEY_FLOW_DEBIT\x10\x01\x12\x15\n" +
 	"\x11MONEY_FLOW_CREDIT\x10\x02\x12\x13\n" +
 	"\x0fMONEY_FLOW_BOTH\x10\x03*\xa9\x01\n" +
-	"\x0eWithdrawStatus\x12\x1f\n" +
-	"\x1bWITHDRAW_STATUS_UNSPECIFIED\x10\x00\x12\x1b\n" +
-	"\x17WITHDRAW_STATUS_PENDING\x10\x01\x12\x1e\n" +
-	"\x1aWITHDRAW_STATUS_PROCESSING\x10\x02\x12\x1d\n" +
-	"\x19WITHDRAW_STATUS_COMPLETED\x10\x03\x12\x1a\n" +
-	"\x16WITHDRAW_STATUS_FAILED\x10\x04*\xb6\x01\n" +
+	"\x0eTransferStatus\x12\x1f\n" +
+	"\x1bTRANSFER_STATUS_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17TRANSFER_STATUS_PENDING\x10\x01\x12\x1e\n" +
+	"\x1aTRANSFER_STATUS_PROCESSING\x10\x02\x12\x1d\n" +
+	"\x19TRANSFER_STATUS_COMPLETED\x10\x03\x12\x1a\n" +
+	"\x16TRANSFER_STATUS_FAILED\x10\x04*\xb6\x01\n" +
 	"\tErrorCode\x12\x1a\n" +
 	"\x16ERROR_CODE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x12ERROR_CODE_SUCCESS\x10\xc8\x01\x12\x1e\n" +
@@ -309,7 +309,7 @@ var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_common_v1_enum_proto_goTypes = []any{
 	(TransactionType)(0), // 0: common.v1.TransactionType
 	(MoneyFlow)(0),       // 1: common.v1.MoneyFlow
-	(WithdrawStatus)(0),  // 2: common.v1.WithdrawStatus
+	(TransferStatus)(0),  // 2: common.v1.TransferStatus
 	(ErrorCode)(0),       // 3: common.v1.ErrorCode
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
