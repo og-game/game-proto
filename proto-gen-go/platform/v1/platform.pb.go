@@ -668,7 +668,8 @@ type GetTransferRecordReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlatformId    int64                  `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`        // 厂商ID
 	OrderNo       string                 `protobuf:"bytes,2,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`                  // 交易订单号
-	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方交易单号
+	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方交易单号'
+	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                    // 用户id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -722,6 +723,13 @@ func (x *GetTransferRecordReq) GetThirdOrderNo() string {
 		return x.ThirdOrderNo
 	}
 	return ""
+}
+
+func (x *GetTransferRecordReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
 }
 
 type GetTransferRecordResp struct {
@@ -971,12 +979,13 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
 	"\x0fGetGameListResp\x122\n" +
-	"\tgame_info\x18\x01 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo\"x\n" +
+	"\tgame_info\x18\x01 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo\"\x91\x01\n" +
 	"\x14GetTransferRecordReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12$\n" +
-	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\"b\n" +
+	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\x12\x17\n" +
+	"\auser_id\x18\x04 \x01(\x03R\x06userId\"b\n" +
 	"\x15GetTransferRecordResp\x121\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\"6\n" +
