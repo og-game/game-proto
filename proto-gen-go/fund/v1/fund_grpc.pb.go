@@ -22,7 +22,6 @@ const (
 	FundInnerService_GetUserBalance_FullMethodName     = "/fund.v1.FundInnerService/GetUserBalance"
 	FundInnerService_GetUserBalanceList_FullMethodName = "/fund.v1.FundInnerService/GetUserBalanceList"
 	FundInnerService_ProcessTransaction_FullMethodName = "/fund.v1.FundInnerService/ProcessTransaction"
-	FundInnerService_ExecuteTransaction_FullMethodName = "/fund.v1.FundInnerService/ExecuteTransaction"
 )
 
 // FundInnerServiceClient is the client API for FundInnerService service.
@@ -37,8 +36,6 @@ type FundInnerServiceClient interface {
 	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
-	// 执行交易处理用于余额相关操作
-	ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error)
 }
 
 type fundInnerServiceClient struct {
@@ -79,16 +76,6 @@ func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *Tra
 	return out, nil
 }
 
-func (c *fundInnerServiceClient) ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExecuteTransactionReply)
-	err := c.cc.Invoke(ctx, FundInnerService_ExecuteTransaction_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // FundInnerServiceServer is the server API for FundInnerService service.
 // All implementations must embed UnimplementedFundInnerServiceServer
 // for forward compatibility.
@@ -101,8 +88,6 @@ type FundInnerServiceServer interface {
 	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error)
-	// 执行交易处理用于余额相关操作
-	ExecuteTransaction(context.Context, *ExecuteTransactionReq) (*ExecuteTransactionReply, error)
 	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
@@ -121,9 +106,6 @@ func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *
 }
 func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
-}
-func (UnimplementedFundInnerServiceServer) ExecuteTransaction(context.Context, *ExecuteTransactionReq) (*ExecuteTransactionReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ExecuteTransaction not implemented")
 }
 func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
 func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
@@ -200,24 +182,6 @@ func _FundInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FundInnerService_ExecuteTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExecuteTransactionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).ExecuteTransaction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_ExecuteTransaction_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).ExecuteTransaction(ctx, req.(*ExecuteTransactionReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -236,10 +200,6 @@ var FundInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProcessTransaction",
 			Handler:    _FundInnerService_ProcessTransaction_Handler,
-		},
-		{
-			MethodName: "ExecuteTransaction",
-			Handler:    _FundInnerService_ExecuteTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

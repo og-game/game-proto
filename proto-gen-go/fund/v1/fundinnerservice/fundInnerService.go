@@ -14,8 +14,6 @@ import (
 )
 
 type (
-	ExecuteTransactionReply  = v1.ExecuteTransactionReply
-	ExecuteTransactionReq    = v1.ExecuteTransactionReq
 	FundReply                = v1.FundReply
 	FundReq                  = v1.FundReq
 	GetUserBalanceListReply  = v1.GetUserBalanceListReply
@@ -44,8 +42,6 @@ type (
 		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
 		// 处理交易（根据type字段处理不同类型）
 		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
-		// 执行交易处理用于余额相关操作
-		ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error)
 	}
 
 	defaultFundInnerService struct {
@@ -75,10 +71,4 @@ func (m *defaultFundInnerService) GetUserBalanceList(ctx context.Context, in *Ge
 func (m *defaultFundInnerService) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.ProcessTransaction(ctx, in, opts...)
-}
-
-// 执行交易处理用于余额相关操作
-func (m *defaultFundInnerService) ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error) {
-	client := v1.NewFundInnerServiceClient(m.cli.Conn())
-	return client.ExecuteTransaction(ctx, in, opts...)
 }

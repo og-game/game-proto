@@ -26,9 +26,6 @@ service FundInnerService {
   // 处理交易（根据type字段处理不同类型）
   rpc ProcessTransaction(TransactionReq) returns (TransactionReply);
 
-  // 执行交易处理用于余额相关操作
-  rpc ExecuteTransaction(ExecuteTransactionReq) returns (ExecuteTransactionReply);
-
 }
 
 // 获取单个用户余额请求
@@ -80,25 +77,6 @@ message TransactionReply {
   double balance_before = 3; // 变更前余额
   double balance_after = 4; // 变更后余额
   int64 timestamp = 5; // 当前时间戳
-}
-
-// 请求参数
-message ExecuteTransactionReq {
-  int64 user_id = 1;         // 用户ID
-  int64 platform_id = 2;     // 平台ID
-  string transaction_id = 3; // 交易ID，建议为唯一标识符
-  double current_balance = 4; // 当前余额 (作为输入，用于乐观锁或校验)
-  double new_balance = 5;     // 交易后的新余额 (作为输入，用于校验或预期结果)
-  double balance = 6;     // 交易的金额 (作为输入，用于校验或预期结果)
-  int64 version = 7;         // 版本号，用于乐观锁控制
-}
-
-// 返回响应
-message ExecuteTransactionReply {
-  string transaction_id = 1;  // 实际处理的交易ID
-  double balance_before = 2;  // 交易前的余额
-  double balance_after = 3;   // 交易后的余额
-  double balance = 4;         // 交易的金额
 }
 
 
