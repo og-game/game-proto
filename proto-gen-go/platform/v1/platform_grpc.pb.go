@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PlatformInnerService_GetGameLink_FullMethodName     = "/platform.v1.PlatformInnerService/GetGameLink"
-	PlatformInnerService_GetDemoGameLink_FullMethodName = "/platform.v1.PlatformInnerService/GetDemoGameLink"
-	PlatformInnerService_GetUserBalance_FullMethodName  = "/platform.v1.PlatformInnerService/GetUserBalance"
-	PlatformInnerService_Transfer_FullMethodName        = "/platform.v1.PlatformInnerService/Transfer"
-	PlatformInnerService_GetGameList_FullMethodName     = "/platform.v1.PlatformInnerService/GetGameList"
+	PlatformInnerService_GetGameLink_FullMethodName       = "/platform.v1.PlatformInnerService/GetGameLink"
+	PlatformInnerService_GetDemoGameLink_FullMethodName   = "/platform.v1.PlatformInnerService/GetDemoGameLink"
+	PlatformInnerService_GetUserBalance_FullMethodName    = "/platform.v1.PlatformInnerService/GetUserBalance"
+	PlatformInnerService_Transfer_FullMethodName          = "/platform.v1.PlatformInnerService/Transfer"
+	PlatformInnerService_GetGameList_FullMethodName       = "/platform.v1.PlatformInnerService/GetGameList"
+	PlatformInnerService_GetTransferRecord_FullMethodName = "/platform.v1.PlatformInnerService/GetTransferRecord"
+	PlatformInnerService_GetBetRecordList_FullMethodName  = "/platform.v1.PlatformInnerService/GetBetRecordList"
 )
 
 // PlatformInnerServiceClient is the client API for PlatformInnerService service.
@@ -40,6 +42,10 @@ type PlatformInnerServiceClient interface {
 	Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
 	// 获取厂商游戏列表
 	GetGameList(ctx context.Context, in *GetGameListReq, opts ...grpc.CallOption) (*GetGameListResp, error)
+	// 获取存取款记录
+	GetTransferRecord(ctx context.Context, in *GetTransferRecordReq, opts ...grpc.CallOption) (*GetTransferRecordResp, error)
+	// 获取投注记录
+	GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error)
 }
 
 type platformInnerServiceClient struct {
@@ -100,6 +106,26 @@ func (c *platformInnerServiceClient) GetGameList(ctx context.Context, in *GetGam
 	return out, nil
 }
 
+func (c *platformInnerServiceClient) GetTransferRecord(ctx context.Context, in *GetTransferRecordReq, opts ...grpc.CallOption) (*GetTransferRecordResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTransferRecordResp)
+	err := c.cc.Invoke(ctx, PlatformInnerService_GetTransferRecord_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *platformInnerServiceClient) GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBetRecordListResp)
+	err := c.cc.Invoke(ctx, PlatformInnerService_GetBetRecordList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlatformInnerServiceServer is the server API for PlatformInnerService service.
 // All implementations must embed UnimplementedPlatformInnerServiceServer
 // for forward compatibility.
@@ -114,6 +140,10 @@ type PlatformInnerServiceServer interface {
 	Transfer(context.Context, *TransferReq) (*TransferResp, error)
 	// 获取厂商游戏列表
 	GetGameList(context.Context, *GetGameListReq) (*GetGameListResp, error)
+	// 获取存取款记录
+	GetTransferRecord(context.Context, *GetTransferRecordReq) (*GetTransferRecordResp, error)
+	// 获取投注记录
+	GetBetRecordList(context.Context, *GetBetRecordListReq) (*GetBetRecordListResp, error)
 	mustEmbedUnimplementedPlatformInnerServiceServer()
 }
 
@@ -138,6 +168,12 @@ func (UnimplementedPlatformInnerServiceServer) Transfer(context.Context, *Transf
 }
 func (UnimplementedPlatformInnerServiceServer) GetGameList(context.Context, *GetGameListReq) (*GetGameListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGameList not implemented")
+}
+func (UnimplementedPlatformInnerServiceServer) GetTransferRecord(context.Context, *GetTransferRecordReq) (*GetTransferRecordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransferRecord not implemented")
+}
+func (UnimplementedPlatformInnerServiceServer) GetBetRecordList(context.Context, *GetBetRecordListReq) (*GetBetRecordListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBetRecordList not implemented")
 }
 func (UnimplementedPlatformInnerServiceServer) mustEmbedUnimplementedPlatformInnerServiceServer() {}
 func (UnimplementedPlatformInnerServiceServer) testEmbeddedByValue()                              {}
@@ -250,6 +286,42 @@ func _PlatformInnerService_GetGameList_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlatformInnerService_GetTransferRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransferRecordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlatformInnerServiceServer).GetTransferRecord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlatformInnerService_GetTransferRecord_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlatformInnerServiceServer).GetTransferRecord(ctx, req.(*GetTransferRecordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PlatformInnerService_GetBetRecordList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBetRecordListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlatformInnerServiceServer).GetBetRecordList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlatformInnerService_GetBetRecordList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlatformInnerServiceServer).GetBetRecordList(ctx, req.(*GetBetRecordListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlatformInnerService_ServiceDesc is the grpc.ServiceDesc for PlatformInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -276,6 +348,14 @@ var PlatformInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGameList",
 			Handler:    _PlatformInnerService_GetGameList_Handler,
+		},
+		{
+			MethodName: "GetTransferRecord",
+			Handler:    _PlatformInnerService_GetTransferRecord_Handler,
+		},
+		{
+			MethodName: "GetBetRecordList",
+			Handler:    _PlatformInnerService_GetBetRecordList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
