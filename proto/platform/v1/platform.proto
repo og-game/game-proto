@@ -30,17 +30,21 @@ message GetUserBalanceResp {
 }
 
 message TransferReq{
-  string user_id = 1; // 用户id
-  string currency_code = 2; // 币种code
-  bool is_deposit = 4; // 是否存款 true 存款 false 取款
-  double amount = 3; // 金额(正数)
+  int64  platform_id = 1;  // 厂商ID
+  string user_id = 2; // 用户id
+  string currency_code = 3; // 币种code
+  bool   is_deposit = 4; // 是否存款 true 存款 false 取款
+  double amount = 5; // 金额(正数)
+  string order_no = 6;        // 交易订单号
 }
 
 message TransferResp {
-  string trade_no = 1; // 交易订单号
+  string order_no = 1;        // 交易订单号
+  string third_order_no = 2;  // 三方交易单号
+  double balance = 3;         // 用户余额
 }
 
-message GetDemoGameLinkReq{
+message GetDemoGameLinkReq {
   string third_game_id = 1; // 三方游戏id
   string  user_id = 2; // 用户id
   string currency_code = 3; // 币种code
@@ -50,21 +54,69 @@ message GetDemoGameLinkReq{
   int64 platform_id = 7 ; // 厂商id
 }
 
+enum GameState {
+  GAME_STATE_UNKNOWN = 0; //  未知
+  GAME_STATE_OPEN = 1; // 开启
+  GAME_STATE_CLOSE = 2; // 关闭
+  GAME_STATE_MAINTAIN = 3; // 维护
+  GAME_STATE_IDLE = 4; // 闲置
+  GAME_STATE_CLOSE_DUE = 5; // 封盘
+}
+
+enum GameBetState {
+  GAME_BET_STATE_UNKNOWN = 0; //  未知
+  GAME_BET_STATE_OPEN = 1; // 开启
+  GAME_BET_STATE_CLOSE = 2; // 关闭
+}
 
 message GameInfo {
   string third_game_id = 1; // 三方游戏ID
-  string name = 2; // 游戏名称
-  int64  state = 3; // 游戏状态
-  int64  bet_state = 4; // 游戏投注状态
-  int64  game_type = 5; // 游戏类型
+  string name = 2;          // 游戏名称
+  GameState game_state = 3;         // 游戏状态
+  GameBetState  bet_state = 4;     // 游戏投注状态
 }
 
+// 获取游戏列表
 message GetGameListReq {
+  int64 platform_id = 1; // 厂商id
 }
 
 message GetGameListResp {
-  int64 platform_id = 1; // 厂商id
-  repeated GameInfo game_info = 2; // 游戏列表
+  repeated GameInfo game_info = 1; // 游戏列表
+}
+
+// 获取转账记录
+message GetTransferRecordReq {
+  int64 platform_id = 1;
+  string third_no = 2;
+}
+
+message GetTransferRecordResp {
+  int64 code = 1;     // 1-成功 2-失败 3-处理中
+  double amount = 2;  // 交易金额
+}
+
+// 获取投注记录列表
+message GetBetRecordListReq {
+  int64 platform_id = 1;
+}
+
+enum BetStatus {
+  BET_STATUS_UNKNOWN = 0;   // 未知
+  BET_STATUS_BET = 1;       // 投注
+  BET_STATUS_SETTLE = 2;    // 结算
+  BET_STATUS_CANCEL = 3;    // 投注取消
+  BET_STATUS_DISCARD = 4;   // 结算取消
+}
+
+message GetBetRecordListResp {
+  BetStatus status = 1; // 投注状态
+  double amount = 2;  // 投注金额
+  string third_order_no = 3; // 三方订单号
+  string third_game_id = 4;  // 三方游戏ID
+  string round_id = 5;  // 牌局编号
+  string user_id = 7; // 用户ID
+  string win_lost = 8; // 输赢
 }
 
 service PlatformInnerService {
@@ -84,5 +136,10 @@ service PlatformInnerService {
   // 获取厂商游戏列表
   rpc GetGameList(GetGameListReq) returns (GetGameListResp);
 
+  // 获取存取款记录
+  rpc GetTransferRecord(GetTransferRecordReq) returns (GetTransferRecordResp);
+
+  // 获取投注记录
+  rpc GetBetRecordList(GetBetRecordListReq) returns (GetBetRecordListResp);
 }
 
