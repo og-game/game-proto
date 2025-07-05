@@ -337,7 +337,7 @@ func (x *GetGameLinkResp) GetUrl() string {
 
 type GetUserBalanceReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`              // 用户id
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`             // 用户id
 	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"` // 厂商id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -373,11 +373,11 @@ func (*GetUserBalanceReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetUserBalanceReq) GetUserId() string {
+func (x *GetUserBalanceReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetUserBalanceReq) GetPlatformId() int64 {
@@ -1094,7 +1094,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1f\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\"G\n" +
 	"\x12GetUserBalanceResp\x12\x17\n" +
