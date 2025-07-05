@@ -389,8 +389,8 @@ func (x *GetUserBalanceReq) GetPlatformId() int64 {
 
 type GetUserBalanceResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	Balance       float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`           // 余额
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
+	Balance       float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`            // 余额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -425,11 +425,11 @@ func (*GetUserBalanceResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUserBalanceResp) GetUserId() string {
+func (x *GetUserBalanceResp) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetUserBalanceResp) GetBalance() float64 {
@@ -1098,7 +1098,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\"G\n" +
 	"\x12GetUserBalanceResp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x18\n" +
 	"\abalance\x18\x02 \x01(\x01R\abalance\"\xbe\x01\n" +
 	"\vTransferReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
