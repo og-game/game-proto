@@ -999,14 +999,14 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\x03R\x06userId\x12\x19\n" +
-	"\bwin_lost\x18\b \x01(\tR\awinLost2\xd1\x04\n" +
+	"\bwin_lost\x18\b \x01(\tR\awinLost2\xd7\x04\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
 	"\x0eGetUserBalance\x12\x1e.platform.v1.GetUserBalanceReq\x1a\x1f.platform.v1.GetUserBalanceResp\x12?\n" +
 	"\bTransfer\x12\x18.platform.v1.TransferReq\x1a\x19.platform.v1.TransferResp\x12H\n" +
-	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListResp\x12f\n" +
-	"\x11GetTransferRecord\x12'.platform.v1.GetTransferRecordStatusReq\x1a(.platform.v1.GetTransferRecordStatusResp\x12W\n" +
+	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListResp\x12l\n" +
+	"\x17GetTransferRecordStatus\x12'.platform.v1.GetTransferRecordStatusReq\x1a(.platform.v1.GetTransferRecordStatusResp\x12W\n" +
 	"\x10GetBetRecordList\x12 .platform.v1.GetBetRecordListReq\x1a!.platform.v1.GetBetRecordListRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
 
 var (
@@ -1053,14 +1053,14 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	2,  // 7: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
 	4,  // 8: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
 	8,  // 9: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
-	10, // 10: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordStatusReq
+	10, // 10: platform.v1.PlatformInnerService.GetTransferRecordStatus:input_type -> platform.v1.GetTransferRecordStatusReq
 	12, // 11: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
 	1,  // 12: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
 	1,  // 13: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
 	3,  // 14: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
 	5,  // 15: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
 	9,  // 16: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
-	11, // 17: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordStatusResp
+	11, // 17: platform.v1.PlatformInnerService.GetTransferRecordStatus:output_type -> platform.v1.GetTransferRecordStatusResp
 	13, // 18: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
 	12, // [12:19] is the sub-list for method output_type
 	5,  // [5:12] is the sub-list for method input_type
