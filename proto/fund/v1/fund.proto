@@ -15,7 +15,7 @@ message FundReply{
 
 
 //////////////////  内部RPC   //////////////////
-service GameInnerService {
+service FundInnerService {
 
   // 获取单个用户余额[实时更新的余额]
   rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceReply);
@@ -26,7 +26,6 @@ service GameInnerService {
   // 处理交易（根据type字段处理不同类型）
   rpc ProcessTransaction(TransactionReq) returns (TransactionReply);
 
-
 }
 
 // 获取单个用户余额请求
@@ -35,27 +34,27 @@ message GetUserBalanceReq {
   int64 platform_id = 2;
 }
 
+// 获取单个用户余额响应
+message GetUserBalanceReply {
+  double balance = 1; // 游戏内余额
+  int64  version = 2; // 版本
+}
+
 // 用户余额信息
 message UserBalanceInfo {
   double balance = 1; // 游戏内余额
-  double frozen_balance = 2; // 游戏内冻结余额
-  double transferring_balance = 3; // 转账中余额
-}
-
-// 获取单个用户余额响应
-message GetUserBalanceReply {
-  double balance = 1;
+  int64  version = 2; // 版本
 }
 
 // 批量获取用户余额请求
 message GetUserBalanceListReq {
   int64 user_id = 1;
-  int64 platform_id = 2;
+  repeated int64 platform_ids = 2;
 }
 
 // 批量获取用户余额响应
 message GetUserBalanceListReply {
-  map<int64, double> balances = 1; // platform_id => balance
+  map<int64, UserBalanceInfo> balances = 1; // platform_id => balance
 }
 
 
@@ -82,40 +81,76 @@ message TransactionReply {
 
 
 //////////////////  暴露给API的RPC   //////////////////
-service GameApiService {
-  // 申请提现
-  rpc ApplyWithdraw(ApplyWithdrawReq) returns (ApplyWithdrawReply);
+service FundApiService {
 
-  // 申请提现状态查询
-  rpc QueryWithdrawStatus(QueryWithdrawStatusReq) returns (QueryWithdrawStatusReply);
+  // 批量获取用户余额[实时更新的余额]
+  rpc GetUserBalanceList(UserBalanceListReq) returns (UserBalanceListReply);
+
+  // 发起转入操作
+  rpc TransferIn(TransferInReq) returns (TransferInReply);
+
+  // 发起转出操作
+  rpc TransferOut(TransferOutReq) returns (TransferOutReply);
+
+  // 获取转出进度状态
+  rpc GetTransferOutProgress(TransferOutProgressReq) returns (TransferOutProgressReply);
+
 }
 
-// 申请提现请求
-message ApplyWithdrawReq {
+
+// 批量获取用户余额请求
+message UserBalanceListReq {
   int64 user_id = 1;
-  double amount = 2;
-  int64 platform_id = 3;
+  repeated int64 platform_ids = 2;
+}
+
+// 批量获取用户余额响应
+message UserBalanceListReply {
+  map<int64, double> balances = 1; // platform_id => balance
+}
+
+
+// 发起转入操作
+message TransferInReq{
+  int64 user_id = 1;
+  int64 platform_id = 2;
+  double amount = 3;
   map<string, string> extra_params = 4;
 }
 
-// 申请提现响应
-message ApplyWithdrawReply {
-  int64 code = 1;
+// 发起转入操作
+message TransferInReply{
+  common.v1.ErrorCode code = 1;
+  string message = 2;
+  string transaction_id = 3; // 内部交易ID
+}
+
+// 发起转出操作
+message TransferOutReq {
+  int64 user_id = 1;
+  int64 platform_id = 2;
+  double amount = 3;
+  map<string, string> extra_params = 4;
+}
+
+// 发起转出操作
+message TransferOutReply {
+  common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
   common.v1.WithdrawStatus status = 4; // 提现状态：pending, processing, completed, failed
   int64 estimated_time = 5; // 预计到账时间戳
 }
 
+
 // 查询提现状态请求
-message QueryWithdrawStatusReq {
+message TransferOutProgressReq {
   int64 user_id = 1;
-  string transaction_id = 2; // 交易ID
+  repeated string transaction_ids = 2; // 交易ID
 }
 
-// 查询提现状态响应
-message QueryWithdrawStatusReply {
-  int64 code = 1;
+message TransferOutProgress {
+  common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
   double amount = 4; // 提现金额
@@ -125,3 +160,9 @@ message QueryWithdrawStatusReply {
   int64 estimated_time = 8; // 预计到账时间戳
   string failure_reason = 9; // 失败原因（如果状态为failed）
 }
+
+// 查询提现状态响应
+message TransferOutProgressReply {
+  map<string, TransferOutProgress> progress = 4; // transaction_id => progress
+}
+

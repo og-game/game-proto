@@ -147,78 +147,18 @@ func (x *GetUserBalanceReq) GetPlatformId() int64 {
 	return 0
 }
 
-// 用户余额信息
-type UserBalanceInfo struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Balance             float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"`                                                    // 游戏内余额
-	FrozenBalance       float64                `protobuf:"fixed64,2,opt,name=frozen_balance,json=frozenBalance,proto3" json:"frozen_balance,omitempty"`                   // 游戏内冻结余额
-	TransferringBalance float64                `protobuf:"fixed64,3,opt,name=transferring_balance,json=transferringBalance,proto3" json:"transferring_balance,omitempty"` // 转账中余额
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
-}
-
-func (x *UserBalanceInfo) Reset() {
-	*x = UserBalanceInfo{}
-	mi := &file_fund_v1_fund_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UserBalanceInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserBalanceInfo) ProtoMessage() {}
-
-func (x *UserBalanceInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserBalanceInfo.ProtoReflect.Descriptor instead.
-func (*UserBalanceInfo) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *UserBalanceInfo) GetBalance() float64 {
-	if x != nil {
-		return x.Balance
-	}
-	return 0
-}
-
-func (x *UserBalanceInfo) GetFrozenBalance() float64 {
-	if x != nil {
-		return x.FrozenBalance
-	}
-	return 0
-}
-
-func (x *UserBalanceInfo) GetTransferringBalance() float64 {
-	if x != nil {
-		return x.TransferringBalance
-	}
-	return 0
-}
-
 // 获取单个用户余额响应
 type GetUserBalanceReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"`
+	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"` // 游戏内余额
+	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`  // 版本
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUserBalanceReply) Reset() {
 	*x = GetUserBalanceReply{}
-	mi := &file_fund_v1_fund_proto_msgTypes[4]
+	mi := &file_fund_v1_fund_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -230,7 +170,7 @@ func (x *GetUserBalanceReply) String() string {
 func (*GetUserBalanceReply) ProtoMessage() {}
 
 func (x *GetUserBalanceReply) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[4]
+	mi := &file_fund_v1_fund_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -243,7 +183,7 @@ func (x *GetUserBalanceReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserBalanceReply.ProtoReflect.Descriptor instead.
 func (*GetUserBalanceReply) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{4}
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetUserBalanceReply) GetBalance() float64 {
@@ -253,11 +193,71 @@ func (x *GetUserBalanceReply) GetBalance() float64 {
 	return 0
 }
 
+func (x *GetUserBalanceReply) GetVersion() int64 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+// 用户余额信息
+type UserBalanceInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"` // 游戏内余额
+	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`  // 版本
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserBalanceInfo) Reset() {
+	*x = UserBalanceInfo{}
+	mi := &file_fund_v1_fund_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserBalanceInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserBalanceInfo) ProtoMessage() {}
+
+func (x *UserBalanceInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserBalanceInfo.ProtoReflect.Descriptor instead.
+func (*UserBalanceInfo) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UserBalanceInfo) GetBalance() float64 {
+	if x != nil {
+		return x.Balance
+	}
+	return 0
+}
+
+func (x *UserBalanceInfo) GetVersion() int64 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
 // 批量获取用户余额请求
 type GetUserBalanceListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	PlatformIds   []int64                `protobuf:"varint,2,rep,packed,name=platform_ids,json=platformIds,proto3" json:"platform_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -299,17 +299,17 @@ func (x *GetUserBalanceListReq) GetUserId() int64 {
 	return 0
 }
 
-func (x *GetUserBalanceListReq) GetPlatformId() int64 {
+func (x *GetUserBalanceListReq) GetPlatformIds() []int64 {
 	if x != nil {
-		return x.PlatformId
+		return x.PlatformIds
 	}
-	return 0
+	return nil
 }
 
 // 批量获取用户余额响应
 type GetUserBalanceListReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Balances      map[int64]float64      `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"` // platform_id => balance
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Balances      map[int64]*UserBalanceInfo `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // platform_id => balance
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -344,7 +344,7 @@ func (*GetUserBalanceListReply) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetUserBalanceListReply) GetBalances() map[int64]float64 {
+func (x *GetUserBalanceListReply) GetBalances() map[int64]*UserBalanceInfo {
 	if x != nil {
 		return x.Balances
 	}
@@ -529,31 +529,29 @@ func (x *TransactionReply) GetTimestamp() int64 {
 	return 0
 }
 
-// 申请提现请求
-type ApplyWithdrawReq struct {
+// 批量获取用户余额请求
+type UserBalanceListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Amount        float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`
-	PlatformId    int64                  `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	ExtraParams   map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	PlatformIds   []int64                `protobuf:"varint,2,rep,packed,name=platform_ids,json=platformIds,proto3" json:"platform_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ApplyWithdrawReq) Reset() {
-	*x = ApplyWithdrawReq{}
+func (x *UserBalanceListReq) Reset() {
+	*x = UserBalanceListReq{}
 	mi := &file_fund_v1_fund_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ApplyWithdrawReq) String() string {
+func (x *UserBalanceListReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ApplyWithdrawReq) ProtoMessage() {}
+func (*UserBalanceListReq) ProtoMessage() {}
 
-func (x *ApplyWithdrawReq) ProtoReflect() protoreflect.Message {
+func (x *UserBalanceListReq) ProtoReflect() protoreflect.Message {
 	mi := &file_fund_v1_fund_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -565,43 +563,273 @@ func (x *ApplyWithdrawReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ApplyWithdrawReq.ProtoReflect.Descriptor instead.
-func (*ApplyWithdrawReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use UserBalanceListReq.ProtoReflect.Descriptor instead.
+func (*UserBalanceListReq) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ApplyWithdrawReq) GetUserId() int64 {
+func (x *UserBalanceListReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *ApplyWithdrawReq) GetAmount() float64 {
+func (x *UserBalanceListReq) GetPlatformIds() []int64 {
 	if x != nil {
-		return x.Amount
+		return x.PlatformIds
+	}
+	return nil
+}
+
+// 批量获取用户余额响应
+type UserBalanceListReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Balances      map[int64]float64      `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"` // platform_id => balance
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserBalanceListReply) Reset() {
+	*x = UserBalanceListReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserBalanceListReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserBalanceListReply) ProtoMessage() {}
+
+func (x *UserBalanceListReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserBalanceListReply.ProtoReflect.Descriptor instead.
+func (*UserBalanceListReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UserBalanceListReply) GetBalances() map[int64]float64 {
+	if x != nil {
+		return x.Balances
+	}
+	return nil
+}
+
+// 发起转入操作
+type TransferInReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	ExtraParams   map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TransferInReq) Reset() {
+	*x = TransferInReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransferInReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferInReq) ProtoMessage() {}
+
+func (x *TransferInReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferInReq.ProtoReflect.Descriptor instead.
+func (*TransferInReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *TransferInReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
 	}
 	return 0
 }
 
-func (x *ApplyWithdrawReq) GetPlatformId() int64 {
+func (x *TransferInReq) GetPlatformId() int64 {
 	if x != nil {
 		return x.PlatformId
 	}
 	return 0
 }
 
-func (x *ApplyWithdrawReq) GetExtraParams() map[string]string {
+func (x *TransferInReq) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *TransferInReq) GetExtraParams() map[string]string {
 	if x != nil {
 		return x.ExtraParams
 	}
 	return nil
 }
 
-// 申请提现响应
-type ApplyWithdrawReply struct {
+// 发起转入操作
+type TransferInReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Code          v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"` // 内部交易ID
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TransferInReply) Reset() {
+	*x = TransferInReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransferInReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferInReply) ProtoMessage() {}
+
+func (x *TransferInReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferInReply.ProtoReflect.Descriptor instead.
+func (*TransferInReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *TransferInReply) GetCode() v1.ErrorCode {
+	if x != nil {
+		return x.Code
+	}
+	return v1.ErrorCode(0)
+}
+
+func (x *TransferInReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *TransferInReply) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+// 发起转出操作
+type TransferOutReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	ExtraParams   map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TransferOutReq) Reset() {
+	*x = TransferOutReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransferOutReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferOutReq) ProtoMessage() {}
+
+func (x *TransferOutReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferOutReq.ProtoReflect.Descriptor instead.
+func (*TransferOutReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *TransferOutReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *TransferOutReq) GetPlatformId() int64 {
+	if x != nil {
+		return x.PlatformId
+	}
+	return 0
+}
+
+func (x *TransferOutReq) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *TransferOutReq) GetExtraParams() map[string]string {
+	if x != nil {
+		return x.ExtraParams
+	}
+	return nil
+}
+
+// 发起转出操作
+type TransferOutReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`  // 内部交易ID
 	Status        v1.WithdrawStatus      `protobuf:"varint,4,opt,name=status,proto3,enum=common.v1.WithdrawStatus" json:"status,omitempty"`      // 提现状态：pending, processing, completed, failed
@@ -610,21 +838,21 @@ type ApplyWithdrawReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ApplyWithdrawReply) Reset() {
-	*x = ApplyWithdrawReply{}
-	mi := &file_fund_v1_fund_proto_msgTypes[10]
+func (x *TransferOutReply) Reset() {
+	*x = TransferOutReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ApplyWithdrawReply) String() string {
+func (x *TransferOutReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ApplyWithdrawReply) ProtoMessage() {}
+func (*TransferOutReply) ProtoMessage() {}
 
-func (x *ApplyWithdrawReply) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[10]
+func (x *TransferOutReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -635,40 +863,40 @@ func (x *ApplyWithdrawReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ApplyWithdrawReply.ProtoReflect.Descriptor instead.
-func (*ApplyWithdrawReply) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{10}
+// Deprecated: Use TransferOutReply.ProtoReflect.Descriptor instead.
+func (*TransferOutReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *ApplyWithdrawReply) GetCode() int64 {
+func (x *TransferOutReply) GetCode() v1.ErrorCode {
 	if x != nil {
 		return x.Code
 	}
-	return 0
+	return v1.ErrorCode(0)
 }
 
-func (x *ApplyWithdrawReply) GetMessage() string {
+func (x *TransferOutReply) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
 }
 
-func (x *ApplyWithdrawReply) GetTransactionId() string {
+func (x *TransferOutReply) GetTransactionId() string {
 	if x != nil {
 		return x.TransactionId
 	}
 	return ""
 }
 
-func (x *ApplyWithdrawReply) GetStatus() v1.WithdrawStatus {
+func (x *TransferOutReply) GetStatus() v1.WithdrawStatus {
 	if x != nil {
 		return x.Status
 	}
 	return v1.WithdrawStatus(0)
 }
 
-func (x *ApplyWithdrawReply) GetEstimatedTime() int64 {
+func (x *TransferOutReply) GetEstimatedTime() int64 {
 	if x != nil {
 		return x.EstimatedTime
 	}
@@ -676,29 +904,29 @@ func (x *ApplyWithdrawReply) GetEstimatedTime() int64 {
 }
 
 // 查询提现状态请求
-type QueryWithdrawStatusReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	TransactionId string                 `protobuf:"bytes,2,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"` // 交易ID
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type TransferOutProgressReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserId         int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TransactionIds []string               `protobuf:"bytes,2,rep,name=transaction_ids,json=transactionIds,proto3" json:"transaction_ids,omitempty"` // 交易ID
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
-func (x *QueryWithdrawStatusReq) Reset() {
-	*x = QueryWithdrawStatusReq{}
-	mi := &file_fund_v1_fund_proto_msgTypes[11]
+func (x *TransferOutProgressReq) Reset() {
+	*x = TransferOutProgressReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *QueryWithdrawStatusReq) String() string {
+func (x *TransferOutProgressReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryWithdrawStatusReq) ProtoMessage() {}
+func (*TransferOutProgressReq) ProtoMessage() {}
 
-func (x *QueryWithdrawStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[11]
+func (x *TransferOutProgressReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -709,29 +937,28 @@ func (x *QueryWithdrawStatusReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryWithdrawStatusReq.ProtoReflect.Descriptor instead.
-func (*QueryWithdrawStatusReq) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{11}
+// Deprecated: Use TransferOutProgressReq.ProtoReflect.Descriptor instead.
+func (*TransferOutProgressReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *QueryWithdrawStatusReq) GetUserId() int64 {
+func (x *TransferOutProgressReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *QueryWithdrawStatusReq) GetTransactionId() string {
+func (x *TransferOutProgressReq) GetTransactionIds() []string {
 	if x != nil {
-		return x.TransactionId
+		return x.TransactionIds
 	}
-	return ""
+	return nil
 }
 
-// 查询提现状态响应
-type QueryWithdrawStatusReply struct {
+type TransferOutProgress struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Code          v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`  // 内部交易ID
 	Amount        float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`                                   // 提现金额
@@ -744,21 +971,21 @@ type QueryWithdrawStatusReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *QueryWithdrawStatusReply) Reset() {
-	*x = QueryWithdrawStatusReply{}
-	mi := &file_fund_v1_fund_proto_msgTypes[12]
+func (x *TransferOutProgress) Reset() {
+	*x = TransferOutProgress{}
+	mi := &file_fund_v1_fund_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *QueryWithdrawStatusReply) String() string {
+func (x *TransferOutProgress) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryWithdrawStatusReply) ProtoMessage() {}
+func (*TransferOutProgress) ProtoMessage() {}
 
-func (x *QueryWithdrawStatusReply) ProtoReflect() protoreflect.Message {
-	mi := &file_fund_v1_fund_proto_msgTypes[12]
+func (x *TransferOutProgress) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -769,72 +996,117 @@ func (x *QueryWithdrawStatusReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryWithdrawStatusReply.ProtoReflect.Descriptor instead.
-func (*QueryWithdrawStatusReply) Descriptor() ([]byte, []int) {
-	return file_fund_v1_fund_proto_rawDescGZIP(), []int{12}
+// Deprecated: Use TransferOutProgress.ProtoReflect.Descriptor instead.
+func (*TransferOutProgress) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *QueryWithdrawStatusReply) GetCode() int64 {
+func (x *TransferOutProgress) GetCode() v1.ErrorCode {
 	if x != nil {
 		return x.Code
 	}
-	return 0
+	return v1.ErrorCode(0)
 }
 
-func (x *QueryWithdrawStatusReply) GetMessage() string {
+func (x *TransferOutProgress) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
 }
 
-func (x *QueryWithdrawStatusReply) GetTransactionId() string {
+func (x *TransferOutProgress) GetTransactionId() string {
 	if x != nil {
 		return x.TransactionId
 	}
 	return ""
 }
 
-func (x *QueryWithdrawStatusReply) GetAmount() float64 {
+func (x *TransferOutProgress) GetAmount() float64 {
 	if x != nil {
 		return x.Amount
 	}
 	return 0
 }
 
-func (x *QueryWithdrawStatusReply) GetStatus() v1.WithdrawStatus {
+func (x *TransferOutProgress) GetStatus() v1.WithdrawStatus {
 	if x != nil {
 		return x.Status
 	}
 	return v1.WithdrawStatus(0)
 }
 
-func (x *QueryWithdrawStatusReply) GetCreatedTime() int64 {
+func (x *TransferOutProgress) GetCreatedTime() int64 {
 	if x != nil {
 		return x.CreatedTime
 	}
 	return 0
 }
 
-func (x *QueryWithdrawStatusReply) GetUpdatedTime() int64 {
+func (x *TransferOutProgress) GetUpdatedTime() int64 {
 	if x != nil {
 		return x.UpdatedTime
 	}
 	return 0
 }
 
-func (x *QueryWithdrawStatusReply) GetEstimatedTime() int64 {
+func (x *TransferOutProgress) GetEstimatedTime() int64 {
 	if x != nil {
 		return x.EstimatedTime
 	}
 	return 0
 }
 
-func (x *QueryWithdrawStatusReply) GetFailureReason() string {
+func (x *TransferOutProgress) GetFailureReason() string {
 	if x != nil {
 		return x.FailureReason
 	}
 	return ""
+}
+
+// 查询提现状态响应
+type TransferOutProgressReply struct {
+	state         protoimpl.MessageState          `protogen:"open.v1"`
+	Progress      map[string]*TransferOutProgress `protobuf:"bytes,4,rep,name=progress,proto3" json:"progress,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // transaction_id => progress
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TransferOutProgressReply) Reset() {
+	*x = TransferOutProgressReply{}
+	mi := &file_fund_v1_fund_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransferOutProgressReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferOutProgressReply) ProtoMessage() {}
+
+func (x *TransferOutProgressReply) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferOutProgressReply.ProtoReflect.Descriptor instead.
+func (*TransferOutProgressReply) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *TransferOutProgressReply) GetProgress() map[string]*TransferOutProgress {
+	if x != nil {
+		return x.Progress
+	}
+	return nil
 }
 
 var File_fund_v1_fund_proto protoreflect.FileDescriptor
@@ -847,22 +1119,21 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\"\x85\x01\n" +
-	"\x0fUserBalanceInfo\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\x01R\abalance\x12%\n" +
-	"\x0efrozen_balance\x18\x02 \x01(\x01R\rfrozenBalance\x121\n" +
-	"\x14transferring_balance\x18\x03 \x01(\x01R\x13transferringBalance\"/\n" +
+	"platformId\"I\n" +
 	"\x13GetUserBalanceReply\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\x01R\abalance\"Q\n" +
+	"\abalance\x18\x01 \x01(\x01R\abalance\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\x03R\aversion\"E\n" +
+	"\x0fUserBalanceInfo\x12\x18\n" +
+	"\abalance\x18\x01 \x01(\x01R\abalance\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\x03R\aversion\"S\n" +
 	"\x15GetUserBalanceListReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
-	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\"\xa2\x01\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12!\n" +
+	"\fplatform_ids\x18\x02 \x03(\x03R\vplatformIds\"\xbc\x01\n" +
 	"\x17GetUserBalanceListReply\x12J\n" +
-	"\bbalances\x18\x01 \x03(\v2..fund.v1.GetUserBalanceListReply.BalancesEntryR\bbalances\x1a;\n" +
+	"\bbalances\x18\x01 \x03(\v2..fund.v1.GetUserBalanceListReply.BalancesEntryR\bbalances\x1aU\n" +
 	"\rBalancesEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\xe8\x02\n" +
+	"\x03key\x18\x01 \x01(\x03R\x03key\x12.\n" +
+	"\x05value\x18\x02 \x01(\v2\x18.fund.v1.UserBalanceInfoR\x05value:\x028\x01\"\xe8\x02\n" +
 	"\x0eTransactionReq\x12.\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1a.common.v1.TransactionTypeR\x04type\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x17\n" +
@@ -881,27 +1152,48 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12%\n" +
 	"\x0ebalance_before\x18\x03 \x01(\x01R\rbalanceBefore\x12#\n" +
 	"\rbalance_after\x18\x04 \x01(\x01R\fbalanceAfter\x12\x1c\n" +
-	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"\xf3\x01\n" +
-	"\x10ApplyWithdrawReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x01R\x06amount\x12\x1f\n" +
-	"\vplatform_id\x18\x03 \x01(\x03R\n" +
-	"platformId\x12M\n" +
-	"\fextra_params\x18\x04 \x03(\v2*.fund.v1.ApplyWithdrawReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"P\n" +
+	"\x12UserBalanceListReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12!\n" +
+	"\fplatform_ids\x18\x02 \x03(\x03R\vplatformIds\"\x9c\x01\n" +
+	"\x14UserBalanceListReply\x12G\n" +
+	"\bbalances\x18\x01 \x03(\v2+.fund.v1.UserBalanceListReply.BalancesEntryR\bbalances\x1a;\n" +
+	"\rBalancesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\xed\x01\n" +
+	"\rTransferInReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
+	"\vplatform_id\x18\x02 \x01(\x03R\n" +
+	"platformId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12J\n" +
+	"\fextra_params\x18\x04 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc3\x01\n" +
-	"\x12ApplyWithdrawReply\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x18\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"|\n" +
+	"\x0fTransferInReply\x12(\n" +
+	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\"\xef\x01\n" +
+	"\x0eTransferOutReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
+	"\vplatform_id\x18\x02 \x01(\x03R\n" +
+	"platformId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12K\n" +
+	"\fextra_params\x18\x04 \x03(\v2(.fund.v1.TransferOutReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x10ExtraParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd7\x01\n" +
+	"\x10TransferOutReply\x12(\n" +
+	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x121\n" +
 	"\x06status\x18\x04 \x01(\x0e2\x19.common.v1.WithdrawStatusR\x06status\x12%\n" +
-	"\x0eestimated_time\x18\x05 \x01(\x03R\restimatedTime\"X\n" +
-	"\x16QueryWithdrawStatusReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12%\n" +
-	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\"\xce\x02\n" +
-	"\x18QueryWithdrawStatusReply\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x18\n" +
+	"\x0eestimated_time\x18\x05 \x01(\x03R\restimatedTime\"Z\n" +
+	"\x16TransferOutProgressReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12'\n" +
+	"\x0ftransaction_ids\x18\x02 \x03(\tR\x0etransactionIds\"\xdf\x02\n" +
+	"\x13TransferOutProgress\x12(\n" +
+	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12\x16\n" +
 	"\x06amount\x18\x04 \x01(\x01R\x06amount\x121\n" +
@@ -909,14 +1201,22 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\fcreated_time\x18\x06 \x01(\x03R\vcreatedTime\x12!\n" +
 	"\fupdated_time\x18\a \x01(\x03R\vupdatedTime\x12%\n" +
 	"\x0eestimated_time\x18\b \x01(\x03R\restimatedTime\x12%\n" +
-	"\x0efailure_reason\x18\t \x01(\tR\rfailureReason2\x80\x02\n" +
-	"\x10GameInnerService\x12J\n" +
+	"\x0efailure_reason\x18\t \x01(\tR\rfailureReason\"\xc2\x01\n" +
+	"\x18TransferOutProgressReply\x12K\n" +
+	"\bprogress\x18\x04 \x03(\v2/.fund.v1.TransferOutProgressReply.ProgressEntryR\bprogress\x1aY\n" +
+	"\rProgressEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x122\n" +
+	"\x05value\x18\x02 \x01(\v2\x1c.fund.v1.TransferOutProgressR\x05value:\x028\x012\x80\x02\n" +
+	"\x10FundInnerService\x12J\n" +
 	"\x0eGetUserBalance\x12\x1a.fund.v1.GetUserBalanceReq\x1a\x1c.fund.v1.GetUserBalanceReply\x12V\n" +
 	"\x12GetUserBalanceList\x12\x1e.fund.v1.GetUserBalanceListReq\x1a .fund.v1.GetUserBalanceListReply\x12H\n" +
-	"\x12ProcessTransaction\x12\x17.fund.v1.TransactionReq\x1a\x19.fund.v1.TransactionReply2\xb4\x01\n" +
-	"\x0eGameApiService\x12G\n" +
-	"\rApplyWithdraw\x12\x19.fund.v1.ApplyWithdrawReq\x1a\x1b.fund.v1.ApplyWithdrawReply\x12Y\n" +
-	"\x13QueryWithdrawStatus\x12\x1f.fund.v1.QueryWithdrawStatusReq\x1a!.fund.v1.QueryWithdrawStatusReplyB4Z2github.com/og-game/game-proto/proto-gen-go/fund/v1b\x06proto3"
+	"\x12ProcessTransaction\x12\x17.fund.v1.TransactionReq\x1a\x19.fund.v1.TransactionReply2\xc3\x02\n" +
+	"\x0eFundApiService\x12P\n" +
+	"\x12GetUserBalanceList\x12\x1b.fund.v1.UserBalanceListReq\x1a\x1d.fund.v1.UserBalanceListReply\x12>\n" +
+	"\n" +
+	"TransferIn\x12\x16.fund.v1.TransferInReq\x1a\x18.fund.v1.TransferInReply\x12A\n" +
+	"\vTransferOut\x12\x17.fund.v1.TransferOutReq\x1a\x19.fund.v1.TransferOutReply\x12\\\n" +
+	"\x16GetTransferOutProgress\x12\x1f.fund.v1.TransferOutProgressReq\x1a!.fund.v1.TransferOutProgressReplyB4Z2github.com/og-game/game-proto/proto-gen-go/fund/v1b\x06proto3"
 
 var (
 	file_fund_v1_fund_proto_rawDescOnce sync.Once
@@ -930,49 +1230,70 @@ func file_fund_v1_fund_proto_rawDescGZIP() []byte {
 	return file_fund_v1_fund_proto_rawDescData
 }
 
-var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_fund_v1_fund_proto_goTypes = []any{
 	(*FundReq)(nil),                  // 0: fund.v1.FundReq
 	(*FundReply)(nil),                // 1: fund.v1.FundReply
 	(*GetUserBalanceReq)(nil),        // 2: fund.v1.GetUserBalanceReq
-	(*UserBalanceInfo)(nil),          // 3: fund.v1.UserBalanceInfo
-	(*GetUserBalanceReply)(nil),      // 4: fund.v1.GetUserBalanceReply
+	(*GetUserBalanceReply)(nil),      // 3: fund.v1.GetUserBalanceReply
+	(*UserBalanceInfo)(nil),          // 4: fund.v1.UserBalanceInfo
 	(*GetUserBalanceListReq)(nil),    // 5: fund.v1.GetUserBalanceListReq
 	(*GetUserBalanceListReply)(nil),  // 6: fund.v1.GetUserBalanceListReply
 	(*TransactionReq)(nil),           // 7: fund.v1.TransactionReq
 	(*TransactionReply)(nil),         // 8: fund.v1.TransactionReply
-	(*ApplyWithdrawReq)(nil),         // 9: fund.v1.ApplyWithdrawReq
-	(*ApplyWithdrawReply)(nil),       // 10: fund.v1.ApplyWithdrawReply
-	(*QueryWithdrawStatusReq)(nil),   // 11: fund.v1.QueryWithdrawStatusReq
-	(*QueryWithdrawStatusReply)(nil), // 12: fund.v1.QueryWithdrawStatusReply
-	nil,                              // 13: fund.v1.GetUserBalanceListReply.BalancesEntry
-	nil,                              // 14: fund.v1.TransactionReq.MetadataEntry
-	nil,                              // 15: fund.v1.ApplyWithdrawReq.ExtraParamsEntry
-	(v1.TransactionType)(0),          // 16: common.v1.TransactionType
-	(v1.WithdrawStatus)(0),           // 17: common.v1.WithdrawStatus
+	(*UserBalanceListReq)(nil),       // 9: fund.v1.UserBalanceListReq
+	(*UserBalanceListReply)(nil),     // 10: fund.v1.UserBalanceListReply
+	(*TransferInReq)(nil),            // 11: fund.v1.TransferInReq
+	(*TransferInReply)(nil),          // 12: fund.v1.TransferInReply
+	(*TransferOutReq)(nil),           // 13: fund.v1.TransferOutReq
+	(*TransferOutReply)(nil),         // 14: fund.v1.TransferOutReply
+	(*TransferOutProgressReq)(nil),   // 15: fund.v1.TransferOutProgressReq
+	(*TransferOutProgress)(nil),      // 16: fund.v1.TransferOutProgress
+	(*TransferOutProgressReply)(nil), // 17: fund.v1.TransferOutProgressReply
+	nil,                              // 18: fund.v1.GetUserBalanceListReply.BalancesEntry
+	nil,                              // 19: fund.v1.TransactionReq.MetadataEntry
+	nil,                              // 20: fund.v1.UserBalanceListReply.BalancesEntry
+	nil,                              // 21: fund.v1.TransferInReq.ExtraParamsEntry
+	nil,                              // 22: fund.v1.TransferOutReq.ExtraParamsEntry
+	nil,                              // 23: fund.v1.TransferOutProgressReply.ProgressEntry
+	(v1.TransactionType)(0),          // 24: common.v1.TransactionType
+	(v1.ErrorCode)(0),                // 25: common.v1.ErrorCode
+	(v1.WithdrawStatus)(0),           // 26: common.v1.WithdrawStatus
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
-	13, // 0: fund.v1.GetUserBalanceListReply.balances:type_name -> fund.v1.GetUserBalanceListReply.BalancesEntry
-	16, // 1: fund.v1.TransactionReq.type:type_name -> common.v1.TransactionType
-	14, // 2: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
-	15, // 3: fund.v1.ApplyWithdrawReq.extra_params:type_name -> fund.v1.ApplyWithdrawReq.ExtraParamsEntry
-	17, // 4: fund.v1.ApplyWithdrawReply.status:type_name -> common.v1.WithdrawStatus
-	17, // 5: fund.v1.QueryWithdrawStatusReply.status:type_name -> common.v1.WithdrawStatus
-	2,  // 6: fund.v1.GameInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
-	5,  // 7: fund.v1.GameInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
-	7,  // 8: fund.v1.GameInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
-	9,  // 9: fund.v1.GameApiService.ApplyWithdraw:input_type -> fund.v1.ApplyWithdrawReq
-	11, // 10: fund.v1.GameApiService.QueryWithdrawStatus:input_type -> fund.v1.QueryWithdrawStatusReq
-	4,  // 11: fund.v1.GameInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceReply
-	6,  // 12: fund.v1.GameInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListReply
-	8,  // 13: fund.v1.GameInnerService.ProcessTransaction:output_type -> fund.v1.TransactionReply
-	10, // 14: fund.v1.GameApiService.ApplyWithdraw:output_type -> fund.v1.ApplyWithdrawReply
-	12, // 15: fund.v1.GameApiService.QueryWithdrawStatus:output_type -> fund.v1.QueryWithdrawStatusReply
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	18, // 0: fund.v1.GetUserBalanceListReply.balances:type_name -> fund.v1.GetUserBalanceListReply.BalancesEntry
+	24, // 1: fund.v1.TransactionReq.type:type_name -> common.v1.TransactionType
+	19, // 2: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
+	20, // 3: fund.v1.UserBalanceListReply.balances:type_name -> fund.v1.UserBalanceListReply.BalancesEntry
+	21, // 4: fund.v1.TransferInReq.extra_params:type_name -> fund.v1.TransferInReq.ExtraParamsEntry
+	25, // 5: fund.v1.TransferInReply.code:type_name -> common.v1.ErrorCode
+	22, // 6: fund.v1.TransferOutReq.extra_params:type_name -> fund.v1.TransferOutReq.ExtraParamsEntry
+	25, // 7: fund.v1.TransferOutReply.code:type_name -> common.v1.ErrorCode
+	26, // 8: fund.v1.TransferOutReply.status:type_name -> common.v1.WithdrawStatus
+	25, // 9: fund.v1.TransferOutProgress.code:type_name -> common.v1.ErrorCode
+	26, // 10: fund.v1.TransferOutProgress.status:type_name -> common.v1.WithdrawStatus
+	23, // 11: fund.v1.TransferOutProgressReply.progress:type_name -> fund.v1.TransferOutProgressReply.ProgressEntry
+	4,  // 12: fund.v1.GetUserBalanceListReply.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
+	16, // 13: fund.v1.TransferOutProgressReply.ProgressEntry.value:type_name -> fund.v1.TransferOutProgress
+	2,  // 14: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
+	5,  // 15: fund.v1.FundInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
+	7,  // 16: fund.v1.FundInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
+	9,  // 17: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
+	11, // 18: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
+	13, // 19: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
+	15, // 20: fund.v1.FundApiService.GetTransferOutProgress:input_type -> fund.v1.TransferOutProgressReq
+	3,  // 21: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceReply
+	6,  // 22: fund.v1.FundInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListReply
+	8,  // 23: fund.v1.FundInnerService.ProcessTransaction:output_type -> fund.v1.TransactionReply
+	10, // 24: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListReply
+	12, // 25: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInReply
+	14, // 26: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutReply
+	17, // 27: fund.v1.FundApiService.GetTransferOutProgress:output_type -> fund.v1.TransferOutProgressReply
+	21, // [21:28] is the sub-list for method output_type
+	14, // [14:21] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_fund_v1_fund_proto_init() }
@@ -986,7 +1307,7 @@ func file_fund_v1_fund_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_fund_v1_fund_proto_rawDesc), len(file_fund_v1_fund_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

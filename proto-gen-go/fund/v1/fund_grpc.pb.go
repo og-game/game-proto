@@ -19,17 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GameInnerService_GetUserBalance_FullMethodName     = "/fund.v1.GameInnerService/GetUserBalance"
-	GameInnerService_GetUserBalanceList_FullMethodName = "/fund.v1.GameInnerService/GetUserBalanceList"
-	GameInnerService_ProcessTransaction_FullMethodName = "/fund.v1.GameInnerService/ProcessTransaction"
+	FundInnerService_GetUserBalance_FullMethodName     = "/fund.v1.FundInnerService/GetUserBalance"
+	FundInnerService_GetUserBalanceList_FullMethodName = "/fund.v1.FundInnerService/GetUserBalanceList"
+	FundInnerService_ProcessTransaction_FullMethodName = "/fund.v1.FundInnerService/ProcessTransaction"
 )
 
-// GameInnerServiceClient is the client API for GameInnerService service.
+// FundInnerServiceClient is the client API for FundInnerService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // ////////////////  内部RPC   //////////////////
-type GameInnerServiceClient interface {
+type FundInnerServiceClient interface {
 	// 获取单个用户余额[实时更新的余额]
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
 	// 批量获取用户余额[实时更新的余额]
@@ -38,168 +38,168 @@ type GameInnerServiceClient interface {
 	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
 }
 
-type gameInnerServiceClient struct {
+type fundInnerServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGameInnerServiceClient(cc grpc.ClientConnInterface) GameInnerServiceClient {
-	return &gameInnerServiceClient{cc}
+func NewFundInnerServiceClient(cc grpc.ClientConnInterface) FundInnerServiceClient {
+	return &fundInnerServiceClient{cc}
 }
 
-func (c *gameInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
+func (c *fundInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserBalanceReply)
-	err := c.cc.Invoke(ctx, GameInnerService_GetUserBalance_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalance_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gameInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
+func (c *fundInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserBalanceListReply)
-	err := c.cc.Invoke(ctx, GameInnerService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gameInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
+func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransactionReply)
-	err := c.cc.Invoke(ctx, GameInnerService_ProcessTransaction_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FundInnerService_ProcessTransaction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GameInnerServiceServer is the server API for GameInnerService service.
-// All implementations must embed UnimplementedGameInnerServiceServer
+// FundInnerServiceServer is the server API for FundInnerService service.
+// All implementations must embed UnimplementedFundInnerServiceServer
 // for forward compatibility.
 //
 // ////////////////  内部RPC   //////////////////
-type GameInnerServiceServer interface {
+type FundInnerServiceServer interface {
 	// 获取单个用户余额[实时更新的余额]
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error)
 	// 批量获取用户余额[实时更新的余额]
 	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error)
-	mustEmbedUnimplementedGameInnerServiceServer()
+	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
-// UnimplementedGameInnerServiceServer must be embedded to have
+// UnimplementedFundInnerServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedGameInnerServiceServer struct{}
+type UnimplementedFundInnerServiceServer struct{}
 
-func (UnimplementedGameInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error) {
+func (UnimplementedFundInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
 }
-func (UnimplementedGameInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error) {
+func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
 }
-func (UnimplementedGameInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error) {
+func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
 }
-func (UnimplementedGameInnerServiceServer) mustEmbedUnimplementedGameInnerServiceServer() {}
-func (UnimplementedGameInnerServiceServer) testEmbeddedByValue()                          {}
+func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
+func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
 
-// UnsafeGameInnerServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GameInnerServiceServer will
+// UnsafeFundInnerServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FundInnerServiceServer will
 // result in compilation errors.
-type UnsafeGameInnerServiceServer interface {
-	mustEmbedUnimplementedGameInnerServiceServer()
+type UnsafeFundInnerServiceServer interface {
+	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
-func RegisterGameInnerServiceServer(s grpc.ServiceRegistrar, srv GameInnerServiceServer) {
-	// If the following call pancis, it indicates UnimplementedGameInnerServiceServer was
+func RegisterFundInnerServiceServer(s grpc.ServiceRegistrar, srv FundInnerServiceServer) {
+	// If the following call pancis, it indicates UnimplementedFundInnerServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&GameInnerService_ServiceDesc, srv)
+	s.RegisterService(&FundInnerService_ServiceDesc, srv)
 }
 
-func _GameInnerService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FundInnerService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserBalanceReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameInnerServiceServer).GetUserBalance(ctx, in)
+		return srv.(FundInnerServiceServer).GetUserBalance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameInnerService_GetUserBalance_FullMethodName,
+		FullMethod: FundInnerService_GetUserBalance_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceReq))
+		return srv.(FundInnerServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GameInnerService_GetUserBalanceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FundInnerService_GetUserBalanceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserBalanceListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameInnerServiceServer).GetUserBalanceList(ctx, in)
+		return srv.(FundInnerServiceServer).GetUserBalanceList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameInnerService_GetUserBalanceList_FullMethodName,
+		FullMethod: FundInnerService_GetUserBalanceList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).GetUserBalanceList(ctx, req.(*GetUserBalanceListReq))
+		return srv.(FundInnerServiceServer).GetUserBalanceList(ctx, req.(*GetUserBalanceListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GameInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FundInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TransactionReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameInnerServiceServer).ProcessTransaction(ctx, in)
+		return srv.(FundInnerServiceServer).ProcessTransaction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameInnerService_ProcessTransaction_FullMethodName,
+		FullMethod: FundInnerService_ProcessTransaction_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameInnerServiceServer).ProcessTransaction(ctx, req.(*TransactionReq))
+		return srv.(FundInnerServiceServer).ProcessTransaction(ctx, req.(*TransactionReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// GameInnerService_ServiceDesc is the grpc.ServiceDesc for GameInnerService service.
+// FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var GameInnerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "fund.v1.GameInnerService",
-	HandlerType: (*GameInnerServiceServer)(nil),
+var FundInnerService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "fund.v1.FundInnerService",
+	HandlerType: (*FundInnerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetUserBalance",
-			Handler:    _GameInnerService_GetUserBalance_Handler,
+			Handler:    _FundInnerService_GetUserBalance_Handler,
 		},
 		{
 			MethodName: "GetUserBalanceList",
-			Handler:    _GameInnerService_GetUserBalanceList_Handler,
+			Handler:    _FundInnerService_GetUserBalanceList_Handler,
 		},
 		{
 			MethodName: "ProcessTransaction",
-			Handler:    _GameInnerService_ProcessTransaction_Handler,
+			Handler:    _FundInnerService_ProcessTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -207,147 +207,227 @@ var GameInnerService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	GameApiService_ApplyWithdraw_FullMethodName       = "/fund.v1.GameApiService/ApplyWithdraw"
-	GameApiService_QueryWithdrawStatus_FullMethodName = "/fund.v1.GameApiService/QueryWithdrawStatus"
+	FundApiService_GetUserBalanceList_FullMethodName     = "/fund.v1.FundApiService/GetUserBalanceList"
+	FundApiService_TransferIn_FullMethodName             = "/fund.v1.FundApiService/TransferIn"
+	FundApiService_TransferOut_FullMethodName            = "/fund.v1.FundApiService/TransferOut"
+	FundApiService_GetTransferOutProgress_FullMethodName = "/fund.v1.FundApiService/GetTransferOutProgress"
 )
 
-// GameApiServiceClient is the client API for GameApiService service.
+// FundApiServiceClient is the client API for FundApiService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // ////////////////  暴露给API的RPC   //////////////////
-type GameApiServiceClient interface {
-	// 申请提现
-	ApplyWithdraw(ctx context.Context, in *ApplyWithdrawReq, opts ...grpc.CallOption) (*ApplyWithdrawReply, error)
-	// 申请提现状态查询
-	QueryWithdrawStatus(ctx context.Context, in *QueryWithdrawStatusReq, opts ...grpc.CallOption) (*QueryWithdrawStatusReply, error)
+type FundApiServiceClient interface {
+	// 批量获取用户余额[实时更新的余额]
+	GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error)
+	// 发起转入操作
+	TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error)
+	// 发起转出操作
+	TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error)
+	// 获取转出进度状态
+	GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressReply, error)
 }
 
-type gameApiServiceClient struct {
+type fundApiServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGameApiServiceClient(cc grpc.ClientConnInterface) GameApiServiceClient {
-	return &gameApiServiceClient{cc}
+func NewFundApiServiceClient(cc grpc.ClientConnInterface) FundApiServiceClient {
+	return &fundApiServiceClient{cc}
 }
 
-func (c *gameApiServiceClient) ApplyWithdraw(ctx context.Context, in *ApplyWithdrawReq, opts ...grpc.CallOption) (*ApplyWithdrawReply, error) {
+func (c *fundApiServiceClient) GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ApplyWithdrawReply)
-	err := c.cc.Invoke(ctx, GameApiService_ApplyWithdraw_FullMethodName, in, out, cOpts...)
+	out := new(UserBalanceListReply)
+	err := c.cc.Invoke(ctx, FundApiService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gameApiServiceClient) QueryWithdrawStatus(ctx context.Context, in *QueryWithdrawStatusReq, opts ...grpc.CallOption) (*QueryWithdrawStatusReply, error) {
+func (c *fundApiServiceClient) TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(QueryWithdrawStatusReply)
-	err := c.cc.Invoke(ctx, GameApiService_QueryWithdrawStatus_FullMethodName, in, out, cOpts...)
+	out := new(TransferInReply)
+	err := c.cc.Invoke(ctx, FundApiService_TransferIn_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GameApiServiceServer is the server API for GameApiService service.
-// All implementations must embed UnimplementedGameApiServiceServer
+func (c *fundApiServiceClient) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransferOutReply)
+	err := c.cc.Invoke(ctx, FundApiService_TransferOut_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundApiServiceClient) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransferOutProgressReply)
+	err := c.cc.Invoke(ctx, FundApiService_GetTransferOutProgress_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// FundApiServiceServer is the server API for FundApiService service.
+// All implementations must embed UnimplementedFundApiServiceServer
 // for forward compatibility.
 //
 // ////////////////  暴露给API的RPC   //////////////////
-type GameApiServiceServer interface {
-	// 申请提现
-	ApplyWithdraw(context.Context, *ApplyWithdrawReq) (*ApplyWithdrawReply, error)
-	// 申请提现状态查询
-	QueryWithdrawStatus(context.Context, *QueryWithdrawStatusReq) (*QueryWithdrawStatusReply, error)
-	mustEmbedUnimplementedGameApiServiceServer()
+type FundApiServiceServer interface {
+	// 批量获取用户余额[实时更新的余额]
+	GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListReply, error)
+	// 发起转入操作
+	TransferIn(context.Context, *TransferInReq) (*TransferInReply, error)
+	// 发起转出操作
+	TransferOut(context.Context, *TransferOutReq) (*TransferOutReply, error)
+	// 获取转出进度状态
+	GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressReply, error)
+	mustEmbedUnimplementedFundApiServiceServer()
 }
 
-// UnimplementedGameApiServiceServer must be embedded to have
+// UnimplementedFundApiServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedGameApiServiceServer struct{}
+type UnimplementedFundApiServiceServer struct{}
 
-func (UnimplementedGameApiServiceServer) ApplyWithdraw(context.Context, *ApplyWithdrawReq) (*ApplyWithdrawReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ApplyWithdraw not implemented")
+func (UnimplementedFundApiServiceServer) GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
 }
-func (UnimplementedGameApiServiceServer) QueryWithdrawStatus(context.Context, *QueryWithdrawStatusReq) (*QueryWithdrawStatusReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method QueryWithdrawStatus not implemented")
+func (UnimplementedFundApiServiceServer) TransferIn(context.Context, *TransferInReq) (*TransferInReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferIn not implemented")
 }
-func (UnimplementedGameApiServiceServer) mustEmbedUnimplementedGameApiServiceServer() {}
-func (UnimplementedGameApiServiceServer) testEmbeddedByValue()                        {}
+func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferOutReq) (*TransferOutReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferOut not implemented")
+}
+func (UnimplementedFundApiServiceServer) GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransferOutProgress not implemented")
+}
+func (UnimplementedFundApiServiceServer) mustEmbedUnimplementedFundApiServiceServer() {}
+func (UnimplementedFundApiServiceServer) testEmbeddedByValue()                        {}
 
-// UnsafeGameApiServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GameApiServiceServer will
+// UnsafeFundApiServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FundApiServiceServer will
 // result in compilation errors.
-type UnsafeGameApiServiceServer interface {
-	mustEmbedUnimplementedGameApiServiceServer()
+type UnsafeFundApiServiceServer interface {
+	mustEmbedUnimplementedFundApiServiceServer()
 }
 
-func RegisterGameApiServiceServer(s grpc.ServiceRegistrar, srv GameApiServiceServer) {
-	// If the following call pancis, it indicates UnimplementedGameApiServiceServer was
+func RegisterFundApiServiceServer(s grpc.ServiceRegistrar, srv FundApiServiceServer) {
+	// If the following call pancis, it indicates UnimplementedFundApiServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&GameApiService_ServiceDesc, srv)
+	s.RegisterService(&FundApiService_ServiceDesc, srv)
 }
 
-func _GameApiService_ApplyWithdraw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ApplyWithdrawReq)
+func _FundApiService_GetUserBalanceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserBalanceListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameApiServiceServer).ApplyWithdraw(ctx, in)
+		return srv.(FundApiServiceServer).GetUserBalanceList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameApiService_ApplyWithdraw_FullMethodName,
+		FullMethod: FundApiService_GetUserBalanceList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameApiServiceServer).ApplyWithdraw(ctx, req.(*ApplyWithdrawReq))
+		return srv.(FundApiServiceServer).GetUserBalanceList(ctx, req.(*UserBalanceListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GameApiService_QueryWithdrawStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryWithdrawStatusReq)
+func _FundApiService_TransferIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferInReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameApiServiceServer).QueryWithdrawStatus(ctx, in)
+		return srv.(FundApiServiceServer).TransferIn(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameApiService_QueryWithdrawStatus_FullMethodName,
+		FullMethod: FundApiService_TransferIn_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameApiServiceServer).QueryWithdrawStatus(ctx, req.(*QueryWithdrawStatusReq))
+		return srv.(FundApiServiceServer).TransferIn(ctx, req.(*TransferInReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// GameApiService_ServiceDesc is the grpc.ServiceDesc for GameApiService service.
+func _FundApiService_TransferOut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferOutReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundApiServiceServer).TransferOut(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundApiService_TransferOut_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundApiServiceServer).TransferOut(ctx, req.(*TransferOutReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FundApiService_GetTransferOutProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferOutProgressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundApiServiceServer).GetTransferOutProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundApiService_GetTransferOutProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundApiServiceServer).GetTransferOutProgress(ctx, req.(*TransferOutProgressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// FundApiService_ServiceDesc is the grpc.ServiceDesc for FundApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var GameApiService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "fund.v1.GameApiService",
-	HandlerType: (*GameApiServiceServer)(nil),
+var FundApiService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "fund.v1.FundApiService",
+	HandlerType: (*FundApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ApplyWithdraw",
-			Handler:    _GameApiService_ApplyWithdraw_Handler,
+			MethodName: "GetUserBalanceList",
+			Handler:    _FundApiService_GetUserBalanceList_Handler,
 		},
 		{
-			MethodName: "QueryWithdrawStatus",
-			Handler:    _GameApiService_QueryWithdrawStatus_Handler,
+			MethodName: "TransferIn",
+			Handler:    _FundApiService_TransferIn_Handler,
+		},
+		{
+			MethodName: "TransferOut",
+			Handler:    _FundApiService_TransferOut_Handler,
+		},
+		{
+			MethodName: "GetTransferOutProgress",
+			Handler:    _FundApiService_GetTransferOutProgress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
