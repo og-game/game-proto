@@ -629,13 +629,14 @@ func (x *UserBalanceListReply) GetBalances() map[int64]float64 {
 
 // 发起转入操作
 type TransferInReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	ExtraParams   map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UserId          int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	Amount          float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	MerchantOrderNo string                 `protobuf:"bytes,4,opt,name=merchant_order_no,json=merchantOrderNo,proto3" json:"merchant_order_no,omitempty"`
+	ExtraParams     map[string]string      `protobuf:"bytes,5,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TransferInReq) Reset() {
@@ -687,6 +688,13 @@ func (x *TransferInReq) GetAmount() float64 {
 		return x.Amount
 	}
 	return 0
+}
+
+func (x *TransferInReq) GetMerchantOrderNo() string {
+	if x != nil {
+		return x.MerchantOrderNo
+	}
+	return ""
 }
 
 func (x *TransferInReq) GetExtraParams() map[string]string {
@@ -1160,13 +1168,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bbalances\x18\x01 \x03(\v2+.fund.v1.UserBalanceListReply.BalancesEntryR\bbalances\x1a;\n" +
 	"\rBalancesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\xed\x01\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\x99\x02\n" +
 	"\rTransferInReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12\x16\n" +
-	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12J\n" +
-	"\fextra_params\x18\x04 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12*\n" +
+	"\x11merchant_order_no\x18\x04 \x01(\tR\x0fmerchantOrderNo\x12J\n" +
+	"\fextra_params\x18\x05 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"|\n" +

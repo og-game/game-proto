@@ -115,7 +115,8 @@ message TransferInReq{
   int64 user_id = 1;
   int64 platform_id = 2;
   double amount = 3;
-  map<string, string> extra_params = 4;
+  string merchant_order_no = 4;
+  map<string, string> extra_params = 5;
 }
 
 // 发起转入操作
