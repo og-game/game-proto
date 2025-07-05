@@ -21,12 +21,12 @@ message GetGameLinkResp {
 
 message GetUserBalanceReq {
   string user_id = 1; // 用户id
+  int64 platform_id = 2; // 厂商id
 }
 
 message GetUserBalanceResp {
   string user_id = 1; // 用户id
-  int64 platform_id = 2; // 厂商id
-  double balance = 3; // 余额
+  double balance = 2; // 余额
 }
 
 message TransferReq{
