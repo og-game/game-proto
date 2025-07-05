@@ -369,6 +369,62 @@ func (GameBetState) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{5}
 }
 
+// 用户投注状态
+type BetStatus int32
+
+const (
+	BetStatus_BET_STATUS_UNKNOWN BetStatus = 0 // 未知
+	BetStatus_BET_STATUS_BET     BetStatus = 1 // 投注
+	BetStatus_BET_STATUS_SETTLE  BetStatus = 2 // 结算
+	BetStatus_BET_STATUS_CANCEL  BetStatus = 3 // 投注取消
+	BetStatus_BET_STATUS_DISCARD BetStatus = 4 // 结算取消
+)
+
+// Enum value maps for BetStatus.
+var (
+	BetStatus_name = map[int32]string{
+		0: "BET_STATUS_UNKNOWN",
+		1: "BET_STATUS_BET",
+		2: "BET_STATUS_SETTLE",
+		3: "BET_STATUS_CANCEL",
+		4: "BET_STATUS_DISCARD",
+	}
+	BetStatus_value = map[string]int32{
+		"BET_STATUS_UNKNOWN": 0,
+		"BET_STATUS_BET":     1,
+		"BET_STATUS_SETTLE":  2,
+		"BET_STATUS_CANCEL":  3,
+		"BET_STATUS_DISCARD": 4,
+	}
+)
+
+func (x BetStatus) Enum() *BetStatus {
+	p := new(BetStatus)
+	*p = x
+	return p
+}
+
+func (x BetStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BetStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[6].Descriptor()
+}
+
+func (BetStatus) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[6]
+}
+
+func (x BetStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BetStatus.Descriptor instead.
+func (BetStatus) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{6}
+}
+
 var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
@@ -411,7 +467,13 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\fGameBetState\x12\x1a\n" +
 	"\x16GAME_BET_STATE_UNKNOWN\x10\x00\x12\x17\n" +
 	"\x13GAME_BET_STATE_OPEN\x10\x01\x12\x18\n" +
-	"\x14GAME_BET_STATE_CLOSE\x10\x02B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"\x14GAME_BET_STATE_CLOSE\x10\x02*}\n" +
+	"\tBetStatus\x12\x16\n" +
+	"\x12BET_STATUS_UNKNOWN\x10\x00\x12\x12\n" +
+	"\x0eBET_STATUS_BET\x10\x01\x12\x15\n" +
+	"\x11BET_STATUS_SETTLE\x10\x02\x12\x15\n" +
+	"\x11BET_STATUS_CANCEL\x10\x03\x12\x16\n" +
+	"\x12BET_STATUS_DISCARD\x10\x04B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_enum_proto_rawDescOnce sync.Once
@@ -425,7 +487,7 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 	return file_common_v1_enum_proto_rawDescData
 }
 
-var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
+var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
 var file_common_v1_enum_proto_goTypes = []any{
 	(TransactionType)(0), // 0: common.v1.TransactionType
 	(MoneyFlow)(0),       // 1: common.v1.MoneyFlow
@@ -433,6 +495,7 @@ var file_common_v1_enum_proto_goTypes = []any{
 	(ErrorCode)(0),       // 3: common.v1.ErrorCode
 	(GameState)(0),       // 4: common.v1.GameState
 	(GameBetState)(0),    // 5: common.v1.GameBetState
+	(BetStatus)(0),       // 6: common.v1.BetStatus
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -452,7 +515,7 @@ func file_common_v1_enum_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_enum_proto_rawDesc), len(file_common_v1_enum_proto_rawDesc)),
-			NumEnums:      6,
+			NumEnums:      7,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
