@@ -117,7 +117,7 @@ service PlatformInnerService {
   rpc GetGameList(GetGameListReq) returns (GetGameListResp);
 
   // 获取存取款记录状态
-  rpc GetTransferRecord(GetTransferRecordStatusReq) returns (GetTransferRecordStatusResp);
+  rpc GetTransferRecordStatus(GetTransferRecordStatusReq) returns (GetTransferRecordStatusResp);
 
   // 获取投注记录
   rpc GetBetRecordList(GetBetRecordListReq) returns (GetBetRecordListResp);

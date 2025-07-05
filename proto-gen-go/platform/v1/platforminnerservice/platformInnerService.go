@@ -40,8 +40,8 @@ type (
 		Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferResp, error)
 		// 获取厂商游戏列表
 		GetGameList(ctx context.Context, in *GetGameListReq, opts ...grpc.CallOption) (*GetGameListResp, error)
-		// 获取存取款记录
-		GetTransferRecord(ctx context.Context, in *GetTransferRecordStatusReq, opts ...grpc.CallOption) (*GetTransferRecordStatusResp, error)
+		// 获取存取款记录状态
+		GetTransferRecordStatus(ctx context.Context, in *GetTransferRecordStatusReq, opts ...grpc.CallOption) (*GetTransferRecordStatusResp, error)
 		// 获取投注记录
 		GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error)
 	}
@@ -87,10 +87,10 @@ func (m *defaultPlatformInnerService) GetGameList(ctx context.Context, in *GetGa
 	return client.GetGameList(ctx, in, opts...)
 }
 
-// 获取存取款记录
-func (m *defaultPlatformInnerService) GetTransferRecord(ctx context.Context, in *GetTransferRecordStatusReq, opts ...grpc.CallOption) (*GetTransferRecordStatusResp, error) {
+// 获取存取款记录状态
+func (m *defaultPlatformInnerService) GetTransferRecordStatus(ctx context.Context, in *GetTransferRecordStatusReq, opts ...grpc.CallOption) (*GetTransferRecordStatusResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
-	return client.GetTransferRecord(ctx, in, opts...)
+	return client.GetTransferRecordStatus(ctx, in, opts...)
 }
 
 // 获取投注记录
