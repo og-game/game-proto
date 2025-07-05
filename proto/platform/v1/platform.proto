@@ -20,7 +20,7 @@ message GetGameLinkResp {
 }
 
 message GetUserBalanceReq {
-  string user_id = 1; // 用户id
+  int64 user_id = 1; // 用户id
   int64 platform_id = 2; // 厂商id
 }
 
