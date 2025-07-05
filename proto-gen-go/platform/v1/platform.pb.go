@@ -663,8 +663,8 @@ func (x *GetGameListResp) GetGameInfo() []*GameInfo {
 	return nil
 }
 
-// 获取转账记录
-type GetTransferRecordReq struct {
+// 获取转账记录状态
+type GetTransferRecordStatusReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlatformId    int64                  `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`        // 厂商ID
 	OrderNo       string                 `protobuf:"bytes,2,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`                  // 交易订单号
@@ -674,20 +674,20 @@ type GetTransferRecordReq struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetTransferRecordReq) Reset() {
-	*x = GetTransferRecordReq{}
+func (x *GetTransferRecordStatusReq) Reset() {
+	*x = GetTransferRecordStatusReq{}
 	mi := &file_platform_v1_platform_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetTransferRecordReq) String() string {
+func (x *GetTransferRecordStatusReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetTransferRecordReq) ProtoMessage() {}
+func (*GetTransferRecordStatusReq) ProtoMessage() {}
 
-func (x *GetTransferRecordReq) ProtoReflect() protoreflect.Message {
+func (x *GetTransferRecordStatusReq) ProtoReflect() protoreflect.Message {
 	mi := &file_platform_v1_platform_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -699,40 +699,40 @@ func (x *GetTransferRecordReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetTransferRecordReq.ProtoReflect.Descriptor instead.
-func (*GetTransferRecordReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetTransferRecordStatusReq.ProtoReflect.Descriptor instead.
+func (*GetTransferRecordStatusReq) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *GetTransferRecordReq) GetPlatformId() int64 {
+func (x *GetTransferRecordStatusReq) GetPlatformId() int64 {
 	if x != nil {
 		return x.PlatformId
 	}
 	return 0
 }
 
-func (x *GetTransferRecordReq) GetOrderNo() string {
+func (x *GetTransferRecordStatusReq) GetOrderNo() string {
 	if x != nil {
 		return x.OrderNo
 	}
 	return ""
 }
 
-func (x *GetTransferRecordReq) GetThirdOrderNo() string {
+func (x *GetTransferRecordStatusReq) GetThirdOrderNo() string {
 	if x != nil {
 		return x.ThirdOrderNo
 	}
 	return ""
 }
 
-func (x *GetTransferRecordReq) GetUserId() int64 {
+func (x *GetTransferRecordStatusReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-type GetTransferRecordResp struct {
+type GetTransferRecordStatusResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        v1.TransferStatus      `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"` // 交易状态 1-待处理 2-处理中 3-已完成 4-失败
 	Amount        float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`                              // 交易金额
@@ -740,20 +740,20 @@ type GetTransferRecordResp struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetTransferRecordResp) Reset() {
-	*x = GetTransferRecordResp{}
+func (x *GetTransferRecordStatusResp) Reset() {
+	*x = GetTransferRecordStatusResp{}
 	mi := &file_platform_v1_platform_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetTransferRecordResp) String() string {
+func (x *GetTransferRecordStatusResp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetTransferRecordResp) ProtoMessage() {}
+func (*GetTransferRecordStatusResp) ProtoMessage() {}
 
-func (x *GetTransferRecordResp) ProtoReflect() protoreflect.Message {
+func (x *GetTransferRecordStatusResp) ProtoReflect() protoreflect.Message {
 	mi := &file_platform_v1_platform_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -765,19 +765,19 @@ func (x *GetTransferRecordResp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetTransferRecordResp.ProtoReflect.Descriptor instead.
-func (*GetTransferRecordResp) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetTransferRecordStatusResp.ProtoReflect.Descriptor instead.
+func (*GetTransferRecordStatusResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetTransferRecordResp) GetStatus() v1.TransferStatus {
+func (x *GetTransferRecordStatusResp) GetStatus() v1.TransferStatus {
 	if x != nil {
 		return x.Status
 	}
 	return v1.TransferStatus(0)
 }
 
-func (x *GetTransferRecordResp) GetAmount() float64 {
+func (x *GetTransferRecordStatusResp) GetAmount() float64 {
 	if x != nil {
 		return x.Amount
 	}
@@ -979,14 +979,14 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
 	"\x0fGetGameListResp\x122\n" +
-	"\tgame_info\x18\x01 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo\"\x91\x01\n" +
-	"\x14GetTransferRecordReq\x12\x1f\n" +
+	"\tgame_info\x18\x01 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo\"\x97\x01\n" +
+	"\x1aGetTransferRecordStatusReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12$\n" +
 	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"b\n" +
-	"\x15GetTransferRecordResp\x121\n" +
+	"\auser_id\x18\x04 \x01(\x03R\x06userId\"h\n" +
+	"\x1bGetTransferRecordStatusResp\x121\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\"6\n" +
 	"\x13GetBetRecordListReq\x12\x1f\n" +
@@ -999,14 +999,14 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\x03R\x06userId\x12\x19\n" +
-	"\bwin_lost\x18\b \x01(\tR\awinLost2\xc5\x04\n" +
+	"\bwin_lost\x18\b \x01(\tR\awinLost2\xd1\x04\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
 	"\x0eGetUserBalance\x12\x1e.platform.v1.GetUserBalanceReq\x1a\x1f.platform.v1.GetUserBalanceResp\x12?\n" +
 	"\bTransfer\x12\x18.platform.v1.TransferReq\x1a\x19.platform.v1.TransferResp\x12H\n" +
-	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListResp\x12Z\n" +
-	"\x11GetTransferRecord\x12!.platform.v1.GetTransferRecordReq\x1a\".platform.v1.GetTransferRecordResp\x12W\n" +
+	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListResp\x12f\n" +
+	"\x11GetTransferRecord\x12'.platform.v1.GetTransferRecordStatusReq\x1a(.platform.v1.GetTransferRecordStatusResp\x12W\n" +
 	"\x10GetBetRecordList\x12 .platform.v1.GetBetRecordListReq\x1a!.platform.v1.GetBetRecordListRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
 
 var (
@@ -1023,44 +1023,44 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 
 var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_platform_v1_platform_proto_goTypes = []any{
-	(*GetGameLinkReq)(nil),        // 0: platform.v1.GetGameLinkReq
-	(*GetGameLinkResp)(nil),       // 1: platform.v1.GetGameLinkResp
-	(*GetUserBalanceReq)(nil),     // 2: platform.v1.GetUserBalanceReq
-	(*GetUserBalanceResp)(nil),    // 3: platform.v1.GetUserBalanceResp
-	(*TransferReq)(nil),           // 4: platform.v1.TransferReq
-	(*TransferResp)(nil),          // 5: platform.v1.TransferResp
-	(*GetDemoGameLinkReq)(nil),    // 6: platform.v1.GetDemoGameLinkReq
-	(*GameInfo)(nil),              // 7: platform.v1.GameInfo
-	(*GetGameListReq)(nil),        // 8: platform.v1.GetGameListReq
-	(*GetGameListResp)(nil),       // 9: platform.v1.GetGameListResp
-	(*GetTransferRecordReq)(nil),  // 10: platform.v1.GetTransferRecordReq
-	(*GetTransferRecordResp)(nil), // 11: platform.v1.GetTransferRecordResp
-	(*GetBetRecordListReq)(nil),   // 12: platform.v1.GetBetRecordListReq
-	(*GetBetRecordListResp)(nil),  // 13: platform.v1.GetBetRecordListResp
-	(v1.GameState)(0),             // 14: common.v1.GameState
-	(v1.GameBetState)(0),          // 15: common.v1.GameBetState
-	(v1.TransferStatus)(0),        // 16: common.v1.TransferStatus
-	(v1.BetStatus)(0),             // 17: common.v1.BetStatus
+	(*GetGameLinkReq)(nil),              // 0: platform.v1.GetGameLinkReq
+	(*GetGameLinkResp)(nil),             // 1: platform.v1.GetGameLinkResp
+	(*GetUserBalanceReq)(nil),           // 2: platform.v1.GetUserBalanceReq
+	(*GetUserBalanceResp)(nil),          // 3: platform.v1.GetUserBalanceResp
+	(*TransferReq)(nil),                 // 4: platform.v1.TransferReq
+	(*TransferResp)(nil),                // 5: platform.v1.TransferResp
+	(*GetDemoGameLinkReq)(nil),          // 6: platform.v1.GetDemoGameLinkReq
+	(*GameInfo)(nil),                    // 7: platform.v1.GameInfo
+	(*GetGameListReq)(nil),              // 8: platform.v1.GetGameListReq
+	(*GetGameListResp)(nil),             // 9: platform.v1.GetGameListResp
+	(*GetTransferRecordStatusReq)(nil),  // 10: platform.v1.GetTransferRecordStatusReq
+	(*GetTransferRecordStatusResp)(nil), // 11: platform.v1.GetTransferRecordStatusResp
+	(*GetBetRecordListReq)(nil),         // 12: platform.v1.GetBetRecordListReq
+	(*GetBetRecordListResp)(nil),        // 13: platform.v1.GetBetRecordListResp
+	(v1.GameState)(0),                   // 14: common.v1.GameState
+	(v1.GameBetState)(0),                // 15: common.v1.GameBetState
+	(v1.TransferStatus)(0),              // 16: common.v1.TransferStatus
+	(v1.BetStatus)(0),                   // 17: common.v1.BetStatus
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
 	14, // 0: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
 	15, // 1: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
 	7,  // 2: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
-	16, // 3: platform.v1.GetTransferRecordResp.status:type_name -> common.v1.TransferStatus
+	16, // 3: platform.v1.GetTransferRecordStatusResp.status:type_name -> common.v1.TransferStatus
 	17, // 4: platform.v1.GetBetRecordListResp.status:type_name -> common.v1.BetStatus
 	0,  // 5: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
 	6,  // 6: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
 	2,  // 7: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
 	4,  // 8: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
 	8,  // 9: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
-	10, // 10: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordReq
+	10, // 10: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordStatusReq
 	12, // 11: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
 	1,  // 12: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
 	1,  // 13: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
 	3,  // 14: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
 	5,  // 15: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
 	9,  // 16: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
-	11, // 17: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordResp
+	11, // 17: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordStatusResp
 	13, // 18: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
 	12, // [12:19] is the sub-list for method output_type
 	5,  // [5:12] is the sub-list for method input_type

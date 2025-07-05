@@ -71,15 +71,15 @@ message GetGameListResp {
   repeated GameInfo game_info = 1; // 游戏列表
 }
 
-// 获取转账记录
-message GetTransferRecordReq {
+// 获取转账记录状态
+message GetTransferRecordStatusReq {
   int64 platform_id = 1;   // 厂商ID
   string order_no = 2;        // 交易订单号
   string third_order_no = 3;  // 三方交易单号'
   int64 user_id = 4; // 用户id
 }
 
-message GetTransferRecordResp {
+message GetTransferRecordStatusResp {
   common.v1.TransferStatus status = 1;     // 交易状态 1-待处理 2-处理中 3-已完成 4-失败
   double amount = 2;  // 交易金额
 }
@@ -116,8 +116,8 @@ service PlatformInnerService {
   // 获取厂商游戏列表
   rpc GetGameList(GetGameListReq) returns (GetGameListResp);
 
-  // 获取存取款记录
-  rpc GetTransferRecord(GetTransferRecordReq) returns (GetTransferRecordResp);
+  // 获取存取款记录状态
+  rpc GetTransferRecord(GetTransferRecordStatusReq) returns (GetTransferRecordStatusResp);
 
   // 获取投注记录
   rpc GetBetRecordList(GetBetRecordListReq) returns (GetBetRecordListResp);
