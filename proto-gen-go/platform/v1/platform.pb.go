@@ -7,6 +7,7 @@
 package v1
 
 import (
+	v1 "github.com/og-game/game-proto/proto-gen-go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -20,113 +21,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-type GameState int32
-
-const (
-	GameState_GAME_STATE_UNKNOWN   GameState = 0 //  未知
-	GameState_GAME_STATE_OPEN      GameState = 1 // 开启
-	GameState_GAME_STATE_CLOSE     GameState = 2 // 关闭
-	GameState_GAME_STATE_MAINTAIN  GameState = 3 // 维护
-	GameState_GAME_STATE_IDLE      GameState = 4 // 闲置
-	GameState_GAME_STATE_CLOSE_DUE GameState = 5 // 封盘
-)
-
-// Enum value maps for GameState.
-var (
-	GameState_name = map[int32]string{
-		0: "GAME_STATE_UNKNOWN",
-		1: "GAME_STATE_OPEN",
-		2: "GAME_STATE_CLOSE",
-		3: "GAME_STATE_MAINTAIN",
-		4: "GAME_STATE_IDLE",
-		5: "GAME_STATE_CLOSE_DUE",
-	}
-	GameState_value = map[string]int32{
-		"GAME_STATE_UNKNOWN":   0,
-		"GAME_STATE_OPEN":      1,
-		"GAME_STATE_CLOSE":     2,
-		"GAME_STATE_MAINTAIN":  3,
-		"GAME_STATE_IDLE":      4,
-		"GAME_STATE_CLOSE_DUE": 5,
-	}
-)
-
-func (x GameState) Enum() *GameState {
-	p := new(GameState)
-	*p = x
-	return p
-}
-
-func (x GameState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (GameState) Descriptor() protoreflect.EnumDescriptor {
-	return file_platform_v1_platform_proto_enumTypes[0].Descriptor()
-}
-
-func (GameState) Type() protoreflect.EnumType {
-	return &file_platform_v1_platform_proto_enumTypes[0]
-}
-
-func (x GameState) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use GameState.Descriptor instead.
-func (GameState) EnumDescriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
-}
-
-type GameBetState int32
-
-const (
-	GameBetState_GAME_BET_STATE_UNKNOWN GameBetState = 0 //  未知
-	GameBetState_GAME_BET_STATE_OPEN    GameBetState = 1 // 开启
-	GameBetState_GAME_BET_STATE_CLOSE   GameBetState = 2 // 关闭
-)
-
-// Enum value maps for GameBetState.
-var (
-	GameBetState_name = map[int32]string{
-		0: "GAME_BET_STATE_UNKNOWN",
-		1: "GAME_BET_STATE_OPEN",
-		2: "GAME_BET_STATE_CLOSE",
-	}
-	GameBetState_value = map[string]int32{
-		"GAME_BET_STATE_UNKNOWN": 0,
-		"GAME_BET_STATE_OPEN":    1,
-		"GAME_BET_STATE_CLOSE":   2,
-	}
-)
-
-func (x GameBetState) Enum() *GameBetState {
-	p := new(GameBetState)
-	*p = x
-	return p
-}
-
-func (x GameBetState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (GameBetState) Descriptor() protoreflect.EnumDescriptor {
-	return file_platform_v1_platform_proto_enumTypes[1].Descriptor()
-}
-
-func (GameBetState) Type() protoreflect.EnumType {
-	return &file_platform_v1_platform_proto_enumTypes[1]
-}
-
-func (x GameBetState) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use GameBetState.Descriptor instead.
-func (GameBetState) EnumDescriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{1}
-}
 
 type BetStatus int32
 
@@ -167,11 +61,11 @@ func (x BetStatus) String() string {
 }
 
 func (BetStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_platform_v1_platform_proto_enumTypes[2].Descriptor()
+	return file_platform_v1_platform_proto_enumTypes[0].Descriptor()
 }
 
 func (BetStatus) Type() protoreflect.EnumType {
-	return &file_platform_v1_platform_proto_enumTypes[2]
+	return &file_platform_v1_platform_proto_enumTypes[0]
 }
 
 func (x BetStatus) Number() protoreflect.EnumNumber {
@@ -180,7 +74,7 @@ func (x BetStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BetStatus.Descriptor instead.
 func (BetStatus) EnumDescriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{2}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
 }
 
 type GetGameLinkReq struct {
@@ -389,8 +283,8 @@ func (x *GetUserBalanceReq) GetPlatformId() int64 {
 
 type GetUserBalanceResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	Balance       float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`           // 余额
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
+	Balance       float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`            // 余额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -425,11 +319,11 @@ func (*GetUserBalanceResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUserBalanceResp) GetUserId() string {
+func (x *GetUserBalanceResp) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetUserBalanceResp) GetBalance() float64 {
@@ -677,10 +571,10 @@ func (x *GetDemoGameLinkReq) GetPlatformId() int64 {
 
 type GameInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`                     // 三方游戏ID
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                                                        // 游戏名称
-	GameState     GameState              `protobuf:"varint,3,opt,name=game_state,json=gameState,proto3,enum=platform.v1.GameState" json:"game_state,omitempty"` // 游戏状态
-	BetState      GameBetState           `protobuf:"varint,4,opt,name=bet_state,json=betState,proto3,enum=platform.v1.GameBetState" json:"bet_state,omitempty"` // 游戏投注状态
+	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`                   // 三方游戏ID
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                                                      // 游戏名称
+	GameState     v1.GameState           `protobuf:"varint,3,opt,name=game_state,json=gameState,proto3,enum=common.v1.GameState" json:"game_state,omitempty"` // 游戏状态
+	BetState      v1.GameBetState        `protobuf:"varint,4,opt,name=bet_state,json=betState,proto3,enum=common.v1.GameBetState" json:"bet_state,omitempty"` // 游戏投注状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -729,18 +623,18 @@ func (x *GameInfo) GetName() string {
 	return ""
 }
 
-func (x *GameInfo) GetGameState() GameState {
+func (x *GameInfo) GetGameState() v1.GameState {
 	if x != nil {
 		return x.GameState
 	}
-	return GameState_GAME_STATE_UNKNOWN
+	return v1.GameState(0)
 }
 
-func (x *GameInfo) GetBetState() GameBetState {
+func (x *GameInfo) GetBetState() v1.GameBetState {
 	if x != nil {
 		return x.BetState
 	}
-	return GameBetState_GAME_BET_STATE_UNKNOWN
+	return v1.GameBetState(0)
 }
 
 // 获取游戏列表
@@ -835,8 +729,9 @@ func (x *GetGameListResp) GetGameInfo() []*GameInfo {
 // 获取转账记录
 type GetTransferRecordReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PlatformId    int64                  `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	ThirdNo       string                 `protobuf:"bytes,2,opt,name=third_no,json=thirdNo,proto3" json:"third_no,omitempty"`
+	PlatformId    int64                  `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`        // 厂商ID
+	OrderNo       string                 `protobuf:"bytes,2,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`                  // 交易订单号
+	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方交易单号
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -878,16 +773,23 @@ func (x *GetTransferRecordReq) GetPlatformId() int64 {
 	return 0
 }
 
-func (x *GetTransferRecordReq) GetThirdNo() string {
+func (x *GetTransferRecordReq) GetOrderNo() string {
 	if x != nil {
-		return x.ThirdNo
+		return x.OrderNo
+	}
+	return ""
+}
+
+func (x *GetTransferRecordReq) GetThirdOrderNo() string {
+	if x != nil {
+		return x.ThirdOrderNo
 	}
 	return ""
 }
 
 type GetTransferRecordResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`      // 1-成功 2-失败 3-处理中
+	Status        int64                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`  // 交易状态 1-成功 2-失败 3-处理中
 	Amount        float64                `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"` // 交易金额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -923,9 +825,9 @@ func (*GetTransferRecordResp) Descriptor() ([]byte, []int) {
 	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetTransferRecordResp) GetCode() int64 {
+func (x *GetTransferRecordResp) GetStatus() int64 {
 	if x != nil {
-		return x.Code
+		return x.Status
 	}
 	return 0
 }
@@ -1078,7 +980,7 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xbe\x02\n" +
+	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\xbe\x02\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1098,7 +1000,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\"G\n" +
 	"\x12GetUserBalanceResp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x18\n" +
 	"\abalance\x18\x02 \x01(\x01R\abalance\"\xbe\x01\n" +
 	"\vTransferReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
@@ -1122,24 +1024,25 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12#\n" +
 	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12\x1f\n" +
 	"\vplatform_id\x18\a \x01(\x03R\n" +
-	"platformId\"\xb1\x01\n" +
+	"platformId\"\xad\x01\n" +
 	"\bGameInfo\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x123\n" +
 	"\n" +
-	"game_state\x18\x03 \x01(\x0e2\x16.platform.v1.GameStateR\tgameState\x126\n" +
-	"\tbet_state\x18\x04 \x01(\x0e2\x19.platform.v1.GameBetStateR\bbetState\"1\n" +
+	"game_state\x18\x03 \x01(\x0e2\x14.common.v1.GameStateR\tgameState\x124\n" +
+	"\tbet_state\x18\x04 \x01(\x0e2\x17.common.v1.GameBetStateR\bbetState\"1\n" +
 	"\x0eGetGameListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
 	"\x0fGetGameListResp\x122\n" +
-	"\tgame_info\x18\x01 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo\"R\n" +
+	"\tgame_info\x18\x01 \x03(\v2\x15.platform.v1.GameInfoR\bgameInfo\"x\n" +
 	"\x14GetTransferRecordReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x19\n" +
-	"\bthird_no\x18\x02 \x01(\tR\athirdNo\"C\n" +
-	"\x15GetTransferRecordResp\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x16\n" +
+	"\border_no\x18\x02 \x01(\tR\aorderNo\x12$\n" +
+	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\"G\n" +
+	"\x15GetTransferRecordResp\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x03R\x06status\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\"6\n" +
 	"\x13GetBetRecordListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
@@ -1151,18 +1054,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\x03R\x06userId\x12\x19\n" +
-	"\bwin_lost\x18\b \x01(\tR\awinLost*\x96\x01\n" +
-	"\tGameState\x12\x16\n" +
-	"\x12GAME_STATE_UNKNOWN\x10\x00\x12\x13\n" +
-	"\x0fGAME_STATE_OPEN\x10\x01\x12\x14\n" +
-	"\x10GAME_STATE_CLOSE\x10\x02\x12\x17\n" +
-	"\x13GAME_STATE_MAINTAIN\x10\x03\x12\x13\n" +
-	"\x0fGAME_STATE_IDLE\x10\x04\x12\x18\n" +
-	"\x14GAME_STATE_CLOSE_DUE\x10\x05*]\n" +
-	"\fGameBetState\x12\x1a\n" +
-	"\x16GAME_BET_STATE_UNKNOWN\x10\x00\x12\x17\n" +
-	"\x13GAME_BET_STATE_OPEN\x10\x01\x12\x18\n" +
-	"\x14GAME_BET_STATE_CLOSE\x10\x02*}\n" +
+	"\bwin_lost\x18\b \x01(\tR\awinLost*}\n" +
 	"\tBetStatus\x12\x16\n" +
 	"\x12BET_STATUS_UNKNOWN\x10\x00\x12\x12\n" +
 	"\x0eBET_STATUS_BET\x10\x01\x12\x15\n" +
@@ -1190,46 +1082,46 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_platform_v1_platform_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_platform_v1_platform_proto_goTypes = []any{
-	(GameState)(0),                // 0: platform.v1.GameState
-	(GameBetState)(0),             // 1: platform.v1.GameBetState
-	(BetStatus)(0),                // 2: platform.v1.BetStatus
-	(*GetGameLinkReq)(nil),        // 3: platform.v1.GetGameLinkReq
-	(*GetGameLinkResp)(nil),       // 4: platform.v1.GetGameLinkResp
-	(*GetUserBalanceReq)(nil),     // 5: platform.v1.GetUserBalanceReq
-	(*GetUserBalanceResp)(nil),    // 6: platform.v1.GetUserBalanceResp
-	(*TransferReq)(nil),           // 7: platform.v1.TransferReq
-	(*TransferResp)(nil),          // 8: platform.v1.TransferResp
-	(*GetDemoGameLinkReq)(nil),    // 9: platform.v1.GetDemoGameLinkReq
-	(*GameInfo)(nil),              // 10: platform.v1.GameInfo
-	(*GetGameListReq)(nil),        // 11: platform.v1.GetGameListReq
-	(*GetGameListResp)(nil),       // 12: platform.v1.GetGameListResp
-	(*GetTransferRecordReq)(nil),  // 13: platform.v1.GetTransferRecordReq
-	(*GetTransferRecordResp)(nil), // 14: platform.v1.GetTransferRecordResp
-	(*GetBetRecordListReq)(nil),   // 15: platform.v1.GetBetRecordListReq
-	(*GetBetRecordListResp)(nil),  // 16: platform.v1.GetBetRecordListResp
+	(BetStatus)(0),                // 0: platform.v1.BetStatus
+	(*GetGameLinkReq)(nil),        // 1: platform.v1.GetGameLinkReq
+	(*GetGameLinkResp)(nil),       // 2: platform.v1.GetGameLinkResp
+	(*GetUserBalanceReq)(nil),     // 3: platform.v1.GetUserBalanceReq
+	(*GetUserBalanceResp)(nil),    // 4: platform.v1.GetUserBalanceResp
+	(*TransferReq)(nil),           // 5: platform.v1.TransferReq
+	(*TransferResp)(nil),          // 6: platform.v1.TransferResp
+	(*GetDemoGameLinkReq)(nil),    // 7: platform.v1.GetDemoGameLinkReq
+	(*GameInfo)(nil),              // 8: platform.v1.GameInfo
+	(*GetGameListReq)(nil),        // 9: platform.v1.GetGameListReq
+	(*GetGameListResp)(nil),       // 10: platform.v1.GetGameListResp
+	(*GetTransferRecordReq)(nil),  // 11: platform.v1.GetTransferRecordReq
+	(*GetTransferRecordResp)(nil), // 12: platform.v1.GetTransferRecordResp
+	(*GetBetRecordListReq)(nil),   // 13: platform.v1.GetBetRecordListReq
+	(*GetBetRecordListResp)(nil),  // 14: platform.v1.GetBetRecordListResp
+	(v1.GameState)(0),             // 15: common.v1.GameState
+	(v1.GameBetState)(0),          // 16: common.v1.GameBetState
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	0,  // 0: platform.v1.GameInfo.game_state:type_name -> platform.v1.GameState
-	1,  // 1: platform.v1.GameInfo.bet_state:type_name -> platform.v1.GameBetState
-	10, // 2: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
-	2,  // 3: platform.v1.GetBetRecordListResp.status:type_name -> platform.v1.BetStatus
-	3,  // 4: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
-	9,  // 5: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
-	5,  // 6: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
-	7,  // 7: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
-	11, // 8: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
-	13, // 9: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordReq
-	15, // 10: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
-	4,  // 11: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
-	4,  // 12: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
-	6,  // 13: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
-	8,  // 14: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
-	12, // 15: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
-	14, // 16: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordResp
-	16, // 17: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
+	15, // 0: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
+	16, // 1: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
+	8,  // 2: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
+	0,  // 3: platform.v1.GetBetRecordListResp.status:type_name -> platform.v1.BetStatus
+	1,  // 4: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
+	7,  // 5: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
+	3,  // 6: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
+	5,  // 7: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
+	9,  // 8: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
+	11, // 9: platform.v1.PlatformInnerService.GetTransferRecord:input_type -> platform.v1.GetTransferRecordReq
+	13, // 10: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
+	2,  // 11: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
+	2,  // 12: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
+	4,  // 13: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
+	6,  // 14: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
+	10, // 15: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
+	12, // 16: platform.v1.PlatformInnerService.GetTransferRecord:output_type -> platform.v1.GetTransferRecordResp
+	14, // 17: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
 	11, // [11:18] is the sub-list for method output_type
 	4,  // [4:11] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
@@ -1247,7 +1139,7 @@ func file_platform_v1_platform_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      1,
 			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,

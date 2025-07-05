@@ -50,3 +50,20 @@ enum ErrorCode {
   // 超时异常
   ERROR_CODE_TIMEOUT = 504;          // 操作超时
 }
+
+// 游戏状态
+enum GameState {
+  GAME_STATE_UNKNOWN = 0; //  未知
+  GAME_STATE_OPEN = 1; // 开启
+  GAME_STATE_CLOSE = 2; // 关闭
+  GAME_STATE_MAINTAIN = 3; // 维护
+  GAME_STATE_IDLE = 4; // 闲置
+  GAME_STATE_CLOSE_DUE = 5; // 封盘
+}
+
+// 游戏可投注状态
+enum GameBetState {
+  GAME_BET_STATE_UNKNOWN = 0; //  未知
+  GAME_BET_STATE_OPEN = 1; // 开启
+  GAME_BET_STATE_CLOSE = 2; // 关闭
+}
