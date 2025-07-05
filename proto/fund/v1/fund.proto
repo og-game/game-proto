@@ -160,18 +160,18 @@ message TransferInProgressResp {
 message TransferOutReq {
   int64 user_id = 1;
   int64 platform_id = 2;
-  double amount = 3;
-  string merchant_order_id = 4;  // 商户订单ID
-  map<string, string> extra_params = 5;
+  string merchant_order_id = 3;  // 商户订单ID
+  map<string, string> extra_params = 4;
 }
 
-// 发起转出操作
+// 发起转出操作;
 message TransferOutResp {
   common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4;  // 商户订单ID
   common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
+  double amount = 6; // 转账金额
 }
 
 
