@@ -115,7 +115,8 @@ message TransferInReq{
   int64 user_id = 1;
   int64 platform_id = 2;
   double amount = 3;
-  map<string, string> extra_params = 4;
+  string merchant_order_id = 4;  // 商户订单ID
+  map<string, string> extra_params = 5;
 }
 
 // 发起转入操作
@@ -123,6 +124,7 @@ message TransferInReply{
   common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
+  string merchant_order_id = 4;  // 商户订单ID
 }
 
 // 发起转出操作
@@ -130,7 +132,8 @@ message TransferOutReq {
   int64 user_id = 1;
   int64 platform_id = 2;
   double amount = 3;
-  map<string, string> extra_params = 4;
+  string merchant_order_id = 4;  // 商户订单ID
+  map<string, string> extra_params = 5;
 }
 
 // 发起转出操作
@@ -138,8 +141,9 @@ message TransferOutReply {
   common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
-  common.v1.WithdrawStatus status = 4; // 提现状态：pending, processing, completed, failed
-  int64 estimated_time = 5; // 预计到账时间戳
+  string merchant_order_id = 4;  // 商户订单ID
+  common.v1.WithdrawStatus status = 5; // 提现状态：pending, processing, completed, failed
+  int64 estimated_time = 6; // 预计到账时间戳
 }
 
 

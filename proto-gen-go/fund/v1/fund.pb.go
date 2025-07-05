@@ -629,13 +629,14 @@ func (x *UserBalanceListReply) GetBalances() map[int64]float64 {
 
 // 发起转入操作
 type TransferInReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	ExtraParams   map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UserId          int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	Amount          float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
+	ExtraParams     map[string]string      `protobuf:"bytes,5,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TransferInReq) Reset() {
@@ -689,6 +690,13 @@ func (x *TransferInReq) GetAmount() float64 {
 	return 0
 }
 
+func (x *TransferInReq) GetMerchantOrderId() string {
+	if x != nil {
+		return x.MerchantOrderId
+	}
+	return ""
+}
+
 func (x *TransferInReq) GetExtraParams() map[string]string {
 	if x != nil {
 		return x.ExtraParams
@@ -698,12 +706,13 @@ func (x *TransferInReq) GetExtraParams() map[string]string {
 
 // 发起转入操作
 type TransferInReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"` // 内部交易ID
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Code            v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
+	Message         string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId   string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`         // 内部交易ID
+	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TransferInReply) Reset() {
@@ -757,15 +766,23 @@ func (x *TransferInReply) GetTransactionId() string {
 	return ""
 }
 
+func (x *TransferInReply) GetMerchantOrderId() string {
+	if x != nil {
+		return x.MerchantOrderId
+	}
+	return ""
+}
+
 // 发起转出操作
 type TransferOutReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	ExtraParams   map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UserId          int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
+	Amount          float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
+	ExtraParams     map[string]string      `protobuf:"bytes,5,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TransferOutReq) Reset() {
@@ -819,6 +836,13 @@ func (x *TransferOutReq) GetAmount() float64 {
 	return 0
 }
 
+func (x *TransferOutReq) GetMerchantOrderId() string {
+	if x != nil {
+		return x.MerchantOrderId
+	}
+	return ""
+}
+
 func (x *TransferOutReq) GetExtraParams() map[string]string {
 	if x != nil {
 		return x.ExtraParams
@@ -828,14 +852,15 @@ func (x *TransferOutReq) GetExtraParams() map[string]string {
 
 // 发起转出操作
 type TransferOutReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`  // 内部交易ID
-	Status        v1.WithdrawStatus      `protobuf:"varint,4,opt,name=status,proto3,enum=common.v1.WithdrawStatus" json:"status,omitempty"`      // 提现状态：pending, processing, completed, failed
-	EstimatedTime int64                  `protobuf:"varint,5,opt,name=estimated_time,json=estimatedTime,proto3" json:"estimated_time,omitempty"` // 预计到账时间戳
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Code            v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
+	Message         string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId   string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`         // 内部交易ID
+	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
+	Status          v1.WithdrawStatus      `protobuf:"varint,5,opt,name=status,proto3,enum=common.v1.WithdrawStatus" json:"status,omitempty"`             // 提现状态：pending, processing, completed, failed
+	EstimatedTime   int64                  `protobuf:"varint,6,opt,name=estimated_time,json=estimatedTime,proto3" json:"estimated_time,omitempty"`        // 预计到账时间戳
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TransferOutReply) Reset() {
@@ -885,6 +910,13 @@ func (x *TransferOutReply) GetMessage() string {
 func (x *TransferOutReply) GetTransactionId() string {
 	if x != nil {
 		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *TransferOutReply) GetMerchantOrderId() string {
+	if x != nil {
+		return x.MerchantOrderId
 	}
 	return ""
 }
@@ -1160,35 +1192,39 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bbalances\x18\x01 \x03(\v2+.fund.v1.UserBalanceListReply.BalancesEntryR\bbalances\x1a;\n" +
 	"\rBalancesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\xed\x01\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\x99\x02\n" +
 	"\rTransferInReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12\x16\n" +
-	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12J\n" +
-	"\fextra_params\x18\x04 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12*\n" +
+	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12J\n" +
+	"\fextra_params\x18\x05 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"|\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa8\x01\n" +
 	"\x0fTransferInReply\x12(\n" +
 	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
-	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\"\xef\x01\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
+	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\"\x9b\x02\n" +
 	"\x0eTransferOutReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12\x16\n" +
-	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12K\n" +
-	"\fextra_params\x18\x04 \x03(\v2(.fund.v1.TransferOutReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12*\n" +
+	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12K\n" +
+	"\fextra_params\x18\x05 \x03(\v2(.fund.v1.TransferOutReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd7\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x83\x02\n" +
 	"\x10TransferOutReply\x12(\n" +
 	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
-	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x121\n" +
-	"\x06status\x18\x04 \x01(\x0e2\x19.common.v1.WithdrawStatusR\x06status\x12%\n" +
-	"\x0eestimated_time\x18\x05 \x01(\x03R\restimatedTime\"Z\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
+	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x121\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.WithdrawStatusR\x06status\x12%\n" +
+	"\x0eestimated_time\x18\x06 \x01(\x03R\restimatedTime\"Z\n" +
 	"\x16TransferOutProgressReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12'\n" +
 	"\x0ftransaction_ids\x18\x02 \x03(\tR\x0etransactionIds\"\xdf\x02\n" +
