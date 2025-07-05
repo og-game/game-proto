@@ -260,6 +260,115 @@ func (ErrorCode) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{3}
 }
 
+// 游戏状态
+type GameState int32
+
+const (
+	GameState_GAME_STATE_UNKNOWN   GameState = 0 //  未知
+	GameState_GAME_STATE_OPEN      GameState = 1 // 开启
+	GameState_GAME_STATE_CLOSE     GameState = 2 // 关闭
+	GameState_GAME_STATE_MAINTAIN  GameState = 3 // 维护
+	GameState_GAME_STATE_IDLE      GameState = 4 // 闲置
+	GameState_GAME_STATE_CLOSE_DUE GameState = 5 // 封盘
+)
+
+// Enum value maps for GameState.
+var (
+	GameState_name = map[int32]string{
+		0: "GAME_STATE_UNKNOWN",
+		1: "GAME_STATE_OPEN",
+		2: "GAME_STATE_CLOSE",
+		3: "GAME_STATE_MAINTAIN",
+		4: "GAME_STATE_IDLE",
+		5: "GAME_STATE_CLOSE_DUE",
+	}
+	GameState_value = map[string]int32{
+		"GAME_STATE_UNKNOWN":   0,
+		"GAME_STATE_OPEN":      1,
+		"GAME_STATE_CLOSE":     2,
+		"GAME_STATE_MAINTAIN":  3,
+		"GAME_STATE_IDLE":      4,
+		"GAME_STATE_CLOSE_DUE": 5,
+	}
+)
+
+func (x GameState) Enum() *GameState {
+	p := new(GameState)
+	*p = x
+	return p
+}
+
+func (x GameState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GameState) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[4].Descriptor()
+}
+
+func (GameState) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[4]
+}
+
+func (x GameState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GameState.Descriptor instead.
+func (GameState) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{4}
+}
+
+// 游戏可投注状态
+type GameBetState int32
+
+const (
+	GameBetState_GAME_BET_STATE_UNKNOWN GameBetState = 0 //  未知
+	GameBetState_GAME_BET_STATE_OPEN    GameBetState = 1 // 开启
+	GameBetState_GAME_BET_STATE_CLOSE   GameBetState = 2 // 关闭
+)
+
+// Enum value maps for GameBetState.
+var (
+	GameBetState_name = map[int32]string{
+		0: "GAME_BET_STATE_UNKNOWN",
+		1: "GAME_BET_STATE_OPEN",
+		2: "GAME_BET_STATE_CLOSE",
+	}
+	GameBetState_value = map[string]int32{
+		"GAME_BET_STATE_UNKNOWN": 0,
+		"GAME_BET_STATE_OPEN":    1,
+		"GAME_BET_STATE_CLOSE":   2,
+	}
+)
+
+func (x GameBetState) Enum() *GameBetState {
+	p := new(GameBetState)
+	*p = x
+	return p
+}
+
+func (x GameBetState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GameBetState) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[5].Descriptor()
+}
+
+func (GameBetState) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[5]
+}
+
+func (x GameBetState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GameBetState.Descriptor instead.
+func (GameBetState) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{5}
+}
+
 var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
@@ -291,7 +400,18 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x19ERROR_CODE_BUSINESS_ERROR\x10\x90\x03\x12\x1c\n" +
 	"\x17ERROR_CODE_SYSTEM_ERROR\x10\xf4\x03\x12\x1d\n" +
 	"\x18ERROR_CODE_NETWORK_ERROR\x10\xf6\x03\x12\x17\n" +
-	"\x12ERROR_CODE_TIMEOUT\x10\xf8\x03B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"\x12ERROR_CODE_TIMEOUT\x10\xf8\x03*\x96\x01\n" +
+	"\tGameState\x12\x16\n" +
+	"\x12GAME_STATE_UNKNOWN\x10\x00\x12\x13\n" +
+	"\x0fGAME_STATE_OPEN\x10\x01\x12\x14\n" +
+	"\x10GAME_STATE_CLOSE\x10\x02\x12\x17\n" +
+	"\x13GAME_STATE_MAINTAIN\x10\x03\x12\x13\n" +
+	"\x0fGAME_STATE_IDLE\x10\x04\x12\x18\n" +
+	"\x14GAME_STATE_CLOSE_DUE\x10\x05*]\n" +
+	"\fGameBetState\x12\x1a\n" +
+	"\x16GAME_BET_STATE_UNKNOWN\x10\x00\x12\x17\n" +
+	"\x13GAME_BET_STATE_OPEN\x10\x01\x12\x18\n" +
+	"\x14GAME_BET_STATE_CLOSE\x10\x02B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_enum_proto_rawDescOnce sync.Once
@@ -305,12 +425,14 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 	return file_common_v1_enum_proto_rawDescData
 }
 
-var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_common_v1_enum_proto_goTypes = []any{
 	(TransactionType)(0), // 0: common.v1.TransactionType
 	(MoneyFlow)(0),       // 1: common.v1.MoneyFlow
 	(TransferStatus)(0),  // 2: common.v1.TransferStatus
 	(ErrorCode)(0),       // 3: common.v1.ErrorCode
+	(GameState)(0),       // 4: common.v1.GameState
+	(GameBetState)(0),    // 5: common.v1.GameBetState
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -330,7 +452,7 @@ func file_common_v1_enum_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_enum_proto_rawDesc), len(file_common_v1_enum_proto_rawDesc)),
-			NumEnums:      4,
+			NumEnums:      6,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -3,6 +3,8 @@ syntax = "proto3";
 package platform.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1";
 
+import "common/v1/enum.proto";
+
 message GetGameLinkReq {
   string third_game_id = 1; // 三方游戏id
   int64 user_id = 2; // 用户id
@@ -54,26 +56,11 @@ message GetDemoGameLinkReq {
   int64 platform_id = 7 ; // 厂商id
 }
 
-enum GameState {
-  GAME_STATE_UNKNOWN = 0; //  未知
-  GAME_STATE_OPEN = 1; // 开启
-  GAME_STATE_CLOSE = 2; // 关闭
-  GAME_STATE_MAINTAIN = 3; // 维护
-  GAME_STATE_IDLE = 4; // 闲置
-  GAME_STATE_CLOSE_DUE = 5; // 封盘
-}
-
-enum GameBetState {
-  GAME_BET_STATE_UNKNOWN = 0; //  未知
-  GAME_BET_STATE_OPEN = 1; // 开启
-  GAME_BET_STATE_CLOSE = 2; // 关闭
-}
-
 message GameInfo {
   string third_game_id = 1; // 三方游戏ID
   string name = 2;          // 游戏名称
-  GameState game_state = 3;         // 游戏状态
-  GameBetState  bet_state = 4;     // 游戏投注状态
+  common.v1.GameState game_state = 3;         // 游戏状态
+  common.v1.GameBetState  bet_state = 4;     // 游戏投注状态
 }
 
 // 获取游戏列表
@@ -87,12 +74,13 @@ message GetGameListResp {
 
 // 获取转账记录
 message GetTransferRecordReq {
-  int64 platform_id = 1;
-  string third_no = 2;
+  int64 platform_id = 1;   // 厂商ID
+  string order_no = 2;        // 交易订单号
+  string third_order_no = 3;  // 三方交易单号
 }
 
 message GetTransferRecordResp {
-  int64 code = 1;     // 1-成功 2-失败 3-处理中
+  int64 status = 1;     // 交易状态 1-成功 2-失败 3-处理中
   double amount = 2;  // 交易金额
 }
 
