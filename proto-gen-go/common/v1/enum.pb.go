@@ -195,6 +195,71 @@ func (WithdrawStatus) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{2}
 }
 
+// ErrorCode 通用错误码
+type ErrorCode int32
+
+const (
+	// 未知状态
+	ErrorCode_ERROR_CODE_UNSPECIFIED ErrorCode = 0
+	// 成功
+	ErrorCode_ERROR_CODE_SUCCESS ErrorCode = 200 // 操作成功
+	// 业务失败
+	ErrorCode_ERROR_CODE_BUSINESS_ERROR ErrorCode = 400 // 业务错误(参数错误、余额不足等)
+	// 系统异常
+	ErrorCode_ERROR_CODE_SYSTEM_ERROR ErrorCode = 500 // 系统内部错误
+	// 网络异常
+	ErrorCode_ERROR_CODE_NETWORK_ERROR ErrorCode = 502 // 网络错误或第三方服务异常
+	// 超时异常
+	ErrorCode_ERROR_CODE_TIMEOUT ErrorCode = 504 // 操作超时
+)
+
+// Enum value maps for ErrorCode.
+var (
+	ErrorCode_name = map[int32]string{
+		0:   "ERROR_CODE_UNSPECIFIED",
+		200: "ERROR_CODE_SUCCESS",
+		400: "ERROR_CODE_BUSINESS_ERROR",
+		500: "ERROR_CODE_SYSTEM_ERROR",
+		502: "ERROR_CODE_NETWORK_ERROR",
+		504: "ERROR_CODE_TIMEOUT",
+	}
+	ErrorCode_value = map[string]int32{
+		"ERROR_CODE_UNSPECIFIED":    0,
+		"ERROR_CODE_SUCCESS":        200,
+		"ERROR_CODE_BUSINESS_ERROR": 400,
+		"ERROR_CODE_SYSTEM_ERROR":   500,
+		"ERROR_CODE_NETWORK_ERROR":  502,
+		"ERROR_CODE_TIMEOUT":        504,
+	}
+)
+
+func (x ErrorCode) Enum() *ErrorCode {
+	p := new(ErrorCode)
+	*p = x
+	return p
+}
+
+func (x ErrorCode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ErrorCode) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[3].Descriptor()
+}
+
+func (ErrorCode) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[3]
+}
+
+func (x ErrorCode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ErrorCode.Descriptor instead.
+func (ErrorCode) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{3}
+}
+
 var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
@@ -219,7 +284,14 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x17WITHDRAW_STATUS_PENDING\x10\x01\x12\x1e\n" +
 	"\x1aWITHDRAW_STATUS_PROCESSING\x10\x02\x12\x1d\n" +
 	"\x19WITHDRAW_STATUS_COMPLETED\x10\x03\x12\x1a\n" +
-	"\x16WITHDRAW_STATUS_FAILED\x10\x04B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"\x16WITHDRAW_STATUS_FAILED\x10\x04*\xb6\x01\n" +
+	"\tErrorCode\x12\x1a\n" +
+	"\x16ERROR_CODE_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x12ERROR_CODE_SUCCESS\x10\xc8\x01\x12\x1e\n" +
+	"\x19ERROR_CODE_BUSINESS_ERROR\x10\x90\x03\x12\x1c\n" +
+	"\x17ERROR_CODE_SYSTEM_ERROR\x10\xf4\x03\x12\x1d\n" +
+	"\x18ERROR_CODE_NETWORK_ERROR\x10\xf6\x03\x12\x17\n" +
+	"\x12ERROR_CODE_TIMEOUT\x10\xf8\x03B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_enum_proto_rawDescOnce sync.Once
@@ -233,11 +305,12 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 	return file_common_v1_enum_proto_rawDescData
 }
 
-var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_common_v1_enum_proto_goTypes = []any{
 	(TransactionType)(0), // 0: common.v1.TransactionType
 	(MoneyFlow)(0),       // 1: common.v1.MoneyFlow
 	(WithdrawStatus)(0),  // 2: common.v1.WithdrawStatus
+	(ErrorCode)(0),       // 3: common.v1.ErrorCode
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -257,7 +330,7 @@ func file_common_v1_enum_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_enum_proto_rawDesc), len(file_common_v1_enum_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      4,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
