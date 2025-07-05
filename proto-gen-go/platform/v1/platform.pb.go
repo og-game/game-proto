@@ -186,7 +186,7 @@ func (BetStatus) EnumDescriptor() ([]byte, []int) {
 type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId     string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`             // 三方游戏id
-	UserId          string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                              // 用户id
+	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                             // 用户id
 	CurrencyCode    string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`            // 币种code
 	ClientIp        string                 `protobuf:"bytes,4,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
 	DeviceId        string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
@@ -235,11 +235,11 @@ func (x *GetGameLinkReq) GetThirdGameId() string {
 	return ""
 }
 
-func (x *GetGameLinkReq) GetUserId() string {
+func (x *GetGameLinkReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetGameLinkReq) GetCurrencyCode() string {
@@ -337,7 +337,8 @@ func (x *GetGameLinkResp) GetUrl() string {
 
 type GetUserBalanceReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`              // 用户id
+	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"` // 厂商id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -379,11 +380,17 @@ func (x *GetUserBalanceReq) GetUserId() string {
 	return ""
 }
 
+func (x *GetUserBalanceReq) GetPlatformId() int64 {
+	if x != nil {
+		return x.PlatformId
+	}
+	return 0
+}
+
 type GetUserBalanceResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`              // 用户id
-	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"` // 厂商id
-	Balance       float64                `protobuf:"fixed64,3,opt,name=balance,proto3" json:"balance,omitempty"`                        // 余额
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
+	Balance       float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`           // 余额
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -425,13 +432,6 @@ func (x *GetUserBalanceResp) GetUserId() string {
 	return ""
 }
 
-func (x *GetUserBalanceResp) GetPlatformId() int64 {
-	if x != nil {
-		return x.PlatformId
-	}
-	return 0
-}
-
 func (x *GetUserBalanceResp) GetBalance() float64 {
 	if x != nil {
 		return x.Balance
@@ -442,7 +442,7 @@ func (x *GetUserBalanceResp) GetBalance() float64 {
 type TransferReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlatformId    int64                  `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`      // 厂商ID
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                   // 用户id
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                  // 用户id
 	CurrencyCode  string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // 币种code
 	IsDeposit     bool                   `protobuf:"varint,4,opt,name=is_deposit,json=isDeposit,proto3" json:"is_deposit,omitempty"`         // 是否存款 true 存款 false 取款
 	Amount        float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`                               // 金额(正数)
@@ -488,11 +488,11 @@ func (x *TransferReq) GetPlatformId() int64 {
 	return 0
 }
 
-func (x *TransferReq) GetUserId() string {
+func (x *TransferReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *TransferReq) GetCurrencyCode() string {
@@ -586,7 +586,7 @@ func (x *TransferResp) GetBalance() float64 {
 type GetDemoGameLinkReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`  // 三方游戏id
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                   // 用户id
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                  // 用户id
 	CurrencyCode  string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // 币种code
 	ClientType    int64                  `protobuf:"varint,4,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`      // 设备类型 1 pc 2 手机 默认 2
 	ClientIp      string                 `protobuf:"bytes,5,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`             // ip
@@ -633,11 +633,11 @@ func (x *GetDemoGameLinkReq) GetThirdGameId() string {
 	return ""
 }
 
-func (x *GetDemoGameLinkReq) GetUserId() string {
+func (x *GetDemoGameLinkReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetDemoGameLinkReq) GetCurrencyCode() string {
@@ -989,7 +989,7 @@ type GetBetRecordListResp struct {
 	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方订单号
 	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`    // 三方游戏ID
 	RoundId       string                 `protobuf:"bytes,5,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"`                  // 牌局编号
-	UserId        string                 `protobuf:"bytes,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                     // 用户ID
+	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                    // 用户ID
 	WinLost       string                 `protobuf:"bytes,8,opt,name=win_lost,json=winLost,proto3" json:"win_lost,omitempty"`                  // 输赢
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1060,11 +1060,11 @@ func (x *GetBetRecordListResp) GetRoundId() string {
 	return ""
 }
 
-func (x *GetBetRecordListResp) GetUserId() string {
+func (x *GetBetRecordListResp) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetBetRecordListResp) GetWinLost() string {
@@ -1081,7 +1081,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xbe\x02\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1b\n" +
 	"\tclient_ip\x18\x04 \x01(\tR\bclientIp\x12\x1b\n" +
 	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12#\n" +
@@ -1092,18 +1092,18 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vclient_type\x18\t \x01(\x03R\n" +
 	"clientType\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\",\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"h\n" +
-	"\x12GetUserBalanceResp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
-	"platformId\x12\x18\n" +
-	"\abalance\x18\x03 \x01(\x01R\abalance\"\xbe\x01\n" +
+	"platformId\"G\n" +
+	"\x12GetUserBalanceResp\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
+	"\abalance\x18\x02 \x01(\x01R\abalance\"\xbe\x01\n" +
 	"\vTransferReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1d\n" +
 	"\n" +
 	"is_deposit\x18\x04 \x01(\bR\tisDeposit\x12\x16\n" +
@@ -1115,7 +1115,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\abalance\x18\x03 \x01(\x01R\abalance\"\xfa\x01\n" +
 	"\x12GetDemoGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1f\n" +
 	"\vclient_type\x18\x04 \x01(\x03R\n" +
 	"clientType\x12\x1b\n" +
@@ -1150,7 +1150,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\x12\"\n" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
-	"\auser_id\x18\a \x01(\tR\x06userId\x12\x19\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\x12\x19\n" +
 	"\bwin_lost\x18\b \x01(\tR\awinLost*\x96\x01\n" +
 	"\tGameState\x12\x16\n" +
 	"\x12GAME_STATE_UNKNOWN\x10\x00\x12\x13\n" +

@@ -5,7 +5,7 @@ option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1";
 
 message GetGameLinkReq {
   string third_game_id = 1; // 三方游戏id
-  string user_id = 2; // 用户id
+  int64 user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   string client_ip = 4; // ip
   string device_id = 5; // 设备号
@@ -21,17 +21,17 @@ message GetGameLinkResp {
 
 message GetUserBalanceReq {
   string user_id = 1; // 用户id
+  int64 platform_id = 2; // 厂商id
 }
 
 message GetUserBalanceResp {
   string user_id = 1; // 用户id
-  int64 platform_id = 2; // 厂商id
-  double balance = 3; // 余额
+  double balance = 2; // 余额
 }
 
 message TransferReq{
   int64  platform_id = 1;  // 厂商ID
-  string user_id = 2; // 用户id
+  int64 user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   bool   is_deposit = 4; // 是否存款 true 存款 false 取款
   double amount = 5; // 金额(正数)
@@ -46,7 +46,7 @@ message TransferResp {
 
 message GetDemoGameLinkReq {
   string third_game_id = 1; // 三方游戏id
-  string  user_id = 2; // 用户id
+  int64  user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   int64 client_type = 4; // 设备类型 1 pc 2 手机 默认 2
   string client_ip = 5; // ip
@@ -115,7 +115,7 @@ message GetBetRecordListResp {
   string third_order_no = 3; // 三方订单号
   string third_game_id = 4;  // 三方游戏ID
   string round_id = 5;  // 牌局编号
-  string user_id = 7; // 用户ID
+  int64 user_id = 7; // 用户ID
   string win_lost = 8; // 输赢
 }
 
