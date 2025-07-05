@@ -75,7 +75,8 @@ message GetGameListResp {
 message GetTransferRecordReq {
   int64 platform_id = 1;   // 厂商ID
   string order_no = 2;        // 交易订单号
-  string third_order_no = 3;  // 三方交易单号
+  string third_order_no = 3;  // 三方交易单号'
+  int64 user_id = 4; // 用户id
 }
 
 message GetTransferRecordResp {

@@ -14,6 +14,8 @@ import (
 )
 
 type (
+	ExecuteTransactionReply  = v1.ExecuteTransactionReply
+	ExecuteTransactionReq    = v1.ExecuteTransactionReq
 	FundReply                = v1.FundReply
 	FundReq                  = v1.FundReq
 	GetUserBalanceListReply  = v1.GetUserBalanceListReply
