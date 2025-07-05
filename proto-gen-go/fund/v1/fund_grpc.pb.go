@@ -22,7 +22,6 @@ const (
 	FundInnerService_GetUserBalance_FullMethodName     = "/fund.v1.FundInnerService/GetUserBalance"
 	FundInnerService_GetUserBalanceList_FullMethodName = "/fund.v1.FundInnerService/GetUserBalanceList"
 	FundInnerService_ProcessTransaction_FullMethodName = "/fund.v1.FundInnerService/ProcessTransaction"
-	FundInnerService_ExecuteTransaction_FullMethodName = "/fund.v1.FundInnerService/ExecuteTransaction"
 )
 
 // FundInnerServiceClient is the client API for FundInnerService service.
@@ -32,13 +31,11 @@ const (
 // ////////////////  内部RPC   //////////////////
 type FundInnerServiceClient interface {
 	// 获取单个用户余额[实时更新的余额]
-	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
+	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 	// 批量获取用户余额[实时更新的余额]
-	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
+	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
 	// 处理交易（根据type字段处理不同类型）
-	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
-	// 执行交易处理用于余额相关操作
-	ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error)
+	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
 }
 
 type fundInnerServiceClient struct {
@@ -49,9 +46,9 @@ func NewFundInnerServiceClient(cc grpc.ClientConnInterface) FundInnerServiceClie
 	return &fundInnerServiceClient{cc}
 }
 
-func (c *fundInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
+func (c *fundInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserBalanceReply)
+	out := new(GetUserBalanceResp)
 	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalance_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -59,9 +56,9 @@ func (c *fundInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUser
 	return out, nil
 }
 
-func (c *fundInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
+func (c *fundInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserBalanceListReply)
+	out := new(GetUserBalanceListResp)
 	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -69,20 +66,10 @@ func (c *fundInnerServiceClient) GetUserBalanceList(ctx context.Context, in *Get
 	return out, nil
 }
 
-func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
+func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransactionReply)
+	out := new(TransactionResp)
 	err := c.cc.Invoke(ctx, FundInnerService_ProcessTransaction_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fundInnerServiceClient) ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExecuteTransactionReply)
-	err := c.cc.Invoke(ctx, FundInnerService_ExecuteTransaction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,13 +83,11 @@ func (c *fundInnerServiceClient) ExecuteTransaction(ctx context.Context, in *Exe
 // ////////////////  内部RPC   //////////////////
 type FundInnerServiceServer interface {
 	// 获取单个用户余额[实时更新的余额]
-	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error)
+	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
 	// 批量获取用户余额[实时更新的余额]
-	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error)
+	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error)
 	// 处理交易（根据type字段处理不同类型）
-	ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error)
-	// 执行交易处理用于余额相关操作
-	ExecuteTransaction(context.Context, *ExecuteTransactionReq) (*ExecuteTransactionReply, error)
+	ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error)
 	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
@@ -113,17 +98,14 @@ type FundInnerServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFundInnerServiceServer struct{}
 
-func (UnimplementedFundInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceReply, error) {
+func (UnimplementedFundInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
 }
-func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListReply, error) {
+func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
 }
-func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionReply, error) {
+func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
-}
-func (UnimplementedFundInnerServiceServer) ExecuteTransaction(context.Context, *ExecuteTransactionReq) (*ExecuteTransactionReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ExecuteTransaction not implemented")
 }
 func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
 func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
@@ -200,24 +182,6 @@ func _FundInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FundInnerService_ExecuteTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExecuteTransactionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).ExecuteTransaction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_ExecuteTransaction_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).ExecuteTransaction(ctx, req.(*ExecuteTransactionReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -236,10 +200,6 @@ var FundInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProcessTransaction",
 			Handler:    _FundInnerService_ProcessTransaction_Handler,
-		},
-		{
-			MethodName: "ExecuteTransaction",
-			Handler:    _FundInnerService_ExecuteTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -261,15 +221,15 @@ const (
 // ////////////////  暴露给API的RPC   //////////////////
 type FundApiServiceClient interface {
 	// 批量获取用户余额[实时更新的余额]
-	GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error)
+	GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListResp, error)
 	// 发起转入操作
-	TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error)
+	TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInResp, error)
 	// 获取转出进度状态
-	GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error)
+	GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error)
 	// 发起转出操作
-	TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error)
+	TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error)
 	// 获取转出进度状态
-	GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressReply, error)
+	GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error)
 }
 
 type fundApiServiceClient struct {
@@ -280,9 +240,9 @@ func NewFundApiServiceClient(cc grpc.ClientConnInterface) FundApiServiceClient {
 	return &fundApiServiceClient{cc}
 }
 
-func (c *fundApiServiceClient) GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error) {
+func (c *fundApiServiceClient) GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserBalanceListReply)
+	out := new(UserBalanceListResp)
 	err := c.cc.Invoke(ctx, FundApiService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -290,9 +250,9 @@ func (c *fundApiServiceClient) GetUserBalanceList(ctx context.Context, in *UserB
 	return out, nil
 }
 
-func (c *fundApiServiceClient) TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error) {
+func (c *fundApiServiceClient) TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferInReply)
+	out := new(TransferInResp)
 	err := c.cc.Invoke(ctx, FundApiService_TransferIn_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -300,9 +260,9 @@ func (c *fundApiServiceClient) TransferIn(ctx context.Context, in *TransferInReq
 	return out, nil
 }
 
-func (c *fundApiServiceClient) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error) {
+func (c *fundApiServiceClient) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferInProgressReply)
+	out := new(TransferInProgressResp)
 	err := c.cc.Invoke(ctx, FundApiService_GetTransferInProgress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -310,9 +270,9 @@ func (c *fundApiServiceClient) GetTransferInProgress(ctx context.Context, in *Tr
 	return out, nil
 }
 
-func (c *fundApiServiceClient) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error) {
+func (c *fundApiServiceClient) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferOutReply)
+	out := new(TransferOutResp)
 	err := c.cc.Invoke(ctx, FundApiService_TransferOut_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -320,9 +280,9 @@ func (c *fundApiServiceClient) TransferOut(ctx context.Context, in *TransferOutR
 	return out, nil
 }
 
-func (c *fundApiServiceClient) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressReply, error) {
+func (c *fundApiServiceClient) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferOutProgressReply)
+	out := new(TransferOutProgressResp)
 	err := c.cc.Invoke(ctx, FundApiService_GetTransferOutProgress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -337,15 +297,15 @@ func (c *fundApiServiceClient) GetTransferOutProgress(ctx context.Context, in *T
 // ////////////////  暴露给API的RPC   //////////////////
 type FundApiServiceServer interface {
 	// 批量获取用户余额[实时更新的余额]
-	GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListReply, error)
+	GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListResp, error)
 	// 发起转入操作
-	TransferIn(context.Context, *TransferInReq) (*TransferInReply, error)
+	TransferIn(context.Context, *TransferInReq) (*TransferInResp, error)
 	// 获取转出进度状态
-	GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressReply, error)
+	GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressResp, error)
 	// 发起转出操作
-	TransferOut(context.Context, *TransferOutReq) (*TransferOutReply, error)
+	TransferOut(context.Context, *TransferOutReq) (*TransferOutResp, error)
 	// 获取转出进度状态
-	GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressReply, error)
+	GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressResp, error)
 	mustEmbedUnimplementedFundApiServiceServer()
 }
 
@@ -356,19 +316,19 @@ type FundApiServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFundApiServiceServer struct{}
 
-func (UnimplementedFundApiServiceServer) GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListReply, error) {
+func (UnimplementedFundApiServiceServer) GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
 }
-func (UnimplementedFundApiServiceServer) TransferIn(context.Context, *TransferInReq) (*TransferInReply, error) {
+func (UnimplementedFundApiServiceServer) TransferIn(context.Context, *TransferInReq) (*TransferInResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferIn not implemented")
 }
-func (UnimplementedFundApiServiceServer) GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressReply, error) {
+func (UnimplementedFundApiServiceServer) GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransferInProgress not implemented")
 }
-func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferOutReq) (*TransferOutReply, error) {
+func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferOutReq) (*TransferOutResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferOut not implemented")
 }
-func (UnimplementedFundApiServiceServer) GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressReply, error) {
+func (UnimplementedFundApiServiceServer) GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransferOutProgress not implemented")
 }
 func (UnimplementedFundApiServiceServer) mustEmbedUnimplementedFundApiServiceServer() {}

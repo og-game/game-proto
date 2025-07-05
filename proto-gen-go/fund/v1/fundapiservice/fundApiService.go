@@ -14,40 +14,38 @@ import (
 )
 
 type (
-	ExecuteTransactionReply  = v1.ExecuteTransactionReply
-	ExecuteTransactionReq    = v1.ExecuteTransactionReq
-	FundReply                = v1.FundReply
-	FundReq                  = v1.FundReq
-	GetUserBalanceListReply  = v1.GetUserBalanceListReply
-	GetUserBalanceListReq    = v1.GetUserBalanceListReq
-	GetUserBalanceReply      = v1.GetUserBalanceReply
-	GetUserBalanceReq        = v1.GetUserBalanceReq
-	TransactionReply         = v1.TransactionReply
-	TransactionReq           = v1.TransactionReq
-	TransferInProgressReply  = v1.TransferInProgressReply
-	TransferInProgressReq    = v1.TransferInProgressReq
-	TransferInReply          = v1.TransferInReply
-	TransferInReq            = v1.TransferInReq
-	TransferOutProgressReply = v1.TransferOutProgressReply
-	TransferOutProgressReq   = v1.TransferOutProgressReq
-	TransferOutReply         = v1.TransferOutReply
-	TransferOutReq           = v1.TransferOutReq
-	TransferProgressInfo     = v1.TransferProgressInfo
-	UserBalanceInfo          = v1.UserBalanceInfo
-	UserBalanceListReply     = v1.UserBalanceListReply
-	UserBalanceListReq       = v1.UserBalanceListReq
+	FundReq                 = v1.FundReq
+	FundResp                = v1.FundResp
+	GetUserBalanceListReq   = v1.GetUserBalanceListReq
+	GetUserBalanceListResp  = v1.GetUserBalanceListResp
+	GetUserBalanceReq       = v1.GetUserBalanceReq
+	GetUserBalanceResp      = v1.GetUserBalanceResp
+	TransactionReq          = v1.TransactionReq
+	TransactionResp         = v1.TransactionResp
+	TransferInProgressReq   = v1.TransferInProgressReq
+	TransferInProgressResp  = v1.TransferInProgressResp
+	TransferInReq           = v1.TransferInReq
+	TransferInResp          = v1.TransferInResp
+	TransferOutProgressReq  = v1.TransferOutProgressReq
+	TransferOutProgressResp = v1.TransferOutProgressResp
+	TransferOutReq          = v1.TransferOutReq
+	TransferOutResp         = v1.TransferOutResp
+	TransferProgressInfo    = v1.TransferProgressInfo
+	UserBalanceInfo         = v1.UserBalanceInfo
+	UserBalanceListReq      = v1.UserBalanceListReq
+	UserBalanceListResp     = v1.UserBalanceListResp
 
 	FundApiService interface {
 		// 批量获取用户余额[实时更新的余额]
-		GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error)
+		GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListResp, error)
 		// 发起转入操作
-		TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error)
+		TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInResp, error)
 		// 获取转出进度状态
-		GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error)
+		GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error)
 		// 发起转出操作
-		TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error)
+		TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error)
 		// 获取转出进度状态
-		GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressReply, error)
+		GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error)
 	}
 
 	defaultFundApiService struct {
@@ -62,31 +60,31 @@ func NewFundApiService(cli zrpc.Client) FundApiService {
 }
 
 // 批量获取用户余额[实时更新的余额]
-func (m *defaultFundApiService) GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListReply, error) {
+func (m *defaultFundApiService) GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.GetUserBalanceList(ctx, in, opts...)
 }
 
 // 发起转入操作
-func (m *defaultFundApiService) TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInReply, error) {
+func (m *defaultFundApiService) TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.TransferIn(ctx, in, opts...)
 }
 
 // 获取转出进度状态
-func (m *defaultFundApiService) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressReply, error) {
+func (m *defaultFundApiService) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.GetTransferInProgress(ctx, in, opts...)
 }
 
 // 发起转出操作
-func (m *defaultFundApiService) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutReply, error) {
+func (m *defaultFundApiService) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.TransferOut(ctx, in, opts...)
 }
 
 // 获取转出进度状态
-func (m *defaultFundApiService) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressReply, error) {
+func (m *defaultFundApiService) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.GetTransferOutProgress(ctx, in, opts...)
 }

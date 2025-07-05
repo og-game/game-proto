@@ -9,7 +9,7 @@ message FundReq{
 
 }
 
-message FundReply{
+message FundResp{
 
 }
 
@@ -18,16 +18,13 @@ message FundReply{
 service FundInnerService {
 
   // 获取单个用户余额[实时更新的余额]
-  rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceReply);
+  rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceResp);
 
   // 批量获取用户余额[实时更新的余额]
-  rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListReply);
+  rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListResp);
 
   // 处理交易（根据type字段处理不同类型）
-  rpc ProcessTransaction(TransactionReq) returns (TransactionReply);
-
-  // 执行交易处理用于余额相关操作
-  rpc ExecuteTransaction(ExecuteTransactionReq) returns (ExecuteTransactionReply);
+  rpc ProcessTransaction(TransactionReq) returns (TransactionResp);
 
 }
 
@@ -38,7 +35,7 @@ message GetUserBalanceReq {
 }
 
 // 获取单个用户余额响应
-message GetUserBalanceReply {
+message GetUserBalanceResp {
   double balance = 1; // 游戏内余额
   int64  version = 2; // 版本
 }
@@ -56,7 +53,7 @@ message GetUserBalanceListReq {
 }
 
 // 批量获取用户余额响应
-message GetUserBalanceListReply {
+message GetUserBalanceListResp {
   map<int64, UserBalanceInfo> balances = 1; // platform_id => balance
 }
 
@@ -74,7 +71,7 @@ message TransactionReq {
 }
 
 // 交易响应消息
-message TransactionReply {
+message TransactionResp {
   bool success = 1;  // 是否成功
   string transaction_id = 2; // 账变记录ID
   double balance_before = 3; // 变更前余额
@@ -82,43 +79,24 @@ message TransactionReply {
   int64 timestamp = 5; // 当前时间戳
 }
 
-// 请求参数
-message ExecuteTransactionReq {
-  int64 user_id = 1;         // 用户ID
-  int64 platform_id = 2;     // 平台ID
-  string transaction_id = 3; // 交易ID，建议为唯一标识符
-  double current_balance = 4; // 当前余额 (作为输入，用于乐观锁或校验)
-  double new_balance = 5;     // 交易后的新余额 (作为输入，用于校验或预期结果)
-  double balance = 6;     // 交易的金额 (作为输入，用于校验或预期结果)
-  int64 version = 7;         // 版本号，用于乐观锁控制
-}
-
-// 返回响应
-message ExecuteTransactionReply {
-  string transaction_id = 1;  // 实际处理的交易ID
-  double balance_before = 2;  // 交易前的余额
-  double balance_after = 3;   // 交易后的余额
-  double balance = 4;         // 交易的金额
-}
-
 
 //////////////////  暴露给API的RPC   //////////////////
 service FundApiService {
 
   // 批量获取用户余额[实时更新的余额]
-  rpc GetUserBalanceList(UserBalanceListReq) returns (UserBalanceListReply);
+  rpc GetUserBalanceList(UserBalanceListReq) returns (UserBalanceListResp);
 
   // 发起转入操作
-  rpc TransferIn(TransferInReq) returns (TransferInReply);
+  rpc TransferIn(TransferInReq) returns (TransferInResp);
 
   // 获取转出进度状态
-  rpc GetTransferInProgress(TransferInProgressReq) returns (TransferInProgressReply);
+  rpc GetTransferInProgress(TransferInProgressReq) returns (TransferInProgressResp);
 
   // 发起转出操作
-  rpc TransferOut(TransferOutReq) returns (TransferOutReply);
+  rpc TransferOut(TransferOutReq) returns (TransferOutResp);
 
   // 获取转出进度状态
-  rpc GetTransferOutProgress(TransferOutProgressReq) returns (TransferOutProgressReply);
+  rpc GetTransferOutProgress(TransferOutProgressReq) returns (TransferOutProgressResp);
 
 }
 
@@ -130,7 +108,7 @@ message UserBalanceListReq {
 }
 
 // 批量获取用户余额响应
-message UserBalanceListReply {
+message UserBalanceListResp {
   map<int64, double> balances = 1; // platform_id => balance
 }
 
@@ -159,7 +137,7 @@ message TransferInReq{
 }
 
 // 发起转入操作
-message TransferInReply{
+message TransferInResp{
   common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
@@ -174,7 +152,7 @@ message TransferInProgressReq {
 }
 
 // 查询转入状态响应
-message TransferInProgressReply {
+message TransferInProgressResp {
   map<string, TransferProgressInfo> progress = 4; // transaction_id => progress
 }
 
@@ -188,7 +166,7 @@ message TransferOutReq {
 }
 
 // 发起转出操作
-message TransferOutReply {
+message TransferOutResp {
   common.v1.ErrorCode code = 1;
   string message = 2;
   string transaction_id = 3; // 内部交易ID
@@ -204,7 +182,7 @@ message TransferOutProgressReq {
 }
 
 // 查询转出状态响应
-message TransferOutProgressReply {
+message TransferOutProgressResp {
   map<string, TransferProgressInfo> progress = 4; // transaction_id => progress
 }
 

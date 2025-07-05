@@ -14,38 +14,34 @@ import (
 )
 
 type (
-	ExecuteTransactionReply  = v1.ExecuteTransactionReply
-	ExecuteTransactionReq    = v1.ExecuteTransactionReq
-	FundReply                = v1.FundReply
-	FundReq                  = v1.FundReq
-	GetUserBalanceListReply  = v1.GetUserBalanceListReply
-	GetUserBalanceListReq    = v1.GetUserBalanceListReq
-	GetUserBalanceReply      = v1.GetUserBalanceReply
-	GetUserBalanceReq        = v1.GetUserBalanceReq
-	TransactionReply         = v1.TransactionReply
-	TransactionReq           = v1.TransactionReq
-	TransferInProgressReply  = v1.TransferInProgressReply
-	TransferInProgressReq    = v1.TransferInProgressReq
-	TransferInReply          = v1.TransferInReply
-	TransferInReq            = v1.TransferInReq
-	TransferOutProgressReply = v1.TransferOutProgressReply
-	TransferOutProgressReq   = v1.TransferOutProgressReq
-	TransferOutReply         = v1.TransferOutReply
-	TransferOutReq           = v1.TransferOutReq
-	TransferProgressInfo     = v1.TransferProgressInfo
-	UserBalanceInfo          = v1.UserBalanceInfo
-	UserBalanceListReply     = v1.UserBalanceListReply
-	UserBalanceListReq       = v1.UserBalanceListReq
+	FundReq                 = v1.FundReq
+	FundResp                = v1.FundResp
+	GetUserBalanceListReq   = v1.GetUserBalanceListReq
+	GetUserBalanceListResp  = v1.GetUserBalanceListResp
+	GetUserBalanceReq       = v1.GetUserBalanceReq
+	GetUserBalanceResp      = v1.GetUserBalanceResp
+	TransactionReq          = v1.TransactionReq
+	TransactionResp         = v1.TransactionResp
+	TransferInProgressReq   = v1.TransferInProgressReq
+	TransferInProgressResp  = v1.TransferInProgressResp
+	TransferInReq           = v1.TransferInReq
+	TransferInResp          = v1.TransferInResp
+	TransferOutProgressReq  = v1.TransferOutProgressReq
+	TransferOutProgressResp = v1.TransferOutProgressResp
+	TransferOutReq          = v1.TransferOutReq
+	TransferOutResp         = v1.TransferOutResp
+	TransferProgressInfo    = v1.TransferProgressInfo
+	UserBalanceInfo         = v1.UserBalanceInfo
+	UserBalanceListReq      = v1.UserBalanceListReq
+	UserBalanceListResp     = v1.UserBalanceListResp
 
 	FundInnerService interface {
 		// 获取单个用户余额[实时更新的余额]
-		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error)
+		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 		// 批量获取用户余额[实时更新的余额]
-		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error)
+		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
 		// 处理交易（根据type字段处理不同类型）
-		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error)
-		// 执行交易处理用于余额相关操作
-		ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error)
+		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
 	}
 
 	defaultFundInnerService struct {
@@ -60,25 +56,19 @@ func NewFundInnerService(cli zrpc.Client) FundInnerService {
 }
 
 // 获取单个用户余额[实时更新的余额]
-func (m *defaultFundInnerService) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceReply, error) {
+func (m *defaultFundInnerService) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.GetUserBalance(ctx, in, opts...)
 }
 
 // 批量获取用户余额[实时更新的余额]
-func (m *defaultFundInnerService) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListReply, error) {
+func (m *defaultFundInnerService) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.GetUserBalanceList(ctx, in, opts...)
 }
 
 // 处理交易（根据type字段处理不同类型）
-func (m *defaultFundInnerService) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionReply, error) {
+func (m *defaultFundInnerService) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.ProcessTransaction(ctx, in, opts...)
-}
-
-// 执行交易处理用于余额相关操作
-func (m *defaultFundInnerService) ExecuteTransaction(ctx context.Context, in *ExecuteTransactionReq, opts ...grpc.CallOption) (*ExecuteTransactionReply, error) {
-	client := v1.NewFundInnerServiceClient(m.cli.Conn())
-	return client.ExecuteTransaction(ctx, in, opts...)
 }
