@@ -33,3 +33,20 @@ enum WithdrawStatus {
   WITHDRAW_STATUS_COMPLETED = 3;   // 已完成
   WITHDRAW_STATUS_FAILED = 4;      // 失败
 }
+
+
+// ErrorCode 通用错误码
+enum ErrorCode {
+  // 未知状态
+  ERROR_CODE_UNSPECIFIED = 0;
+  // 成功
+  ERROR_CODE_SUCCESS = 200;          // 操作成功
+  // 业务失败
+  ERROR_CODE_BUSINESS_ERROR = 400;   // 业务错误(参数错误、余额不足等)
+  // 系统异常
+  ERROR_CODE_SYSTEM_ERROR = 500;     // 系统内部错误
+  // 网络异常
+  ERROR_CODE_NETWORK_ERROR = 502;    // 网络错误或第三方服务异常
+  // 超时异常
+  ERROR_CODE_TIMEOUT = 504;          // 操作超时
+}
