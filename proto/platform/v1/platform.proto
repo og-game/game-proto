@@ -5,7 +5,7 @@ option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1";
 
 message GetGameLinkReq {
   string third_game_id = 1; // 三方游戏id
-  string user_id = 2; // 用户id
+  int64 user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   string client_ip = 4; // ip
   string device_id = 5; // 设备号

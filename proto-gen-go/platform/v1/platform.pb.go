@@ -24,7 +24,7 @@ const (
 type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId     string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`             // 三方游戏id
-	UserId          string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                              // 用户id
+	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                             // 用户id
 	CurrencyCode    string                 `protobuf:"bytes,3,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`            // 币种code
 	ClientIp        string                 `protobuf:"bytes,4,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                        // ip
 	DeviceId        string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                        // 设备号
@@ -73,11 +73,11 @@ func (x *GetGameLinkReq) GetThirdGameId() string {
 	return ""
 }
 
-func (x *GetGameLinkReq) GetUserId() string {
+func (x *GetGameLinkReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetGameLinkReq) GetCurrencyCode() string {
@@ -652,7 +652,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\"\xbe\x02\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12#\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
 	"\rcurrency_code\x18\x03 \x01(\tR\fcurrencyCode\x12\x1b\n" +
 	"\tclient_ip\x18\x04 \x01(\tR\bclientIp\x12\x1b\n" +
 	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12#\n" +
