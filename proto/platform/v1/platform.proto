@@ -92,6 +92,10 @@ message GetBetRecordListReq {
 }
 
 message GetBetRecordListResp {
+  int64 total = 1;
+  repeated BetRecordListItem data = 2;
+}
+message BetRecordListItem {
   common.v1.BetStatus status = 1; // 投注状态
   double amount = 2;  // 投注金额
   string third_order_no = 3; // 三方订单号
@@ -99,6 +103,7 @@ message GetBetRecordListResp {
   string round_id = 5;  // 牌局编号
   int64 user_id = 7; // 用户ID
   string win_lost = 8; // 输赢
+
 }
 
 service PlatformInnerService {

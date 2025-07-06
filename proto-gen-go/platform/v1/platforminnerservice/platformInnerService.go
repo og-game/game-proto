@@ -14,6 +14,7 @@ import (
 )
 
 type (
+	BetRecordListItem           = v1.BetRecordListItem
 	GameInfo                    = v1.GameInfo
 	GetBetRecordListReq         = v1.GetBetRecordListReq
 	GetBetRecordListResp        = v1.GetBetRecordListResp
