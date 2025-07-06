@@ -1067,12 +1067,12 @@ func (x *TransferOutResp) GetAmount() float64 {
 
 // 查询提现状态请求
 type TransferProgressReq struct {
-	state          protoimpl.MessageState  `protogen:"open.v1"`
-	TransferType   v1.TransactionDirection `protobuf:"varint,1,opt,name=transfer_type,json=transferType,proto3,enum=common.v1.TransactionDirection" json:"transfer_type,omitempty"`
-	UserId         int64                   `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	TransactionIds []string                `protobuf:"bytes,3,rep,name=transaction_ids,json=transactionIds,proto3" json:"transaction_ids,omitempty"` // 交易ID
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	UserId           int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TransactionIds   []string               `protobuf:"bytes,2,rep,name=transaction_ids,json=transactionIds,proto3" json:"transaction_ids,omitempty"`         // 交易ID
+	MerchantOrderIds []string               `protobuf:"bytes,3,rep,name=merchant_order_ids,json=merchantOrderIds,proto3" json:"merchant_order_ids,omitempty"` // 商户订单ID
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *TransferProgressReq) Reset() {
@@ -1105,13 +1105,6 @@ func (*TransferProgressReq) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *TransferProgressReq) GetTransferType() v1.TransactionDirection {
-	if x != nil {
-		return x.TransferType
-	}
-	return v1.TransactionDirection(0)
-}
-
 func (x *TransferProgressReq) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
@@ -1122,6 +1115,13 @@ func (x *TransferProgressReq) GetUserId() int64 {
 func (x *TransferProgressReq) GetTransactionIds() []string {
 	if x != nil {
 		return x.TransactionIds
+	}
+	return nil
+}
+
+func (x *TransferProgressReq) GetMerchantOrderIds() []string {
+	if x != nil {
+		return x.MerchantOrderIds
 	}
 	return nil
 }
@@ -1173,15 +1173,16 @@ func (x *TransferProgressResp) GetProgress() map[string]*TransferProgressInfo {
 
 // 转账操作
 type TransferProgressInfo struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Code            v1.ErrorCode           `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
-	Message         string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	TransactionId   string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`         // 内部交易ID
-	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户交易ID
-	Amount          float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`                                          // 转账金额
-	Status          v1.TransferStatus      `protobuf:"varint,6,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"`             // 转账状态：pending, processing, completed, failed
-	CreatedTime     int64                  `protobuf:"varint,7,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`              // 申请时间戳
-	UpdatedTime     int64                  `protobuf:"varint,8,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`              // 最后更新时间戳
+	state           protoimpl.MessageState  `protogen:"open.v1"`
+	Code            v1.ErrorCode            `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"`
+	Message         string                  `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId   string                  `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`         // 内部交易ID
+	MerchantOrderId string                  `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户交易ID
+	Amount          float64                 `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`                                          // 转账金额
+	TransferType    v1.TransactionDirection `protobuf:"varint,6,opt,name=transfer_type,json=transferType,proto3,enum=common.v1.TransactionDirection" json:"transfer_type,omitempty"`
+	Status          v1.TransferStatus       `protobuf:"varint,7,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"` // 转账状态：pending, processing, completed, failed
+	CreatedTime     int64                   `protobuf:"varint,8,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`  // 申请时间戳
+	UpdatedTime     int64                   `protobuf:"varint,9,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`  // 最后更新时间戳
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1249,6 +1250,13 @@ func (x *TransferProgressInfo) GetAmount() float64 {
 		return x.Amount
 	}
 	return 0
+}
+
+func (x *TransferProgressInfo) GetTransferType() v1.TransactionDirection {
+	if x != nil {
+		return x.TransferType
+	}
+	return v1.TransactionDirection(0)
 }
 
 func (x *TransferProgressInfo) GetStatus() v1.TransferStatus {
@@ -1366,25 +1374,26 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x121\n" +
 	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12\x16\n" +
-	"\x06amount\x18\x06 \x01(\x01R\x06amount\"\x9d\x01\n" +
-	"\x13TransferProgressReq\x12D\n" +
-	"\rtransfer_type\x18\x01 \x01(\x0e2\x1f.common.v1.TransactionDirectionR\ftransferType\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12'\n" +
-	"\x0ftransaction_ids\x18\x03 \x03(\tR\x0etransactionIds\"\xbb\x01\n" +
+	"\x06amount\x18\x06 \x01(\x01R\x06amount\"\x85\x01\n" +
+	"\x13TransferProgressReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12'\n" +
+	"\x0ftransaction_ids\x18\x02 \x03(\tR\x0etransactionIds\x12,\n" +
+	"\x12merchant_order_ids\x18\x03 \x03(\tR\x10merchantOrderIds\"\xbb\x01\n" +
 	"\x14TransferProgressResp\x12G\n" +
 	"\bprogress\x18\x01 \x03(\v2+.fund.v1.TransferProgressResp.ProgressEntryR\bprogress\x1aZ\n" +
 	"\rProgressEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x123\n" +
-	"\x05value\x18\x02 \x01(\v2\x1d.fund.v1.TransferProgressInfoR\x05value:\x028\x01\"\xbe\x02\n" +
+	"\x05value\x18\x02 \x01(\v2\x1d.fund.v1.TransferProgressInfoR\x05value:\x028\x01\"\x84\x03\n" +
 	"\x14TransferProgressInfo\x12(\n" +
 	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12\x16\n" +
-	"\x06amount\x18\x05 \x01(\x01R\x06amount\x121\n" +
-	"\x06status\x18\x06 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12!\n" +
-	"\fcreated_time\x18\a \x01(\x03R\vcreatedTime\x12!\n" +
-	"\fupdated_time\x18\b \x01(\x03R\vupdatedTime2\xda\x02\n" +
+	"\x06amount\x18\x05 \x01(\x01R\x06amount\x12D\n" +
+	"\rtransfer_type\x18\x06 \x01(\x0e2\x1f.common.v1.TransactionDirectionR\ftransferType\x121\n" +
+	"\x06status\x18\a \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12!\n" +
+	"\fcreated_time\x18\b \x01(\x03R\vcreatedTime\x12!\n" +
+	"\fupdated_time\x18\t \x01(\x03R\vupdatedTime2\xda\x02\n" +
 	"\x10FundInnerService\x12I\n" +
 	"\x0eGetUserBalance\x12\x1a.fund.v1.GetUserBalanceReq\x1a\x1b.fund.v1.GetUserBalanceResp\x12U\n" +
 	"\x12GetUserBalanceList\x12\x1e.fund.v1.GetUserBalanceListReq\x1a\x1f.fund.v1.GetUserBalanceListResp\x12G\n" +
@@ -1455,9 +1464,9 @@ var file_fund_v1_fund_proto_depIdxs = []int32{
 	24, // 9: fund.v1.TransferOutReq.extra_params:type_name -> fund.v1.TransferOutReq.ExtraParamsEntry
 	28, // 10: fund.v1.TransferOutResp.code:type_name -> common.v1.ErrorCode
 	27, // 11: fund.v1.TransferOutResp.status:type_name -> common.v1.TransferStatus
-	29, // 12: fund.v1.TransferProgressReq.transfer_type:type_name -> common.v1.TransactionDirection
-	25, // 13: fund.v1.TransferProgressResp.progress:type_name -> fund.v1.TransferProgressResp.ProgressEntry
-	28, // 14: fund.v1.TransferProgressInfo.code:type_name -> common.v1.ErrorCode
+	25, // 12: fund.v1.TransferProgressResp.progress:type_name -> fund.v1.TransferProgressResp.ProgressEntry
+	28, // 13: fund.v1.TransferProgressInfo.code:type_name -> common.v1.ErrorCode
+	29, // 14: fund.v1.TransferProgressInfo.transfer_type:type_name -> common.v1.TransactionDirection
 	27, // 15: fund.v1.TransferProgressInfo.status:type_name -> common.v1.TransferStatus
 	4,  // 16: fund.v1.GetUserBalanceListResp.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
 	19, // 17: fund.v1.TransferProgressResp.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo

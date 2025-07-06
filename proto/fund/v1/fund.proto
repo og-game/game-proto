@@ -169,9 +169,9 @@ message TransferOutResp {
 
 // 查询提现状态请求
 message TransferProgressReq {
-  common.v1.TransactionDirection transfer_type = 1;
-  int64 user_id = 2;
-  repeated string transaction_ids = 3; // 交易ID
+  int64 user_id = 1;
+  repeated string transaction_ids = 2; // 交易ID
+  repeated string merchant_order_ids = 3; // 商户订单ID
 }
 
 // 查询转出状态响应
@@ -187,8 +187,9 @@ message TransferProgressInfo {
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4; // 商户交易ID
   double amount = 5; // 转账金额
-  common.v1.TransferStatus status = 6; // 转账状态：pending, processing, completed, failed
-  int64 created_time = 7; // 申请时间戳
-  int64 updated_time = 8; // 最后更新时间戳
+  common.v1.TransactionDirection transfer_type = 6;
+  common.v1.TransferStatus status = 7; // 转账状态：pending, processing, completed, failed
+  int64 created_time = 8; // 申请时间戳
+  int64 updated_time = 9; // 最后更新时间戳
 }
 
