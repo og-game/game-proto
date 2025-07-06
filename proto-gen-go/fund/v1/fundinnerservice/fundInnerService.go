@@ -14,26 +14,26 @@ import (
 )
 
 type (
-	FundReq                 = v1.FundReq
-	FundResp                = v1.FundResp
-	GetUserBalanceListReq   = v1.GetUserBalanceListReq
-	GetUserBalanceListResp  = v1.GetUserBalanceListResp
-	GetUserBalanceReq       = v1.GetUserBalanceReq
-	GetUserBalanceResp      = v1.GetUserBalanceResp
-	TransactionReq          = v1.TransactionReq
-	TransactionResp         = v1.TransactionResp
-	TransferInProgressReq   = v1.TransferInProgressReq
-	TransferInProgressResp  = v1.TransferInProgressResp
-	TransferInReq           = v1.TransferInReq
-	TransferInResp          = v1.TransferInResp
-	TransferOutProgressReq  = v1.TransferOutProgressReq
-	TransferOutProgressResp = v1.TransferOutProgressResp
-	TransferOutReq          = v1.TransferOutReq
-	TransferOutResp         = v1.TransferOutResp
-	TransferProgressInfo    = v1.TransferProgressInfo
-	UserBalanceInfo         = v1.UserBalanceInfo
-	UserBalanceListReq      = v1.UserBalanceListReq
-	UserBalanceListResp     = v1.UserBalanceListResp
+	FundReq                  = v1.FundReq
+	FundResp                 = v1.FundResp
+	GetUserBalanceListReq    = v1.GetUserBalanceListReq
+	GetUserBalanceListResp   = v1.GetUserBalanceListResp
+	GetUserBalanceReq        = v1.GetUserBalanceReq
+	GetUserBalanceResp       = v1.GetUserBalanceResp
+	TransactionReq           = v1.TransactionReq
+	TransactionResp          = v1.TransactionResp
+	TransferInReq            = v1.TransferInReq
+	TransferInResp           = v1.TransferInResp
+	TransferOutReq           = v1.TransferOutReq
+	TransferOutResp          = v1.TransferOutResp
+	TransferProgressInfo     = v1.TransferProgressInfo
+	TransferProgressReq      = v1.TransferProgressReq
+	TransferProgressResp     = v1.TransferProgressResp
+	TransferStatusUpdateReq  = v1.TransferStatusUpdateReq
+	TransferStatusUpdateResp = v1.TransferStatusUpdateResp
+	UserBalanceInfo          = v1.UserBalanceInfo
+	UserBalanceListReq       = v1.UserBalanceListReq
+	UserBalanceListResp      = v1.UserBalanceListResp
 
 	FundInnerService interface {
 		// 获取单个用户余额[实时更新的余额]
@@ -42,6 +42,8 @@ type (
 		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
 		// 处理交易（根据type字段处理不同类型）
 		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
+		// 更新或查询需要延迟处理的转账状态。
+		UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
 	}
 
 	defaultFundInnerService struct {
@@ -71,4 +73,10 @@ func (m *defaultFundInnerService) GetUserBalanceList(ctx context.Context, in *Ge
 func (m *defaultFundInnerService) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.ProcessTransaction(ctx, in, opts...)
+}
+
+// 更新或查询需要延迟处理的转账状态。
+func (m *defaultFundInnerService) UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error) {
+	client := v1.NewFundInnerServiceClient(m.cli.Conn())
+	return client.UpdateTransferStatus(ctx, in, opts...)
 }

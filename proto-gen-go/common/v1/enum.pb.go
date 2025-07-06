@@ -195,6 +195,60 @@ func (TransferStatus) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{2}
 }
 
+// TransactionDirection 表示交易的方向（例如：转入或转出）。
+type TransactionDirection int32
+
+const (
+	// 未指定或未知方向。在 Protobuf 中，枚举的第一个字段必须是 0，
+	// 通常用于表示默认或未初始化的值。
+	TransactionDirection_TRANSACTION_DIRECTION_UNSPECIFIED TransactionDirection = 0
+	// TRANSACTION_DIRECTION_IN 表示“转入”或“存款”交易。
+	TransactionDirection_TRANSACTION_DIRECTION_IN TransactionDirection = 1
+	// TRANSACTION_DIRECTION_OUT 表示“转出”或“取款”交易。
+	TransactionDirection_TRANSACTION_DIRECTION_OUT TransactionDirection = 2
+)
+
+// Enum value maps for TransactionDirection.
+var (
+	TransactionDirection_name = map[int32]string{
+		0: "TRANSACTION_DIRECTION_UNSPECIFIED",
+		1: "TRANSACTION_DIRECTION_IN",
+		2: "TRANSACTION_DIRECTION_OUT",
+	}
+	TransactionDirection_value = map[string]int32{
+		"TRANSACTION_DIRECTION_UNSPECIFIED": 0,
+		"TRANSACTION_DIRECTION_IN":          1,
+		"TRANSACTION_DIRECTION_OUT":         2,
+	}
+)
+
+func (x TransactionDirection) Enum() *TransactionDirection {
+	p := new(TransactionDirection)
+	*p = x
+	return p
+}
+
+func (x TransactionDirection) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TransactionDirection) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[3].Descriptor()
+}
+
+func (TransactionDirection) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[3]
+}
+
+func (x TransactionDirection) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TransactionDirection.Descriptor instead.
+func (TransactionDirection) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{3}
+}
+
 // ErrorCode 通用错误码
 type ErrorCode int32
 
@@ -244,11 +298,11 @@ func (x ErrorCode) String() string {
 }
 
 func (ErrorCode) Descriptor() protoreflect.EnumDescriptor {
-	return file_common_v1_enum_proto_enumTypes[3].Descriptor()
+	return file_common_v1_enum_proto_enumTypes[4].Descriptor()
 }
 
 func (ErrorCode) Type() protoreflect.EnumType {
-	return &file_common_v1_enum_proto_enumTypes[3]
+	return &file_common_v1_enum_proto_enumTypes[4]
 }
 
 func (x ErrorCode) Number() protoreflect.EnumNumber {
@@ -257,7 +311,7 @@ func (x ErrorCode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ErrorCode.Descriptor instead.
 func (ErrorCode) EnumDescriptor() ([]byte, []int) {
-	return file_common_v1_enum_proto_rawDescGZIP(), []int{3}
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{4}
 }
 
 // 游戏状态
@@ -303,11 +357,11 @@ func (x GameState) String() string {
 }
 
 func (GameState) Descriptor() protoreflect.EnumDescriptor {
-	return file_common_v1_enum_proto_enumTypes[4].Descriptor()
+	return file_common_v1_enum_proto_enumTypes[5].Descriptor()
 }
 
 func (GameState) Type() protoreflect.EnumType {
-	return &file_common_v1_enum_proto_enumTypes[4]
+	return &file_common_v1_enum_proto_enumTypes[5]
 }
 
 func (x GameState) Number() protoreflect.EnumNumber {
@@ -316,7 +370,7 @@ func (x GameState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GameState.Descriptor instead.
 func (GameState) EnumDescriptor() ([]byte, []int) {
-	return file_common_v1_enum_proto_rawDescGZIP(), []int{4}
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{5}
 }
 
 // 游戏可投注状态
@@ -353,11 +407,11 @@ func (x GameBetState) String() string {
 }
 
 func (GameBetState) Descriptor() protoreflect.EnumDescriptor {
-	return file_common_v1_enum_proto_enumTypes[5].Descriptor()
+	return file_common_v1_enum_proto_enumTypes[6].Descriptor()
 }
 
 func (GameBetState) Type() protoreflect.EnumType {
-	return &file_common_v1_enum_proto_enumTypes[5]
+	return &file_common_v1_enum_proto_enumTypes[6]
 }
 
 func (x GameBetState) Number() protoreflect.EnumNumber {
@@ -366,7 +420,7 @@ func (x GameBetState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GameBetState.Descriptor instead.
 func (GameBetState) EnumDescriptor() ([]byte, []int) {
-	return file_common_v1_enum_proto_rawDescGZIP(), []int{5}
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{6}
 }
 
 // 用户投注状态
@@ -409,11 +463,11 @@ func (x BetStatus) String() string {
 }
 
 func (BetStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_common_v1_enum_proto_enumTypes[6].Descriptor()
+	return file_common_v1_enum_proto_enumTypes[7].Descriptor()
 }
 
 func (BetStatus) Type() protoreflect.EnumType {
-	return &file_common_v1_enum_proto_enumTypes[6]
+	return &file_common_v1_enum_proto_enumTypes[7]
 }
 
 func (x BetStatus) Number() protoreflect.EnumNumber {
@@ -422,7 +476,7 @@ func (x BetStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BetStatus.Descriptor instead.
 func (BetStatus) EnumDescriptor() ([]byte, []int) {
-	return file_common_v1_enum_proto_rawDescGZIP(), []int{6}
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{7}
 }
 
 var File_common_v1_enum_proto protoreflect.FileDescriptor
@@ -449,7 +503,11 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x17TRANSFER_STATUS_PENDING\x10\x01\x12\x1e\n" +
 	"\x1aTRANSFER_STATUS_PROCESSING\x10\x02\x12\x1d\n" +
 	"\x19TRANSFER_STATUS_COMPLETED\x10\x03\x12\x1a\n" +
-	"\x16TRANSFER_STATUS_FAILED\x10\x04*\xb6\x01\n" +
+	"\x16TRANSFER_STATUS_FAILED\x10\x04*z\n" +
+	"\x14TransactionDirection\x12%\n" +
+	"!TRANSACTION_DIRECTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18TRANSACTION_DIRECTION_IN\x10\x01\x12\x1d\n" +
+	"\x19TRANSACTION_DIRECTION_OUT\x10\x02*\xb6\x01\n" +
 	"\tErrorCode\x12\x1a\n" +
 	"\x16ERROR_CODE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x12ERROR_CODE_SUCCESS\x10\xc8\x01\x12\x1e\n" +
@@ -487,15 +545,16 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 	return file_common_v1_enum_proto_rawDescData
 }
 
-var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
+var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
 var file_common_v1_enum_proto_goTypes = []any{
-	(TransactionType)(0), // 0: common.v1.TransactionType
-	(MoneyFlow)(0),       // 1: common.v1.MoneyFlow
-	(TransferStatus)(0),  // 2: common.v1.TransferStatus
-	(ErrorCode)(0),       // 3: common.v1.ErrorCode
-	(GameState)(0),       // 4: common.v1.GameState
-	(GameBetState)(0),    // 5: common.v1.GameBetState
-	(BetStatus)(0),       // 6: common.v1.BetStatus
+	(TransactionType)(0),      // 0: common.v1.TransactionType
+	(MoneyFlow)(0),            // 1: common.v1.MoneyFlow
+	(TransferStatus)(0),       // 2: common.v1.TransferStatus
+	(TransactionDirection)(0), // 3: common.v1.TransactionDirection
+	(ErrorCode)(0),            // 4: common.v1.ErrorCode
+	(GameState)(0),            // 5: common.v1.GameState
+	(GameBetState)(0),         // 6: common.v1.GameBetState
+	(BetStatus)(0),            // 7: common.v1.BetStatus
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -515,7 +574,7 @@ func file_common_v1_enum_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_enum_proto_rawDesc), len(file_common_v1_enum_proto_rawDesc)),
-			NumEnums:      7,
+			NumEnums:      8,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

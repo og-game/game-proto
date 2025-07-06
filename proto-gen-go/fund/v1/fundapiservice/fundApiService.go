@@ -14,38 +14,36 @@ import (
 )
 
 type (
-	FundReq                 = v1.FundReq
-	FundResp                = v1.FundResp
-	GetUserBalanceListReq   = v1.GetUserBalanceListReq
-	GetUserBalanceListResp  = v1.GetUserBalanceListResp
-	GetUserBalanceReq       = v1.GetUserBalanceReq
-	GetUserBalanceResp      = v1.GetUserBalanceResp
-	TransactionReq          = v1.TransactionReq
-	TransactionResp         = v1.TransactionResp
-	TransferInProgressReq   = v1.TransferInProgressReq
-	TransferInProgressResp  = v1.TransferInProgressResp
-	TransferInReq           = v1.TransferInReq
-	TransferInResp          = v1.TransferInResp
-	TransferOutProgressReq  = v1.TransferOutProgressReq
-	TransferOutProgressResp = v1.TransferOutProgressResp
-	TransferOutReq          = v1.TransferOutReq
-	TransferOutResp         = v1.TransferOutResp
-	TransferProgressInfo    = v1.TransferProgressInfo
-	UserBalanceInfo         = v1.UserBalanceInfo
-	UserBalanceListReq      = v1.UserBalanceListReq
-	UserBalanceListResp     = v1.UserBalanceListResp
+	FundReq                  = v1.FundReq
+	FundResp                 = v1.FundResp
+	GetUserBalanceListReq    = v1.GetUserBalanceListReq
+	GetUserBalanceListResp   = v1.GetUserBalanceListResp
+	GetUserBalanceReq        = v1.GetUserBalanceReq
+	GetUserBalanceResp       = v1.GetUserBalanceResp
+	TransactionReq           = v1.TransactionReq
+	TransactionResp          = v1.TransactionResp
+	TransferInReq            = v1.TransferInReq
+	TransferInResp           = v1.TransferInResp
+	TransferOutReq           = v1.TransferOutReq
+	TransferOutResp          = v1.TransferOutResp
+	TransferProgressInfo     = v1.TransferProgressInfo
+	TransferProgressReq      = v1.TransferProgressReq
+	TransferProgressResp     = v1.TransferProgressResp
+	TransferStatusUpdateReq  = v1.TransferStatusUpdateReq
+	TransferStatusUpdateResp = v1.TransferStatusUpdateResp
+	UserBalanceInfo          = v1.UserBalanceInfo
+	UserBalanceListReq       = v1.UserBalanceListReq
+	UserBalanceListResp      = v1.UserBalanceListResp
 
 	FundApiService interface {
 		// 批量获取用户余额[实时更新的余额]
 		GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListResp, error)
 		// 发起转入操作
 		TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInResp, error)
-		// 获取转出进度状态
-		GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error)
 		// 发起转出操作
 		TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error)
-		// 获取转出进度状态
-		GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error)
+		// 获取转账进度状态
+		GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error)
 	}
 
 	defaultFundApiService struct {
@@ -71,20 +69,14 @@ func (m *defaultFundApiService) TransferIn(ctx context.Context, in *TransferInRe
 	return client.TransferIn(ctx, in, opts...)
 }
 
-// 获取转出进度状态
-func (m *defaultFundApiService) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error) {
-	client := v1.NewFundApiServiceClient(m.cli.Conn())
-	return client.GetTransferInProgress(ctx, in, opts...)
-}
-
 // 发起转出操作
 func (m *defaultFundApiService) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.TransferOut(ctx, in, opts...)
 }
 
-// 获取转出进度状态
-func (m *defaultFundApiService) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error) {
+// 获取转账进度状态
+func (m *defaultFundApiService) GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
-	return client.GetTransferOutProgress(ctx, in, opts...)
+	return client.GetTransferProgress(ctx, in, opts...)
 }

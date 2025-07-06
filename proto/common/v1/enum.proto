@@ -35,6 +35,19 @@ enum TransferStatus {
 }
 
 
+
+// TransactionDirection 表示交易的方向（例如：转入或转出）。
+enum TransactionDirection {
+  // 未指定或未知方向。在 Protobuf 中，枚举的第一个字段必须是 0，
+  // 通常用于表示默认或未初始化的值。
+  TRANSACTION_DIRECTION_UNSPECIFIED = 0;
+  // TRANSACTION_DIRECTION_IN 表示“转入”或“存款”交易。
+  TRANSACTION_DIRECTION_IN = 1;
+  // TRANSACTION_DIRECTION_OUT 表示“转出”或“取款”交易。
+  TRANSACTION_DIRECTION_OUT = 2;
+}
+
+
 // ErrorCode 通用错误码
 enum ErrorCode {
   // 未知状态

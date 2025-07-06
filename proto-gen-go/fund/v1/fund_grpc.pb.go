@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FundInnerService_GetUserBalance_FullMethodName     = "/fund.v1.FundInnerService/GetUserBalance"
-	FundInnerService_GetUserBalanceList_FullMethodName = "/fund.v1.FundInnerService/GetUserBalanceList"
-	FundInnerService_ProcessTransaction_FullMethodName = "/fund.v1.FundInnerService/ProcessTransaction"
+	FundInnerService_GetUserBalance_FullMethodName       = "/fund.v1.FundInnerService/GetUserBalance"
+	FundInnerService_GetUserBalanceList_FullMethodName   = "/fund.v1.FundInnerService/GetUserBalanceList"
+	FundInnerService_ProcessTransaction_FullMethodName   = "/fund.v1.FundInnerService/ProcessTransaction"
+	FundInnerService_UpdateTransferStatus_FullMethodName = "/fund.v1.FundInnerService/UpdateTransferStatus"
 )
 
 // FundInnerServiceClient is the client API for FundInnerService service.
@@ -36,6 +37,8 @@ type FundInnerServiceClient interface {
 	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
+	// 更新或查询需要延迟处理的转账状态。
+	UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
 }
 
 type fundInnerServiceClient struct {
@@ -76,6 +79,16 @@ func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *Tra
 	return out, nil
 }
 
+func (c *fundInnerServiceClient) UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransferStatusUpdateResp)
+	err := c.cc.Invoke(ctx, FundInnerService_UpdateTransferStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FundInnerServiceServer is the server API for FundInnerService service.
 // All implementations must embed UnimplementedFundInnerServiceServer
 // for forward compatibility.
@@ -88,6 +101,8 @@ type FundInnerServiceServer interface {
 	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error)
 	// 处理交易（根据type字段处理不同类型）
 	ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error)
+	// 更新或查询需要延迟处理的转账状态。
+	UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error)
 	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
@@ -106,6 +121,9 @@ func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *
 }
 func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
+}
+func (UnimplementedFundInnerServiceServer) UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTransferStatus not implemented")
 }
 func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
 func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
@@ -182,6 +200,24 @@ func _FundInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FundInnerService_UpdateTransferStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferStatusUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).UpdateTransferStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_UpdateTransferStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).UpdateTransferStatus(ctx, req.(*TransferStatusUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -201,17 +237,20 @@ var FundInnerService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ProcessTransaction",
 			Handler:    _FundInnerService_ProcessTransaction_Handler,
 		},
+		{
+			MethodName: "UpdateTransferStatus",
+			Handler:    _FundInnerService_UpdateTransferStatus_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "fund/v1/fund.proto",
 }
 
 const (
-	FundApiService_GetUserBalanceList_FullMethodName     = "/fund.v1.FundApiService/GetUserBalanceList"
-	FundApiService_TransferIn_FullMethodName             = "/fund.v1.FundApiService/TransferIn"
-	FundApiService_GetTransferInProgress_FullMethodName  = "/fund.v1.FundApiService/GetTransferInProgress"
-	FundApiService_TransferOut_FullMethodName            = "/fund.v1.FundApiService/TransferOut"
-	FundApiService_GetTransferOutProgress_FullMethodName = "/fund.v1.FundApiService/GetTransferOutProgress"
+	FundApiService_GetUserBalanceList_FullMethodName  = "/fund.v1.FundApiService/GetUserBalanceList"
+	FundApiService_TransferIn_FullMethodName          = "/fund.v1.FundApiService/TransferIn"
+	FundApiService_TransferOut_FullMethodName         = "/fund.v1.FundApiService/TransferOut"
+	FundApiService_GetTransferProgress_FullMethodName = "/fund.v1.FundApiService/GetTransferProgress"
 )
 
 // FundApiServiceClient is the client API for FundApiService service.
@@ -224,12 +263,10 @@ type FundApiServiceClient interface {
 	GetUserBalanceList(ctx context.Context, in *UserBalanceListReq, opts ...grpc.CallOption) (*UserBalanceListResp, error)
 	// 发起转入操作
 	TransferIn(ctx context.Context, in *TransferInReq, opts ...grpc.CallOption) (*TransferInResp, error)
-	// 获取转出进度状态
-	GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error)
 	// 发起转出操作
 	TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error)
-	// 获取转出进度状态
-	GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error)
+	// 获取转账进度状态
+	GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error)
 }
 
 type fundApiServiceClient struct {
@@ -260,16 +297,6 @@ func (c *fundApiServiceClient) TransferIn(ctx context.Context, in *TransferInReq
 	return out, nil
 }
 
-func (c *fundApiServiceClient) GetTransferInProgress(ctx context.Context, in *TransferInProgressReq, opts ...grpc.CallOption) (*TransferInProgressResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferInProgressResp)
-	err := c.cc.Invoke(ctx, FundApiService_GetTransferInProgress_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *fundApiServiceClient) TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransferOutResp)
@@ -280,10 +307,10 @@ func (c *fundApiServiceClient) TransferOut(ctx context.Context, in *TransferOutR
 	return out, nil
 }
 
-func (c *fundApiServiceClient) GetTransferOutProgress(ctx context.Context, in *TransferOutProgressReq, opts ...grpc.CallOption) (*TransferOutProgressResp, error) {
+func (c *fundApiServiceClient) GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferOutProgressResp)
-	err := c.cc.Invoke(ctx, FundApiService_GetTransferOutProgress_FullMethodName, in, out, cOpts...)
+	out := new(TransferProgressResp)
+	err := c.cc.Invoke(ctx, FundApiService_GetTransferProgress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -300,12 +327,10 @@ type FundApiServiceServer interface {
 	GetUserBalanceList(context.Context, *UserBalanceListReq) (*UserBalanceListResp, error)
 	// 发起转入操作
 	TransferIn(context.Context, *TransferInReq) (*TransferInResp, error)
-	// 获取转出进度状态
-	GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressResp, error)
 	// 发起转出操作
 	TransferOut(context.Context, *TransferOutReq) (*TransferOutResp, error)
-	// 获取转出进度状态
-	GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressResp, error)
+	// 获取转账进度状态
+	GetTransferProgress(context.Context, *TransferProgressReq) (*TransferProgressResp, error)
 	mustEmbedUnimplementedFundApiServiceServer()
 }
 
@@ -322,14 +347,11 @@ func (UnimplementedFundApiServiceServer) GetUserBalanceList(context.Context, *Us
 func (UnimplementedFundApiServiceServer) TransferIn(context.Context, *TransferInReq) (*TransferInResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferIn not implemented")
 }
-func (UnimplementedFundApiServiceServer) GetTransferInProgress(context.Context, *TransferInProgressReq) (*TransferInProgressResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTransferInProgress not implemented")
-}
 func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferOutReq) (*TransferOutResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferOut not implemented")
 }
-func (UnimplementedFundApiServiceServer) GetTransferOutProgress(context.Context, *TransferOutProgressReq) (*TransferOutProgressResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTransferOutProgress not implemented")
+func (UnimplementedFundApiServiceServer) GetTransferProgress(context.Context, *TransferProgressReq) (*TransferProgressResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransferProgress not implemented")
 }
 func (UnimplementedFundApiServiceServer) mustEmbedUnimplementedFundApiServiceServer() {}
 func (UnimplementedFundApiServiceServer) testEmbeddedByValue()                        {}
@@ -388,24 +410,6 @@ func _FundApiService_TransferIn_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FundApiService_GetTransferInProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransferInProgressReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundApiServiceServer).GetTransferInProgress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundApiService_GetTransferInProgress_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundApiServiceServer).GetTransferInProgress(ctx, req.(*TransferInProgressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _FundApiService_TransferOut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TransferOutReq)
 	if err := dec(in); err != nil {
@@ -424,20 +428,20 @@ func _FundApiService_TransferOut_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FundApiService_GetTransferOutProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransferOutProgressReq)
+func _FundApiService_GetTransferProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferProgressReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FundApiServiceServer).GetTransferOutProgress(ctx, in)
+		return srv.(FundApiServiceServer).GetTransferProgress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FundApiService_GetTransferOutProgress_FullMethodName,
+		FullMethod: FundApiService_GetTransferProgress_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundApiServiceServer).GetTransferOutProgress(ctx, req.(*TransferOutProgressReq))
+		return srv.(FundApiServiceServer).GetTransferProgress(ctx, req.(*TransferProgressReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -458,16 +462,12 @@ var FundApiService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _FundApiService_TransferIn_Handler,
 		},
 		{
-			MethodName: "GetTransferInProgress",
-			Handler:    _FundApiService_GetTransferInProgress_Handler,
-		},
-		{
 			MethodName: "TransferOut",
 			Handler:    _FundApiService_TransferOut_Handler,
 		},
 		{
-			MethodName: "GetTransferOutProgress",
-			Handler:    _FundApiService_GetTransferOutProgress_Handler,
+			MethodName: "GetTransferProgress",
+			Handler:    _FundApiService_GetTransferProgress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -26,6 +26,9 @@ service FundInnerService {
   // 处理交易（根据type字段处理不同类型）
   rpc ProcessTransaction(TransactionReq) returns (TransactionResp);
 
+  // 更新或查询需要延迟处理的转账状态。
+  rpc UpdateTransferStatus(TransferStatusUpdateReq) returns (TransferStatusUpdateResp);
+
 }
 
 // 获取单个用户余额请求
@@ -80,6 +83,22 @@ message TransactionResp {
 }
 
 
+// 表示更新或查询延迟转账状态的请求。
+message TransferStatusUpdateReq {
+  string transaction_id = 1; // 原始转账交易的ID
+  common.v1.TransferStatus current_status = 2; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
+  string reason = 3; // 可选：状态更新的原因，特别是针对失败情况
+}
+
+// 表示转账状态更新/查询的响应。
+message TransferStatusUpdateResp {
+  string transaction_id = 1;
+  common.v1.TransferStatus new_status = 2; // 转账确认的新状态
+  string message = 3; // 可选：关于更新的消息
+  string timestamp = 4; // 状态更新的时间戳
+}
+
+
 //////////////////  暴露给API的RPC   //////////////////
 service FundApiService {
 
@@ -89,14 +108,11 @@ service FundApiService {
   // 发起转入操作
   rpc TransferIn(TransferInReq) returns (TransferInResp);
 
-  // 获取转出进度状态
-  rpc GetTransferInProgress(TransferInProgressReq) returns (TransferInProgressResp);
-
   // 发起转出操作
   rpc TransferOut(TransferOutReq) returns (TransferOutResp);
 
-  // 获取转出进度状态
-  rpc GetTransferOutProgress(TransferOutProgressReq) returns (TransferOutProgressResp);
+  // 获取转账进度状态
+  rpc GetTransferProgress(TransferProgressReq) returns (TransferProgressResp);
 
 }
 
@@ -111,20 +127,6 @@ message UserBalanceListReq {
 message UserBalanceListResp {
   map<int64, double> balances = 1; // platform_id => balance
 }
-
-
-// 转账操作
-message TransferProgressInfo {
-  common.v1.ErrorCode code = 1;
-  string message = 2;
-  string transaction_id = 3; // 内部交易ID
-  double amount = 4; // 转账金额
-  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
-  int64 created_time = 6; // 申请时间戳
-  int64 updated_time = 7; // 最后更新时间戳
-  int64 estimated_time = 8; // 预计到账时间戳
-}
-
 
 
 // 发起转入操作
@@ -145,16 +147,6 @@ message TransferInResp{
   common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
 }
 
-// 查询提现状态请求
-message TransferInProgressReq {
-  int64 user_id = 1;
-  repeated string transaction_ids = 2; // 交易ID
-}
-
-// 查询转入状态响应
-message TransferInProgressResp {
-  map<string, TransferProgressInfo> progress = 4; // transaction_id => progress
-}
 
 // 发起转出操作
 message TransferOutReq {
@@ -176,13 +168,27 @@ message TransferOutResp {
 
 
 // 查询提现状态请求
-message TransferOutProgressReq {
-  int64 user_id = 1;
-  repeated string transaction_ids = 2; // 交易ID
+message TransferProgressReq {
+  common.v1.TransactionDirection transfer_type = 1;
+  int64 user_id = 2;
+  repeated string transaction_ids = 3; // 交易ID
 }
 
 // 查询转出状态响应
-message TransferOutProgressResp {
-  map<string, TransferProgressInfo> progress = 4; // transaction_id => progress
+message TransferProgressResp {
+  map<string, TransferProgressInfo> progress = 1; // transaction_id => progress
+}
+
+
+// 转账操作
+message TransferProgressInfo {
+  common.v1.ErrorCode code = 1;
+  string message = 2;
+  string transaction_id = 3; // 内部交易ID
+  string merchant_order_id = 4; // 商户交易ID
+  double amount = 5; // 转账金额
+  common.v1.TransferStatus status = 6; // 转账状态：pending, processing, completed, failed
+  int64 created_time = 7; // 申请时间戳
+  int64 updated_time = 8; // 最后更新时间戳
 }
 
