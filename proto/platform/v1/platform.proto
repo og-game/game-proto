@@ -87,6 +87,8 @@ message GetTransferRecordStatusResp {
 // 获取投注记录列表
 message GetBetRecordListReq {
   int64 platform_id = 1;
+  int64 begin_time =2 ; //投注开始时间筛选  秒
+  int64 end_time = 3; // 投注结算时间筛选 秒
 }
 
 message GetBetRecordListResp {
