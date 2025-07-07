@@ -3,8 +3,6 @@ syntax = "proto3";
 package temporal.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/temporal/v1";
 
-import "common/v1/enum.proto";
-
 
 message TemporalReq{
 
