@@ -7,7 +7,7 @@ SCRIPT := ./scripts/gen-proto.sh
 # 自动扫描服务或使用默认值
 PROTO_DIR := proto
 AVAILABLE_SERVICES := $(shell find $(PROTO_DIR) -maxdepth 1 -type d -not -path $(PROTO_DIR) -not -path $(PROTO_DIR)/common -exec basename {} \; 2>/dev/null | sort)
-SERVICES ?= $(if $(AVAILABLE_SERVICES),$(AVAILABLE_SERVICES),fund game manage platform)
+SERVICES ?= $(if $(AVAILABLE_SERVICES),$(AVAILABLE_SERVICES),fund game manage platform temporal)
 
 # 颜色定义
 RED := \033[0;31m
