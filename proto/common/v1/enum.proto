@@ -89,5 +89,5 @@ enum BetStatus {
   BET_STATUS_BET = 1;       // 投注
   BET_STATUS_SETTLE = 2;    // 结算
   BET_STATUS_CANCEL = 3;    // 投注取消
-  BET_STATUS_DISCARD = 4;   // 结算取消
+  BET_STATUS_DISCARD = 4;   // 废弃
 }

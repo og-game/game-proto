@@ -435,7 +435,7 @@ const (
 	BetStatus_BET_STATUS_BET     BetStatus = 1 // 投注
 	BetStatus_BET_STATUS_SETTLE  BetStatus = 2 // 结算
 	BetStatus_BET_STATUS_CANCEL  BetStatus = 3 // 投注取消
-	BetStatus_BET_STATUS_DISCARD BetStatus = 4 // 结算取消
+	BetStatus_BET_STATUS_DISCARD BetStatus = 4 // 废弃
 )
 
 // Enum value maps for BetStatus.
