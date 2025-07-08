@@ -278,7 +278,6 @@ type TransferReq struct {
 	IsDeposit     bool                   `protobuf:"varint,4,opt,name=is_deposit,json=isDeposit,proto3" json:"is_deposit,omitempty"`         // 是否存款 true 存款 false 取款
 	Amount        float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`                               // 金额(正数)
 	OrderNo       string                 `protobuf:"bytes,6,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`                // 交易订单号
-	ThirdGameId   string                 `protobuf:"bytes,7,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`  // 三方游戏id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -351,13 +350,6 @@ func (x *TransferReq) GetAmount() float64 {
 func (x *TransferReq) GetOrderNo() string {
 	if x != nil {
 		return x.OrderNo
-	}
-	return ""
-}
-
-func (x *TransferReq) GetThirdGameId() string {
-	if x != nil {
-		return x.ThirdGameId
 	}
 	return ""
 }
@@ -1029,7 +1021,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\".\n" +
 	"\x12GetUserBalanceResp\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\x01R\abalance\"\xe2\x01\n" +
+	"\abalance\x18\x01 \x01(\x01R\abalance\"\xbe\x01\n" +
 	"\vTransferReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\x12\x17\n" +
@@ -1038,8 +1030,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"is_deposit\x18\x04 \x01(\bR\tisDeposit\x12\x16\n" +
 	"\x06amount\x18\x05 \x01(\x01R\x06amount\x12\x19\n" +
-	"\border_no\x18\x06 \x01(\tR\aorderNo\x12\"\n" +
-	"\rthird_game_id\x18\a \x01(\tR\vthirdGameId\"\xad\x01\n" +
+	"\border_no\x18\x06 \x01(\tR\aorderNo\"\xad\x01\n" +
 	"\fTransferResp\x12\x19\n" +
 	"\border_no\x18\x01 \x01(\tR\aorderNo\x12$\n" +
 	"\x0ethird_order_no\x18\x02 \x01(\tR\fthirdOrderNo\x12\x18\n" +
