@@ -3206,7 +3206,7 @@ func (x *ScheduleInfo) GetState() ScheduleState {
 	if x != nil {
 		return x.State
 	}
-	return ScheduleState__UNSPECIFIED
+	return ScheduleState_SCHEDULE_STATE_UNSPECIFIED
 }
 
 func (x *ScheduleInfo) GetCreatedTime() int64 {
