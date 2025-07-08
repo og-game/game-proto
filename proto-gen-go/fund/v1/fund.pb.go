@@ -764,7 +764,8 @@ type TransferInReq struct {
 	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
 	Amount          float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
 	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
-	ExtraParams     map[string]string      `protobuf:"bytes,5,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ThirdGameId     string                 `protobuf:"bytes,5,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`             // 三方游戏id
+	ExtraParams     map[string]string      `protobuf:"bytes,6,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -823,6 +824,13 @@ func (x *TransferInReq) GetAmount() float64 {
 func (x *TransferInReq) GetMerchantOrderId() string {
 	if x != nil {
 		return x.MerchantOrderId
+	}
+	return ""
+}
+
+func (x *TransferInReq) GetThirdGameId() string {
+	if x != nil {
+		return x.ThirdGameId
 	}
 	return ""
 }
@@ -1342,14 +1350,15 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bbalances\x18\x01 \x03(\v2*.fund.v1.UserBalanceListResp.BalancesEntryR\bbalances\x1a;\n" +
 	"\rBalancesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\x99\x02\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\xbd\x02\n" +
 	"\rTransferInReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12\x16\n" +
 	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12*\n" +
-	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12J\n" +
-	"\fextra_params\x18\x05 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12\"\n" +
+	"\rthird_game_id\x18\x05 \x01(\tR\vthirdGameId\x12J\n" +
+	"\fextra_params\x18\x06 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xda\x01\n" +

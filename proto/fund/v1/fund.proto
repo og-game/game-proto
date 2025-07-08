@@ -135,7 +135,8 @@ message TransferInReq{
   int64 platform_id = 2;
   double amount = 3;
   string merchant_order_id = 4;  // 商户订单ID
-  map<string, string> extra_params = 5;
+  string third_game_id = 5; // 三方游戏id
+  map<string, string> extra_params = 6;
 }
 
 // 发起转入操作
