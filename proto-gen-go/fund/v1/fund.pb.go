@@ -918,6 +918,7 @@ type TransferOutReq struct {
 	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
 	MerchantOrderId string                 `protobuf:"bytes,3,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
 	ExtraParams     map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Amount          float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -978,6 +979,13 @@ func (x *TransferOutReq) GetExtraParams() map[string]string {
 		return x.ExtraParams
 	}
 	return nil
+}
+
+func (x *TransferOutReq) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
 }
 
 // 发起转出操作;
@@ -1358,13 +1366,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x121\n" +
-	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\"\x83\x02\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\"\x9b\x02\n" +
 	"\x0eTransferOutReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12*\n" +
 	"\x11merchant_order_id\x18\x03 \x01(\tR\x0fmerchantOrderId\x12K\n" +
-	"\fextra_params\x18\x04 \x03(\v2(.fund.v1.TransferOutReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
+	"\fextra_params\x18\x04 \x03(\v2(.fund.v1.TransferOutReq.ExtraParamsEntryR\vextraParams\x12\x16\n" +
+	"\x06amount\x18\x05 \x01(\x01R\x06amount\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf3\x01\n" +
