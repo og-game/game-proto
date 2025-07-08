@@ -3,20 +3,309 @@ syntax = "proto3";
 package temporal.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/temporal/v1";
 
+// ================================
+// 1. 工作流执行管理服务
+// ================================
+service WorkflowExecutionService {
+  // 启动工作流
+  rpc StartWorkflow(StartWorkflowRequest) returns (StartWorkflowResponse);
 
-message TemporalReq{
+  // 批量启动工作流
+  rpc BatchStartWorkflow(BatchStartWorkflowRequest) returns (BatchStartWorkflowResponse);
 
+  // 取消工作流
+  rpc CancelWorkflow(CancelWorkflowRequest) returns (CancelWorkflowResponse);
+
+  // 终止工作流
+  rpc TerminateWorkflow(TerminateWorkflowRequest) returns (TerminateWorkflowResponse);
 }
 
-message TemporalResp{
+// ================================
+// 2. 工作流查询监控服务
+// ================================
+service WorkflowQueryService {
+  // 查询工作流状态
+  rpc GetWorkflowStatus(GetWorkflowStatusRequest) returns (GetWorkflowStatusResponse);
 
+  // 获取工作流执行历史
+  rpc GetWorkflowHistory(GetWorkflowHistoryRequest) returns (GetWorkflowHistoryResponse);
+
+  // 查询工作流列表
+  rpc ListWorkflows(ListWorkflowsRequest) returns (ListWorkflowsResponse);
 }
 
+// ================================
+// 3. 工作流交互服务
+// ================================
+service WorkflowInteractionService {
+  // 发送信号到工作流
+  rpc SignalWorkflow(SignalWorkflowRequest) returns (SignalWorkflowResponse);
 
+  // 查询工作流 (用于信号前的状态检查)
+  rpc QueryWorkflow(QueryWorkflowRequest) returns (QueryWorkflowResponse);
 
-service TemporalInnerService {
+  // 信号并启动工作流 (如果工作流不存在则启动)
+  rpc SignalWithStart(SignalWithStartRequest) returns (SignalWithStartResponse);
+}
 
-  // test
-  rpc Test(TemporalReq) returns(TemporalResp);
+// ================================
+// 4. 定时任务管理服务
+// ================================
+service ScheduleService {
+  // 创建定时任务
+  rpc CreateSchedule(CreateScheduleRequest) returns (CreateScheduleResponse);
 
+  // 删除定时任务
+  rpc DeleteSchedule(DeleteScheduleRequest) returns (DeleteScheduleResponse);
+
+  // 获取定时任务列表
+  rpc ListSchedules(ListSchedulesRequest) returns (ListSchedulesResponse);
+
+  // 暂停/恢复定时任务
+  rpc PauseSchedule(PauseScheduleRequest) returns (PauseScheduleResponse);
+
+  // 获取定时任务详情
+  rpc GetSchedule(GetScheduleRequest) returns (GetScheduleResponse);
+}
+
+// ================================
+// 共用消息定义
+// ================================
+
+// 工作流执行相关消息
+message StartWorkflowRequest {
+  string workflow_id = 1;
+  string workflow_type = 2;
+  string task_queue = 3;
+  string input = 4;
+  map<string, string> options = 5;
+  int32 execution_timeout_seconds = 6;
+  int32 task_timeout_seconds = 7;
+  string retry_policy = 8;
+  string cron_schedule = 9;
+  map<string, string> memo = 10;
+  map<string, string> search_attributes = 11;
+}
+
+message StartWorkflowResponse {
+  string workflow_id = 1;
+  string run_id = 2;
+  bool success = 3;
+  string message = 4;
+}
+
+message BatchStartWorkflowRequest {
+  repeated StartWorkflowRequest workflows = 1;
+}
+
+message BatchStartWorkflowResponse {
+  repeated StartWorkflowResponse results = 1;
+  int32 success_count = 2;
+  int32 failed_count = 3;
+}
+
+message CancelWorkflowRequest {
+  string workflow_id = 1;
+  string run_id = 2;
+  string reason = 3;
+}
+
+message CancelWorkflowResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message TerminateWorkflowRequest {
+  string workflow_id = 1;
+  string run_id = 2;
+  string reason = 3;
+  string details = 4;
+}
+
+message TerminateWorkflowResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 工作流查询相关消息
+message GetWorkflowStatusRequest {
+  string workflow_id = 1;
+  string run_id = 2;
+}
+
+message GetWorkflowStatusResponse {
+  string workflow_id = 1;
+  string run_id = 2;
+  string status = 3;
+  string result = 4;
+  string error = 5;
+  int64 start_time = 6;
+  int64 close_time = 7;
+  int64 execution_time = 8;
+  map<string, string> memo = 9;
+  map<string, string> search_attributes = 10;
+}
+
+message GetWorkflowHistoryRequest {
+  string workflow_id = 1;
+  string run_id = 2;
+  int32 page_size = 3;
+  string next_page_token = 4;
+}
+
+message WorkflowEvent {
+  int64 event_id = 1;
+  int64 timestamp = 2;
+  string event_type = 3;
+  string details = 4;
+}
+
+message GetWorkflowHistoryResponse {
+  repeated WorkflowEvent events = 1;
+  string next_page_token = 2;
+  bool has_more = 3;
+}
+
+message ListWorkflowsRequest {
+  string query = 1;
+  int32 page_size = 2;
+  string next_page_token = 3;
+}
+
+message WorkflowInfo {
+  string workflow_id = 1;
+  string run_id = 2;
+  string workflow_type = 3;
+  string task_queue = 4;
+  string status = 5;
+  int64 start_time = 6;
+  int64 close_time = 7;
+  int64 execution_time = 8;
+  map<string, string> memo = 9;
+}
+
+message ListWorkflowsResponse {
+  repeated WorkflowInfo workflows = 1;
+  string next_page_token = 2;
+  bool has_more = 3;
+}
+
+// 工作流交互相关消息
+message SignalWorkflowRequest {
+  string workflow_id = 1;
+  string run_id = 2;
+  string signal_name = 3;
+  string input = 4;
+}
+
+message SignalWorkflowResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 查询工作流
+message QueryWorkflowRequest {
+  string workflow_id = 1;
+  string run_id = 2;
+  string query_type = 3;
+  string input = 4;
+}
+
+message QueryWorkflowResponse {
+  bool success = 1;
+  string result = 2;
+  string error = 3;
+}
+
+// 信号并启动
+message SignalWithStartRequest {
+  string workflow_id = 1;
+  string workflow_type = 2;
+  string task_queue = 3;
+  string workflow_input = 4;
+  string signal_name = 5;
+  string signal_input = 6;
+  map<string, string> options = 7;
+}
+
+message SignalWithStartResponse {
+  string workflow_id = 1;
+  string run_id = 2;
+  bool started = 3;  // 是否新启动了工作流
+  bool success = 4;
+  string message = 5;
+}
+
+// 定时任务相关消息
+message CreateScheduleRequest {
+  string schedule_id = 1;
+  string cron_expression = 2;
+  string workflow_type = 3;
+  string task_queue = 4;
+  string input = 5;
+  string timezone = 6;
+  string description = 7;
+  map<string, string> memo = 8;
+  bool paused = 9;
+}
+
+message CreateScheduleResponse {
+  bool success = 1;
+  string message = 2;
+  string schedule_id = 3;
+}
+
+message DeleteScheduleRequest {
+  string schedule_id = 1;
+}
+
+message DeleteScheduleResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ListSchedulesRequest {
+  int64 page_size = 1;
+  string query = 2;
+}
+
+message ScheduleInfo {
+  string schedule_id = 1;
+  string cron_expression = 2;
+  string workflow_type = 3;
+  string task_queue = 4;
+  string description = 5;
+  bool paused = 6;
+  int64 created_time = 7;
+  int64 last_run_time = 8;
+  int64 next_run_time = 9;
+}
+
+message ListSchedulesResponse {
+  repeated ScheduleInfo schedules = 1;
+  string next_page_token = 2;
+  bool has_more = 3;
+}
+
+// 暂停/恢复定时任务
+message PauseScheduleRequest {
+  string schedule_id = 1;
+  bool paused = 2;  // true: 暂停, false: 恢复
+  string reason = 3;
+}
+
+message PauseScheduleResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 获取定时任务详情
+message GetScheduleRequest {
+  string schedule_id = 1;
+}
+
+message GetScheduleResponse {
+  ScheduleInfo schedule = 1;
+  bool success = 2;
+  string message = 3;
 }

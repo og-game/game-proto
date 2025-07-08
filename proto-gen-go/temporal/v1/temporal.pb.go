@@ -21,26 +21,38 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type TemporalReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+// 工作流执行相关消息
+type StartWorkflowRequest struct {
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId              string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	WorkflowType            string                 `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue               string                 `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Input                   string                 `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
+	Options                 map[string]string      `protobuf:"bytes,5,rep,name=options,proto3" json:"options,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ExecutionTimeoutSeconds int32                  `protobuf:"varint,6,opt,name=execution_timeout_seconds,json=executionTimeoutSeconds,proto3" json:"execution_timeout_seconds,omitempty"`
+	TaskTimeoutSeconds      int32                  `protobuf:"varint,7,opt,name=task_timeout_seconds,json=taskTimeoutSeconds,proto3" json:"task_timeout_seconds,omitempty"`
+	RetryPolicy             string                 `protobuf:"bytes,8,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	CronSchedule            string                 `protobuf:"bytes,9,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
+	Memo                    map[string]string      `protobuf:"bytes,10,rep,name=memo,proto3" json:"memo,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	SearchAttributes        map[string]string      `protobuf:"bytes,11,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
-func (x *TemporalReq) Reset() {
-	*x = TemporalReq{}
+func (x *StartWorkflowRequest) Reset() {
+	*x = StartWorkflowRequest{}
 	mi := &file_temporal_v1_temporal_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TemporalReq) String() string {
+func (x *StartWorkflowRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TemporalReq) ProtoMessage() {}
+func (*StartWorkflowRequest) ProtoMessage() {}
 
-func (x *TemporalReq) ProtoReflect() protoreflect.Message {
+func (x *StartWorkflowRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_v1_temporal_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -52,31 +64,112 @@ func (x *TemporalReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TemporalReq.ProtoReflect.Descriptor instead.
-func (*TemporalReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use StartWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*StartWorkflowRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{0}
 }
 
-type TemporalResp struct {
+func (x *StartWorkflowRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *StartWorkflowRequest) GetWorkflowType() string {
+	if x != nil {
+		return x.WorkflowType
+	}
+	return ""
+}
+
+func (x *StartWorkflowRequest) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *StartWorkflowRequest) GetInput() string {
+	if x != nil {
+		return x.Input
+	}
+	return ""
+}
+
+func (x *StartWorkflowRequest) GetOptions() map[string]string {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+func (x *StartWorkflowRequest) GetExecutionTimeoutSeconds() int32 {
+	if x != nil {
+		return x.ExecutionTimeoutSeconds
+	}
+	return 0
+}
+
+func (x *StartWorkflowRequest) GetTaskTimeoutSeconds() int32 {
+	if x != nil {
+		return x.TaskTimeoutSeconds
+	}
+	return 0
+}
+
+func (x *StartWorkflowRequest) GetRetryPolicy() string {
+	if x != nil {
+		return x.RetryPolicy
+	}
+	return ""
+}
+
+func (x *StartWorkflowRequest) GetCronSchedule() string {
+	if x != nil {
+		return x.CronSchedule
+	}
+	return ""
+}
+
+func (x *StartWorkflowRequest) GetMemo() map[string]string {
+	if x != nil {
+		return x.Memo
+	}
+	return nil
+}
+
+func (x *StartWorkflowRequest) GetSearchAttributes() map[string]string {
+	if x != nil {
+		return x.SearchAttributes
+	}
+	return nil
+}
+
+type StartWorkflowResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Success       bool                   `protobuf:"varint,3,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *TemporalResp) Reset() {
-	*x = TemporalResp{}
+func (x *StartWorkflowResponse) Reset() {
+	*x = StartWorkflowResponse{}
 	mi := &file_temporal_v1_temporal_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TemporalResp) String() string {
+func (x *StartWorkflowResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TemporalResp) ProtoMessage() {}
+func (*StartWorkflowResponse) ProtoMessage() {}
 
-func (x *TemporalResp) ProtoReflect() protoreflect.Message {
+func (x *StartWorkflowResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_v1_temporal_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -88,20 +181,2335 @@ func (x *TemporalResp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TemporalResp.ProtoReflect.Descriptor instead.
-func (*TemporalResp) Descriptor() ([]byte, []int) {
+// Deprecated: Use StartWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*StartWorkflowResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *StartWorkflowResponse) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *StartWorkflowResponse) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *StartWorkflowResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *StartWorkflowResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type BatchStartWorkflowRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Workflows     []*StartWorkflowRequest `protobuf:"bytes,1,rep,name=workflows,proto3" json:"workflows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BatchStartWorkflowRequest) Reset() {
+	*x = BatchStartWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchStartWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchStartWorkflowRequest) ProtoMessage() {}
+
+func (x *BatchStartWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchStartWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*BatchStartWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *BatchStartWorkflowRequest) GetWorkflows() []*StartWorkflowRequest {
+	if x != nil {
+		return x.Workflows
+	}
+	return nil
+}
+
+type BatchStartWorkflowResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Results       []*StartWorkflowResponse `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	SuccessCount  int32                    `protobuf:"varint,2,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
+	FailedCount   int32                    `protobuf:"varint,3,opt,name=failed_count,json=failedCount,proto3" json:"failed_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BatchStartWorkflowResponse) Reset() {
+	*x = BatchStartWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchStartWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchStartWorkflowResponse) ProtoMessage() {}
+
+func (x *BatchStartWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchStartWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*BatchStartWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *BatchStartWorkflowResponse) GetResults() []*StartWorkflowResponse {
+	if x != nil {
+		return x.Results
+	}
+	return nil
+}
+
+func (x *BatchStartWorkflowResponse) GetSuccessCount() int32 {
+	if x != nil {
+		return x.SuccessCount
+	}
+	return 0
+}
+
+func (x *BatchStartWorkflowResponse) GetFailedCount() int32 {
+	if x != nil {
+		return x.FailedCount
+	}
+	return 0
+}
+
+type CancelWorkflowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelWorkflowRequest) Reset() {
+	*x = CancelWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelWorkflowRequest) ProtoMessage() {}
+
+func (x *CancelWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*CancelWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *CancelWorkflowRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *CancelWorkflowRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *CancelWorkflowRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type CancelWorkflowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelWorkflowResponse) Reset() {
+	*x = CancelWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelWorkflowResponse) ProtoMessage() {}
+
+func (x *CancelWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*CancelWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CancelWorkflowResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *CancelWorkflowResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type TerminateWorkflowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	Details       string                 `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TerminateWorkflowRequest) Reset() {
+	*x = TerminateWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TerminateWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TerminateWorkflowRequest) ProtoMessage() {}
+
+func (x *TerminateWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TerminateWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*TerminateWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *TerminateWorkflowRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *TerminateWorkflowRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *TerminateWorkflowRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *TerminateWorkflowRequest) GetDetails() string {
+	if x != nil {
+		return x.Details
+	}
+	return ""
+}
+
+type TerminateWorkflowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TerminateWorkflowResponse) Reset() {
+	*x = TerminateWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TerminateWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TerminateWorkflowResponse) ProtoMessage() {}
+
+func (x *TerminateWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TerminateWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*TerminateWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *TerminateWorkflowResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *TerminateWorkflowResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+// 工作流查询相关消息
+type GetWorkflowStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkflowStatusRequest) Reset() {
+	*x = GetWorkflowStatusRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkflowStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkflowStatusRequest) ProtoMessage() {}
+
+func (x *GetWorkflowStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkflowStatusRequest.ProtoReflect.Descriptor instead.
+func (*GetWorkflowStatusRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetWorkflowStatusRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *GetWorkflowStatusRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+type GetWorkflowStatusResponse struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId       string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId            string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Status           string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	Result           string                 `protobuf:"bytes,4,opt,name=result,proto3" json:"result,omitempty"`
+	Error            string                 `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
+	StartTime        int64                  `protobuf:"varint,6,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	CloseTime        int64                  `protobuf:"varint,7,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	ExecutionTime    int64                  `protobuf:"varint,8,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
+	Memo             map[string]string      `protobuf:"bytes,9,rep,name=memo,proto3" json:"memo,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	SearchAttributes map[string]string      `protobuf:"bytes,10,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *GetWorkflowStatusResponse) Reset() {
+	*x = GetWorkflowStatusResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkflowStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkflowStatusResponse) ProtoMessage() {}
+
+func (x *GetWorkflowStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkflowStatusResponse.ProtoReflect.Descriptor instead.
+func (*GetWorkflowStatusResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetWorkflowStatusResponse) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *GetWorkflowStatusResponse) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *GetWorkflowStatusResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *GetWorkflowStatusResponse) GetResult() string {
+	if x != nil {
+		return x.Result
+	}
+	return ""
+}
+
+func (x *GetWorkflowStatusResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *GetWorkflowStatusResponse) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *GetWorkflowStatusResponse) GetCloseTime() int64 {
+	if x != nil {
+		return x.CloseTime
+	}
+	return 0
+}
+
+func (x *GetWorkflowStatusResponse) GetExecutionTime() int64 {
+	if x != nil {
+		return x.ExecutionTime
+	}
+	return 0
+}
+
+func (x *GetWorkflowStatusResponse) GetMemo() map[string]string {
+	if x != nil {
+		return x.Memo
+	}
+	return nil
+}
+
+func (x *GetWorkflowStatusResponse) GetSearchAttributes() map[string]string {
+	if x != nil {
+		return x.SearchAttributes
+	}
+	return nil
+}
+
+type GetWorkflowHistoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkflowHistoryRequest) Reset() {
+	*x = GetWorkflowHistoryRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkflowHistoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkflowHistoryRequest) ProtoMessage() {}
+
+func (x *GetWorkflowHistoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkflowHistoryRequest.ProtoReflect.Descriptor instead.
+func (*GetWorkflowHistoryRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetWorkflowHistoryRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *GetWorkflowHistoryRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *GetWorkflowHistoryRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *GetWorkflowHistoryRequest) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type WorkflowEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EventId       int64                  `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	Timestamp     int64                  `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	EventType     string                 `protobuf:"bytes,3,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	Details       string                 `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkflowEvent) Reset() {
+	*x = WorkflowEvent{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkflowEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkflowEvent) ProtoMessage() {}
+
+func (x *WorkflowEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkflowEvent.ProtoReflect.Descriptor instead.
+func (*WorkflowEvent) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *WorkflowEvent) GetEventId() int64 {
+	if x != nil {
+		return x.EventId
+	}
+	return 0
+}
+
+func (x *WorkflowEvent) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
+func (x *WorkflowEvent) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *WorkflowEvent) GetDetails() string {
+	if x != nil {
+		return x.Details
+	}
+	return ""
+}
+
+type GetWorkflowHistoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Events        []*WorkflowEvent       `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	HasMore       bool                   `protobuf:"varint,3,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkflowHistoryResponse) Reset() {
+	*x = GetWorkflowHistoryResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkflowHistoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkflowHistoryResponse) ProtoMessage() {}
+
+func (x *GetWorkflowHistoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkflowHistoryResponse.ProtoReflect.Descriptor instead.
+func (*GetWorkflowHistoryResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetWorkflowHistoryResponse) GetEvents() []*WorkflowEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *GetWorkflowHistoryResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+func (x *GetWorkflowHistoryResponse) GetHasMore() bool {
+	if x != nil {
+		return x.HasMore
+	}
+	return false
+}
+
+type ListWorkflowsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListWorkflowsRequest) Reset() {
+	*x = ListWorkflowsRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListWorkflowsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkflowsRequest) ProtoMessage() {}
+
+func (x *ListWorkflowsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkflowsRequest.ProtoReflect.Descriptor instead.
+func (*ListWorkflowsRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListWorkflowsRequest) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+func (x *ListWorkflowsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListWorkflowsRequest) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type WorkflowInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	WorkflowType  string                 `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue     string                 `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	StartTime     int64                  `protobuf:"varint,6,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	CloseTime     int64                  `protobuf:"varint,7,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	ExecutionTime int64                  `protobuf:"varint,8,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
+	Memo          map[string]string      `protobuf:"bytes,9,rep,name=memo,proto3" json:"memo,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkflowInfo) Reset() {
+	*x = WorkflowInfo{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkflowInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkflowInfo) ProtoMessage() {}
+
+func (x *WorkflowInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkflowInfo.ProtoReflect.Descriptor instead.
+func (*WorkflowInfo) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *WorkflowInfo) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *WorkflowInfo) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *WorkflowInfo) GetWorkflowType() string {
+	if x != nil {
+		return x.WorkflowType
+	}
+	return ""
+}
+
+func (x *WorkflowInfo) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *WorkflowInfo) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *WorkflowInfo) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *WorkflowInfo) GetCloseTime() int64 {
+	if x != nil {
+		return x.CloseTime
+	}
+	return 0
+}
+
+func (x *WorkflowInfo) GetExecutionTime() int64 {
+	if x != nil {
+		return x.ExecutionTime
+	}
+	return 0
+}
+
+func (x *WorkflowInfo) GetMemo() map[string]string {
+	if x != nil {
+		return x.Memo
+	}
+	return nil
+}
+
+type ListWorkflowsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Workflows     []*WorkflowInfo        `protobuf:"bytes,1,rep,name=workflows,proto3" json:"workflows,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	HasMore       bool                   `protobuf:"varint,3,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListWorkflowsResponse) Reset() {
+	*x = ListWorkflowsResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListWorkflowsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkflowsResponse) ProtoMessage() {}
+
+func (x *ListWorkflowsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkflowsResponse.ProtoReflect.Descriptor instead.
+func (*ListWorkflowsResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ListWorkflowsResponse) GetWorkflows() []*WorkflowInfo {
+	if x != nil {
+		return x.Workflows
+	}
+	return nil
+}
+
+func (x *ListWorkflowsResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+func (x *ListWorkflowsResponse) GetHasMore() bool {
+	if x != nil {
+		return x.HasMore
+	}
+	return false
+}
+
+// 工作流交互相关消息
+type SignalWorkflowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	SignalName    string                 `protobuf:"bytes,3,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
+	Input         string                 `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SignalWorkflowRequest) Reset() {
+	*x = SignalWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SignalWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignalWorkflowRequest) ProtoMessage() {}
+
+func (x *SignalWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignalWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*SignalWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *SignalWorkflowRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *SignalWorkflowRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *SignalWorkflowRequest) GetSignalName() string {
+	if x != nil {
+		return x.SignalName
+	}
+	return ""
+}
+
+func (x *SignalWorkflowRequest) GetInput() string {
+	if x != nil {
+		return x.Input
+	}
+	return ""
+}
+
+type SignalWorkflowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SignalWorkflowResponse) Reset() {
+	*x = SignalWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SignalWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignalWorkflowResponse) ProtoMessage() {}
+
+func (x *SignalWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignalWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*SignalWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *SignalWorkflowResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *SignalWorkflowResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+// 查询工作流
+type QueryWorkflowRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	QueryType     string                 `protobuf:"bytes,3,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
+	Input         string                 `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *QueryWorkflowRequest) Reset() {
+	*x = QueryWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QueryWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryWorkflowRequest) ProtoMessage() {}
+
+func (x *QueryWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*QueryWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *QueryWorkflowRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *QueryWorkflowRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *QueryWorkflowRequest) GetQueryType() string {
+	if x != nil {
+		return x.QueryType
+	}
+	return ""
+}
+
+func (x *QueryWorkflowRequest) GetInput() string {
+	if x != nil {
+		return x.Input
+	}
+	return ""
+}
+
+type QueryWorkflowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Result        string                 `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
+	Error         string                 `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *QueryWorkflowResponse) Reset() {
+	*x = QueryWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QueryWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryWorkflowResponse) ProtoMessage() {}
+
+func (x *QueryWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*QueryWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *QueryWorkflowResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *QueryWorkflowResponse) GetResult() string {
+	if x != nil {
+		return x.Result
+	}
+	return ""
+}
+
+func (x *QueryWorkflowResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+// 信号并启动
+type SignalWithStartRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	WorkflowType  string                 `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue     string                 `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	WorkflowInput string                 `protobuf:"bytes,4,opt,name=workflow_input,json=workflowInput,proto3" json:"workflow_input,omitempty"`
+	SignalName    string                 `protobuf:"bytes,5,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
+	SignalInput   string                 `protobuf:"bytes,6,opt,name=signal_input,json=signalInput,proto3" json:"signal_input,omitempty"`
+	Options       map[string]string      `protobuf:"bytes,7,rep,name=options,proto3" json:"options,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SignalWithStartRequest) Reset() {
+	*x = SignalWithStartRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SignalWithStartRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignalWithStartRequest) ProtoMessage() {}
+
+func (x *SignalWithStartRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignalWithStartRequest.ProtoReflect.Descriptor instead.
+func (*SignalWithStartRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *SignalWithStartRequest) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *SignalWithStartRequest) GetWorkflowType() string {
+	if x != nil {
+		return x.WorkflowType
+	}
+	return ""
+}
+
+func (x *SignalWithStartRequest) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *SignalWithStartRequest) GetWorkflowInput() string {
+	if x != nil {
+		return x.WorkflowInput
+	}
+	return ""
+}
+
+func (x *SignalWithStartRequest) GetSignalName() string {
+	if x != nil {
+		return x.SignalName
+	}
+	return ""
+}
+
+func (x *SignalWithStartRequest) GetSignalInput() string {
+	if x != nil {
+		return x.SignalInput
+	}
+	return ""
+}
+
+func (x *SignalWithStartRequest) GetOptions() map[string]string {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+type SignalWithStartResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Started       bool                   `protobuf:"varint,3,opt,name=started,proto3" json:"started,omitempty"` // 是否新启动了工作流
+	Success       bool                   `protobuf:"varint,4,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,5,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SignalWithStartResponse) Reset() {
+	*x = SignalWithStartResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SignalWithStartResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignalWithStartResponse) ProtoMessage() {}
+
+func (x *SignalWithStartResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignalWithStartResponse.ProtoReflect.Descriptor instead.
+func (*SignalWithStartResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *SignalWithStartResponse) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *SignalWithStartResponse) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *SignalWithStartResponse) GetStarted() bool {
+	if x != nil {
+		return x.Started
+	}
+	return false
+}
+
+func (x *SignalWithStartResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *SignalWithStartResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+// 定时任务相关消息
+type CreateScheduleRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ScheduleId     string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	CronExpression string                 `protobuf:"bytes,2,opt,name=cron_expression,json=cronExpression,proto3" json:"cron_expression,omitempty"`
+	WorkflowType   string                 `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue      string                 `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Input          string                 `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	Timezone       string                 `protobuf:"bytes,6,opt,name=timezone,proto3" json:"timezone,omitempty"`
+	Description    string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
+	Memo           map[string]string      `protobuf:"bytes,8,rep,name=memo,proto3" json:"memo,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Paused         bool                   `protobuf:"varint,9,opt,name=paused,proto3" json:"paused,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CreateScheduleRequest) Reset() {
+	*x = CreateScheduleRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateScheduleRequest) ProtoMessage() {}
+
+func (x *CreateScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateScheduleRequest.ProtoReflect.Descriptor instead.
+func (*CreateScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *CreateScheduleRequest) GetScheduleId() string {
+	if x != nil {
+		return x.ScheduleId
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetCronExpression() string {
+	if x != nil {
+		return x.CronExpression
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetWorkflowType() string {
+	if x != nil {
+		return x.WorkflowType
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetInput() string {
+	if x != nil {
+		return x.Input
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetTimezone() string {
+	if x != nil {
+		return x.Timezone
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateScheduleRequest) GetMemo() map[string]string {
+	if x != nil {
+		return x.Memo
+	}
+	return nil
+}
+
+func (x *CreateScheduleRequest) GetPaused() bool {
+	if x != nil {
+		return x.Paused
+	}
+	return false
+}
+
+type CreateScheduleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	ScheduleId    string                 `protobuf:"bytes,3,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateScheduleResponse) Reset() {
+	*x = CreateScheduleResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateScheduleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateScheduleResponse) ProtoMessage() {}
+
+func (x *CreateScheduleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateScheduleResponse.ProtoReflect.Descriptor instead.
+func (*CreateScheduleResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *CreateScheduleResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *CreateScheduleResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreateScheduleResponse) GetScheduleId() string {
+	if x != nil {
+		return x.ScheduleId
+	}
+	return ""
+}
+
+type DeleteScheduleRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ScheduleId    string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteScheduleRequest) Reset() {
+	*x = DeleteScheduleRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteScheduleRequest) ProtoMessage() {}
+
+func (x *DeleteScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteScheduleRequest.ProtoReflect.Descriptor instead.
+func (*DeleteScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *DeleteScheduleRequest) GetScheduleId() string {
+	if x != nil {
+		return x.ScheduleId
+	}
+	return ""
+}
+
+type DeleteScheduleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteScheduleResponse) Reset() {
+	*x = DeleteScheduleResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteScheduleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteScheduleResponse) ProtoMessage() {}
+
+func (x *DeleteScheduleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteScheduleResponse.ProtoReflect.Descriptor instead.
+func (*DeleteScheduleResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *DeleteScheduleResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *DeleteScheduleResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type ListSchedulesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageSize      int64                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Query         string                 `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSchedulesRequest) Reset() {
+	*x = ListSchedulesRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSchedulesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSchedulesRequest) ProtoMessage() {}
+
+func (x *ListSchedulesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSchedulesRequest.ProtoReflect.Descriptor instead.
+func (*ListSchedulesRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *ListSchedulesRequest) GetPageSize() int64 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListSchedulesRequest) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+type ScheduleInfo struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ScheduleId     string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	CronExpression string                 `protobuf:"bytes,2,opt,name=cron_expression,json=cronExpression,proto3" json:"cron_expression,omitempty"`
+	WorkflowType   string                 `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue      string                 `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	Paused         bool                   `protobuf:"varint,6,opt,name=paused,proto3" json:"paused,omitempty"`
+	CreatedTime    int64                  `protobuf:"varint,7,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
+	LastRunTime    int64                  `protobuf:"varint,8,opt,name=last_run_time,json=lastRunTime,proto3" json:"last_run_time,omitempty"`
+	NextRunTime    int64                  `protobuf:"varint,9,opt,name=next_run_time,json=nextRunTime,proto3" json:"next_run_time,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ScheduleInfo) Reset() {
+	*x = ScheduleInfo{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ScheduleInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ScheduleInfo) ProtoMessage() {}
+
+func (x *ScheduleInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ScheduleInfo.ProtoReflect.Descriptor instead.
+func (*ScheduleInfo) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *ScheduleInfo) GetScheduleId() string {
+	if x != nil {
+		return x.ScheduleId
+	}
+	return ""
+}
+
+func (x *ScheduleInfo) GetCronExpression() string {
+	if x != nil {
+		return x.CronExpression
+	}
+	return ""
+}
+
+func (x *ScheduleInfo) GetWorkflowType() string {
+	if x != nil {
+		return x.WorkflowType
+	}
+	return ""
+}
+
+func (x *ScheduleInfo) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *ScheduleInfo) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ScheduleInfo) GetPaused() bool {
+	if x != nil {
+		return x.Paused
+	}
+	return false
+}
+
+func (x *ScheduleInfo) GetCreatedTime() int64 {
+	if x != nil {
+		return x.CreatedTime
+	}
+	return 0
+}
+
+func (x *ScheduleInfo) GetLastRunTime() int64 {
+	if x != nil {
+		return x.LastRunTime
+	}
+	return 0
+}
+
+func (x *ScheduleInfo) GetNextRunTime() int64 {
+	if x != nil {
+		return x.NextRunTime
+	}
+	return 0
+}
+
+type ListSchedulesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Schedules     []*ScheduleInfo        `protobuf:"bytes,1,rep,name=schedules,proto3" json:"schedules,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	HasMore       bool                   `protobuf:"varint,3,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSchedulesResponse) Reset() {
+	*x = ListSchedulesResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSchedulesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSchedulesResponse) ProtoMessage() {}
+
+func (x *ListSchedulesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSchedulesResponse.ProtoReflect.Descriptor instead.
+func (*ListSchedulesResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *ListSchedulesResponse) GetSchedules() []*ScheduleInfo {
+	if x != nil {
+		return x.Schedules
+	}
+	return nil
+}
+
+func (x *ListSchedulesResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+func (x *ListSchedulesResponse) GetHasMore() bool {
+	if x != nil {
+		return x.HasMore
+	}
+	return false
+}
+
+// 暂停/恢复定时任务
+type PauseScheduleRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ScheduleId    string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	Paused        bool                   `protobuf:"varint,2,opt,name=paused,proto3" json:"paused,omitempty"` // true: 暂停, false: 恢复
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PauseScheduleRequest) Reset() {
+	*x = PauseScheduleRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PauseScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PauseScheduleRequest) ProtoMessage() {}
+
+func (x *PauseScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PauseScheduleRequest.ProtoReflect.Descriptor instead.
+func (*PauseScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *PauseScheduleRequest) GetScheduleId() string {
+	if x != nil {
+		return x.ScheduleId
+	}
+	return ""
+}
+
+func (x *PauseScheduleRequest) GetPaused() bool {
+	if x != nil {
+		return x.Paused
+	}
+	return false
+}
+
+func (x *PauseScheduleRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type PauseScheduleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PauseScheduleResponse) Reset() {
+	*x = PauseScheduleResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PauseScheduleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PauseScheduleResponse) ProtoMessage() {}
+
+func (x *PauseScheduleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PauseScheduleResponse.ProtoReflect.Descriptor instead.
+func (*PauseScheduleResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *PauseScheduleResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *PauseScheduleResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+// 获取定时任务详情
+type GetScheduleRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ScheduleId    string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetScheduleRequest) Reset() {
+	*x = GetScheduleRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetScheduleRequest) ProtoMessage() {}
+
+func (x *GetScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetScheduleRequest.ProtoReflect.Descriptor instead.
+func (*GetScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GetScheduleRequest) GetScheduleId() string {
+	if x != nil {
+		return x.ScheduleId
+	}
+	return ""
+}
+
+type GetScheduleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Schedule      *ScheduleInfo          `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`
+	Success       bool                   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetScheduleResponse) Reset() {
+	*x = GetScheduleResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetScheduleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetScheduleResponse) ProtoMessage() {}
+
+func (x *GetScheduleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetScheduleResponse.ProtoReflect.Descriptor instead.
+func (*GetScheduleResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *GetScheduleResponse) GetSchedule() *ScheduleInfo {
+	if x != nil {
+		return x.Schedule
+	}
+	return nil
+}
+
+func (x *GetScheduleResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *GetScheduleResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
 }
 
 var File_temporal_v1_temporal_proto protoreflect.FileDescriptor
 
 const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\n" +
-	"\x1atemporal/v1/temporal.proto\x12\vtemporal.v1\"\r\n" +
-	"\vTemporalReq\"\x0e\n" +
-	"\fTemporalResp2S\n" +
-	"\x14TemporalInnerService\x12;\n" +
-	"\x04Test\x12\x18.temporal.v1.TemporalReq\x1a\x19.temporal.v1.TemporalRespB8Z6github.com/og-game/game-proto/proto-gen-go/temporal/v1b\x06proto3"
+	"\x1atemporal/v1/temporal.proto\x12\vtemporal.v1\"\xf2\x05\n" +
+	"\x14StartWorkflowRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12#\n" +
+	"\rworkflow_type\x18\x02 \x01(\tR\fworkflowType\x12\x1d\n" +
+	"\n" +
+	"task_queue\x18\x03 \x01(\tR\ttaskQueue\x12\x14\n" +
+	"\x05input\x18\x04 \x01(\tR\x05input\x12H\n" +
+	"\aoptions\x18\x05 \x03(\v2..temporal.v1.StartWorkflowRequest.OptionsEntryR\aoptions\x12:\n" +
+	"\x19execution_timeout_seconds\x18\x06 \x01(\x05R\x17executionTimeoutSeconds\x120\n" +
+	"\x14task_timeout_seconds\x18\a \x01(\x05R\x12taskTimeoutSeconds\x12!\n" +
+	"\fretry_policy\x18\b \x01(\tR\vretryPolicy\x12#\n" +
+	"\rcron_schedule\x18\t \x01(\tR\fcronSchedule\x12?\n" +
+	"\x04memo\x18\n" +
+	" \x03(\v2+.temporal.v1.StartWorkflowRequest.MemoEntryR\x04memo\x12d\n" +
+	"\x11search_attributes\x18\v \x03(\v27.temporal.v1.StartWorkflowRequest.SearchAttributesEntryR\x10searchAttributes\x1a:\n" +
+	"\fOptionsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a7\n" +
+	"\tMemoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1aC\n" +
+	"\x15SearchAttributesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x83\x01\n" +
+	"\x15StartWorkflowResponse\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x18\n" +
+	"\asuccess\x18\x03 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x04 \x01(\tR\amessage\"\\\n" +
+	"\x19BatchStartWorkflowRequest\x12?\n" +
+	"\tworkflows\x18\x01 \x03(\v2!.temporal.v1.StartWorkflowRequestR\tworkflows\"\xa2\x01\n" +
+	"\x1aBatchStartWorkflowResponse\x12<\n" +
+	"\aresults\x18\x01 \x03(\v2\".temporal.v1.StartWorkflowResponseR\aresults\x12#\n" +
+	"\rsuccess_count\x18\x02 \x01(\x05R\fsuccessCount\x12!\n" +
+	"\ffailed_count\x18\x03 \x01(\x05R\vfailedCount\"g\n" +
+	"\x15CancelWorkflowRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"L\n" +
+	"\x16CancelWorkflowResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\x84\x01\n" +
+	"\x18TerminateWorkflowRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\x12\x18\n" +
+	"\adetails\x18\x04 \x01(\tR\adetails\"O\n" +
+	"\x19TerminateWorkflowResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"R\n" +
+	"\x18GetWorkflowStatusRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"\xad\x04\n" +
+	"\x19GetWorkflowStatusResponse\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12\x16\n" +
+	"\x06result\x18\x04 \x01(\tR\x06result\x12\x14\n" +
+	"\x05error\x18\x05 \x01(\tR\x05error\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x06 \x01(\x03R\tstartTime\x12\x1d\n" +
+	"\n" +
+	"close_time\x18\a \x01(\x03R\tcloseTime\x12%\n" +
+	"\x0eexecution_time\x18\b \x01(\x03R\rexecutionTime\x12D\n" +
+	"\x04memo\x18\t \x03(\v20.temporal.v1.GetWorkflowStatusResponse.MemoEntryR\x04memo\x12i\n" +
+	"\x11search_attributes\x18\n" +
+	" \x03(\v2<.temporal.v1.GetWorkflowStatusResponse.SearchAttributesEntryR\x10searchAttributes\x1a7\n" +
+	"\tMemoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1aC\n" +
+	"\x15SearchAttributesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x98\x01\n" +
+	"\x19GetWorkflowHistoryRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12&\n" +
+	"\x0fnext_page_token\x18\x04 \x01(\tR\rnextPageToken\"\x81\x01\n" +
+	"\rWorkflowEvent\x12\x19\n" +
+	"\bevent_id\x18\x01 \x01(\x03R\aeventId\x12\x1c\n" +
+	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x03 \x01(\tR\teventType\x12\x18\n" +
+	"\adetails\x18\x04 \x01(\tR\adetails\"\x93\x01\n" +
+	"\x1aGetWorkflowHistoryResponse\x122\n" +
+	"\x06events\x18\x01 \x03(\v2\x1a.temporal.v1.WorkflowEventR\x06events\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x19\n" +
+	"\bhas_more\x18\x03 \x01(\bR\ahasMore\"q\n" +
+	"\x14ListWorkflowsRequest\x12\x14\n" +
+	"\x05query\x18\x01 \x01(\tR\x05query\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
+	"\x0fnext_page_token\x18\x03 \x01(\tR\rnextPageToken\"\xf9\x02\n" +
+	"\fWorkflowInfo\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12#\n" +
+	"\rworkflow_type\x18\x03 \x01(\tR\fworkflowType\x12\x1d\n" +
+	"\n" +
+	"task_queue\x18\x04 \x01(\tR\ttaskQueue\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x06 \x01(\x03R\tstartTime\x12\x1d\n" +
+	"\n" +
+	"close_time\x18\a \x01(\x03R\tcloseTime\x12%\n" +
+	"\x0eexecution_time\x18\b \x01(\x03R\rexecutionTime\x127\n" +
+	"\x04memo\x18\t \x03(\v2#.temporal.v1.WorkflowInfo.MemoEntryR\x04memo\x1a7\n" +
+	"\tMemoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x93\x01\n" +
+	"\x15ListWorkflowsResponse\x127\n" +
+	"\tworkflows\x18\x01 \x03(\v2\x19.temporal.v1.WorkflowInfoR\tworkflows\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x19\n" +
+	"\bhas_more\x18\x03 \x01(\bR\ahasMore\"\x86\x01\n" +
+	"\x15SignalWorkflowRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1f\n" +
+	"\vsignal_name\x18\x03 \x01(\tR\n" +
+	"signalName\x12\x14\n" +
+	"\x05input\x18\x04 \x01(\tR\x05input\"L\n" +
+	"\x16SignalWorkflowResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\x83\x01\n" +
+	"\x14QueryWorkflowRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1d\n" +
+	"\n" +
+	"query_type\x18\x03 \x01(\tR\tqueryType\x12\x14\n" +
+	"\x05input\x18\x04 \x01(\tR\x05input\"_\n" +
+	"\x15QueryWorkflowResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x16\n" +
+	"\x06result\x18\x02 \x01(\tR\x06result\x12\x14\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error\"\xf0\x02\n" +
+	"\x16SignalWithStartRequest\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12#\n" +
+	"\rworkflow_type\x18\x02 \x01(\tR\fworkflowType\x12\x1d\n" +
+	"\n" +
+	"task_queue\x18\x03 \x01(\tR\ttaskQueue\x12%\n" +
+	"\x0eworkflow_input\x18\x04 \x01(\tR\rworkflowInput\x12\x1f\n" +
+	"\vsignal_name\x18\x05 \x01(\tR\n" +
+	"signalName\x12!\n" +
+	"\fsignal_input\x18\x06 \x01(\tR\vsignalInput\x12J\n" +
+	"\aoptions\x18\a \x03(\v20.temporal.v1.SignalWithStartRequest.OptionsEntryR\aoptions\x1a:\n" +
+	"\fOptionsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9f\x01\n" +
+	"\x17SignalWithStartResponse\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x18\n" +
+	"\astarted\x18\x03 \x01(\bR\astarted\x12\x18\n" +
+	"\asuccess\x18\x04 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x05 \x01(\tR\amessage\"\x8c\x03\n" +
+	"\x15CreateScheduleRequest\x12\x1f\n" +
+	"\vschedule_id\x18\x01 \x01(\tR\n" +
+	"scheduleId\x12'\n" +
+	"\x0fcron_expression\x18\x02 \x01(\tR\x0ecronExpression\x12#\n" +
+	"\rworkflow_type\x18\x03 \x01(\tR\fworkflowType\x12\x1d\n" +
+	"\n" +
+	"task_queue\x18\x04 \x01(\tR\ttaskQueue\x12\x14\n" +
+	"\x05input\x18\x05 \x01(\tR\x05input\x12\x1a\n" +
+	"\btimezone\x18\x06 \x01(\tR\btimezone\x12 \n" +
+	"\vdescription\x18\a \x01(\tR\vdescription\x12@\n" +
+	"\x04memo\x18\b \x03(\v2,.temporal.v1.CreateScheduleRequest.MemoEntryR\x04memo\x12\x16\n" +
+	"\x06paused\x18\t \x01(\bR\x06paused\x1a7\n" +
+	"\tMemoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"m\n" +
+	"\x16CreateScheduleResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1f\n" +
+	"\vschedule_id\x18\x03 \x01(\tR\n" +
+	"scheduleId\"8\n" +
+	"\x15DeleteScheduleRequest\x12\x1f\n" +
+	"\vschedule_id\x18\x01 \x01(\tR\n" +
+	"scheduleId\"L\n" +
+	"\x16DeleteScheduleResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"I\n" +
+	"\x14ListSchedulesRequest\x12\x1b\n" +
+	"\tpage_size\x18\x01 \x01(\x03R\bpageSize\x12\x14\n" +
+	"\x05query\x18\x02 \x01(\tR\x05query\"\xc1\x02\n" +
+	"\fScheduleInfo\x12\x1f\n" +
+	"\vschedule_id\x18\x01 \x01(\tR\n" +
+	"scheduleId\x12'\n" +
+	"\x0fcron_expression\x18\x02 \x01(\tR\x0ecronExpression\x12#\n" +
+	"\rworkflow_type\x18\x03 \x01(\tR\fworkflowType\x12\x1d\n" +
+	"\n" +
+	"task_queue\x18\x04 \x01(\tR\ttaskQueue\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x16\n" +
+	"\x06paused\x18\x06 \x01(\bR\x06paused\x12!\n" +
+	"\fcreated_time\x18\a \x01(\x03R\vcreatedTime\x12\"\n" +
+	"\rlast_run_time\x18\b \x01(\x03R\vlastRunTime\x12\"\n" +
+	"\rnext_run_time\x18\t \x01(\x03R\vnextRunTime\"\x93\x01\n" +
+	"\x15ListSchedulesResponse\x127\n" +
+	"\tschedules\x18\x01 \x03(\v2\x19.temporal.v1.ScheduleInfoR\tschedules\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x19\n" +
+	"\bhas_more\x18\x03 \x01(\bR\ahasMore\"g\n" +
+	"\x14PauseScheduleRequest\x12\x1f\n" +
+	"\vschedule_id\x18\x01 \x01(\tR\n" +
+	"scheduleId\x12\x16\n" +
+	"\x06paused\x18\x02 \x01(\bR\x06paused\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"K\n" +
+	"\x15PauseScheduleResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"5\n" +
+	"\x12GetScheduleRequest\x12\x1f\n" +
+	"\vschedule_id\x18\x01 \x01(\tR\n" +
+	"scheduleId\"\x80\x01\n" +
+	"\x13GetScheduleResponse\x125\n" +
+	"\bschedule\x18\x01 \x01(\v2\x19.temporal.v1.ScheduleInfoR\bschedule\x12\x18\n" +
+	"\asuccess\x18\x02 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage2\x98\x03\n" +
+	"\x18WorkflowExecutionService\x12V\n" +
+	"\rStartWorkflow\x12!.temporal.v1.StartWorkflowRequest\x1a\".temporal.v1.StartWorkflowResponse\x12e\n" +
+	"\x12BatchStartWorkflow\x12&.temporal.v1.BatchStartWorkflowRequest\x1a'.temporal.v1.BatchStartWorkflowResponse\x12Y\n" +
+	"\x0eCancelWorkflow\x12\".temporal.v1.CancelWorkflowRequest\x1a#.temporal.v1.CancelWorkflowResponse\x12b\n" +
+	"\x11TerminateWorkflow\x12%.temporal.v1.TerminateWorkflowRequest\x1a&.temporal.v1.TerminateWorkflowResponse2\xb9\x02\n" +
+	"\x14WorkflowQueryService\x12b\n" +
+	"\x11GetWorkflowStatus\x12%.temporal.v1.GetWorkflowStatusRequest\x1a&.temporal.v1.GetWorkflowStatusResponse\x12e\n" +
+	"\x12GetWorkflowHistory\x12&.temporal.v1.GetWorkflowHistoryRequest\x1a'.temporal.v1.GetWorkflowHistoryResponse\x12V\n" +
+	"\rListWorkflows\x12!.temporal.v1.ListWorkflowsRequest\x1a\".temporal.v1.ListWorkflowsResponse2\xad\x02\n" +
+	"\x1aWorkflowInteractionService\x12Y\n" +
+	"\x0eSignalWorkflow\x12\".temporal.v1.SignalWorkflowRequest\x1a#.temporal.v1.SignalWorkflowResponse\x12V\n" +
+	"\rQueryWorkflow\x12!.temporal.v1.QueryWorkflowRequest\x1a\".temporal.v1.QueryWorkflowResponse\x12\\\n" +
+	"\x0fSignalWithStart\x12#.temporal.v1.SignalWithStartRequest\x1a$.temporal.v1.SignalWithStartResponse2\xc9\x03\n" +
+	"\x0fScheduleService\x12Y\n" +
+	"\x0eCreateSchedule\x12\".temporal.v1.CreateScheduleRequest\x1a#.temporal.v1.CreateScheduleResponse\x12Y\n" +
+	"\x0eDeleteSchedule\x12\".temporal.v1.DeleteScheduleRequest\x1a#.temporal.v1.DeleteScheduleResponse\x12V\n" +
+	"\rListSchedules\x12!.temporal.v1.ListSchedulesRequest\x1a\".temporal.v1.ListSchedulesResponse\x12V\n" +
+	"\rPauseSchedule\x12!.temporal.v1.PauseScheduleRequest\x1a\".temporal.v1.PauseScheduleResponse\x12P\n" +
+	"\vGetSchedule\x12\x1f.temporal.v1.GetScheduleRequest\x1a .temporal.v1.GetScheduleResponseB8Z6github.com/og-game/game-proto/proto-gen-go/temporal/v1b\x06proto3"
 
 var (
 	file_temporal_v1_temporal_proto_rawDescOnce sync.Once
@@ -115,19 +2523,100 @@ func file_temporal_v1_temporal_proto_rawDescGZIP() []byte {
 	return file_temporal_v1_temporal_proto_rawDescData
 }
 
-var file_temporal_v1_temporal_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_temporal_v1_temporal_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
 var file_temporal_v1_temporal_proto_goTypes = []any{
-	(*TemporalReq)(nil),  // 0: temporal.v1.TemporalReq
-	(*TemporalResp)(nil), // 1: temporal.v1.TemporalResp
+	(*StartWorkflowRequest)(nil),       // 0: temporal.v1.StartWorkflowRequest
+	(*StartWorkflowResponse)(nil),      // 1: temporal.v1.StartWorkflowResponse
+	(*BatchStartWorkflowRequest)(nil),  // 2: temporal.v1.BatchStartWorkflowRequest
+	(*BatchStartWorkflowResponse)(nil), // 3: temporal.v1.BatchStartWorkflowResponse
+	(*CancelWorkflowRequest)(nil),      // 4: temporal.v1.CancelWorkflowRequest
+	(*CancelWorkflowResponse)(nil),     // 5: temporal.v1.CancelWorkflowResponse
+	(*TerminateWorkflowRequest)(nil),   // 6: temporal.v1.TerminateWorkflowRequest
+	(*TerminateWorkflowResponse)(nil),  // 7: temporal.v1.TerminateWorkflowResponse
+	(*GetWorkflowStatusRequest)(nil),   // 8: temporal.v1.GetWorkflowStatusRequest
+	(*GetWorkflowStatusResponse)(nil),  // 9: temporal.v1.GetWorkflowStatusResponse
+	(*GetWorkflowHistoryRequest)(nil),  // 10: temporal.v1.GetWorkflowHistoryRequest
+	(*WorkflowEvent)(nil),              // 11: temporal.v1.WorkflowEvent
+	(*GetWorkflowHistoryResponse)(nil), // 12: temporal.v1.GetWorkflowHistoryResponse
+	(*ListWorkflowsRequest)(nil),       // 13: temporal.v1.ListWorkflowsRequest
+	(*WorkflowInfo)(nil),               // 14: temporal.v1.WorkflowInfo
+	(*ListWorkflowsResponse)(nil),      // 15: temporal.v1.ListWorkflowsResponse
+	(*SignalWorkflowRequest)(nil),      // 16: temporal.v1.SignalWorkflowRequest
+	(*SignalWorkflowResponse)(nil),     // 17: temporal.v1.SignalWorkflowResponse
+	(*QueryWorkflowRequest)(nil),       // 18: temporal.v1.QueryWorkflowRequest
+	(*QueryWorkflowResponse)(nil),      // 19: temporal.v1.QueryWorkflowResponse
+	(*SignalWithStartRequest)(nil),     // 20: temporal.v1.SignalWithStartRequest
+	(*SignalWithStartResponse)(nil),    // 21: temporal.v1.SignalWithStartResponse
+	(*CreateScheduleRequest)(nil),      // 22: temporal.v1.CreateScheduleRequest
+	(*CreateScheduleResponse)(nil),     // 23: temporal.v1.CreateScheduleResponse
+	(*DeleteScheduleRequest)(nil),      // 24: temporal.v1.DeleteScheduleRequest
+	(*DeleteScheduleResponse)(nil),     // 25: temporal.v1.DeleteScheduleResponse
+	(*ListSchedulesRequest)(nil),       // 26: temporal.v1.ListSchedulesRequest
+	(*ScheduleInfo)(nil),               // 27: temporal.v1.ScheduleInfo
+	(*ListSchedulesResponse)(nil),      // 28: temporal.v1.ListSchedulesResponse
+	(*PauseScheduleRequest)(nil),       // 29: temporal.v1.PauseScheduleRequest
+	(*PauseScheduleResponse)(nil),      // 30: temporal.v1.PauseScheduleResponse
+	(*GetScheduleRequest)(nil),         // 31: temporal.v1.GetScheduleRequest
+	(*GetScheduleResponse)(nil),        // 32: temporal.v1.GetScheduleResponse
+	nil,                                // 33: temporal.v1.StartWorkflowRequest.OptionsEntry
+	nil,                                // 34: temporal.v1.StartWorkflowRequest.MemoEntry
+	nil,                                // 35: temporal.v1.StartWorkflowRequest.SearchAttributesEntry
+	nil,                                // 36: temporal.v1.GetWorkflowStatusResponse.MemoEntry
+	nil,                                // 37: temporal.v1.GetWorkflowStatusResponse.SearchAttributesEntry
+	nil,                                // 38: temporal.v1.WorkflowInfo.MemoEntry
+	nil,                                // 39: temporal.v1.SignalWithStartRequest.OptionsEntry
+	nil,                                // 40: temporal.v1.CreateScheduleRequest.MemoEntry
 }
 var file_temporal_v1_temporal_proto_depIdxs = []int32{
-	0, // 0: temporal.v1.TemporalInnerService.Test:input_type -> temporal.v1.TemporalReq
-	1, // 1: temporal.v1.TemporalInnerService.Test:output_type -> temporal.v1.TemporalResp
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	33, // 0: temporal.v1.StartWorkflowRequest.options:type_name -> temporal.v1.StartWorkflowRequest.OptionsEntry
+	34, // 1: temporal.v1.StartWorkflowRequest.memo:type_name -> temporal.v1.StartWorkflowRequest.MemoEntry
+	35, // 2: temporal.v1.StartWorkflowRequest.search_attributes:type_name -> temporal.v1.StartWorkflowRequest.SearchAttributesEntry
+	0,  // 3: temporal.v1.BatchStartWorkflowRequest.workflows:type_name -> temporal.v1.StartWorkflowRequest
+	1,  // 4: temporal.v1.BatchStartWorkflowResponse.results:type_name -> temporal.v1.StartWorkflowResponse
+	36, // 5: temporal.v1.GetWorkflowStatusResponse.memo:type_name -> temporal.v1.GetWorkflowStatusResponse.MemoEntry
+	37, // 6: temporal.v1.GetWorkflowStatusResponse.search_attributes:type_name -> temporal.v1.GetWorkflowStatusResponse.SearchAttributesEntry
+	11, // 7: temporal.v1.GetWorkflowHistoryResponse.events:type_name -> temporal.v1.WorkflowEvent
+	38, // 8: temporal.v1.WorkflowInfo.memo:type_name -> temporal.v1.WorkflowInfo.MemoEntry
+	14, // 9: temporal.v1.ListWorkflowsResponse.workflows:type_name -> temporal.v1.WorkflowInfo
+	39, // 10: temporal.v1.SignalWithStartRequest.options:type_name -> temporal.v1.SignalWithStartRequest.OptionsEntry
+	40, // 11: temporal.v1.CreateScheduleRequest.memo:type_name -> temporal.v1.CreateScheduleRequest.MemoEntry
+	27, // 12: temporal.v1.ListSchedulesResponse.schedules:type_name -> temporal.v1.ScheduleInfo
+	27, // 13: temporal.v1.GetScheduleResponse.schedule:type_name -> temporal.v1.ScheduleInfo
+	0,  // 14: temporal.v1.WorkflowExecutionService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
+	2,  // 15: temporal.v1.WorkflowExecutionService.BatchStartWorkflow:input_type -> temporal.v1.BatchStartWorkflowRequest
+	4,  // 16: temporal.v1.WorkflowExecutionService.CancelWorkflow:input_type -> temporal.v1.CancelWorkflowRequest
+	6,  // 17: temporal.v1.WorkflowExecutionService.TerminateWorkflow:input_type -> temporal.v1.TerminateWorkflowRequest
+	8,  // 18: temporal.v1.WorkflowQueryService.GetWorkflowStatus:input_type -> temporal.v1.GetWorkflowStatusRequest
+	10, // 19: temporal.v1.WorkflowQueryService.GetWorkflowHistory:input_type -> temporal.v1.GetWorkflowHistoryRequest
+	13, // 20: temporal.v1.WorkflowQueryService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
+	16, // 21: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
+	18, // 22: temporal.v1.WorkflowInteractionService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
+	20, // 23: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
+	22, // 24: temporal.v1.ScheduleService.CreateSchedule:input_type -> temporal.v1.CreateScheduleRequest
+	24, // 25: temporal.v1.ScheduleService.DeleteSchedule:input_type -> temporal.v1.DeleteScheduleRequest
+	26, // 26: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
+	29, // 27: temporal.v1.ScheduleService.PauseSchedule:input_type -> temporal.v1.PauseScheduleRequest
+	31, // 28: temporal.v1.ScheduleService.GetSchedule:input_type -> temporal.v1.GetScheduleRequest
+	1,  // 29: temporal.v1.WorkflowExecutionService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
+	3,  // 30: temporal.v1.WorkflowExecutionService.BatchStartWorkflow:output_type -> temporal.v1.BatchStartWorkflowResponse
+	5,  // 31: temporal.v1.WorkflowExecutionService.CancelWorkflow:output_type -> temporal.v1.CancelWorkflowResponse
+	7,  // 32: temporal.v1.WorkflowExecutionService.TerminateWorkflow:output_type -> temporal.v1.TerminateWorkflowResponse
+	9,  // 33: temporal.v1.WorkflowQueryService.GetWorkflowStatus:output_type -> temporal.v1.GetWorkflowStatusResponse
+	12, // 34: temporal.v1.WorkflowQueryService.GetWorkflowHistory:output_type -> temporal.v1.GetWorkflowHistoryResponse
+	15, // 35: temporal.v1.WorkflowQueryService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
+	17, // 36: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
+	19, // 37: temporal.v1.WorkflowInteractionService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
+	21, // 38: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
+	23, // 39: temporal.v1.ScheduleService.CreateSchedule:output_type -> temporal.v1.CreateScheduleResponse
+	25, // 40: temporal.v1.ScheduleService.DeleteSchedule:output_type -> temporal.v1.DeleteScheduleResponse
+	28, // 41: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
+	30, // 42: temporal.v1.ScheduleService.PauseSchedule:output_type -> temporal.v1.PauseScheduleResponse
+	32, // 43: temporal.v1.ScheduleService.GetSchedule:output_type -> temporal.v1.GetScheduleResponse
+	29, // [29:44] is the sub-list for method output_type
+	14, // [14:29] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_temporal_v1_temporal_proto_init() }
@@ -141,9 +2630,9 @@ func file_temporal_v1_temporal_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_v1_temporal_proto_rawDesc), len(file_temporal_v1_temporal_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   41,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   4,
 		},
 		GoTypes:           file_temporal_v1_temporal_proto_goTypes,
 		DependencyIndexes: file_temporal_v1_temporal_proto_depIdxs,
