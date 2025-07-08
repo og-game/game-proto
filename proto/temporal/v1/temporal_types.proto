@@ -7,73 +7,81 @@ option go_package = "github.com/og-game/game-proto/proto-gen-go/temporal/v1";
 
 // 执行模式
 enum ExecutionMode {
-  IMMEDIATE = 0;                      // 立即执行
-  DELAYED = 1;                        // 延迟执行
-  SCHEDULED = 2;                      // 调度执行 (Cron)
-  AT_TIME = 3;                        // 指定时间执行
-  BATCH = 4;                          // 批量执行
+  MODE_UNSPECIFIED = 0;   // 未知类型
+  MODE_IMMEDIATE = 1;                      // 立即执行
+  MODE_DELAYED = 2;                        // 延迟执行
+  MODE_SCHEDULED = 3;                      // 调度执行 (Cron)
+  MODE_AT_TIME = 4;                        // 指定时间执行
+  MODE_BATCH = 5;                          // 批量执行
 }
 
 // 控制操作
 enum ControlOperation {
-  CANCEL = 0;                          // 优雅取消
-  TERMINATE = 1;                       // 强制终止
-  PAUSE = 2;                           // 暂停 (调度)
-  RESUME = 3;                          // 恢复 (调度)
-  RESET = 4;                           // 重置到某个点
+  OPT_UNSPECIFIED = 0;   // 未知类型
+  OPT_CANCEL = 1;                          // 优雅取消
+  OPT_TERMINATE = 2;                       // 强制终止
+  OPT_PAUSE = 3;                           // 暂停 (调度)
+  OPT_RESUME = 4;                          // 恢复 (调度)
+  OPT_RESET = 5;                           // 重置到某个点
 }
 
 // 控制结果
 enum ControlResult {
-  CONTROL_SUCCESS = 0;
-  ALREADY_COMPLETED = 1;
-  ALREADY_CANCELLED = 2;
-  NOT_FOUND = 3;
-  OPERATION_FAILED = 4;
+  CONTROL_UNSPECIFIED = 0;   // 未知类型
+  CONTROL_SUCCESS = 1;
+  CONTROL_ALREADY_COMPLETED = 2;
+  CONTROL_ALREADY_CANCELLED = 3;
+  CONTROL_NOT_FOUND = 4;
+  CONTROL_OPERATION_FAILED = 5;
 }
 
 // 查询类型
 enum QueryType {
-  STATUS = 0;                          // 查询状态
-  HISTORY = 1;                         // 查询历史
-  STACK_TRACE = 2;                     // 查询堆栈跟踪
+  QUERY_UNSPECIFIED = 0;   // 未知类型
+  QUERY_STATUS = 1;                          // 查询状态
+  QUERY_HISTORY = 2;                         // 查询历史
+  QUERY_STACK_TRACE = 3;                     // 查询堆栈跟踪
 }
 
 // 工作流状态枚举
 enum WorkflowState {
-  RUNNING = 0;
-  COMPLETED = 1;
-  FAILED = 2;
-  CANCELLED = 3;
-  TERMINATED = 4;
-  CONTINUED_AS_NEW = 5;
-  TIMED_OUT = 6;
+  STATE_UNSPECIFIED = 0;   // 未知类型
+  STATE_RUNNING = 1;
+  STATE_COMPLETED = 2;
+  STATE_FAILED = 3;
+  STATE_CANCELLED = 4;
+  STATE_TERMINATED = 5;
+  STATE_CONTINUED_AS_NEW = 6;
+  STATE_TIMED_OUT = 7;
 }
 
 // 调度操作
 enum ScheduleOperation {
-  SCHEDULE_CREATE = 0;
-  SCHEDULE_UPDATE = 1;
-  SCHEDULE_DELETE = 2;
-  SCHEDULE_PAUSE = 3;
-  SCHEDULE_RESUME = 4;
+  SCHEDULE_UNSPECIFIED = 0;   // 未知类型
+  SCHEDULE_CREATE = 1;
+  SCHEDULE_UPDATE = 2;
+  SCHEDULE_DELETE = 3;
+  SCHEDULE_PAUSE = 4;
+  SCHEDULE_RESUME = 5;
 }
 
 // 重叠策略
 enum OverlapPolicy {
-  SKIP = 0;                            // 跳过
-  BUFFER_ONE = 1;                      // 缓存一个
-  BUFFER_ALL = 2;                      // 缓存全部
-  CANCEL_OTHER = 3;                    // 取消其他
-  TERMINATE_OTHER = 4;                 // 终止其他
-  ALLOW_ALL = 5;                       // 允许全部
+  OVERLAP_UNSPECIFIED = 0;   // 未知类型
+  OVERLAP_SKIP = 1;                            // 跳过
+  OVERLAP_BUFFER_ONE = 2;                      // 缓存一个
+  OVERLAP_BUFFER_ALL = 3;                      // 缓存全部
+  OVERLAP_CANCEL_OTHER = 4;                    // 取消其他
+  OVERLAP_TERMINATE_OTHER = 5;                 // 终止其他
+  OVERLAP_ALLOW_ALL = 6;                       // 允许全部
 }
 
 // 调度状态
 enum ScheduleState {
-  SCHEDULE_ACTIVE = 0;
-  SCHEDULE_PAUSED = 1;
-  SCHEDULE_DELETED = 2;
+  _UNSPECIFIED = 0;   // 未知类型
+  SCHEDULE_ACTIVE = 1;
+  SCHEDULE_PAUSED = 2;
+  SCHEDULE_DELETED = 3;
 }
 
 

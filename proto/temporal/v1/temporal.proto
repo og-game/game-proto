@@ -460,8 +460,6 @@ message ManageScheduleResponse {
 // 查询调度请求
 message QueryScheduleRequest {
   string schedule_id = 1;
-  bool include_recent_runs = 2;        // 包含最近执行记录
-  int32 recent_runs_count = 3;         // 最近执行记录数量
 }
 
 // 查询调度响应
@@ -469,7 +467,6 @@ message QueryScheduleResponse {
   bool success = 1;
   string message = 2;
   ScheduleInfo schedule_info = 3;
-  repeated WorkflowInfo recent_runs = 4; // 最近执行记录
 }
 
 // 调度信息

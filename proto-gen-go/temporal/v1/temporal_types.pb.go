@@ -25,28 +25,31 @@ const (
 type ExecutionMode int32
 
 const (
-	ExecutionMode_IMMEDIATE ExecutionMode = 0 // 立即执行
-	ExecutionMode_DELAYED   ExecutionMode = 1 // 延迟执行
-	ExecutionMode_SCHEDULED ExecutionMode = 2 // 调度执行 (Cron)
-	ExecutionMode_AT_TIME   ExecutionMode = 3 // 指定时间执行
-	ExecutionMode_BATCH     ExecutionMode = 4 // 批量执行
+	ExecutionMode_MODE_UNSPECIFIED ExecutionMode = 0 // 未知类型
+	ExecutionMode_MODE_IMMEDIATE   ExecutionMode = 1 // 立即执行
+	ExecutionMode_MODE_DELAYED     ExecutionMode = 2 // 延迟执行
+	ExecutionMode_MODE_SCHEDULED   ExecutionMode = 3 // 调度执行 (Cron)
+	ExecutionMode_MODE_AT_TIME     ExecutionMode = 4 // 指定时间执行
+	ExecutionMode_MODE_BATCH       ExecutionMode = 5 // 批量执行
 )
 
 // Enum value maps for ExecutionMode.
 var (
 	ExecutionMode_name = map[int32]string{
-		0: "IMMEDIATE",
-		1: "DELAYED",
-		2: "SCHEDULED",
-		3: "AT_TIME",
-		4: "BATCH",
+		0: "MODE_UNSPECIFIED",
+		1: "MODE_IMMEDIATE",
+		2: "MODE_DELAYED",
+		3: "MODE_SCHEDULED",
+		4: "MODE_AT_TIME",
+		5: "MODE_BATCH",
 	}
 	ExecutionMode_value = map[string]int32{
-		"IMMEDIATE": 0,
-		"DELAYED":   1,
-		"SCHEDULED": 2,
-		"AT_TIME":   3,
-		"BATCH":     4,
+		"MODE_UNSPECIFIED": 0,
+		"MODE_IMMEDIATE":   1,
+		"MODE_DELAYED":     2,
+		"MODE_SCHEDULED":   3,
+		"MODE_AT_TIME":     4,
+		"MODE_BATCH":       5,
 	}
 )
 
@@ -81,28 +84,31 @@ func (ExecutionMode) EnumDescriptor() ([]byte, []int) {
 type ControlOperation int32
 
 const (
-	ControlOperation_CANCEL    ControlOperation = 0 // 优雅取消
-	ControlOperation_TERMINATE ControlOperation = 1 // 强制终止
-	ControlOperation_PAUSE     ControlOperation = 2 // 暂停 (调度)
-	ControlOperation_RESUME    ControlOperation = 3 // 恢复 (调度)
-	ControlOperation_RESET     ControlOperation = 4 // 重置到某个点
+	ControlOperation_OPT_UNSPECIFIED ControlOperation = 0 // 未知类型
+	ControlOperation_OPT_CANCEL      ControlOperation = 1 // 优雅取消
+	ControlOperation_OPT_TERMINATE   ControlOperation = 2 // 强制终止
+	ControlOperation_OPT_PAUSE       ControlOperation = 3 // 暂停 (调度)
+	ControlOperation_OPT_RESUME      ControlOperation = 4 // 恢复 (调度)
+	ControlOperation_OPT_RESET       ControlOperation = 5 // 重置到某个点
 )
 
 // Enum value maps for ControlOperation.
 var (
 	ControlOperation_name = map[int32]string{
-		0: "CANCEL",
-		1: "TERMINATE",
-		2: "PAUSE",
-		3: "RESUME",
-		4: "RESET",
+		0: "OPT_UNSPECIFIED",
+		1: "OPT_CANCEL",
+		2: "OPT_TERMINATE",
+		3: "OPT_PAUSE",
+		4: "OPT_RESUME",
+		5: "OPT_RESET",
 	}
 	ControlOperation_value = map[string]int32{
-		"CANCEL":    0,
-		"TERMINATE": 1,
-		"PAUSE":     2,
-		"RESUME":    3,
-		"RESET":     4,
+		"OPT_UNSPECIFIED": 0,
+		"OPT_CANCEL":      1,
+		"OPT_TERMINATE":   2,
+		"OPT_PAUSE":       3,
+		"OPT_RESUME":      4,
+		"OPT_RESET":       5,
 	}
 )
 
@@ -137,28 +143,31 @@ func (ControlOperation) EnumDescriptor() ([]byte, []int) {
 type ControlResult int32
 
 const (
-	ControlResult_CONTROL_SUCCESS   ControlResult = 0
-	ControlResult_ALREADY_COMPLETED ControlResult = 1
-	ControlResult_ALREADY_CANCELLED ControlResult = 2
-	ControlResult_NOT_FOUND         ControlResult = 3
-	ControlResult_OPERATION_FAILED  ControlResult = 4
+	ControlResult_CONTROL_UNSPECIFIED       ControlResult = 0 // 未知类型
+	ControlResult_CONTROL_SUCCESS           ControlResult = 1
+	ControlResult_CONTROL_ALREADY_COMPLETED ControlResult = 2
+	ControlResult_CONTROL_ALREADY_CANCELLED ControlResult = 3
+	ControlResult_CONTROL_NOT_FOUND         ControlResult = 4
+	ControlResult_CONTROL_OPERATION_FAILED  ControlResult = 5
 )
 
 // Enum value maps for ControlResult.
 var (
 	ControlResult_name = map[int32]string{
-		0: "CONTROL_SUCCESS",
-		1: "ALREADY_COMPLETED",
-		2: "ALREADY_CANCELLED",
-		3: "NOT_FOUND",
-		4: "OPERATION_FAILED",
+		0: "CONTROL_UNSPECIFIED",
+		1: "CONTROL_SUCCESS",
+		2: "CONTROL_ALREADY_COMPLETED",
+		3: "CONTROL_ALREADY_CANCELLED",
+		4: "CONTROL_NOT_FOUND",
+		5: "CONTROL_OPERATION_FAILED",
 	}
 	ControlResult_value = map[string]int32{
-		"CONTROL_SUCCESS":   0,
-		"ALREADY_COMPLETED": 1,
-		"ALREADY_CANCELLED": 2,
-		"NOT_FOUND":         3,
-		"OPERATION_FAILED":  4,
+		"CONTROL_UNSPECIFIED":       0,
+		"CONTROL_SUCCESS":           1,
+		"CONTROL_ALREADY_COMPLETED": 2,
+		"CONTROL_ALREADY_CANCELLED": 3,
+		"CONTROL_NOT_FOUND":         4,
+		"CONTROL_OPERATION_FAILED":  5,
 	}
 )
 
@@ -193,22 +202,25 @@ func (ControlResult) EnumDescriptor() ([]byte, []int) {
 type QueryType int32
 
 const (
-	QueryType_STATUS      QueryType = 0 // 查询状态
-	QueryType_HISTORY     QueryType = 1 // 查询历史
-	QueryType_STACK_TRACE QueryType = 2 // 查询堆栈跟踪
+	QueryType_QUERY_UNSPECIFIED QueryType = 0 // 未知类型
+	QueryType_QUERY_STATUS      QueryType = 1 // 查询状态
+	QueryType_QUERY_HISTORY     QueryType = 2 // 查询历史
+	QueryType_QUERY_STACK_TRACE QueryType = 3 // 查询堆栈跟踪
 )
 
 // Enum value maps for QueryType.
 var (
 	QueryType_name = map[int32]string{
-		0: "STATUS",
-		1: "HISTORY",
-		2: "STACK_TRACE",
+		0: "QUERY_UNSPECIFIED",
+		1: "QUERY_STATUS",
+		2: "QUERY_HISTORY",
+		3: "QUERY_STACK_TRACE",
 	}
 	QueryType_value = map[string]int32{
-		"STATUS":      0,
-		"HISTORY":     1,
-		"STACK_TRACE": 2,
+		"QUERY_UNSPECIFIED": 0,
+		"QUERY_STATUS":      1,
+		"QUERY_HISTORY":     2,
+		"QUERY_STACK_TRACE": 3,
 	}
 )
 
@@ -243,34 +255,37 @@ func (QueryType) EnumDescriptor() ([]byte, []int) {
 type WorkflowState int32
 
 const (
-	WorkflowState_RUNNING          WorkflowState = 0
-	WorkflowState_COMPLETED        WorkflowState = 1
-	WorkflowState_FAILED           WorkflowState = 2
-	WorkflowState_CANCELLED        WorkflowState = 3
-	WorkflowState_TERMINATED       WorkflowState = 4
-	WorkflowState_CONTINUED_AS_NEW WorkflowState = 5
-	WorkflowState_TIMED_OUT        WorkflowState = 6
+	WorkflowState_STATE_UNSPECIFIED      WorkflowState = 0 // 未知类型
+	WorkflowState_STATE_RUNNING          WorkflowState = 1
+	WorkflowState_STATE_COMPLETED        WorkflowState = 2
+	WorkflowState_STATE_FAILED           WorkflowState = 3
+	WorkflowState_STATE_CANCELLED        WorkflowState = 4
+	WorkflowState_STATE_TERMINATED       WorkflowState = 5
+	WorkflowState_STATE_CONTINUED_AS_NEW WorkflowState = 6
+	WorkflowState_STATE_TIMED_OUT        WorkflowState = 7
 )
 
 // Enum value maps for WorkflowState.
 var (
 	WorkflowState_name = map[int32]string{
-		0: "RUNNING",
-		1: "COMPLETED",
-		2: "FAILED",
-		3: "CANCELLED",
-		4: "TERMINATED",
-		5: "CONTINUED_AS_NEW",
-		6: "TIMED_OUT",
+		0: "STATE_UNSPECIFIED",
+		1: "STATE_RUNNING",
+		2: "STATE_COMPLETED",
+		3: "STATE_FAILED",
+		4: "STATE_CANCELLED",
+		5: "STATE_TERMINATED",
+		6: "STATE_CONTINUED_AS_NEW",
+		7: "STATE_TIMED_OUT",
 	}
 	WorkflowState_value = map[string]int32{
-		"RUNNING":          0,
-		"COMPLETED":        1,
-		"FAILED":           2,
-		"CANCELLED":        3,
-		"TERMINATED":       4,
-		"CONTINUED_AS_NEW": 5,
-		"TIMED_OUT":        6,
+		"STATE_UNSPECIFIED":      0,
+		"STATE_RUNNING":          1,
+		"STATE_COMPLETED":        2,
+		"STATE_FAILED":           3,
+		"STATE_CANCELLED":        4,
+		"STATE_TERMINATED":       5,
+		"STATE_CONTINUED_AS_NEW": 6,
+		"STATE_TIMED_OUT":        7,
 	}
 )
 
@@ -305,28 +320,31 @@ func (WorkflowState) EnumDescriptor() ([]byte, []int) {
 type ScheduleOperation int32
 
 const (
-	ScheduleOperation_SCHEDULE_CREATE ScheduleOperation = 0
-	ScheduleOperation_SCHEDULE_UPDATE ScheduleOperation = 1
-	ScheduleOperation_SCHEDULE_DELETE ScheduleOperation = 2
-	ScheduleOperation_SCHEDULE_PAUSE  ScheduleOperation = 3
-	ScheduleOperation_SCHEDULE_RESUME ScheduleOperation = 4
+	ScheduleOperation_SCHEDULE_UNSPECIFIED ScheduleOperation = 0 // 未知类型
+	ScheduleOperation_SCHEDULE_CREATE      ScheduleOperation = 1
+	ScheduleOperation_SCHEDULE_UPDATE      ScheduleOperation = 2
+	ScheduleOperation_SCHEDULE_DELETE      ScheduleOperation = 3
+	ScheduleOperation_SCHEDULE_PAUSE       ScheduleOperation = 4
+	ScheduleOperation_SCHEDULE_RESUME      ScheduleOperation = 5
 )
 
 // Enum value maps for ScheduleOperation.
 var (
 	ScheduleOperation_name = map[int32]string{
-		0: "SCHEDULE_CREATE",
-		1: "SCHEDULE_UPDATE",
-		2: "SCHEDULE_DELETE",
-		3: "SCHEDULE_PAUSE",
-		4: "SCHEDULE_RESUME",
+		0: "SCHEDULE_UNSPECIFIED",
+		1: "SCHEDULE_CREATE",
+		2: "SCHEDULE_UPDATE",
+		3: "SCHEDULE_DELETE",
+		4: "SCHEDULE_PAUSE",
+		5: "SCHEDULE_RESUME",
 	}
 	ScheduleOperation_value = map[string]int32{
-		"SCHEDULE_CREATE": 0,
-		"SCHEDULE_UPDATE": 1,
-		"SCHEDULE_DELETE": 2,
-		"SCHEDULE_PAUSE":  3,
-		"SCHEDULE_RESUME": 4,
+		"SCHEDULE_UNSPECIFIED": 0,
+		"SCHEDULE_CREATE":      1,
+		"SCHEDULE_UPDATE":      2,
+		"SCHEDULE_DELETE":      3,
+		"SCHEDULE_PAUSE":       4,
+		"SCHEDULE_RESUME":      5,
 	}
 )
 
@@ -361,31 +379,34 @@ func (ScheduleOperation) EnumDescriptor() ([]byte, []int) {
 type OverlapPolicy int32
 
 const (
-	OverlapPolicy_SKIP            OverlapPolicy = 0 // 跳过
-	OverlapPolicy_BUFFER_ONE      OverlapPolicy = 1 // 缓存一个
-	OverlapPolicy_BUFFER_ALL      OverlapPolicy = 2 // 缓存全部
-	OverlapPolicy_CANCEL_OTHER    OverlapPolicy = 3 // 取消其他
-	OverlapPolicy_TERMINATE_OTHER OverlapPolicy = 4 // 终止其他
-	OverlapPolicy_ALLOW_ALL       OverlapPolicy = 5 // 允许全部
+	OverlapPolicy_OVERLAP_UNSPECIFIED     OverlapPolicy = 0 // 未知类型
+	OverlapPolicy_OVERLAP_SKIP            OverlapPolicy = 1 // 跳过
+	OverlapPolicy_OVERLAP_BUFFER_ONE      OverlapPolicy = 2 // 缓存一个
+	OverlapPolicy_OVERLAP_BUFFER_ALL      OverlapPolicy = 3 // 缓存全部
+	OverlapPolicy_OVERLAP_CANCEL_OTHER    OverlapPolicy = 4 // 取消其他
+	OverlapPolicy_OVERLAP_TERMINATE_OTHER OverlapPolicy = 5 // 终止其他
+	OverlapPolicy_OVERLAP_ALLOW_ALL       OverlapPolicy = 6 // 允许全部
 )
 
 // Enum value maps for OverlapPolicy.
 var (
 	OverlapPolicy_name = map[int32]string{
-		0: "SKIP",
-		1: "BUFFER_ONE",
-		2: "BUFFER_ALL",
-		3: "CANCEL_OTHER",
-		4: "TERMINATE_OTHER",
-		5: "ALLOW_ALL",
+		0: "OVERLAP_UNSPECIFIED",
+		1: "OVERLAP_SKIP",
+		2: "OVERLAP_BUFFER_ONE",
+		3: "OVERLAP_BUFFER_ALL",
+		4: "OVERLAP_CANCEL_OTHER",
+		5: "OVERLAP_TERMINATE_OTHER",
+		6: "OVERLAP_ALLOW_ALL",
 	}
 	OverlapPolicy_value = map[string]int32{
-		"SKIP":            0,
-		"BUFFER_ONE":      1,
-		"BUFFER_ALL":      2,
-		"CANCEL_OTHER":    3,
-		"TERMINATE_OTHER": 4,
-		"ALLOW_ALL":       5,
+		"OVERLAP_UNSPECIFIED":     0,
+		"OVERLAP_SKIP":            1,
+		"OVERLAP_BUFFER_ONE":      2,
+		"OVERLAP_BUFFER_ALL":      3,
+		"OVERLAP_CANCEL_OTHER":    4,
+		"OVERLAP_TERMINATE_OTHER": 5,
+		"OVERLAP_ALLOW_ALL":       6,
 	}
 )
 
@@ -420,22 +441,25 @@ func (OverlapPolicy) EnumDescriptor() ([]byte, []int) {
 type ScheduleState int32
 
 const (
-	ScheduleState_SCHEDULE_ACTIVE  ScheduleState = 0
-	ScheduleState_SCHEDULE_PAUSED  ScheduleState = 1
-	ScheduleState_SCHEDULE_DELETED ScheduleState = 2
+	ScheduleState__UNSPECIFIED     ScheduleState = 0 // 未知类型
+	ScheduleState_SCHEDULE_ACTIVE  ScheduleState = 1
+	ScheduleState_SCHEDULE_PAUSED  ScheduleState = 2
+	ScheduleState_SCHEDULE_DELETED ScheduleState = 3
 )
 
 // Enum value maps for ScheduleState.
 var (
 	ScheduleState_name = map[int32]string{
-		0: "SCHEDULE_ACTIVE",
-		1: "SCHEDULE_PAUSED",
-		2: "SCHEDULE_DELETED",
+		0: "_UNSPECIFIED",
+		1: "SCHEDULE_ACTIVE",
+		2: "SCHEDULE_PAUSED",
+		3: "SCHEDULE_DELETED",
 	}
 	ScheduleState_value = map[string]int32{
-		"SCHEDULE_ACTIVE":  0,
-		"SCHEDULE_PAUSED":  1,
-		"SCHEDULE_DELETED": 2,
+		"_UNSPECIFIED":     0,
+		"SCHEDULE_ACTIVE":  1,
+		"SCHEDULE_PAUSED":  2,
+		"SCHEDULE_DELETED": 3,
 	}
 )
 
@@ -627,61 +651,65 @@ const file_temporal_v1_temporal_types_proto_rawDesc = "" +
 	"\x13backoff_coefficient\x18\x02 \x01(\x02R\x12backoffCoefficient\x128\n" +
 	"\x18maximum_interval_seconds\x18\x03 \x01(\x05R\x16maximumIntervalSeconds\x12)\n" +
 	"\x10maximum_attempts\x18\x04 \x01(\x05R\x0fmaximumAttempts\x129\n" +
-	"\x19non_retryable_error_types\x18\x05 \x03(\tR\x16nonRetryableErrorTypes*R\n" +
-	"\rExecutionMode\x12\r\n" +
-	"\tIMMEDIATE\x10\x00\x12\v\n" +
-	"\aDELAYED\x10\x01\x12\r\n" +
-	"\tSCHEDULED\x10\x02\x12\v\n" +
-	"\aAT_TIME\x10\x03\x12\t\n" +
-	"\x05BATCH\x10\x04*O\n" +
-	"\x10ControlOperation\x12\n" +
+	"\x19non_retryable_error_types\x18\x05 \x03(\tR\x16nonRetryableErrorTypes*\x81\x01\n" +
+	"\rExecutionMode\x12\x14\n" +
+	"\x10MODE_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eMODE_IMMEDIATE\x10\x01\x12\x10\n" +
+	"\fMODE_DELAYED\x10\x02\x12\x12\n" +
+	"\x0eMODE_SCHEDULED\x10\x03\x12\x10\n" +
+	"\fMODE_AT_TIME\x10\x04\x12\x0e\n" +
 	"\n" +
-	"\x06CANCEL\x10\x00\x12\r\n" +
-	"\tTERMINATE\x10\x01\x12\t\n" +
-	"\x05PAUSE\x10\x02\x12\n" +
+	"MODE_BATCH\x10\x05*x\n" +
+	"\x10ControlOperation\x12\x13\n" +
+	"\x0fOPT_UNSPECIFIED\x10\x00\x12\x0e\n" +
 	"\n" +
-	"\x06RESUME\x10\x03\x12\t\n" +
-	"\x05RESET\x10\x04*w\n" +
-	"\rControlResult\x12\x13\n" +
-	"\x0fCONTROL_SUCCESS\x10\x00\x12\x15\n" +
-	"\x11ALREADY_COMPLETED\x10\x01\x12\x15\n" +
-	"\x11ALREADY_CANCELLED\x10\x02\x12\r\n" +
-	"\tNOT_FOUND\x10\x03\x12\x14\n" +
-	"\x10OPERATION_FAILED\x10\x04*5\n" +
-	"\tQueryType\x12\n" +
+	"OPT_CANCEL\x10\x01\x12\x11\n" +
+	"\rOPT_TERMINATE\x10\x02\x12\r\n" +
+	"\tOPT_PAUSE\x10\x03\x12\x0e\n" +
 	"\n" +
-	"\x06STATUS\x10\x00\x12\v\n" +
-	"\aHISTORY\x10\x01\x12\x0f\n" +
-	"\vSTACK_TRACE\x10\x02*{\n" +
-	"\rWorkflowState\x12\v\n" +
-	"\aRUNNING\x10\x00\x12\r\n" +
-	"\tCOMPLETED\x10\x01\x12\n" +
-	"\n" +
-	"\x06FAILED\x10\x02\x12\r\n" +
-	"\tCANCELLED\x10\x03\x12\x0e\n" +
-	"\n" +
-	"TERMINATED\x10\x04\x12\x14\n" +
-	"\x10CONTINUED_AS_NEW\x10\x05\x12\r\n" +
-	"\tTIMED_OUT\x10\x06*{\n" +
-	"\x11ScheduleOperation\x12\x13\n" +
-	"\x0fSCHEDULE_CREATE\x10\x00\x12\x13\n" +
-	"\x0fSCHEDULE_UPDATE\x10\x01\x12\x13\n" +
-	"\x0fSCHEDULE_DELETE\x10\x02\x12\x12\n" +
-	"\x0eSCHEDULE_PAUSE\x10\x03\x12\x13\n" +
-	"\x0fSCHEDULE_RESUME\x10\x04*o\n" +
-	"\rOverlapPolicy\x12\b\n" +
-	"\x04SKIP\x10\x00\x12\x0e\n" +
-	"\n" +
-	"BUFFER_ONE\x10\x01\x12\x0e\n" +
-	"\n" +
-	"BUFFER_ALL\x10\x02\x12\x10\n" +
-	"\fCANCEL_OTHER\x10\x03\x12\x13\n" +
-	"\x0fTERMINATE_OTHER\x10\x04\x12\r\n" +
-	"\tALLOW_ALL\x10\x05*O\n" +
-	"\rScheduleState\x12\x13\n" +
-	"\x0fSCHEDULE_ACTIVE\x10\x00\x12\x13\n" +
-	"\x0fSCHEDULE_PAUSED\x10\x01\x12\x14\n" +
-	"\x10SCHEDULE_DELETED\x10\x02B8Z6github.com/og-game/game-proto/proto-gen-go/temporal/v1b\x06proto3"
+	"OPT_RESUME\x10\x04\x12\r\n" +
+	"\tOPT_RESET\x10\x05*\xb0\x01\n" +
+	"\rControlResult\x12\x17\n" +
+	"\x13CONTROL_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fCONTROL_SUCCESS\x10\x01\x12\x1d\n" +
+	"\x19CONTROL_ALREADY_COMPLETED\x10\x02\x12\x1d\n" +
+	"\x19CONTROL_ALREADY_CANCELLED\x10\x03\x12\x15\n" +
+	"\x11CONTROL_NOT_FOUND\x10\x04\x12\x1c\n" +
+	"\x18CONTROL_OPERATION_FAILED\x10\x05*^\n" +
+	"\tQueryType\x12\x15\n" +
+	"\x11QUERY_UNSPECIFIED\x10\x00\x12\x10\n" +
+	"\fQUERY_STATUS\x10\x01\x12\x11\n" +
+	"\rQUERY_HISTORY\x10\x02\x12\x15\n" +
+	"\x11QUERY_STACK_TRACE\x10\x03*\xbc\x01\n" +
+	"\rWorkflowState\x12\x15\n" +
+	"\x11STATE_UNSPECIFIED\x10\x00\x12\x11\n" +
+	"\rSTATE_RUNNING\x10\x01\x12\x13\n" +
+	"\x0fSTATE_COMPLETED\x10\x02\x12\x10\n" +
+	"\fSTATE_FAILED\x10\x03\x12\x13\n" +
+	"\x0fSTATE_CANCELLED\x10\x04\x12\x14\n" +
+	"\x10STATE_TERMINATED\x10\x05\x12\x1a\n" +
+	"\x16STATE_CONTINUED_AS_NEW\x10\x06\x12\x13\n" +
+	"\x0fSTATE_TIMED_OUT\x10\a*\x95\x01\n" +
+	"\x11ScheduleOperation\x12\x18\n" +
+	"\x14SCHEDULE_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fSCHEDULE_CREATE\x10\x01\x12\x13\n" +
+	"\x0fSCHEDULE_UPDATE\x10\x02\x12\x13\n" +
+	"\x0fSCHEDULE_DELETE\x10\x03\x12\x12\n" +
+	"\x0eSCHEDULE_PAUSE\x10\x04\x12\x13\n" +
+	"\x0fSCHEDULE_RESUME\x10\x05*\xb8\x01\n" +
+	"\rOverlapPolicy\x12\x17\n" +
+	"\x13OVERLAP_UNSPECIFIED\x10\x00\x12\x10\n" +
+	"\fOVERLAP_SKIP\x10\x01\x12\x16\n" +
+	"\x12OVERLAP_BUFFER_ONE\x10\x02\x12\x16\n" +
+	"\x12OVERLAP_BUFFER_ALL\x10\x03\x12\x18\n" +
+	"\x14OVERLAP_CANCEL_OTHER\x10\x04\x12\x1b\n" +
+	"\x17OVERLAP_TERMINATE_OTHER\x10\x05\x12\x15\n" +
+	"\x11OVERLAP_ALLOW_ALL\x10\x06*a\n" +
+	"\rScheduleState\x12\x10\n" +
+	"\f_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fSCHEDULE_ACTIVE\x10\x01\x12\x13\n" +
+	"\x0fSCHEDULE_PAUSED\x10\x02\x12\x14\n" +
+	"\x10SCHEDULE_DELETED\x10\x03B8Z6github.com/og-game/game-proto/proto-gen-go/temporal/v1b\x06proto3"
 
 var (
 	file_temporal_v1_temporal_types_proto_rawDescOnce sync.Once

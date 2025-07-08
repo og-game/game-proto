@@ -104,7 +104,7 @@ func (x *StartWorkflowRequest) GetExecutionMode() ExecutionMode {
 	if x != nil {
 		return x.ExecutionMode
 	}
-	return ExecutionMode_IMMEDIATE
+	return ExecutionMode_MODE_UNSPECIFIED
 }
 
 func (x *StartWorkflowRequest) GetExecutionConfig() *ExecutionConfig {
@@ -780,7 +780,7 @@ func (x *ExecutionInfo) GetMode() ExecutionMode {
 	if x != nil {
 		return x.Mode
 	}
-	return ExecutionMode_IMMEDIATE
+	return ExecutionMode_MODE_UNSPECIFIED
 }
 
 func (x *ExecutionInfo) GetStartDelaySeconds() int64 {
@@ -880,7 +880,7 @@ func (x *ControlWorkflowRequest) GetOperation() ControlOperation {
 	if x != nil {
 		return x.Operation
 	}
-	return ControlOperation_CANCEL
+	return ControlOperation_OPT_UNSPECIFIED
 }
 
 func (x *ControlWorkflowRequest) GetOptions() *ControlOptions {
@@ -1172,7 +1172,7 @@ func (x *ControlWorkflowResponse) GetResult() ControlResult {
 	if x != nil {
 		return x.Result
 	}
-	return ControlResult_CONTROL_SUCCESS
+	return ControlResult_CONTROL_UNSPECIFIED
 }
 
 func (x *ControlWorkflowResponse) GetBatchResult() *BatchControlResult {
@@ -1311,7 +1311,7 @@ func (x *QueryWorkflowRequest) GetQueryType() QueryType {
 	if x != nil {
 		return x.QueryType
 	}
-	return QueryType_STATUS
+	return QueryType_QUERY_UNSPECIFIED
 }
 
 func (x *QueryWorkflowRequest) GetQueryOptions() *QueryOptions {
@@ -1596,7 +1596,7 @@ func (x *WorkflowStatus) GetState() WorkflowState {
 	if x != nil {
 		return x.State
 	}
-	return WorkflowState_RUNNING
+	return WorkflowState_STATE_UNSPECIFIED
 }
 
 func (x *WorkflowStatus) GetStartTime() int64 {
@@ -2185,7 +2185,7 @@ func (x *WorkflowInfo) GetState() WorkflowState {
 	if x != nil {
 		return x.State
 	}
-	return WorkflowState_RUNNING
+	return WorkflowState_STATE_UNSPECIFIED
 }
 
 func (x *WorkflowInfo) GetStartTime() int64 {
@@ -2701,7 +2701,7 @@ func (x *ManageScheduleRequest) GetOperation() ScheduleOperation {
 	if x != nil {
 		return x.Operation
 	}
-	return ScheduleOperation_SCHEDULE_CREATE
+	return ScheduleOperation_SCHEDULE_UNSPECIFIED
 }
 
 func (x *ManageScheduleRequest) GetSpec() *ScheduleSpec {
@@ -2951,7 +2951,7 @@ func (x *SchedulePolicy) GetOverlapPolicy() OverlapPolicy {
 	if x != nil {
 		return x.OverlapPolicy
 	}
-	return OverlapPolicy_SKIP
+	return OverlapPolicy_OVERLAP_UNSPECIFIED
 }
 
 func (x *SchedulePolicy) GetCatchupWindow() string {
@@ -3039,12 +3039,10 @@ func (x *ManageScheduleResponse) GetNextExecutionTime() string {
 
 // 查询调度请求
 type QueryScheduleRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	ScheduleId        string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
-	IncludeRecentRuns bool                   `protobuf:"varint,2,opt,name=include_recent_runs,json=includeRecentRuns,proto3" json:"include_recent_runs,omitempty"` // 包含最近执行记录
-	RecentRunsCount   int32                  `protobuf:"varint,3,opt,name=recent_runs_count,json=recentRunsCount,proto3" json:"recent_runs_count,omitempty"`       // 最近执行记录数量
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ScheduleId    string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *QueryScheduleRequest) Reset() {
@@ -3084,27 +3082,12 @@ func (x *QueryScheduleRequest) GetScheduleId() string {
 	return ""
 }
 
-func (x *QueryScheduleRequest) GetIncludeRecentRuns() bool {
-	if x != nil {
-		return x.IncludeRecentRuns
-	}
-	return false
-}
-
-func (x *QueryScheduleRequest) GetRecentRunsCount() int32 {
-	if x != nil {
-		return x.RecentRunsCount
-	}
-	return 0
-}
-
 // 查询调度响应
 type QueryScheduleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	ScheduleInfo  *ScheduleInfo          `protobuf:"bytes,3,opt,name=schedule_info,json=scheduleInfo,proto3" json:"schedule_info,omitempty"`
-	RecentRuns    []*WorkflowInfo        `protobuf:"bytes,4,rep,name=recent_runs,json=recentRuns,proto3" json:"recent_runs,omitempty"` // 最近执行记录
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3156,13 +3139,6 @@ func (x *QueryScheduleResponse) GetMessage() string {
 func (x *QueryScheduleResponse) GetScheduleInfo() *ScheduleInfo {
 	if x != nil {
 		return x.ScheduleInfo
-	}
-	return nil
-}
-
-func (x *QueryScheduleResponse) GetRecentRuns() []*WorkflowInfo {
-	if x != nil {
-		return x.RecentRuns
 	}
 	return nil
 }
@@ -3230,7 +3206,7 @@ func (x *ScheduleInfo) GetState() ScheduleState {
 	if x != nil {
 		return x.State
 	}
-	return ScheduleState_SCHEDULE_ACTIVE
+	return ScheduleState__UNSPECIFIED
 }
 
 func (x *ScheduleInfo) GetCreatedTime() int64 {
@@ -3764,18 +3740,14 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1f\n" +
 	"\vschedule_id\x18\x03 \x01(\tR\n" +
 	"scheduleId\x12.\n" +
-	"\x13next_execution_time\x18\x04 \x01(\tR\x11nextExecutionTime\"\x93\x01\n" +
+	"\x13next_execution_time\x18\x04 \x01(\tR\x11nextExecutionTime\"7\n" +
 	"\x14QueryScheduleRequest\x12\x1f\n" +
 	"\vschedule_id\x18\x01 \x01(\tR\n" +
-	"scheduleId\x12.\n" +
-	"\x13include_recent_runs\x18\x02 \x01(\bR\x11includeRecentRuns\x12*\n" +
-	"\x11recent_runs_count\x18\x03 \x01(\x05R\x0frecentRunsCount\"\xc7\x01\n" +
+	"scheduleId\"\x8b\x01\n" +
 	"\x15QueryScheduleResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12>\n" +
-	"\rschedule_info\x18\x03 \x01(\v2\x19.temporal.v1.ScheduleInfoR\fscheduleInfo\x12:\n" +
-	"\vrecent_runs\x18\x04 \x03(\v2\x19.temporal.v1.WorkflowInfoR\n" +
-	"recentRuns\"\xdc\x02\n" +
+	"\rschedule_info\x18\x03 \x01(\v2\x19.temporal.v1.ScheduleInfoR\fscheduleInfo\"\xdc\x02\n" +
 	"\fScheduleInfo\x12\x1f\n" +
 	"\vschedule_id\x18\x01 \x01(\tR\n" +
 	"scheduleId\x12-\n" +
@@ -3944,37 +3916,36 @@ var file_temporal_v1_temporal_proto_depIdxs = []int32{
 	53, // 46: temporal.v1.WorkflowAction.search_attributes:type_name -> temporal.v1.WorkflowAction.SearchAttributesEntry
 	61, // 47: temporal.v1.SchedulePolicy.overlap_policy:type_name -> temporal.v1.OverlapPolicy
 	41, // 48: temporal.v1.QueryScheduleResponse.schedule_info:type_name -> temporal.v1.ScheduleInfo
-	27, // 49: temporal.v1.QueryScheduleResponse.recent_runs:type_name -> temporal.v1.WorkflowInfo
-	35, // 50: temporal.v1.ScheduleInfo.spec:type_name -> temporal.v1.ScheduleSpec
-	62, // 51: temporal.v1.ScheduleInfo.state:type_name -> temporal.v1.ScheduleState
-	43, // 52: temporal.v1.ListSchedulesRequest.options:type_name -> temporal.v1.ListScheduleOptions
-	62, // 53: temporal.v1.ListScheduleOptions.states:type_name -> temporal.v1.ScheduleState
-	41, // 54: temporal.v1.ListSchedulesResponse.schedules:type_name -> temporal.v1.ScheduleInfo
-	0,  // 55: temporal.v1.WorkflowService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
-	10, // 56: temporal.v1.WorkflowService.ControlWorkflow:input_type -> temporal.v1.ControlWorkflowRequest
-	16, // 57: temporal.v1.WorkflowService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
-	24, // 58: temporal.v1.WorkflowService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
-	28, // 59: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
-	30, // 60: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
-	32, // 61: temporal.v1.WorkflowInteractionService.QueryWorkflowState:input_type -> temporal.v1.QueryWorkflowStateRequest
-	34, // 62: temporal.v1.ScheduleService.ManageSchedule:input_type -> temporal.v1.ManageScheduleRequest
-	39, // 63: temporal.v1.ScheduleService.QuerySchedule:input_type -> temporal.v1.QueryScheduleRequest
-	42, // 64: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
-	5,  // 65: temporal.v1.WorkflowService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
-	14, // 66: temporal.v1.WorkflowService.ControlWorkflow:output_type -> temporal.v1.ControlWorkflowResponse
-	18, // 67: temporal.v1.WorkflowService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
-	26, // 68: temporal.v1.WorkflowService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
-	29, // 69: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
-	31, // 70: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
-	33, // 71: temporal.v1.WorkflowInteractionService.QueryWorkflowState:output_type -> temporal.v1.QueryWorkflowStateResponse
-	38, // 72: temporal.v1.ScheduleService.ManageSchedule:output_type -> temporal.v1.ManageScheduleResponse
-	40, // 73: temporal.v1.ScheduleService.QuerySchedule:output_type -> temporal.v1.QueryScheduleResponse
-	44, // 74: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
-	65, // [65:75] is the sub-list for method output_type
-	55, // [55:65] is the sub-list for method input_type
-	55, // [55:55] is the sub-list for extension type_name
-	55, // [55:55] is the sub-list for extension extendee
-	0,  // [0:55] is the sub-list for field type_name
+	35, // 49: temporal.v1.ScheduleInfo.spec:type_name -> temporal.v1.ScheduleSpec
+	62, // 50: temporal.v1.ScheduleInfo.state:type_name -> temporal.v1.ScheduleState
+	43, // 51: temporal.v1.ListSchedulesRequest.options:type_name -> temporal.v1.ListScheduleOptions
+	62, // 52: temporal.v1.ListScheduleOptions.states:type_name -> temporal.v1.ScheduleState
+	41, // 53: temporal.v1.ListSchedulesResponse.schedules:type_name -> temporal.v1.ScheduleInfo
+	0,  // 54: temporal.v1.WorkflowService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
+	10, // 55: temporal.v1.WorkflowService.ControlWorkflow:input_type -> temporal.v1.ControlWorkflowRequest
+	16, // 56: temporal.v1.WorkflowService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
+	24, // 57: temporal.v1.WorkflowService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
+	28, // 58: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
+	30, // 59: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
+	32, // 60: temporal.v1.WorkflowInteractionService.QueryWorkflowState:input_type -> temporal.v1.QueryWorkflowStateRequest
+	34, // 61: temporal.v1.ScheduleService.ManageSchedule:input_type -> temporal.v1.ManageScheduleRequest
+	39, // 62: temporal.v1.ScheduleService.QuerySchedule:input_type -> temporal.v1.QueryScheduleRequest
+	42, // 63: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
+	5,  // 64: temporal.v1.WorkflowService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
+	14, // 65: temporal.v1.WorkflowService.ControlWorkflow:output_type -> temporal.v1.ControlWorkflowResponse
+	18, // 66: temporal.v1.WorkflowService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
+	26, // 67: temporal.v1.WorkflowService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
+	29, // 68: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
+	31, // 69: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
+	33, // 70: temporal.v1.WorkflowInteractionService.QueryWorkflowState:output_type -> temporal.v1.QueryWorkflowStateResponse
+	38, // 71: temporal.v1.ScheduleService.ManageSchedule:output_type -> temporal.v1.ManageScheduleResponse
+	40, // 72: temporal.v1.ScheduleService.QuerySchedule:output_type -> temporal.v1.QueryScheduleResponse
+	44, // 73: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
+	64, // [64:74] is the sub-list for method output_type
+	54, // [54:64] is the sub-list for method input_type
+	54, // [54:54] is the sub-list for extension type_name
+	54, // [54:54] is the sub-list for extension extendee
+	0,  // [0:54] is the sub-list for field type_name
 }
 
 func init() { file_temporal_v1_temporal_proto_init() }
