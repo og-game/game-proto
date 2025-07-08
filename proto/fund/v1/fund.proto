@@ -39,13 +39,13 @@ message GetUserBalanceReq {
 
 // 获取单个用户余额响应
 message GetUserBalanceResp {
-  double balance = 1; // 游戏内余额
+  string balance = 1; // 游戏内余额
   int64  version = 2; // 版本
 }
 
 // 用户余额信息
 message UserBalanceInfo {
-  double balance = 1; // 游戏内余额
+  string balance = 1; // 游戏内余额
   int64  version = 2; // 版本
 }
 
@@ -67,7 +67,7 @@ message TransactionReq {
   int64 user_id = 2;
   int64 game_id = 3;
   int64 platform_id = 4;
-  double amount = 5;    // 需要变动的金额 >=0
+  string amount = 5;    // 需要变动的金额 >=0
   string order_id = 6;  // 订单ID
   string description = 7; // 描述备注
   map<string, string> metadata = 8;
@@ -77,8 +77,8 @@ message TransactionReq {
 message TransactionResp {
   bool success = 1;  // 是否成功
   string transaction_id = 2; // 账变记录ID
-  double balance_before = 3; // 变更前余额
-  double balance_after = 4; // 变更后余额
+  string balance_before = 3; // 变更前余额
+  string balance_after = 4; // 变更后余额
   int64 timestamp = 5; // 当前时间戳
 }
 
@@ -125,7 +125,7 @@ message UserBalanceListReq {
 
 // 批量获取用户余额响应
 message UserBalanceListResp {
-  map<int64, double> balances = 1; // platform_id => balance
+  map<int64, string> balances = 1; // platform_id => balance
 }
 
 
@@ -133,7 +133,7 @@ message UserBalanceListResp {
 message TransferInReq{
   int64 user_id = 1;
   int64 platform_id = 2;
-  double amount = 3;
+  string amount = 3;
   string merchant_order_id = 4;  // 商户订单ID
   map<string, string> extra_params = 5;
 }
@@ -154,7 +154,7 @@ message TransferOutReq {
   int64 platform_id = 2;
   string merchant_order_id = 3;  // 商户订单ID
   map<string, string> extra_params = 4;
-  double amount = 5;
+  string amount = 5;
 }
 
 // 发起转出操作;
@@ -164,7 +164,7 @@ message TransferOutResp {
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4;  // 商户订单ID
   common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
-  double amount = 6; // 转账金额
+  string amount = 6; // 转账金额
 }
 
 
@@ -187,7 +187,7 @@ message TransferProgressInfo {
   string message = 2;
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4; // 商户交易ID
-  double amount = 5; // 转账金额
+  string amount = 5; // 转账金额
   common.v1.TransactionDirection transfer_type = 6;
   common.v1.TransferStatus status = 7; // 转账状态：pending, processing, completed, failed
   int64 created_time = 8; // 申请时间戳

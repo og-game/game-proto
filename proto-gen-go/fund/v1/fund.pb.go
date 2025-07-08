@@ -150,8 +150,8 @@ func (x *GetUserBalanceReq) GetPlatformId() int64 {
 // 获取单个用户余额响应
 type GetUserBalanceResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"` // 游戏内余额
-	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`  // 版本
+	Balance       string                 `protobuf:"bytes,1,opt,name=balance,proto3" json:"balance,omitempty"`  // 游戏内余额
+	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"` // 版本
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -186,11 +186,11 @@ func (*GetUserBalanceResp) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUserBalanceResp) GetBalance() float64 {
+func (x *GetUserBalanceResp) GetBalance() string {
 	if x != nil {
 		return x.Balance
 	}
-	return 0
+	return ""
 }
 
 func (x *GetUserBalanceResp) GetVersion() int64 {
@@ -203,8 +203,8 @@ func (x *GetUserBalanceResp) GetVersion() int64 {
 // 用户余额信息
 type UserBalanceInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Balance       float64                `protobuf:"fixed64,1,opt,name=balance,proto3" json:"balance,omitempty"` // 游戏内余额
-	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`  // 版本
+	Balance       string                 `protobuf:"bytes,1,opt,name=balance,proto3" json:"balance,omitempty"`  // 游戏内余额
+	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"` // 版本
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -239,11 +239,11 @@ func (*UserBalanceInfo) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *UserBalanceInfo) GetBalance() float64 {
+func (x *UserBalanceInfo) GetBalance() string {
 	if x != nil {
 		return x.Balance
 	}
-	return 0
+	return ""
 }
 
 func (x *UserBalanceInfo) GetVersion() int64 {
@@ -358,7 +358,7 @@ type TransactionReq struct {
 	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	GameId        int64                  `protobuf:"varint,3,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
 	PlatformId    int64                  `protobuf:"varint,4,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	Amount        float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`                // 需要变动的金额 >=0
+	Amount        string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                  // 需要变动的金额 >=0
 	OrderId       string                 `protobuf:"bytes,6,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"` // 订单ID
 	Description   string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`        // 描述备注
 	Metadata      map[string]string      `protobuf:"bytes,8,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -424,11 +424,11 @@ func (x *TransactionReq) GetPlatformId() int64 {
 	return 0
 }
 
-func (x *TransactionReq) GetAmount() float64 {
+func (x *TransactionReq) GetAmount() string {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return ""
 }
 
 func (x *TransactionReq) GetOrderId() string {
@@ -455,11 +455,11 @@ func (x *TransactionReq) GetMetadata() map[string]string {
 // 交易响应消息
 type TransactionResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`                                   // 是否成功
-	TransactionId string                 `protobuf:"bytes,2,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`   // 账变记录ID
-	BalanceBefore float64                `protobuf:"fixed64,3,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"` // 变更前余额
-	BalanceAfter  float64                `protobuf:"fixed64,4,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`    // 变更后余额
-	Timestamp     int64                  `protobuf:"varint,5,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                               // 当前时间戳
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`                                 // 是否成功
+	TransactionId string                 `protobuf:"bytes,2,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"` // 账变记录ID
+	BalanceBefore string                 `protobuf:"bytes,3,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"` // 变更前余额
+	BalanceAfter  string                 `protobuf:"bytes,4,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`    // 变更后余额
+	Timestamp     int64                  `protobuf:"varint,5,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                             // 当前时间戳
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -508,18 +508,18 @@ func (x *TransactionResp) GetTransactionId() string {
 	return ""
 }
 
-func (x *TransactionResp) GetBalanceBefore() float64 {
+func (x *TransactionResp) GetBalanceBefore() string {
 	if x != nil {
 		return x.BalanceBefore
 	}
-	return 0
+	return ""
 }
 
-func (x *TransactionResp) GetBalanceAfter() float64 {
+func (x *TransactionResp) GetBalanceAfter() string {
 	if x != nil {
 		return x.BalanceAfter
 	}
-	return 0
+	return ""
 }
 
 func (x *TransactionResp) GetTimestamp() int64 {
@@ -715,7 +715,7 @@ func (x *UserBalanceListReq) GetPlatformIds() []int64 {
 // 批量获取用户余额响应
 type UserBalanceListResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Balances      map[int64]float64      `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"` // platform_id => balance
+	Balances      map[int64]string       `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // platform_id => balance
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -750,7 +750,7 @@ func (*UserBalanceListResp) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *UserBalanceListResp) GetBalances() map[int64]float64 {
+func (x *UserBalanceListResp) GetBalances() map[int64]string {
 	if x != nil {
 		return x.Balances
 	}
@@ -762,7 +762,7 @@ type TransferInReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	UserId          int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
-	Amount          float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount          string                 `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
 	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
 	ExtraParams     map[string]string      `protobuf:"bytes,5,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields   protoimpl.UnknownFields
@@ -813,11 +813,11 @@ func (x *TransferInReq) GetPlatformId() int64 {
 	return 0
 }
 
-func (x *TransferInReq) GetAmount() float64 {
+func (x *TransferInReq) GetAmount() string {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return ""
 }
 
 func (x *TransferInReq) GetMerchantOrderId() string {
@@ -918,7 +918,7 @@ type TransferOutReq struct {
 	PlatformId      int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`
 	MerchantOrderId string                 `protobuf:"bytes,3,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
 	ExtraParams     map[string]string      `protobuf:"bytes,4,rep,name=extra_params,json=extraParams,proto3" json:"extra_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Amount          float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount          string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -981,11 +981,11 @@ func (x *TransferOutReq) GetExtraParams() map[string]string {
 	return nil
 }
 
-func (x *TransferOutReq) GetAmount() float64 {
+func (x *TransferOutReq) GetAmount() string {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return ""
 }
 
 // 发起转出操作;
@@ -996,7 +996,7 @@ type TransferOutResp struct {
 	TransactionId   string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`         // 内部交易ID
 	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
 	Status          v1.TransferStatus      `protobuf:"varint,5,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"`             // 转账状态：pending, processing, completed, failed
-	Amount          float64                `protobuf:"fixed64,6,opt,name=amount,proto3" json:"amount,omitempty"`                                          // 转账金额
+	Amount          string                 `protobuf:"bytes,6,opt,name=amount,proto3" json:"amount,omitempty"`                                            // 转账金额
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1066,11 +1066,11 @@ func (x *TransferOutResp) GetStatus() v1.TransferStatus {
 	return v1.TransferStatus(0)
 }
 
-func (x *TransferOutResp) GetAmount() float64 {
+func (x *TransferOutResp) GetAmount() string {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return ""
 }
 
 // 查询提现状态请求
@@ -1186,7 +1186,7 @@ type TransferProgressInfo struct {
 	Message         string                  `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	TransactionId   string                  `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`         // 内部交易ID
 	MerchantOrderId string                  `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户交易ID
-	Amount          float64                 `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`                                          // 转账金额
+	Amount          string                  `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                            // 转账金额
 	TransferType    v1.TransactionDirection `protobuf:"varint,6,opt,name=transfer_type,json=transferType,proto3,enum=common.v1.TransactionDirection" json:"transfer_type,omitempty"`
 	Status          v1.TransferStatus       `protobuf:"varint,7,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"` // 转账状态：pending, processing, completed, failed
 	CreatedTime     int64                   `protobuf:"varint,8,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`  // 申请时间戳
@@ -1253,11 +1253,11 @@ func (x *TransferProgressInfo) GetMerchantOrderId() string {
 	return ""
 }
 
-func (x *TransferProgressInfo) GetAmount() float64 {
+func (x *TransferProgressInfo) GetAmount() string {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return ""
 }
 
 func (x *TransferProgressInfo) GetTransferType() v1.TransactionDirection {
@@ -1301,10 +1301,10 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\"H\n" +
 	"\x12GetUserBalanceResp\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\x01R\abalance\x12\x18\n" +
+	"\abalance\x18\x01 \x01(\tR\abalance\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\x03R\aversion\"E\n" +
 	"\x0fUserBalanceInfo\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\x01R\abalance\x12\x18\n" +
+	"\abalance\x18\x01 \x01(\tR\abalance\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\x03R\aversion\"S\n" +
 	"\x15GetUserBalanceListReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12!\n" +
@@ -1320,7 +1320,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\agame_id\x18\x03 \x01(\x03R\x06gameId\x12\x1f\n" +
 	"\vplatform_id\x18\x04 \x01(\x03R\n" +
 	"platformId\x12\x16\n" +
-	"\x06amount\x18\x05 \x01(\x01R\x06amount\x12\x19\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\x12\x19\n" +
 	"\border_id\x18\x06 \x01(\tR\aorderId\x12 \n" +
 	"\vdescription\x18\a \x01(\tR\vdescription\x12A\n" +
 	"\bmetadata\x18\b \x03(\v2%.fund.v1.TransactionReq.MetadataEntryR\bmetadata\x1a;\n" +
@@ -1330,8 +1330,8 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0fTransactionResp\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12%\n" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12%\n" +
-	"\x0ebalance_before\x18\x03 \x01(\x01R\rbalanceBefore\x12#\n" +
-	"\rbalance_after\x18\x04 \x01(\x01R\fbalanceAfter\x12\x1c\n" +
+	"\x0ebalance_before\x18\x03 \x01(\tR\rbalanceBefore\x12#\n" +
+	"\rbalance_after\x18\x04 \x01(\tR\fbalanceAfter\x12\x1c\n" +
 	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"\x9a\x01\n" +
 	"\x17TransferStatusUpdateReq\x12%\n" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12@\n" +
@@ -1350,12 +1350,12 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bbalances\x18\x01 \x03(\v2*.fund.v1.UserBalanceListResp.BalancesEntryR\bbalances\x1a;\n" +
 	"\rBalancesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\x99\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x99\x02\n" +
 	"\rTransferInReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12\x16\n" +
-	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12*\n" +
+	"\x06amount\x18\x03 \x01(\tR\x06amount\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12J\n" +
 	"\fextra_params\x18\x05 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
@@ -1373,7 +1373,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"platformId\x12*\n" +
 	"\x11merchant_order_id\x18\x03 \x01(\tR\x0fmerchantOrderId\x12K\n" +
 	"\fextra_params\x18\x04 \x03(\v2(.fund.v1.TransferOutReq.ExtraParamsEntryR\vextraParams\x12\x16\n" +
-	"\x06amount\x18\x05 \x01(\x01R\x06amount\x1a>\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf3\x01\n" +
@@ -1383,7 +1383,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x121\n" +
 	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12\x16\n" +
-	"\x06amount\x18\x06 \x01(\x01R\x06amount\"\x85\x01\n" +
+	"\x06amount\x18\x06 \x01(\tR\x06amount\"\x85\x01\n" +
 	"\x13TransferProgressReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12'\n" +
 	"\x0ftransaction_ids\x18\x02 \x03(\tR\x0etransactionIds\x12,\n" +
@@ -1398,7 +1398,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x12\x16\n" +
-	"\x06amount\x18\x05 \x01(\x01R\x06amount\x12D\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\x12D\n" +
 	"\rtransfer_type\x18\x06 \x01(\x0e2\x1f.common.v1.TransactionDirectionR\ftransferType\x121\n" +
 	"\x06status\x18\a \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12!\n" +
 	"\fcreated_time\x18\b \x01(\x03R\vcreatedTime\x12!\n" +

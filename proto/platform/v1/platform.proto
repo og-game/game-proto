@@ -12,7 +12,7 @@ message GetGameLinkReq {
   string client_ip = 4; // ip
   string device_id = 5; // 设备号
   string language_code = 6; // 语言
-  double transfer_balance = 7; // 转入金额
+  string transfer_balance = 7; // 转入金额
   int64 platform_id = 8 ; // 厂商id
   int64 client_type = 9; // 设备类型 1 pc 2 手机 默认 2
 }
@@ -27,7 +27,7 @@ message GetUserBalanceReq {
 }
 
 message GetUserBalanceResp {
-  double balance = 1; // 余额
+  string balance = 1; // 余额
 }
 
 message TransferReq{
@@ -35,14 +35,14 @@ message TransferReq{
   int64 user_id = 2; // 用户id
   string currency_code = 3; // 币种code
   bool   is_deposit = 4; // 是否存款 true 存款 false 取款
-  double amount = 5; // 金额(正数)
+  string amount = 5; // 金额(正数)
   string order_no = 6;        // 交易订单号
 }
 
 message TransferResp {
   string order_no = 1;        // 交易订单号
   string third_order_no = 2;  // 三方交易单号
-  double balance = 3;         // 用户余额
+  string balance = 3;         // 用户余额
   common.v1.TransferStatus transfer_status = 4;  // 0 未指定状态 1 待处理 2 处理中 3 已完成 4 失败
 }
 
@@ -82,7 +82,7 @@ message GetTransferRecordStatusReq {
 
 message GetTransferRecordStatusResp {
   common.v1.TransferStatus status = 1;     // 交易状态 1-待处理 2-处理中 3-已完成 4-失败
-  double amount = 2;  // 交易金额
+  string amount = 2;  // 交易金额
 }
 
 // 获取投注记录列表
@@ -98,7 +98,7 @@ message GetBetRecordListResp {
 }
 message BetRecordListItem {
   common.v1.BetStatus status = 1; // 投注状态
-  double amount = 2;  // 投注金额
+  string amount = 2;  // 投注金额
   string third_order_no = 3; // 三方订单号
   string third_game_id = 4;  // 三方游戏ID
   string round_id = 5;  // 牌局编号
