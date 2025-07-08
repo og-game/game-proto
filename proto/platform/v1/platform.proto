@@ -43,6 +43,7 @@ message TransferResp {
   string order_no = 1;        // 交易订单号
   string third_order_no = 2;  // 三方交易单号
   double balance = 3;         // 用户余额
+  common.v1.TransferStatus transfer_status = 4;  // 0 未指定状态 1 待处理 2 处理中 3 已完成 4 失败
 }
 
 message GetDemoGameLinkReq {
@@ -87,7 +88,7 @@ message GetTransferRecordStatusResp {
 // 获取投注记录列表
 message GetBetRecordListReq {
   int64 platform_id = 1;
-  int64 begin_time =2 ; //投注开始时间筛选  秒
+  int64 begin_time = 2 ; //投注开始时间筛选  秒
   int64 end_time = 3; // 投注结算时间筛选 秒
 }
 
