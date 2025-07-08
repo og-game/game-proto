@@ -19,103 +19,616 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TemporalInnerService_Test_FullMethodName = "/temporal.v1.TemporalInnerService/Test"
+	WorkflowService_StartWorkflow_FullMethodName   = "/temporal.v1.WorkflowService/StartWorkflow"
+	WorkflowService_ControlWorkflow_FullMethodName = "/temporal.v1.WorkflowService/ControlWorkflow"
+	WorkflowService_QueryWorkflow_FullMethodName   = "/temporal.v1.WorkflowService/QueryWorkflow"
+	WorkflowService_ListWorkflows_FullMethodName   = "/temporal.v1.WorkflowService/ListWorkflows"
 )
 
-// TemporalInnerServiceClient is the client API for TemporalInnerService service.
+// WorkflowServiceClient is the client API for WorkflowService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TemporalInnerServiceClient interface {
-	// test
-	Test(ctx context.Context, in *TemporalReq, opts ...grpc.CallOption) (*TemporalResp, error)
+//
+// ================================
+// 1. 工作流管理服务 (合并执行和控制)
+// ================================
+type WorkflowServiceClient interface {
+	// 启动工作流 (支持立即/延迟/调度/批量)
+	StartWorkflow(ctx context.Context, in *StartWorkflowRequest, opts ...grpc.CallOption) (*StartWorkflowResponse, error)
+	// 控制工作流 (取消/终止/暂停/恢复)
+	ControlWorkflow(ctx context.Context, in *ControlWorkflowRequest, opts ...grpc.CallOption) (*ControlWorkflowResponse, error)
+	// 查询工作流状态和历史
+	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
+	// 列出工作流
+	ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error)
 }
 
-type temporalInnerServiceClient struct {
+type workflowServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTemporalInnerServiceClient(cc grpc.ClientConnInterface) TemporalInnerServiceClient {
-	return &temporalInnerServiceClient{cc}
+func NewWorkflowServiceClient(cc grpc.ClientConnInterface) WorkflowServiceClient {
+	return &workflowServiceClient{cc}
 }
 
-func (c *temporalInnerServiceClient) Test(ctx context.Context, in *TemporalReq, opts ...grpc.CallOption) (*TemporalResp, error) {
+func (c *workflowServiceClient) StartWorkflow(ctx context.Context, in *StartWorkflowRequest, opts ...grpc.CallOption) (*StartWorkflowResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TemporalResp)
-	err := c.cc.Invoke(ctx, TemporalInnerService_Test_FullMethodName, in, out, cOpts...)
+	out := new(StartWorkflowResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_StartWorkflow_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TemporalInnerServiceServer is the server API for TemporalInnerService service.
-// All implementations must embed UnimplementedTemporalInnerServiceServer
-// for forward compatibility.
-type TemporalInnerServiceServer interface {
-	// test
-	Test(context.Context, *TemporalReq) (*TemporalResp, error)
-	mustEmbedUnimplementedTemporalInnerServiceServer()
+func (c *workflowServiceClient) ControlWorkflow(ctx context.Context, in *ControlWorkflowRequest, opts ...grpc.CallOption) (*ControlWorkflowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ControlWorkflowResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ControlWorkflow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedTemporalInnerServiceServer must be embedded to have
+func (c *workflowServiceClient) QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(QueryWorkflowResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_QueryWorkflow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkflowsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkflows_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// WorkflowServiceServer is the server API for WorkflowService service.
+// All implementations must embed UnimplementedWorkflowServiceServer
+// for forward compatibility.
+//
+// ================================
+// 1. 工作流管理服务 (合并执行和控制)
+// ================================
+type WorkflowServiceServer interface {
+	// 启动工作流 (支持立即/延迟/调度/批量)
+	StartWorkflow(context.Context, *StartWorkflowRequest) (*StartWorkflowResponse, error)
+	// 控制工作流 (取消/终止/暂停/恢复)
+	ControlWorkflow(context.Context, *ControlWorkflowRequest) (*ControlWorkflowResponse, error)
+	// 查询工作流状态和历史
+	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
+	// 列出工作流
+	ListWorkflows(context.Context, *ListWorkflowsRequest) (*ListWorkflowsResponse, error)
+	mustEmbedUnimplementedWorkflowServiceServer()
+}
+
+// UnimplementedWorkflowServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedTemporalInnerServiceServer struct{}
+type UnimplementedWorkflowServiceServer struct{}
 
-func (UnimplementedTemporalInnerServiceServer) Test(context.Context, *TemporalReq) (*TemporalResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Test not implemented")
+func (UnimplementedWorkflowServiceServer) StartWorkflow(context.Context, *StartWorkflowRequest) (*StartWorkflowResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartWorkflow not implemented")
 }
-func (UnimplementedTemporalInnerServiceServer) mustEmbedUnimplementedTemporalInnerServiceServer() {}
-func (UnimplementedTemporalInnerServiceServer) testEmbeddedByValue()                              {}
+func (UnimplementedWorkflowServiceServer) ControlWorkflow(context.Context, *ControlWorkflowRequest) (*ControlWorkflowResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ControlWorkflow not implemented")
+}
+func (UnimplementedWorkflowServiceServer) QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryWorkflow not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ListWorkflows(context.Context, *ListWorkflowsRequest) (*ListWorkflowsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkflows not implemented")
+}
+func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
+func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
 
-// UnsafeTemporalInnerServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TemporalInnerServiceServer will
+// UnsafeWorkflowServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to WorkflowServiceServer will
 // result in compilation errors.
-type UnsafeTemporalInnerServiceServer interface {
-	mustEmbedUnimplementedTemporalInnerServiceServer()
+type UnsafeWorkflowServiceServer interface {
+	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
-func RegisterTemporalInnerServiceServer(s grpc.ServiceRegistrar, srv TemporalInnerServiceServer) {
-	// If the following call pancis, it indicates UnimplementedTemporalInnerServiceServer was
+func RegisterWorkflowServiceServer(s grpc.ServiceRegistrar, srv WorkflowServiceServer) {
+	// If the following call pancis, it indicates UnimplementedWorkflowServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&TemporalInnerService_ServiceDesc, srv)
+	s.RegisterService(&WorkflowService_ServiceDesc, srv)
 }
 
-func _TemporalInnerService_Test_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TemporalReq)
+func _WorkflowService_StartWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartWorkflowRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TemporalInnerServiceServer).Test(ctx, in)
+		return srv.(WorkflowServiceServer).StartWorkflow(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TemporalInnerService_Test_FullMethodName,
+		FullMethod: WorkflowService_StartWorkflow_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TemporalInnerServiceServer).Test(ctx, req.(*TemporalReq))
+		return srv.(WorkflowServiceServer).StartWorkflow(ctx, req.(*StartWorkflowRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TemporalInnerService_ServiceDesc is the grpc.ServiceDesc for TemporalInnerService service.
+func _WorkflowService_ControlWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ControlWorkflowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ControlWorkflow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ControlWorkflow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ControlWorkflow(ctx, req.(*ControlWorkflowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_QueryWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryWorkflowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).QueryWorkflow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_QueryWorkflow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).QueryWorkflow(ctx, req.(*QueryWorkflowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ListWorkflows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkflowsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ListWorkflows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ListWorkflows_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ListWorkflows(ctx, req.(*ListWorkflowsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TemporalInnerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "temporal.v1.TemporalInnerService",
-	HandlerType: (*TemporalInnerServiceServer)(nil),
+var WorkflowService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "temporal.v1.WorkflowService",
+	HandlerType: (*WorkflowServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Test",
-			Handler:    _TemporalInnerService_Test_Handler,
+			MethodName: "StartWorkflow",
+			Handler:    _WorkflowService_StartWorkflow_Handler,
+		},
+		{
+			MethodName: "ControlWorkflow",
+			Handler:    _WorkflowService_ControlWorkflow_Handler,
+		},
+		{
+			MethodName: "QueryWorkflow",
+			Handler:    _WorkflowService_QueryWorkflow_Handler,
+		},
+		{
+			MethodName: "ListWorkflows",
+			Handler:    _WorkflowService_ListWorkflows_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "temporal/v1/temporal.proto",
+}
+
+const (
+	WorkflowInteractionService_SignalWorkflow_FullMethodName     = "/temporal.v1.WorkflowInteractionService/SignalWorkflow"
+	WorkflowInteractionService_SignalWithStart_FullMethodName    = "/temporal.v1.WorkflowInteractionService/SignalWithStart"
+	WorkflowInteractionService_QueryWorkflowState_FullMethodName = "/temporal.v1.WorkflowInteractionService/QueryWorkflowState"
+)
+
+// WorkflowInteractionServiceClient is the client API for WorkflowInteractionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ================================
+// 2. 工作流交互服务
+// ================================
+type WorkflowInteractionServiceClient interface {
+	// 发送信号到工作流
+	SignalWorkflow(ctx context.Context, in *SignalWorkflowRequest, opts ...grpc.CallOption) (*SignalWorkflowResponse, error)
+	// 信号并启动工作流 (如果不存在则启动)
+	SignalWithStart(ctx context.Context, in *SignalWithStartRequest, opts ...grpc.CallOption) (*SignalWithStartResponse, error)
+	// 查询工作流内部状态
+	QueryWorkflowState(ctx context.Context, in *QueryWorkflowStateRequest, opts ...grpc.CallOption) (*QueryWorkflowStateResponse, error)
+}
+
+type workflowInteractionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewWorkflowInteractionServiceClient(cc grpc.ClientConnInterface) WorkflowInteractionServiceClient {
+	return &workflowInteractionServiceClient{cc}
+}
+
+func (c *workflowInteractionServiceClient) SignalWorkflow(ctx context.Context, in *SignalWorkflowRequest, opts ...grpc.CallOption) (*SignalWorkflowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SignalWorkflowResponse)
+	err := c.cc.Invoke(ctx, WorkflowInteractionService_SignalWorkflow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowInteractionServiceClient) SignalWithStart(ctx context.Context, in *SignalWithStartRequest, opts ...grpc.CallOption) (*SignalWithStartResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SignalWithStartResponse)
+	err := c.cc.Invoke(ctx, WorkflowInteractionService_SignalWithStart_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowInteractionServiceClient) QueryWorkflowState(ctx context.Context, in *QueryWorkflowStateRequest, opts ...grpc.CallOption) (*QueryWorkflowStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(QueryWorkflowStateResponse)
+	err := c.cc.Invoke(ctx, WorkflowInteractionService_QueryWorkflowState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// WorkflowInteractionServiceServer is the server API for WorkflowInteractionService service.
+// All implementations must embed UnimplementedWorkflowInteractionServiceServer
+// for forward compatibility.
+//
+// ================================
+// 2. 工作流交互服务
+// ================================
+type WorkflowInteractionServiceServer interface {
+	// 发送信号到工作流
+	SignalWorkflow(context.Context, *SignalWorkflowRequest) (*SignalWorkflowResponse, error)
+	// 信号并启动工作流 (如果不存在则启动)
+	SignalWithStart(context.Context, *SignalWithStartRequest) (*SignalWithStartResponse, error)
+	// 查询工作流内部状态
+	QueryWorkflowState(context.Context, *QueryWorkflowStateRequest) (*QueryWorkflowStateResponse, error)
+	mustEmbedUnimplementedWorkflowInteractionServiceServer()
+}
+
+// UnimplementedWorkflowInteractionServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedWorkflowInteractionServiceServer struct{}
+
+func (UnimplementedWorkflowInteractionServiceServer) SignalWorkflow(context.Context, *SignalWorkflowRequest) (*SignalWorkflowResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignalWorkflow not implemented")
+}
+func (UnimplementedWorkflowInteractionServiceServer) SignalWithStart(context.Context, *SignalWithStartRequest) (*SignalWithStartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignalWithStart not implemented")
+}
+func (UnimplementedWorkflowInteractionServiceServer) QueryWorkflowState(context.Context, *QueryWorkflowStateRequest) (*QueryWorkflowStateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryWorkflowState not implemented")
+}
+func (UnimplementedWorkflowInteractionServiceServer) mustEmbedUnimplementedWorkflowInteractionServiceServer() {
+}
+func (UnimplementedWorkflowInteractionServiceServer) testEmbeddedByValue() {}
+
+// UnsafeWorkflowInteractionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to WorkflowInteractionServiceServer will
+// result in compilation errors.
+type UnsafeWorkflowInteractionServiceServer interface {
+	mustEmbedUnimplementedWorkflowInteractionServiceServer()
+}
+
+func RegisterWorkflowInteractionServiceServer(s grpc.ServiceRegistrar, srv WorkflowInteractionServiceServer) {
+	// If the following call pancis, it indicates UnimplementedWorkflowInteractionServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&WorkflowInteractionService_ServiceDesc, srv)
+}
+
+func _WorkflowInteractionService_SignalWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignalWorkflowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowInteractionServiceServer).SignalWorkflow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowInteractionService_SignalWorkflow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowInteractionServiceServer).SignalWorkflow(ctx, req.(*SignalWorkflowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowInteractionService_SignalWithStart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignalWithStartRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowInteractionServiceServer).SignalWithStart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowInteractionService_SignalWithStart_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowInteractionServiceServer).SignalWithStart(ctx, req.(*SignalWithStartRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowInteractionService_QueryWorkflowState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryWorkflowStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowInteractionServiceServer).QueryWorkflowState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowInteractionService_QueryWorkflowState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowInteractionServiceServer).QueryWorkflowState(ctx, req.(*QueryWorkflowStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// WorkflowInteractionService_ServiceDesc is the grpc.ServiceDesc for WorkflowInteractionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var WorkflowInteractionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "temporal.v1.WorkflowInteractionService",
+	HandlerType: (*WorkflowInteractionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SignalWorkflow",
+			Handler:    _WorkflowInteractionService_SignalWorkflow_Handler,
+		},
+		{
+			MethodName: "SignalWithStart",
+			Handler:    _WorkflowInteractionService_SignalWithStart_Handler,
+		},
+		{
+			MethodName: "QueryWorkflowState",
+			Handler:    _WorkflowInteractionService_QueryWorkflowState_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "temporal/v1/temporal.proto",
+}
+
+const (
+	ScheduleService_ManageSchedule_FullMethodName = "/temporal.v1.ScheduleService/ManageSchedule"
+	ScheduleService_QuerySchedule_FullMethodName  = "/temporal.v1.ScheduleService/QuerySchedule"
+	ScheduleService_ListSchedules_FullMethodName  = "/temporal.v1.ScheduleService/ListSchedules"
+)
+
+// ScheduleServiceClient is the client API for ScheduleService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ================================
+// 3. 调度管理服务
+// ================================
+type ScheduleServiceClient interface {
+	// 管理调度 (创建/更新/删除/暂停/恢复)
+	ManageSchedule(ctx context.Context, in *ManageScheduleRequest, opts ...grpc.CallOption) (*ManageScheduleResponse, error)
+	// 查询调度
+	QuerySchedule(ctx context.Context, in *QueryScheduleRequest, opts ...grpc.CallOption) (*QueryScheduleResponse, error)
+	// 列出调度
+	ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
+}
+
+type scheduleServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewScheduleServiceClient(cc grpc.ClientConnInterface) ScheduleServiceClient {
+	return &scheduleServiceClient{cc}
+}
+
+func (c *scheduleServiceClient) ManageSchedule(ctx context.Context, in *ManageScheduleRequest, opts ...grpc.CallOption) (*ManageScheduleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ManageScheduleResponse)
+	err := c.cc.Invoke(ctx, ScheduleService_ManageSchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scheduleServiceClient) QuerySchedule(ctx context.Context, in *QueryScheduleRequest, opts ...grpc.CallOption) (*QueryScheduleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(QueryScheduleResponse)
+	err := c.cc.Invoke(ctx, ScheduleService_QuerySchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scheduleServiceClient) ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSchedulesResponse)
+	err := c.cc.Invoke(ctx, ScheduleService_ListSchedules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ScheduleServiceServer is the server API for ScheduleService service.
+// All implementations must embed UnimplementedScheduleServiceServer
+// for forward compatibility.
+//
+// ================================
+// 3. 调度管理服务
+// ================================
+type ScheduleServiceServer interface {
+	// 管理调度 (创建/更新/删除/暂停/恢复)
+	ManageSchedule(context.Context, *ManageScheduleRequest) (*ManageScheduleResponse, error)
+	// 查询调度
+	QuerySchedule(context.Context, *QueryScheduleRequest) (*QueryScheduleResponse, error)
+	// 列出调度
+	ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error)
+	mustEmbedUnimplementedScheduleServiceServer()
+}
+
+// UnimplementedScheduleServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedScheduleServiceServer struct{}
+
+func (UnimplementedScheduleServiceServer) ManageSchedule(context.Context, *ManageScheduleRequest) (*ManageScheduleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ManageSchedule not implemented")
+}
+func (UnimplementedScheduleServiceServer) QuerySchedule(context.Context, *QueryScheduleRequest) (*QueryScheduleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QuerySchedule not implemented")
+}
+func (UnimplementedScheduleServiceServer) ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSchedules not implemented")
+}
+func (UnimplementedScheduleServiceServer) mustEmbedUnimplementedScheduleServiceServer() {}
+func (UnimplementedScheduleServiceServer) testEmbeddedByValue()                         {}
+
+// UnsafeScheduleServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ScheduleServiceServer will
+// result in compilation errors.
+type UnsafeScheduleServiceServer interface {
+	mustEmbedUnimplementedScheduleServiceServer()
+}
+
+func RegisterScheduleServiceServer(s grpc.ServiceRegistrar, srv ScheduleServiceServer) {
+	// If the following call pancis, it indicates UnimplementedScheduleServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&ScheduleService_ServiceDesc, srv)
+}
+
+func _ScheduleService_ManageSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ManageScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScheduleServiceServer).ManageSchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScheduleService_ManageSchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScheduleServiceServer).ManageSchedule(ctx, req.(*ManageScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScheduleService_QuerySchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScheduleServiceServer).QuerySchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScheduleService_QuerySchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScheduleServiceServer).QuerySchedule(ctx, req.(*QueryScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScheduleService_ListSchedules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSchedulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScheduleServiceServer).ListSchedules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScheduleService_ListSchedules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScheduleServiceServer).ListSchedules(ctx, req.(*ListSchedulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ScheduleService_ServiceDesc is the grpc.ServiceDesc for ScheduleService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ScheduleService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "temporal.v1.ScheduleService",
+	HandlerType: (*ScheduleServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ManageSchedule",
+			Handler:    _ScheduleService_ManageSchedule_Handler,
+		},
+		{
+			MethodName: "QuerySchedule",
+			Handler:    _ScheduleService_QuerySchedule_Handler,
+		},
+		{
+			MethodName: "ListSchedules",
+			Handler:    _ScheduleService_ListSchedules_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

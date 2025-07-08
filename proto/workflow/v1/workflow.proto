@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package temporal.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/workflow/v1";
+
+
+message WorkflowReq {
+
+}
+
+message WorkflowResp {
+
+}
+
+service WorkflowInnerService {
+  rpc Test(WorkflowReq) returns (WorkflowResp);
+}
