@@ -14,51 +14,59 @@ import (
 )
 
 type (
-	BatchStartWorkflowRequest  = v1.BatchStartWorkflowRequest
-	BatchStartWorkflowResponse = v1.BatchStartWorkflowResponse
-	CancelWorkflowRequest      = v1.CancelWorkflowRequest
-	CancelWorkflowResponse     = v1.CancelWorkflowResponse
-	CreateScheduleRequest      = v1.CreateScheduleRequest
-	CreateScheduleResponse     = v1.CreateScheduleResponse
-	DeleteScheduleRequest      = v1.DeleteScheduleRequest
-	DeleteScheduleResponse     = v1.DeleteScheduleResponse
-	GetScheduleRequest         = v1.GetScheduleRequest
-	GetScheduleResponse        = v1.GetScheduleResponse
-	GetWorkflowHistoryRequest  = v1.GetWorkflowHistoryRequest
-	GetWorkflowHistoryResponse = v1.GetWorkflowHistoryResponse
-	GetWorkflowStatusRequest   = v1.GetWorkflowStatusRequest
-	GetWorkflowStatusResponse  = v1.GetWorkflowStatusResponse
+	BatchConfig                = v1.BatchConfig
+	BatchControlResult         = v1.BatchControlResult
+	BatchResult                = v1.BatchResult
+	BatchTarget                = v1.BatchTarget
+	ControlOptions             = v1.ControlOptions
+	ControlWorkflowRequest     = v1.ControlWorkflowRequest
+	ControlWorkflowResponse    = v1.ControlWorkflowResponse
+	DelayOptions               = v1.DelayOptions
+	ExecutionConfig            = v1.ExecutionConfig
+	ExecutionInfo              = v1.ExecutionInfo
+	ListOptions                = v1.ListOptions
+	ListScheduleOptions        = v1.ListScheduleOptions
 	ListSchedulesRequest       = v1.ListSchedulesRequest
 	ListSchedulesResponse      = v1.ListSchedulesResponse
 	ListWorkflowsRequest       = v1.ListWorkflowsRequest
 	ListWorkflowsResponse      = v1.ListWorkflowsResponse
-	PauseScheduleRequest       = v1.PauseScheduleRequest
-	PauseScheduleResponse      = v1.PauseScheduleResponse
+	ManageScheduleRequest      = v1.ManageScheduleRequest
+	ManageScheduleResponse     = v1.ManageScheduleResponse
+	QueryOptions               = v1.QueryOptions
+	QueryScheduleRequest       = v1.QueryScheduleRequest
+	QueryScheduleResponse      = v1.QueryScheduleResponse
 	QueryWorkflowRequest       = v1.QueryWorkflowRequest
 	QueryWorkflowResponse      = v1.QueryWorkflowResponse
+	QueryWorkflowStateRequest  = v1.QueryWorkflowStateRequest
+	QueryWorkflowStateResponse = v1.QueryWorkflowStateResponse
 	ScheduleInfo               = v1.ScheduleInfo
+	SchedulePolicy             = v1.SchedulePolicy
+	ScheduleResult             = v1.ScheduleResult
+	ScheduleSpec               = v1.ScheduleSpec
 	SignalWithStartRequest     = v1.SignalWithStartRequest
 	SignalWithStartResponse    = v1.SignalWithStartResponse
 	SignalWorkflowRequest      = v1.SignalWorkflowRequest
 	SignalWorkflowResponse     = v1.SignalWorkflowResponse
+	SingleResult               = v1.SingleResult
+	StackFrame                 = v1.StackFrame
 	StartWorkflowRequest       = v1.StartWorkflowRequest
 	StartWorkflowResponse      = v1.StartWorkflowResponse
-	TerminateWorkflowRequest   = v1.TerminateWorkflowRequest
-	TerminateWorkflowResponse  = v1.TerminateWorkflowResponse
+	WorkflowAction             = v1.WorkflowAction
 	WorkflowEvent              = v1.WorkflowEvent
+	WorkflowHistory            = v1.WorkflowHistory
 	WorkflowInfo               = v1.WorkflowInfo
+	WorkflowItem               = v1.WorkflowItem
+	WorkflowStackTrace         = v1.WorkflowStackTrace
+	WorkflowStatus             = v1.WorkflowStatus
+	WorkflowTarget             = v1.WorkflowTarget
 
 	ScheduleService interface {
-		// 创建定时任务
-		CreateSchedule(ctx context.Context, in *CreateScheduleRequest, opts ...grpc.CallOption) (*CreateScheduleResponse, error)
-		// 删除定时任务
-		DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error)
-		// 获取定时任务列表
+		// 管理调度 (创建/更新/删除/暂停/恢复)
+		ManageSchedule(ctx context.Context, in *ManageScheduleRequest, opts ...grpc.CallOption) (*ManageScheduleResponse, error)
+		// 查询调度
+		QuerySchedule(ctx context.Context, in *QueryScheduleRequest, opts ...grpc.CallOption) (*QueryScheduleResponse, error)
+		// 列出调度
 		ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
-		// 暂停/恢复定时任务
-		PauseSchedule(ctx context.Context, in *PauseScheduleRequest, opts ...grpc.CallOption) (*PauseScheduleResponse, error)
-		// 获取定时任务详情
-		GetSchedule(ctx context.Context, in *GetScheduleRequest, opts ...grpc.CallOption) (*GetScheduleResponse, error)
 	}
 
 	defaultScheduleService struct {
@@ -72,32 +80,20 @@ func NewScheduleService(cli zrpc.Client) ScheduleService {
 	}
 }
 
-// 创建定时任务
-func (m *defaultScheduleService) CreateSchedule(ctx context.Context, in *CreateScheduleRequest, opts ...grpc.CallOption) (*CreateScheduleResponse, error) {
+// 管理调度 (创建/更新/删除/暂停/恢复)
+func (m *defaultScheduleService) ManageSchedule(ctx context.Context, in *ManageScheduleRequest, opts ...grpc.CallOption) (*ManageScheduleResponse, error) {
 	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.CreateSchedule(ctx, in, opts...)
+	return client.ManageSchedule(ctx, in, opts...)
 }
 
-// 删除定时任务
-func (m *defaultScheduleService) DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error) {
+// 查询调度
+func (m *defaultScheduleService) QuerySchedule(ctx context.Context, in *QueryScheduleRequest, opts ...grpc.CallOption) (*QueryScheduleResponse, error) {
 	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.DeleteSchedule(ctx, in, opts...)
+	return client.QuerySchedule(ctx, in, opts...)
 }
 
-// 获取定时任务列表
+// 列出调度
 func (m *defaultScheduleService) ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error) {
 	client := v1.NewScheduleServiceClient(m.cli.Conn())
 	return client.ListSchedules(ctx, in, opts...)
-}
-
-// 暂停/恢复定时任务
-func (m *defaultScheduleService) PauseSchedule(ctx context.Context, in *PauseScheduleRequest, opts ...grpc.CallOption) (*PauseScheduleResponse, error) {
-	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.PauseSchedule(ctx, in, opts...)
-}
-
-// 获取定时任务详情
-func (m *defaultScheduleService) GetSchedule(ctx context.Context, in *GetScheduleRequest, opts ...grpc.CallOption) (*GetScheduleResponse, error) {
-	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.GetSchedule(ctx, in, opts...)
 }

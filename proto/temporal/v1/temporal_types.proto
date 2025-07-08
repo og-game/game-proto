@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package temporal.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/temporal/v1";
+
+
+
+// 执行模式
+enum ExecutionMode {
+  IMMEDIATE = 0;                      // 立即执行
+  DELAYED = 1;                        // 延迟执行
+  SCHEDULED = 2;                      // 调度执行 (Cron)
+  AT_TIME = 3;                        // 指定时间执行
+  BATCH = 4;                          // 批量执行
+}
+
+// 控制操作
+enum ControlOperation {
+  CANCEL = 0;                          // 优雅取消
+  TERMINATE = 1;                       // 强制终止
+  PAUSE = 2;                           // 暂停 (调度)
+  RESUME = 3;                          // 恢复 (调度)
+  RESET = 4;                           // 重置到某个点
+}
+
+// 控制结果
+enum ControlResult {
+  CONTROL_SUCCESS = 0;
+  ALREADY_COMPLETED = 1;
+  ALREADY_CANCELLED = 2;
+  NOT_FOUND = 3;
+  OPERATION_FAILED = 4;
+}
+
+// 查询类型
+enum QueryType {
+  STATUS = 0;                          // 查询状态
+  HISTORY = 1;                         // 查询历史
+  STACK_TRACE = 2;                     // 查询堆栈跟踪
+}
+
+// 工作流状态枚举
+enum WorkflowState {
+  RUNNING = 0;
+  COMPLETED = 1;
+  FAILED = 2;
+  CANCELLED = 3;
+  TERMINATED = 4;
+  CONTINUED_AS_NEW = 5;
+  TIMED_OUT = 6;
+}
+
+// 调度操作
+enum ScheduleOperation {
+  SCHEDULE_CREATE = 0;
+  SCHEDULE_UPDATE = 1;
+  SCHEDULE_DELETE = 2;
+  SCHEDULE_PAUSE = 3;
+  SCHEDULE_RESUME = 4;
+}
+
+// 重叠策略
+enum OverlapPolicy {
+  SKIP = 0;                            // 跳过
+  BUFFER_ONE = 1;                      // 缓存一个
+  BUFFER_ALL = 2;                      // 缓存全部
+  CANCEL_OTHER = 3;                    // 取消其他
+  TERMINATE_OTHER = 4;                 // 终止其他
+  ALLOW_ALL = 5;                       // 允许全部
+}
+
+// 调度状态
+enum ScheduleState {
+  SCHEDULE_ACTIVE = 0;
+  SCHEDULE_PAUSED = 1;
+  SCHEDULE_DELETED = 2;
+}
+
+
+
+// 统一的工作流选项
+message WorkflowOptions {
+  int32 execution_timeout_seconds = 1;
+  int32 run_timeout_seconds = 2;
+  int32 task_timeout_seconds = 3;
+  RetryPolicy retry_policy = 4;
+}
+
+// 统一的重试策略
+message RetryPolicy {
+  int32 initial_interval_seconds = 1;
+  float backoff_coefficient = 2;
+  int32 maximum_interval_seconds = 3;
+  int32 maximum_attempts = 4;
+  repeated string non_retryable_error_types = 5;
+}

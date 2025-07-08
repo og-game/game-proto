@@ -2,7 +2,7 @@
 // goctl 1.8.4
 // Source: temporal.proto
 
-package workflowinteractionservice
+package workflowservice
 
 import (
 	"context"
@@ -60,40 +60,48 @@ type (
 	WorkflowStatus             = v1.WorkflowStatus
 	WorkflowTarget             = v1.WorkflowTarget
 
-	WorkflowInteractionService interface {
-		// 发送信号到工作流
-		SignalWorkflow(ctx context.Context, in *SignalWorkflowRequest, opts ...grpc.CallOption) (*SignalWorkflowResponse, error)
-		// 信号并启动工作流 (如果不存在则启动)
-		SignalWithStart(ctx context.Context, in *SignalWithStartRequest, opts ...grpc.CallOption) (*SignalWithStartResponse, error)
-		// 查询工作流内部状态
-		QueryWorkflowState(ctx context.Context, in *QueryWorkflowStateRequest, opts ...grpc.CallOption) (*QueryWorkflowStateResponse, error)
+	WorkflowService interface {
+		// 启动工作流 (支持立即/延迟/调度/批量)
+		StartWorkflow(ctx context.Context, in *StartWorkflowRequest, opts ...grpc.CallOption) (*StartWorkflowResponse, error)
+		// 控制工作流 (取消/终止/暂停/恢复)
+		ControlWorkflow(ctx context.Context, in *ControlWorkflowRequest, opts ...grpc.CallOption) (*ControlWorkflowResponse, error)
+		// 查询工作流状态和历史
+		QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
+		// 列出工作流
+		ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error)
 	}
 
-	defaultWorkflowInteractionService struct {
+	defaultWorkflowService struct {
 		cli zrpc.Client
 	}
 )
 
-func NewWorkflowInteractionService(cli zrpc.Client) WorkflowInteractionService {
-	return &defaultWorkflowInteractionService{
+func NewWorkflowService(cli zrpc.Client) WorkflowService {
+	return &defaultWorkflowService{
 		cli: cli,
 	}
 }
 
-// 发送信号到工作流
-func (m *defaultWorkflowInteractionService) SignalWorkflow(ctx context.Context, in *SignalWorkflowRequest, opts ...grpc.CallOption) (*SignalWorkflowResponse, error) {
-	client := v1.NewWorkflowInteractionServiceClient(m.cli.Conn())
-	return client.SignalWorkflow(ctx, in, opts...)
+// 启动工作流 (支持立即/延迟/调度/批量)
+func (m *defaultWorkflowService) StartWorkflow(ctx context.Context, in *StartWorkflowRequest, opts ...grpc.CallOption) (*StartWorkflowResponse, error) {
+	client := v1.NewWorkflowServiceClient(m.cli.Conn())
+	return client.StartWorkflow(ctx, in, opts...)
 }
 
-// 信号并启动工作流 (如果不存在则启动)
-func (m *defaultWorkflowInteractionService) SignalWithStart(ctx context.Context, in *SignalWithStartRequest, opts ...grpc.CallOption) (*SignalWithStartResponse, error) {
-	client := v1.NewWorkflowInteractionServiceClient(m.cli.Conn())
-	return client.SignalWithStart(ctx, in, opts...)
+// 控制工作流 (取消/终止/暂停/恢复)
+func (m *defaultWorkflowService) ControlWorkflow(ctx context.Context, in *ControlWorkflowRequest, opts ...grpc.CallOption) (*ControlWorkflowResponse, error) {
+	client := v1.NewWorkflowServiceClient(m.cli.Conn())
+	return client.ControlWorkflow(ctx, in, opts...)
 }
 
-// 查询工作流内部状态
-func (m *defaultWorkflowInteractionService) QueryWorkflowState(ctx context.Context, in *QueryWorkflowStateRequest, opts ...grpc.CallOption) (*QueryWorkflowStateResponse, error) {
-	client := v1.NewWorkflowInteractionServiceClient(m.cli.Conn())
-	return client.QueryWorkflowState(ctx, in, opts...)
+// 查询工作流状态和历史
+func (m *defaultWorkflowService) QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error) {
+	client := v1.NewWorkflowServiceClient(m.cli.Conn())
+	return client.QueryWorkflow(ctx, in, opts...)
+}
+
+// 列出工作流
+func (m *defaultWorkflowService) ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error) {
+	client := v1.NewWorkflowServiceClient(m.cli.Conn())
+	return client.ListWorkflows(ctx, in, opts...)
 }
