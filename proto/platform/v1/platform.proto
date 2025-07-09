@@ -102,8 +102,9 @@ message BetRecordListItem {
   string third_order_no = 3; // 三方订单号
   string third_game_id = 4;  // 三方游戏ID
   string round_id = 5;  // 牌局编号
-  int64 user_id = 7; // 用户ID
-  string win_lost = 8; // 输赢
+  string user_id = 7; // 用户ID
+  int64 merchant_id = 8;  // 商户ID
+  string win_lost = 9; // 输赢
 
 }
 
