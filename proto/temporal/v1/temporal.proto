@@ -82,7 +82,7 @@ message StartWorkflowRequest {
 // 执行配置
 message ExecutionConfig {
   // 延迟配置
-  int64 delay_seconds = 1;            // 延迟秒数
+  int64 delay_milliseconds = 1;            // 延迟毫秒数
   string start_time = 2;              // 指定启动时间 (RFC3339)
 
   // 调度配置

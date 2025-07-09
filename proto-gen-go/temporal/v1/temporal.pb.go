@@ -146,8 +146,8 @@ func (x *StartWorkflowRequest) GetMemo() map[string]string {
 type ExecutionConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// 延迟配置
-	DelaySeconds int64  `protobuf:"varint,1,opt,name=delay_seconds,json=delaySeconds,proto3" json:"delay_seconds,omitempty"` // 延迟秒数
-	StartTime    string `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`           // 指定启动时间 (RFC3339)
+	DelayMilliseconds int64  `protobuf:"varint,1,opt,name=delay_milliseconds,json=delayMilliseconds,proto3" json:"delay_milliseconds,omitempty"` // 延迟毫秒数
+	StartTime         string `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`                          // 指定启动时间 (RFC3339)
 	// 调度配置
 	CronExpression  string `protobuf:"bytes,3,opt,name=cron_expression,json=cronExpression,proto3" json:"cron_expression,omitempty"`      // Cron 表达式
 	Timezone        string `protobuf:"bytes,4,opt,name=timezone,proto3" json:"timezone,omitempty"`                                        // 时区
@@ -188,9 +188,9 @@ func (*ExecutionConfig) Descriptor() ([]byte, []int) {
 	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ExecutionConfig) GetDelaySeconds() int64 {
+func (x *ExecutionConfig) GetDelayMilliseconds() int64 {
 	if x != nil {
-		return x.DelaySeconds
+		return x.DelayMilliseconds
 	}
 	return 0
 }
@@ -3634,9 +3634,9 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a7\n" +
 	"\tMemoEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x86\x02\n" +
-	"\x0fExecutionConfig\x12#\n" +
-	"\rdelay_seconds\x18\x01 \x01(\x03R\fdelaySeconds\x12\x1d\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x90\x02\n" +
+	"\x0fExecutionConfig\x12-\n" +
+	"\x12delay_milliseconds\x18\x01 \x01(\x03R\x11delayMilliseconds\x12\x1d\n" +
 	"\n" +
 	"start_time\x18\x02 \x01(\tR\tstartTime\x12'\n" +
 	"\x0fcron_expression\x18\x03 \x01(\tR\x0ecronExpression\x12\x1a\n" +
