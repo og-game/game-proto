@@ -14,26 +14,28 @@ import (
 )
 
 type (
-	FundReq                  = v1.FundReq
-	FundResp                 = v1.FundResp
-	GetUserBalanceListReq    = v1.GetUserBalanceListReq
-	GetUserBalanceListResp   = v1.GetUserBalanceListResp
-	GetUserBalanceReq        = v1.GetUserBalanceReq
-	GetUserBalanceResp       = v1.GetUserBalanceResp
-	TransactionReq           = v1.TransactionReq
-	TransactionResp          = v1.TransactionResp
-	TransferInReq            = v1.TransferInReq
-	TransferInResp           = v1.TransferInResp
-	TransferOutReq           = v1.TransferOutReq
-	TransferOutResp          = v1.TransferOutResp
-	TransferProgressInfo     = v1.TransferProgressInfo
-	TransferProgressReq      = v1.TransferProgressReq
-	TransferProgressResp     = v1.TransferProgressResp
-	TransferStatusUpdateReq  = v1.TransferStatusUpdateReq
-	TransferStatusUpdateResp = v1.TransferStatusUpdateResp
-	UserBalanceInfo          = v1.UserBalanceInfo
-	UserBalanceListReq       = v1.UserBalanceListReq
-	UserBalanceListResp      = v1.UserBalanceListResp
+	CreateUserBalanceRecordReq  = v1.CreateUserBalanceRecordReq
+	CreateUserBalanceRecordResp = v1.CreateUserBalanceRecordResp
+	FundReq                     = v1.FundReq
+	FundResp                    = v1.FundResp
+	GetUserBalanceListReq       = v1.GetUserBalanceListReq
+	GetUserBalanceListResp      = v1.GetUserBalanceListResp
+	GetUserBalanceReq           = v1.GetUserBalanceReq
+	GetUserBalanceResp          = v1.GetUserBalanceResp
+	TransactionReq              = v1.TransactionReq
+	TransactionResp             = v1.TransactionResp
+	TransferInReq               = v1.TransferInReq
+	TransferInResp              = v1.TransferInResp
+	TransferOutReq              = v1.TransferOutReq
+	TransferOutResp             = v1.TransferOutResp
+	TransferProgressInfo        = v1.TransferProgressInfo
+	TransferProgressReq         = v1.TransferProgressReq
+	TransferProgressResp        = v1.TransferProgressResp
+	TransferStatusUpdateReq     = v1.TransferStatusUpdateReq
+	TransferStatusUpdateResp    = v1.TransferStatusUpdateResp
+	UserBalanceInfo             = v1.UserBalanceInfo
+	UserBalanceListReq          = v1.UserBalanceListReq
+	UserBalanceListResp         = v1.UserBalanceListResp
 
 	FundApiService interface {
 		// 批量获取用户余额[实时更新的余额]
