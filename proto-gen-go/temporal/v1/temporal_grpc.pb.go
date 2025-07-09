@@ -23,6 +23,7 @@ const (
 	WorkflowService_ControlWorkflow_FullMethodName = "/temporal.v1.WorkflowService/ControlWorkflow"
 	WorkflowService_QueryWorkflow_FullMethodName   = "/temporal.v1.WorkflowService/QueryWorkflow"
 	WorkflowService_ListWorkflows_FullMethodName   = "/temporal.v1.WorkflowService/ListWorkflows"
+	WorkflowService_ReplaceWorkflow_FullMethodName = "/temporal.v1.WorkflowService/ReplaceWorkflow"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -41,6 +42,8 @@ type WorkflowServiceClient interface {
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 	// 列出工作流
 	ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error)
+	// 原子替换工作流
+	ReplaceWorkflow(ctx context.Context, in *ReplaceWorkflowRequest, opts ...grpc.CallOption) (*ReplaceWorkflowResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -91,6 +94,16 @@ func (c *workflowServiceClient) ListWorkflows(ctx context.Context, in *ListWorkf
 	return out, nil
 }
 
+func (c *workflowServiceClient) ReplaceWorkflow(ctx context.Context, in *ReplaceWorkflowRequest, opts ...grpc.CallOption) (*ReplaceWorkflowResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReplaceWorkflowResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ReplaceWorkflow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -107,6 +120,8 @@ type WorkflowServiceServer interface {
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
 	// 列出工作流
 	ListWorkflows(context.Context, *ListWorkflowsRequest) (*ListWorkflowsResponse, error)
+	// 原子替换工作流
+	ReplaceWorkflow(context.Context, *ReplaceWorkflowRequest) (*ReplaceWorkflowResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -128,6 +143,9 @@ func (UnimplementedWorkflowServiceServer) QueryWorkflow(context.Context, *QueryW
 }
 func (UnimplementedWorkflowServiceServer) ListWorkflows(context.Context, *ListWorkflowsRequest) (*ListWorkflowsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWorkflows not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ReplaceWorkflow(context.Context, *ReplaceWorkflowRequest) (*ReplaceWorkflowResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReplaceWorkflow not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -222,6 +240,24 @@ func _WorkflowService_ListWorkflows_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_ReplaceWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReplaceWorkflowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ReplaceWorkflow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ReplaceWorkflow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ReplaceWorkflow(ctx, req.(*ReplaceWorkflowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -244,6 +280,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWorkflows",
 			Handler:    _WorkflowService_ListWorkflows_Handler,
+		},
+		{
+			MethodName: "ReplaceWorkflow",
+			Handler:    _WorkflowService_ReplaceWorkflow_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

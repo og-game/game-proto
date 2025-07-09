@@ -39,6 +39,8 @@ type (
 	QueryWorkflowResponse      = v1.QueryWorkflowResponse
 	QueryWorkflowStateRequest  = v1.QueryWorkflowStateRequest
 	QueryWorkflowStateResponse = v1.QueryWorkflowStateResponse
+	ReplaceWorkflowRequest     = v1.ReplaceWorkflowRequest
+	ReplaceWorkflowResponse    = v1.ReplaceWorkflowResponse
 	ScheduleInfo               = v1.ScheduleInfo
 	SchedulePolicy             = v1.SchedulePolicy
 	ScheduleResult             = v1.ScheduleResult
@@ -69,6 +71,8 @@ type (
 		QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 		// 列出工作流
 		ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error)
+		// 原子替换工作流
+		ReplaceWorkflow(ctx context.Context, in *ReplaceWorkflowRequest, opts ...grpc.CallOption) (*ReplaceWorkflowResponse, error)
 	}
 
 	defaultWorkflowService struct {
@@ -104,4 +108,10 @@ func (m *defaultWorkflowService) QueryWorkflow(ctx context.Context, in *QueryWor
 func (m *defaultWorkflowService) ListWorkflows(ctx context.Context, in *ListWorkflowsRequest, opts ...grpc.CallOption) (*ListWorkflowsResponse, error) {
 	client := v1.NewWorkflowServiceClient(m.cli.Conn())
 	return client.ListWorkflows(ctx, in, opts...)
+}
+
+// 原子替换工作流
+func (m *defaultWorkflowService) ReplaceWorkflow(ctx context.Context, in *ReplaceWorkflowRequest, opts ...grpc.CallOption) (*ReplaceWorkflowResponse, error) {
+	client := v1.NewWorkflowServiceClient(m.cli.Conn())
+	return client.ReplaceWorkflow(ctx, in, opts...)
 }

@@ -20,6 +20,9 @@ service WorkflowService {
 
   // 列出工作流
   rpc ListWorkflows(ListWorkflowsRequest) returns (ListWorkflowsResponse);
+
+  // 原子替换工作流
+  rpc ReplaceWorkflow(ReplaceWorkflowRequest) returns (ReplaceWorkflowResponse);
 }
 
 // ================================
@@ -341,6 +344,42 @@ message WorkflowInfo {
   int64 execution_time = 8;
   map<string, string> search_attributes = 9;
 }
+
+
+// ================================
+// 原子替换工作流接口
+// ================================
+
+// 替换工作流请求 (原子操作：取消旧的 + 启动新的)
+message ReplaceWorkflowRequest {
+  // 要取消的旧工作流
+  string old_workflow_id = 1;         // 要取消的工作流ID
+  string old_run_id = 2;              // 要取消的运行ID (可选)
+  string cancel_reason = 3;           // 取消原因
+
+  // 要启动的新工作流
+  StartWorkflowRequest new_workflow = 4; // 复用现有的启动请求
+
+  // 原子操作选项
+  bool wait_for_cancel = 5;           // 是否等待取消完成再启动新的
+  int32 cancel_timeout_seconds = 6;   // 取消超时时间
+}
+
+// 替换工作流响应
+message ReplaceWorkflowResponse {
+  bool success = 1;
+  string message = 2;
+
+  // 取消结果
+  ControlResult cancel_result = 3;
+  string cancelled_workflow_id = 4;
+
+  // 启动结果
+  StartWorkflowResponse start_result = 5;
+}
+
+
+
 
 // ================================
 // 工作流交互 (信号)

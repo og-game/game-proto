@@ -2216,6 +2216,173 @@ func (x *WorkflowInfo) GetSearchAttributes() map[string]string {
 	return nil
 }
 
+// 替换工作流请求 (原子操作：取消旧的 + 启动新的)
+type ReplaceWorkflowRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 要取消的旧工作流
+	OldWorkflowId string `protobuf:"bytes,1,opt,name=old_workflow_id,json=oldWorkflowId,proto3" json:"old_workflow_id,omitempty"` // 要取消的工作流ID
+	OldRunId      string `protobuf:"bytes,2,opt,name=old_run_id,json=oldRunId,proto3" json:"old_run_id,omitempty"`                // 要取消的运行ID (可选)
+	CancelReason  string `protobuf:"bytes,3,opt,name=cancel_reason,json=cancelReason,proto3" json:"cancel_reason,omitempty"`      // 取消原因
+	// 要启动的新工作流
+	NewWorkflow *StartWorkflowRequest `protobuf:"bytes,4,opt,name=new_workflow,json=newWorkflow,proto3" json:"new_workflow,omitempty"` // 复用现有的启动请求
+	// 原子操作选项
+	WaitForCancel        bool  `protobuf:"varint,5,opt,name=wait_for_cancel,json=waitForCancel,proto3" json:"wait_for_cancel,omitempty"`                      // 是否等待取消完成再启动新的
+	CancelTimeoutSeconds int32 `protobuf:"varint,6,opt,name=cancel_timeout_seconds,json=cancelTimeoutSeconds,proto3" json:"cancel_timeout_seconds,omitempty"` // 取消超时时间
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *ReplaceWorkflowRequest) Reset() {
+	*x = ReplaceWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReplaceWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReplaceWorkflowRequest) ProtoMessage() {}
+
+func (x *ReplaceWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReplaceWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*ReplaceWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *ReplaceWorkflowRequest) GetOldWorkflowId() string {
+	if x != nil {
+		return x.OldWorkflowId
+	}
+	return ""
+}
+
+func (x *ReplaceWorkflowRequest) GetOldRunId() string {
+	if x != nil {
+		return x.OldRunId
+	}
+	return ""
+}
+
+func (x *ReplaceWorkflowRequest) GetCancelReason() string {
+	if x != nil {
+		return x.CancelReason
+	}
+	return ""
+}
+
+func (x *ReplaceWorkflowRequest) GetNewWorkflow() *StartWorkflowRequest {
+	if x != nil {
+		return x.NewWorkflow
+	}
+	return nil
+}
+
+func (x *ReplaceWorkflowRequest) GetWaitForCancel() bool {
+	if x != nil {
+		return x.WaitForCancel
+	}
+	return false
+}
+
+func (x *ReplaceWorkflowRequest) GetCancelTimeoutSeconds() int32 {
+	if x != nil {
+		return x.CancelTimeoutSeconds
+	}
+	return 0
+}
+
+// 替换工作流响应
+type ReplaceWorkflowResponse struct {
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Success bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// 取消结果
+	CancelResult        ControlResult `protobuf:"varint,3,opt,name=cancel_result,json=cancelResult,proto3,enum=temporal.v1.ControlResult" json:"cancel_result,omitempty"`
+	CancelledWorkflowId string        `protobuf:"bytes,4,opt,name=cancelled_workflow_id,json=cancelledWorkflowId,proto3" json:"cancelled_workflow_id,omitempty"`
+	// 启动结果
+	StartResult   *StartWorkflowResponse `protobuf:"bytes,5,opt,name=start_result,json=startResult,proto3" json:"start_result,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReplaceWorkflowResponse) Reset() {
+	*x = ReplaceWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReplaceWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReplaceWorkflowResponse) ProtoMessage() {}
+
+func (x *ReplaceWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReplaceWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*ReplaceWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *ReplaceWorkflowResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *ReplaceWorkflowResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *ReplaceWorkflowResponse) GetCancelResult() ControlResult {
+	if x != nil {
+		return x.CancelResult
+	}
+	return ControlResult_CONTROL_UNSPECIFIED
+}
+
+func (x *ReplaceWorkflowResponse) GetCancelledWorkflowId() string {
+	if x != nil {
+		return x.CancelledWorkflowId
+	}
+	return ""
+}
+
+func (x *ReplaceWorkflowResponse) GetStartResult() *StartWorkflowResponse {
+	if x != nil {
+		return x.StartResult
+	}
+	return nil
+}
+
 // 发送信号请求
 type SignalWorkflowRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -2229,7 +2396,7 @@ type SignalWorkflowRequest struct {
 
 func (x *SignalWorkflowRequest) Reset() {
 	*x = SignalWorkflowRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[28]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2241,7 +2408,7 @@ func (x *SignalWorkflowRequest) String() string {
 func (*SignalWorkflowRequest) ProtoMessage() {}
 
 func (x *SignalWorkflowRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[28]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2254,7 +2421,7 @@ func (x *SignalWorkflowRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWorkflowRequest.ProtoReflect.Descriptor instead.
 func (*SignalWorkflowRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{28}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *SignalWorkflowRequest) GetWorkflowId() string {
@@ -2296,7 +2463,7 @@ type SignalWorkflowResponse struct {
 
 func (x *SignalWorkflowResponse) Reset() {
 	*x = SignalWorkflowResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[29]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2308,7 +2475,7 @@ func (x *SignalWorkflowResponse) String() string {
 func (*SignalWorkflowResponse) ProtoMessage() {}
 
 func (x *SignalWorkflowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[29]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2321,7 +2488,7 @@ func (x *SignalWorkflowResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWorkflowResponse.ProtoReflect.Descriptor instead.
 func (*SignalWorkflowResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{29}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *SignalWorkflowResponse) GetSuccess() bool {
@@ -2358,7 +2525,7 @@ type SignalWithStartRequest struct {
 
 func (x *SignalWithStartRequest) Reset() {
 	*x = SignalWithStartRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[30]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2370,7 +2537,7 @@ func (x *SignalWithStartRequest) String() string {
 func (*SignalWithStartRequest) ProtoMessage() {}
 
 func (x *SignalWithStartRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[30]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2383,7 +2550,7 @@ func (x *SignalWithStartRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWithStartRequest.ProtoReflect.Descriptor instead.
 func (*SignalWithStartRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{30}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *SignalWithStartRequest) GetWorkflowId() string {
@@ -2456,7 +2623,7 @@ type SignalWithStartResponse struct {
 
 func (x *SignalWithStartResponse) Reset() {
 	*x = SignalWithStartResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[31]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2468,7 +2635,7 @@ func (x *SignalWithStartResponse) String() string {
 func (*SignalWithStartResponse) ProtoMessage() {}
 
 func (x *SignalWithStartResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[31]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2481,7 +2648,7 @@ func (x *SignalWithStartResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWithStartResponse.ProtoReflect.Descriptor instead.
 func (*SignalWithStartResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{31}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *SignalWithStartResponse) GetSuccess() bool {
@@ -2532,7 +2699,7 @@ type QueryWorkflowStateRequest struct {
 
 func (x *QueryWorkflowStateRequest) Reset() {
 	*x = QueryWorkflowStateRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[32]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2544,7 +2711,7 @@ func (x *QueryWorkflowStateRequest) String() string {
 func (*QueryWorkflowStateRequest) ProtoMessage() {}
 
 func (x *QueryWorkflowStateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[32]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2557,7 +2724,7 @@ func (x *QueryWorkflowStateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryWorkflowStateRequest.ProtoReflect.Descriptor instead.
 func (*QueryWorkflowStateRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{32}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *QueryWorkflowStateRequest) GetWorkflowId() string {
@@ -2600,7 +2767,7 @@ type QueryWorkflowStateResponse struct {
 
 func (x *QueryWorkflowStateResponse) Reset() {
 	*x = QueryWorkflowStateResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[33]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2612,7 +2779,7 @@ func (x *QueryWorkflowStateResponse) String() string {
 func (*QueryWorkflowStateResponse) ProtoMessage() {}
 
 func (x *QueryWorkflowStateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[33]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2625,7 +2792,7 @@ func (x *QueryWorkflowStateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryWorkflowStateResponse.ProtoReflect.Descriptor instead.
 func (*QueryWorkflowStateResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{33}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *QueryWorkflowStateResponse) GetSuccess() bool {
@@ -2662,7 +2829,7 @@ type ManageScheduleRequest struct {
 
 func (x *ManageScheduleRequest) Reset() {
 	*x = ManageScheduleRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[34]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2674,7 +2841,7 @@ func (x *ManageScheduleRequest) String() string {
 func (*ManageScheduleRequest) ProtoMessage() {}
 
 func (x *ManageScheduleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[34]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2687,7 +2854,7 @@ func (x *ManageScheduleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManageScheduleRequest.ProtoReflect.Descriptor instead.
 func (*ManageScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{34}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *ManageScheduleRequest) GetScheduleId() string {
@@ -2739,7 +2906,7 @@ type ScheduleSpec struct {
 
 func (x *ScheduleSpec) Reset() {
 	*x = ScheduleSpec{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[35]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2751,7 +2918,7 @@ func (x *ScheduleSpec) String() string {
 func (*ScheduleSpec) ProtoMessage() {}
 
 func (x *ScheduleSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[35]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2764,7 +2931,7 @@ func (x *ScheduleSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScheduleSpec.ProtoReflect.Descriptor instead.
 func (*ScheduleSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{35}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *ScheduleSpec) GetCronExpressions() []string {
@@ -2844,7 +3011,7 @@ type WorkflowAction struct {
 
 func (x *WorkflowAction) Reset() {
 	*x = WorkflowAction{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[36]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2856,7 +3023,7 @@ func (x *WorkflowAction) String() string {
 func (*WorkflowAction) ProtoMessage() {}
 
 func (x *WorkflowAction) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[36]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2869,7 +3036,7 @@ func (x *WorkflowAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowAction.ProtoReflect.Descriptor instead.
 func (*WorkflowAction) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{36}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *WorkflowAction) GetWorkflowType() string {
@@ -2919,7 +3086,7 @@ type SchedulePolicy struct {
 
 func (x *SchedulePolicy) Reset() {
 	*x = SchedulePolicy{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[37]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2931,7 +3098,7 @@ func (x *SchedulePolicy) String() string {
 func (*SchedulePolicy) ProtoMessage() {}
 
 func (x *SchedulePolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[37]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2944,7 +3111,7 @@ func (x *SchedulePolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SchedulePolicy.ProtoReflect.Descriptor instead.
 func (*SchedulePolicy) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{37}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *SchedulePolicy) GetOverlapPolicy() OverlapPolicy {
@@ -2981,7 +3148,7 @@ type ManageScheduleResponse struct {
 
 func (x *ManageScheduleResponse) Reset() {
 	*x = ManageScheduleResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[38]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2993,7 +3160,7 @@ func (x *ManageScheduleResponse) String() string {
 func (*ManageScheduleResponse) ProtoMessage() {}
 
 func (x *ManageScheduleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[38]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3006,7 +3173,7 @@ func (x *ManageScheduleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManageScheduleResponse.ProtoReflect.Descriptor instead.
 func (*ManageScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{38}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *ManageScheduleResponse) GetSuccess() bool {
@@ -3047,7 +3214,7 @@ type QueryScheduleRequest struct {
 
 func (x *QueryScheduleRequest) Reset() {
 	*x = QueryScheduleRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3059,7 +3226,7 @@ func (x *QueryScheduleRequest) String() string {
 func (*QueryScheduleRequest) ProtoMessage() {}
 
 func (x *QueryScheduleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3072,7 +3239,7 @@ func (x *QueryScheduleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryScheduleRequest.ProtoReflect.Descriptor instead.
 func (*QueryScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{39}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *QueryScheduleRequest) GetScheduleId() string {
@@ -3094,7 +3261,7 @@ type QueryScheduleResponse struct {
 
 func (x *QueryScheduleResponse) Reset() {
 	*x = QueryScheduleResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3106,7 +3273,7 @@ func (x *QueryScheduleResponse) String() string {
 func (*QueryScheduleResponse) ProtoMessage() {}
 
 func (x *QueryScheduleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3119,7 +3286,7 @@ func (x *QueryScheduleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryScheduleResponse.ProtoReflect.Descriptor instead.
 func (*QueryScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{40}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *QueryScheduleResponse) GetSuccess() bool {
@@ -3160,7 +3327,7 @@ type ScheduleInfo struct {
 
 func (x *ScheduleInfo) Reset() {
 	*x = ScheduleInfo{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3172,7 +3339,7 @@ func (x *ScheduleInfo) String() string {
 func (*ScheduleInfo) ProtoMessage() {}
 
 func (x *ScheduleInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3185,7 +3352,7 @@ func (x *ScheduleInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScheduleInfo.ProtoReflect.Descriptor instead.
 func (*ScheduleInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{41}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *ScheduleInfo) GetScheduleId() string {
@@ -3257,7 +3424,7 @@ type ListSchedulesRequest struct {
 
 func (x *ListSchedulesRequest) Reset() {
 	*x = ListSchedulesRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3269,7 +3436,7 @@ func (x *ListSchedulesRequest) String() string {
 func (*ListSchedulesRequest) ProtoMessage() {}
 
 func (x *ListSchedulesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3282,7 +3449,7 @@ func (x *ListSchedulesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSchedulesRequest.ProtoReflect.Descriptor instead.
 func (*ListSchedulesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{42}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *ListSchedulesRequest) GetPageSize() int32 {
@@ -3325,7 +3492,7 @@ type ListScheduleOptions struct {
 
 func (x *ListScheduleOptions) Reset() {
 	*x = ListScheduleOptions{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3337,7 +3504,7 @@ func (x *ListScheduleOptions) String() string {
 func (*ListScheduleOptions) ProtoMessage() {}
 
 func (x *ListScheduleOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3350,7 +3517,7 @@ func (x *ListScheduleOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListScheduleOptions.ProtoReflect.Descriptor instead.
 func (*ListScheduleOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{43}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *ListScheduleOptions) GetStates() []ScheduleState {
@@ -3387,7 +3554,7 @@ type ListSchedulesResponse struct {
 
 func (x *ListSchedulesResponse) Reset() {
 	*x = ListSchedulesResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3399,7 +3566,7 @@ func (x *ListSchedulesResponse) String() string {
 func (*ListSchedulesResponse) ProtoMessage() {}
 
 func (x *ListSchedulesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3412,7 +3579,7 @@ func (x *ListSchedulesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSchedulesResponse.ProtoReflect.Descriptor instead.
 func (*ListSchedulesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{44}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *ListSchedulesResponse) GetSchedules() []*ScheduleInfo {
@@ -3657,7 +3824,21 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x11search_attributes\x18\t \x03(\v2/.temporal.v1.WorkflowInfo.SearchAttributesEntryR\x10searchAttributes\x1aC\n" +
 	"\x15SearchAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x86\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa7\x02\n" +
+	"\x16ReplaceWorkflowRequest\x12&\n" +
+	"\x0fold_workflow_id\x18\x01 \x01(\tR\roldWorkflowId\x12\x1c\n" +
+	"\n" +
+	"old_run_id\x18\x02 \x01(\tR\boldRunId\x12#\n" +
+	"\rcancel_reason\x18\x03 \x01(\tR\fcancelReason\x12D\n" +
+	"\fnew_workflow\x18\x04 \x01(\v2!.temporal.v1.StartWorkflowRequestR\vnewWorkflow\x12&\n" +
+	"\x0fwait_for_cancel\x18\x05 \x01(\bR\rwaitForCancel\x124\n" +
+	"\x16cancel_timeout_seconds\x18\x06 \x01(\x05R\x14cancelTimeoutSeconds\"\x89\x02\n" +
+	"\x17ReplaceWorkflowResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12?\n" +
+	"\rcancel_result\x18\x03 \x01(\x0e2\x1a.temporal.v1.ControlResultR\fcancelResult\x122\n" +
+	"\x15cancelled_workflow_id\x18\x04 \x01(\tR\x13cancelledWorkflowId\x12E\n" +
+	"\fstart_result\x18\x05 \x01(\v2\".temporal.v1.StartWorkflowResponseR\vstartResult\"\x86\x01\n" +
 	"\x15SignalWorkflowRequest\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
@@ -3773,12 +3954,13 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x19\n" +
 	"\bhas_more\x18\x03 \x01(\bR\ahasMore\x12\x1f\n" +
 	"\vtotal_count\x18\x04 \x01(\x05R\n" +
-	"totalCount2\xf7\x02\n" +
+	"totalCount2\xd5\x03\n" +
 	"\x0fWorkflowService\x12V\n" +
 	"\rStartWorkflow\x12!.temporal.v1.StartWorkflowRequest\x1a\".temporal.v1.StartWorkflowResponse\x12\\\n" +
 	"\x0fControlWorkflow\x12#.temporal.v1.ControlWorkflowRequest\x1a$.temporal.v1.ControlWorkflowResponse\x12V\n" +
 	"\rQueryWorkflow\x12!.temporal.v1.QueryWorkflowRequest\x1a\".temporal.v1.QueryWorkflowResponse\x12V\n" +
-	"\rListWorkflows\x12!.temporal.v1.ListWorkflowsRequest\x1a\".temporal.v1.ListWorkflowsResponse2\xbc\x02\n" +
+	"\rListWorkflows\x12!.temporal.v1.ListWorkflowsRequest\x1a\".temporal.v1.ListWorkflowsResponse\x12\\\n" +
+	"\x0fReplaceWorkflow\x12#.temporal.v1.ReplaceWorkflowRequest\x1a$.temporal.v1.ReplaceWorkflowResponse2\xbc\x02\n" +
 	"\x1aWorkflowInteractionService\x12Y\n" +
 	"\x0eSignalWorkflow\x12\".temporal.v1.SignalWorkflowRequest\x1a#.temporal.v1.SignalWorkflowResponse\x12\\\n" +
 	"\x0fSignalWithStart\x12#.temporal.v1.SignalWithStartRequest\x1a$.temporal.v1.SignalWithStartResponse\x12e\n" +
@@ -3800,7 +3982,7 @@ func file_temporal_v1_temporal_proto_rawDescGZIP() []byte {
 	return file_temporal_v1_temporal_proto_rawDescData
 }
 
-var file_temporal_v1_temporal_proto_msgTypes = make([]protoimpl.MessageInfo, 54)
+var file_temporal_v1_temporal_proto_msgTypes = make([]protoimpl.MessageInfo, 56)
 var file_temporal_v1_temporal_proto_goTypes = []any{
 	(*StartWorkflowRequest)(nil),       // 0: temporal.v1.StartWorkflowRequest
 	(*ExecutionConfig)(nil),            // 1: temporal.v1.ExecutionConfig
@@ -3830,122 +4012,129 @@ var file_temporal_v1_temporal_proto_goTypes = []any{
 	(*ListOptions)(nil),                // 25: temporal.v1.ListOptions
 	(*ListWorkflowsResponse)(nil),      // 26: temporal.v1.ListWorkflowsResponse
 	(*WorkflowInfo)(nil),               // 27: temporal.v1.WorkflowInfo
-	(*SignalWorkflowRequest)(nil),      // 28: temporal.v1.SignalWorkflowRequest
-	(*SignalWorkflowResponse)(nil),     // 29: temporal.v1.SignalWorkflowResponse
-	(*SignalWithStartRequest)(nil),     // 30: temporal.v1.SignalWithStartRequest
-	(*SignalWithStartResponse)(nil),    // 31: temporal.v1.SignalWithStartResponse
-	(*QueryWorkflowStateRequest)(nil),  // 32: temporal.v1.QueryWorkflowStateRequest
-	(*QueryWorkflowStateResponse)(nil), // 33: temporal.v1.QueryWorkflowStateResponse
-	(*ManageScheduleRequest)(nil),      // 34: temporal.v1.ManageScheduleRequest
-	(*ScheduleSpec)(nil),               // 35: temporal.v1.ScheduleSpec
-	(*WorkflowAction)(nil),             // 36: temporal.v1.WorkflowAction
-	(*SchedulePolicy)(nil),             // 37: temporal.v1.SchedulePolicy
-	(*ManageScheduleResponse)(nil),     // 38: temporal.v1.ManageScheduleResponse
-	(*QueryScheduleRequest)(nil),       // 39: temporal.v1.QueryScheduleRequest
-	(*QueryScheduleResponse)(nil),      // 40: temporal.v1.QueryScheduleResponse
-	(*ScheduleInfo)(nil),               // 41: temporal.v1.ScheduleInfo
-	(*ListSchedulesRequest)(nil),       // 42: temporal.v1.ListSchedulesRequest
-	(*ListScheduleOptions)(nil),        // 43: temporal.v1.ListScheduleOptions
-	(*ListSchedulesResponse)(nil),      // 44: temporal.v1.ListSchedulesResponse
-	nil,                                // 45: temporal.v1.StartWorkflowRequest.SearchAttributesEntry
-	nil,                                // 46: temporal.v1.StartWorkflowRequest.MemoEntry
-	nil,                                // 47: temporal.v1.WorkflowStatus.SearchAttributesEntry
-	nil,                                // 48: temporal.v1.WorkflowStatus.MemoEntry
-	nil,                                // 49: temporal.v1.ListOptions.SearchAttributesFilterEntry
-	nil,                                // 50: temporal.v1.WorkflowInfo.SearchAttributesEntry
-	nil,                                // 51: temporal.v1.SignalWithStartRequest.SearchAttributesEntry
-	nil,                                // 52: temporal.v1.ScheduleSpec.MemoEntry
-	nil,                                // 53: temporal.v1.WorkflowAction.SearchAttributesEntry
-	(ExecutionMode)(0),                 // 54: temporal.v1.ExecutionMode
-	(*WorkflowOptions)(nil),            // 55: temporal.v1.WorkflowOptions
-	(ControlOperation)(0),              // 56: temporal.v1.ControlOperation
-	(ControlResult)(0),                 // 57: temporal.v1.ControlResult
-	(QueryType)(0),                     // 58: temporal.v1.QueryType
-	(WorkflowState)(0),                 // 59: temporal.v1.WorkflowState
-	(ScheduleOperation)(0),             // 60: temporal.v1.ScheduleOperation
-	(OverlapPolicy)(0),                 // 61: temporal.v1.OverlapPolicy
-	(ScheduleState)(0),                 // 62: temporal.v1.ScheduleState
+	(*ReplaceWorkflowRequest)(nil),     // 28: temporal.v1.ReplaceWorkflowRequest
+	(*ReplaceWorkflowResponse)(nil),    // 29: temporal.v1.ReplaceWorkflowResponse
+	(*SignalWorkflowRequest)(nil),      // 30: temporal.v1.SignalWorkflowRequest
+	(*SignalWorkflowResponse)(nil),     // 31: temporal.v1.SignalWorkflowResponse
+	(*SignalWithStartRequest)(nil),     // 32: temporal.v1.SignalWithStartRequest
+	(*SignalWithStartResponse)(nil),    // 33: temporal.v1.SignalWithStartResponse
+	(*QueryWorkflowStateRequest)(nil),  // 34: temporal.v1.QueryWorkflowStateRequest
+	(*QueryWorkflowStateResponse)(nil), // 35: temporal.v1.QueryWorkflowStateResponse
+	(*ManageScheduleRequest)(nil),      // 36: temporal.v1.ManageScheduleRequest
+	(*ScheduleSpec)(nil),               // 37: temporal.v1.ScheduleSpec
+	(*WorkflowAction)(nil),             // 38: temporal.v1.WorkflowAction
+	(*SchedulePolicy)(nil),             // 39: temporal.v1.SchedulePolicy
+	(*ManageScheduleResponse)(nil),     // 40: temporal.v1.ManageScheduleResponse
+	(*QueryScheduleRequest)(nil),       // 41: temporal.v1.QueryScheduleRequest
+	(*QueryScheduleResponse)(nil),      // 42: temporal.v1.QueryScheduleResponse
+	(*ScheduleInfo)(nil),               // 43: temporal.v1.ScheduleInfo
+	(*ListSchedulesRequest)(nil),       // 44: temporal.v1.ListSchedulesRequest
+	(*ListScheduleOptions)(nil),        // 45: temporal.v1.ListScheduleOptions
+	(*ListSchedulesResponse)(nil),      // 46: temporal.v1.ListSchedulesResponse
+	nil,                                // 47: temporal.v1.StartWorkflowRequest.SearchAttributesEntry
+	nil,                                // 48: temporal.v1.StartWorkflowRequest.MemoEntry
+	nil,                                // 49: temporal.v1.WorkflowStatus.SearchAttributesEntry
+	nil,                                // 50: temporal.v1.WorkflowStatus.MemoEntry
+	nil,                                // 51: temporal.v1.ListOptions.SearchAttributesFilterEntry
+	nil,                                // 52: temporal.v1.WorkflowInfo.SearchAttributesEntry
+	nil,                                // 53: temporal.v1.SignalWithStartRequest.SearchAttributesEntry
+	nil,                                // 54: temporal.v1.ScheduleSpec.MemoEntry
+	nil,                                // 55: temporal.v1.WorkflowAction.SearchAttributesEntry
+	(ExecutionMode)(0),                 // 56: temporal.v1.ExecutionMode
+	(*WorkflowOptions)(nil),            // 57: temporal.v1.WorkflowOptions
+	(ControlOperation)(0),              // 58: temporal.v1.ControlOperation
+	(ControlResult)(0),                 // 59: temporal.v1.ControlResult
+	(QueryType)(0),                     // 60: temporal.v1.QueryType
+	(WorkflowState)(0),                 // 61: temporal.v1.WorkflowState
+	(ScheduleOperation)(0),             // 62: temporal.v1.ScheduleOperation
+	(OverlapPolicy)(0),                 // 63: temporal.v1.OverlapPolicy
+	(ScheduleState)(0),                 // 64: temporal.v1.ScheduleState
 }
 var file_temporal_v1_temporal_proto_depIdxs = []int32{
-	54, // 0: temporal.v1.StartWorkflowRequest.execution_mode:type_name -> temporal.v1.ExecutionMode
+	56, // 0: temporal.v1.StartWorkflowRequest.execution_mode:type_name -> temporal.v1.ExecutionMode
 	1,  // 1: temporal.v1.StartWorkflowRequest.execution_config:type_name -> temporal.v1.ExecutionConfig
 	3,  // 2: temporal.v1.StartWorkflowRequest.batch_config:type_name -> temporal.v1.BatchConfig
-	55, // 3: temporal.v1.StartWorkflowRequest.options:type_name -> temporal.v1.WorkflowOptions
-	45, // 4: temporal.v1.StartWorkflowRequest.search_attributes:type_name -> temporal.v1.StartWorkflowRequest.SearchAttributesEntry
-	46, // 5: temporal.v1.StartWorkflowRequest.memo:type_name -> temporal.v1.StartWorkflowRequest.MemoEntry
+	57, // 3: temporal.v1.StartWorkflowRequest.options:type_name -> temporal.v1.WorkflowOptions
+	47, // 4: temporal.v1.StartWorkflowRequest.search_attributes:type_name -> temporal.v1.StartWorkflowRequest.SearchAttributesEntry
+	48, // 5: temporal.v1.StartWorkflowRequest.memo:type_name -> temporal.v1.StartWorkflowRequest.MemoEntry
 	2,  // 6: temporal.v1.ExecutionConfig.delay_options:type_name -> temporal.v1.DelayOptions
 	4,  // 7: temporal.v1.BatchConfig.workflows:type_name -> temporal.v1.WorkflowItem
-	55, // 8: temporal.v1.WorkflowItem.options:type_name -> temporal.v1.WorkflowOptions
+	57, // 8: temporal.v1.WorkflowItem.options:type_name -> temporal.v1.WorkflowOptions
 	6,  // 9: temporal.v1.StartWorkflowResponse.single_result:type_name -> temporal.v1.SingleResult
 	7,  // 10: temporal.v1.StartWorkflowResponse.batch_result:type_name -> temporal.v1.BatchResult
 	8,  // 11: temporal.v1.StartWorkflowResponse.schedule_result:type_name -> temporal.v1.ScheduleResult
 	9,  // 12: temporal.v1.SingleResult.execution_info:type_name -> temporal.v1.ExecutionInfo
 	6,  // 13: temporal.v1.BatchResult.results:type_name -> temporal.v1.SingleResult
-	54, // 14: temporal.v1.ExecutionInfo.mode:type_name -> temporal.v1.ExecutionMode
+	56, // 14: temporal.v1.ExecutionInfo.mode:type_name -> temporal.v1.ExecutionMode
 	11, // 15: temporal.v1.ControlWorkflowRequest.single_target:type_name -> temporal.v1.WorkflowTarget
 	12, // 16: temporal.v1.ControlWorkflowRequest.batch_target:type_name -> temporal.v1.BatchTarget
-	56, // 17: temporal.v1.ControlWorkflowRequest.operation:type_name -> temporal.v1.ControlOperation
+	58, // 17: temporal.v1.ControlWorkflowRequest.operation:type_name -> temporal.v1.ControlOperation
 	13, // 18: temporal.v1.ControlWorkflowRequest.options:type_name -> temporal.v1.ControlOptions
-	57, // 19: temporal.v1.ControlWorkflowResponse.result:type_name -> temporal.v1.ControlResult
+	59, // 19: temporal.v1.ControlWorkflowResponse.result:type_name -> temporal.v1.ControlResult
 	15, // 20: temporal.v1.ControlWorkflowResponse.batch_result:type_name -> temporal.v1.BatchControlResult
 	14, // 21: temporal.v1.BatchControlResult.individual_results:type_name -> temporal.v1.ControlWorkflowResponse
-	58, // 22: temporal.v1.QueryWorkflowRequest.query_type:type_name -> temporal.v1.QueryType
+	60, // 22: temporal.v1.QueryWorkflowRequest.query_type:type_name -> temporal.v1.QueryType
 	17, // 23: temporal.v1.QueryWorkflowRequest.query_options:type_name -> temporal.v1.QueryOptions
 	19, // 24: temporal.v1.QueryWorkflowResponse.status:type_name -> temporal.v1.WorkflowStatus
 	20, // 25: temporal.v1.QueryWorkflowResponse.history:type_name -> temporal.v1.WorkflowHistory
 	22, // 26: temporal.v1.QueryWorkflowResponse.stack_trace:type_name -> temporal.v1.WorkflowStackTrace
-	59, // 27: temporal.v1.WorkflowStatus.state:type_name -> temporal.v1.WorkflowState
-	47, // 28: temporal.v1.WorkflowStatus.search_attributes:type_name -> temporal.v1.WorkflowStatus.SearchAttributesEntry
-	48, // 29: temporal.v1.WorkflowStatus.memo:type_name -> temporal.v1.WorkflowStatus.MemoEntry
+	61, // 27: temporal.v1.WorkflowStatus.state:type_name -> temporal.v1.WorkflowState
+	49, // 28: temporal.v1.WorkflowStatus.search_attributes:type_name -> temporal.v1.WorkflowStatus.SearchAttributesEntry
+	50, // 29: temporal.v1.WorkflowStatus.memo:type_name -> temporal.v1.WorkflowStatus.MemoEntry
 	21, // 30: temporal.v1.WorkflowHistory.events:type_name -> temporal.v1.WorkflowEvent
 	23, // 31: temporal.v1.WorkflowStackTrace.frames:type_name -> temporal.v1.StackFrame
 	25, // 32: temporal.v1.ListWorkflowsRequest.options:type_name -> temporal.v1.ListOptions
-	59, // 33: temporal.v1.ListOptions.states:type_name -> temporal.v1.WorkflowState
-	49, // 34: temporal.v1.ListOptions.search_attributes_filter:type_name -> temporal.v1.ListOptions.SearchAttributesFilterEntry
+	61, // 33: temporal.v1.ListOptions.states:type_name -> temporal.v1.WorkflowState
+	51, // 34: temporal.v1.ListOptions.search_attributes_filter:type_name -> temporal.v1.ListOptions.SearchAttributesFilterEntry
 	27, // 35: temporal.v1.ListWorkflowsResponse.workflows:type_name -> temporal.v1.WorkflowInfo
-	59, // 36: temporal.v1.WorkflowInfo.state:type_name -> temporal.v1.WorkflowState
-	50, // 37: temporal.v1.WorkflowInfo.search_attributes:type_name -> temporal.v1.WorkflowInfo.SearchAttributesEntry
-	55, // 38: temporal.v1.SignalWithStartRequest.options:type_name -> temporal.v1.WorkflowOptions
-	51, // 39: temporal.v1.SignalWithStartRequest.search_attributes:type_name -> temporal.v1.SignalWithStartRequest.SearchAttributesEntry
-	60, // 40: temporal.v1.ManageScheduleRequest.operation:type_name -> temporal.v1.ScheduleOperation
-	35, // 41: temporal.v1.ManageScheduleRequest.spec:type_name -> temporal.v1.ScheduleSpec
-	36, // 42: temporal.v1.ScheduleSpec.action:type_name -> temporal.v1.WorkflowAction
-	37, // 43: temporal.v1.ScheduleSpec.policy:type_name -> temporal.v1.SchedulePolicy
-	52, // 44: temporal.v1.ScheduleSpec.memo:type_name -> temporal.v1.ScheduleSpec.MemoEntry
-	55, // 45: temporal.v1.WorkflowAction.options:type_name -> temporal.v1.WorkflowOptions
-	53, // 46: temporal.v1.WorkflowAction.search_attributes:type_name -> temporal.v1.WorkflowAction.SearchAttributesEntry
-	61, // 47: temporal.v1.SchedulePolicy.overlap_policy:type_name -> temporal.v1.OverlapPolicy
-	41, // 48: temporal.v1.QueryScheduleResponse.schedule_info:type_name -> temporal.v1.ScheduleInfo
-	35, // 49: temporal.v1.ScheduleInfo.spec:type_name -> temporal.v1.ScheduleSpec
-	62, // 50: temporal.v1.ScheduleInfo.state:type_name -> temporal.v1.ScheduleState
-	43, // 51: temporal.v1.ListSchedulesRequest.options:type_name -> temporal.v1.ListScheduleOptions
-	62, // 52: temporal.v1.ListScheduleOptions.states:type_name -> temporal.v1.ScheduleState
-	41, // 53: temporal.v1.ListSchedulesResponse.schedules:type_name -> temporal.v1.ScheduleInfo
-	0,  // 54: temporal.v1.WorkflowService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
-	10, // 55: temporal.v1.WorkflowService.ControlWorkflow:input_type -> temporal.v1.ControlWorkflowRequest
-	16, // 56: temporal.v1.WorkflowService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
-	24, // 57: temporal.v1.WorkflowService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
-	28, // 58: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
-	30, // 59: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
-	32, // 60: temporal.v1.WorkflowInteractionService.QueryWorkflowState:input_type -> temporal.v1.QueryWorkflowStateRequest
-	34, // 61: temporal.v1.ScheduleService.ManageSchedule:input_type -> temporal.v1.ManageScheduleRequest
-	39, // 62: temporal.v1.ScheduleService.QuerySchedule:input_type -> temporal.v1.QueryScheduleRequest
-	42, // 63: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
-	5,  // 64: temporal.v1.WorkflowService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
-	14, // 65: temporal.v1.WorkflowService.ControlWorkflow:output_type -> temporal.v1.ControlWorkflowResponse
-	18, // 66: temporal.v1.WorkflowService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
-	26, // 67: temporal.v1.WorkflowService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
-	29, // 68: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
-	31, // 69: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
-	33, // 70: temporal.v1.WorkflowInteractionService.QueryWorkflowState:output_type -> temporal.v1.QueryWorkflowStateResponse
-	38, // 71: temporal.v1.ScheduleService.ManageSchedule:output_type -> temporal.v1.ManageScheduleResponse
-	40, // 72: temporal.v1.ScheduleService.QuerySchedule:output_type -> temporal.v1.QueryScheduleResponse
-	44, // 73: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
-	64, // [64:74] is the sub-list for method output_type
-	54, // [54:64] is the sub-list for method input_type
-	54, // [54:54] is the sub-list for extension type_name
-	54, // [54:54] is the sub-list for extension extendee
-	0,  // [0:54] is the sub-list for field type_name
+	61, // 36: temporal.v1.WorkflowInfo.state:type_name -> temporal.v1.WorkflowState
+	52, // 37: temporal.v1.WorkflowInfo.search_attributes:type_name -> temporal.v1.WorkflowInfo.SearchAttributesEntry
+	0,  // 38: temporal.v1.ReplaceWorkflowRequest.new_workflow:type_name -> temporal.v1.StartWorkflowRequest
+	59, // 39: temporal.v1.ReplaceWorkflowResponse.cancel_result:type_name -> temporal.v1.ControlResult
+	5,  // 40: temporal.v1.ReplaceWorkflowResponse.start_result:type_name -> temporal.v1.StartWorkflowResponse
+	57, // 41: temporal.v1.SignalWithStartRequest.options:type_name -> temporal.v1.WorkflowOptions
+	53, // 42: temporal.v1.SignalWithStartRequest.search_attributes:type_name -> temporal.v1.SignalWithStartRequest.SearchAttributesEntry
+	62, // 43: temporal.v1.ManageScheduleRequest.operation:type_name -> temporal.v1.ScheduleOperation
+	37, // 44: temporal.v1.ManageScheduleRequest.spec:type_name -> temporal.v1.ScheduleSpec
+	38, // 45: temporal.v1.ScheduleSpec.action:type_name -> temporal.v1.WorkflowAction
+	39, // 46: temporal.v1.ScheduleSpec.policy:type_name -> temporal.v1.SchedulePolicy
+	54, // 47: temporal.v1.ScheduleSpec.memo:type_name -> temporal.v1.ScheduleSpec.MemoEntry
+	57, // 48: temporal.v1.WorkflowAction.options:type_name -> temporal.v1.WorkflowOptions
+	55, // 49: temporal.v1.WorkflowAction.search_attributes:type_name -> temporal.v1.WorkflowAction.SearchAttributesEntry
+	63, // 50: temporal.v1.SchedulePolicy.overlap_policy:type_name -> temporal.v1.OverlapPolicy
+	43, // 51: temporal.v1.QueryScheduleResponse.schedule_info:type_name -> temporal.v1.ScheduleInfo
+	37, // 52: temporal.v1.ScheduleInfo.spec:type_name -> temporal.v1.ScheduleSpec
+	64, // 53: temporal.v1.ScheduleInfo.state:type_name -> temporal.v1.ScheduleState
+	45, // 54: temporal.v1.ListSchedulesRequest.options:type_name -> temporal.v1.ListScheduleOptions
+	64, // 55: temporal.v1.ListScheduleOptions.states:type_name -> temporal.v1.ScheduleState
+	43, // 56: temporal.v1.ListSchedulesResponse.schedules:type_name -> temporal.v1.ScheduleInfo
+	0,  // 57: temporal.v1.WorkflowService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
+	10, // 58: temporal.v1.WorkflowService.ControlWorkflow:input_type -> temporal.v1.ControlWorkflowRequest
+	16, // 59: temporal.v1.WorkflowService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
+	24, // 60: temporal.v1.WorkflowService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
+	28, // 61: temporal.v1.WorkflowService.ReplaceWorkflow:input_type -> temporal.v1.ReplaceWorkflowRequest
+	30, // 62: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
+	32, // 63: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
+	34, // 64: temporal.v1.WorkflowInteractionService.QueryWorkflowState:input_type -> temporal.v1.QueryWorkflowStateRequest
+	36, // 65: temporal.v1.ScheduleService.ManageSchedule:input_type -> temporal.v1.ManageScheduleRequest
+	41, // 66: temporal.v1.ScheduleService.QuerySchedule:input_type -> temporal.v1.QueryScheduleRequest
+	44, // 67: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
+	5,  // 68: temporal.v1.WorkflowService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
+	14, // 69: temporal.v1.WorkflowService.ControlWorkflow:output_type -> temporal.v1.ControlWorkflowResponse
+	18, // 70: temporal.v1.WorkflowService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
+	26, // 71: temporal.v1.WorkflowService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
+	29, // 72: temporal.v1.WorkflowService.ReplaceWorkflow:output_type -> temporal.v1.ReplaceWorkflowResponse
+	31, // 73: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
+	33, // 74: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
+	35, // 75: temporal.v1.WorkflowInteractionService.QueryWorkflowState:output_type -> temporal.v1.QueryWorkflowStateResponse
+	40, // 76: temporal.v1.ScheduleService.ManageSchedule:output_type -> temporal.v1.ManageScheduleResponse
+	42, // 77: temporal.v1.ScheduleService.QuerySchedule:output_type -> temporal.v1.QueryScheduleResponse
+	46, // 78: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
+	68, // [68:79] is the sub-list for method output_type
+	57, // [57:68] is the sub-list for method input_type
+	57, // [57:57] is the sub-list for extension type_name
+	57, // [57:57] is the sub-list for extension extendee
+	0,  // [0:57] is the sub-list for field type_name
 }
 
 func init() { file_temporal_v1_temporal_proto_init() }
@@ -3974,7 +4163,7 @@ func file_temporal_v1_temporal_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_v1_temporal_proto_rawDesc), len(file_temporal_v1_temporal_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   54,
+			NumMessages:   56,
 			NumExtensions: 0,
 			NumServices:   3,
 		},

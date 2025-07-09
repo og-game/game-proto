@@ -39,6 +39,8 @@ type (
 	QueryWorkflowResponse      = v1.QueryWorkflowResponse
 	QueryWorkflowStateRequest  = v1.QueryWorkflowStateRequest
 	QueryWorkflowStateResponse = v1.QueryWorkflowStateResponse
+	ReplaceWorkflowRequest     = v1.ReplaceWorkflowRequest
+	ReplaceWorkflowResponse    = v1.ReplaceWorkflowResponse
 	ScheduleInfo               = v1.ScheduleInfo
 	SchedulePolicy             = v1.SchedulePolicy
 	ScheduleResult             = v1.ScheduleResult
