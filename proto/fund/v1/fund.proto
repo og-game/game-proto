@@ -29,6 +29,16 @@ service FundInnerService {
   // 更新或查询需要延迟处理的转账状态。
   rpc UpdateTransferStatus(TransferStatusUpdateReq) returns (TransferStatusUpdateResp);
 
+  // 创建用户帐变记录
+  rpc CreateUserBalanceRecord(CreateUserBalanceRecordReq) returns (CreateUserBalanceRecordResp);
+}
+
+
+message CreateUserBalanceRecordReq {
+  bytes record = 1;   // userBalanceRecord结构体序列化
+}
+
+message CreateUserBalanceRecordResp {
 }
 
 // 获取单个用户余额请求

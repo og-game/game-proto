@@ -912,8 +912,9 @@ type BetRecordListItem struct {
 	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方订单号
 	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`    // 三方游戏ID
 	RoundId       string                 `protobuf:"bytes,5,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"`                  // 牌局编号
-	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                    // 用户ID
-	WinLost       string                 `protobuf:"bytes,8,opt,name=win_lost,json=winLost,proto3" json:"win_lost,omitempty"`                  // 输赢
+	UserId        string                 `protobuf:"bytes,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                     // 用户ID
+	MerchantId    int64                  `protobuf:"varint,8,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`        // 商户ID
+	WinLost       string                 `protobuf:"bytes,9,opt,name=win_lost,json=winLost,proto3" json:"win_lost,omitempty"`                  // 输赢
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -983,9 +984,16 @@ func (x *BetRecordListItem) GetRoundId() string {
 	return ""
 }
 
-func (x *BetRecordListItem) GetUserId() int64 {
+func (x *BetRecordListItem) GetUserId() string {
 	if x != nil {
 		return x.UserId
+	}
+	return ""
+}
+
+func (x *BetRecordListItem) GetMerchantId() int64 {
+	if x != nil {
+		return x.MerchantId
 	}
 	return 0
 }
@@ -1074,15 +1082,17 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\bend_time\x18\x03 \x01(\x03R\aendTime\"`\n" +
 	"\x14GetBetRecordListResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x122\n" +
-	"\x04data\x18\x02 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\xf2\x01\n" +
+	"\x04data\x18\x02 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\x93\x02\n" +
 	"\x11BetRecordListItem\x12,\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x14.common.v1.BetStatusR\x06status\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\tR\x06amount\x12$\n" +
 	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\x12\"\n" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
-	"\auser_id\x18\a \x01(\x03R\x06userId\x12\x19\n" +
-	"\bwin_lost\x18\b \x01(\tR\awinLost2\xd7\x04\n" +
+	"\auser_id\x18\a \x01(\tR\x06userId\x12\x1f\n" +
+	"\vmerchant_id\x18\b \x01(\x03R\n" +
+	"merchantId\x12\x19\n" +
+	"\bwin_lost\x18\t \x01(\tR\awinLost2\xd7\x04\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
