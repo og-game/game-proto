@@ -105,7 +105,7 @@ message BetRecordListItem {
   string user_id = 7; // 用户ID
   int64 merchant_id = 8;  // 商户ID
   string win_lost = 9; // 输赢
-
+  string currency_code = 10; // 币种
 }
 
 service PlatformInnerService {

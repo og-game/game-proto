@@ -80,7 +80,8 @@ message TransactionReq {
   string amount = 5;    // 需要变动的金额 >=0
   string order_id = 6;  // 订单ID
   string description = 7; // 描述备注
-  map<string, string> metadata = 8;
+  string round_id = 8;   // 牌局ID
+  map<string, string> metadata = 9;
 }
 
 // 交易响应消息
