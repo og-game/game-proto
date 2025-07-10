@@ -106,6 +106,8 @@ message BetRecordListItem {
   int64 merchant_id = 8;  // 商户ID
   string win_lost = 9; // 输赢
   string currency_code = 10; // 币种
+  int64 created_at = 11;    // 创建时间
+  int64 settled_at = 12;  // 结算时间
 }
 
 service PlatformInnerService {
