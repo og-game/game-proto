@@ -94,6 +94,7 @@ message TransferProgressReq {
 // 查询转出状态响应
 message TransferProgressResp {
   map<string, TransferProgressInfo> progress = 1; // transaction_id => progress
+  map<string, TransferProgressInfo> not_match = 2; // transaction_id => progress 没有匹配到的交易结果
 }
 
 

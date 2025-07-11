@@ -572,7 +572,8 @@ func (x *TransferProgressReq) GetMerchantOrderIds() []string {
 // 查询转出状态响应
 type TransferProgressResp struct {
 	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Progress      map[string]*TransferProgressInfo `protobuf:"bytes,1,rep,name=progress,proto3" json:"progress,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // transaction_id => progress
+	Progress      map[string]*TransferProgressInfo `protobuf:"bytes,1,rep,name=progress,proto3" json:"progress,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`                 // transaction_id => progress
+	NotMatch      map[string]*TransferProgressInfo `protobuf:"bytes,2,rep,name=not_match,json=notMatch,proto3" json:"not_match,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // transaction_id => progress 没有匹配到的交易结果
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -610,6 +611,13 @@ func (*TransferProgressResp) Descriptor() ([]byte, []int) {
 func (x *TransferProgressResp) GetProgress() map[string]*TransferProgressInfo {
 	if x != nil {
 		return x.Progress
+	}
+	return nil
+}
+
+func (x *TransferProgressResp) GetNotMatch() map[string]*TransferProgressInfo {
+	if x != nil {
+		return x.NotMatch
 	}
 	return nil
 }
@@ -1473,10 +1481,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x13TransferProgressReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12'\n" +
 	"\x0ftransaction_ids\x18\x02 \x03(\tR\x0etransactionIds\x12,\n" +
-	"\x12merchant_order_ids\x18\x03 \x03(\tR\x10merchantOrderIds\"\xbb\x01\n" +
+	"\x12merchant_order_ids\x18\x03 \x03(\tR\x10merchantOrderIds\"\xe1\x02\n" +
 	"\x14TransferProgressResp\x12G\n" +
-	"\bprogress\x18\x01 \x03(\v2+.fund.v1.TransferProgressResp.ProgressEntryR\bprogress\x1aZ\n" +
+	"\bprogress\x18\x01 \x03(\v2+.fund.v1.TransferProgressResp.ProgressEntryR\bprogress\x12H\n" +
+	"\tnot_match\x18\x02 \x03(\v2+.fund.v1.TransferProgressResp.NotMatchEntryR\bnotMatch\x1aZ\n" +
 	"\rProgressEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x123\n" +
+	"\x05value\x18\x02 \x01(\v2\x1d.fund.v1.TransferProgressInfoR\x05value:\x028\x01\x1aZ\n" +
+	"\rNotMatchEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x123\n" +
 	"\x05value\x18\x02 \x01(\v2\x1d.fund.v1.TransferProgressInfoR\x05value:\x028\x01\"\x84\x03\n" +
 	"\x14TransferProgressInfo\x12(\n" +
@@ -1569,7 +1581,7 @@ func file_fund_v1_fund_proto_rawDescGZIP() []byte {
 	return file_fund_v1_fund_proto_rawDescData
 }
 
-var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_fund_v1_fund_proto_goTypes = []any{
 	(*FundReq)(nil),                     // 0: fund.v1.FundReq
 	(*FundResp)(nil),                    // 1: fund.v1.FundResp
@@ -1598,57 +1610,60 @@ var file_fund_v1_fund_proto_goTypes = []any{
 	nil,                                 // 24: fund.v1.TransferInReq.ExtraParamsEntry
 	nil,                                 // 25: fund.v1.TransferOutReq.ExtraParamsEntry
 	nil,                                 // 26: fund.v1.TransferProgressResp.ProgressEntry
-	nil,                                 // 27: fund.v1.GetUserBalanceListResp.BalancesEntry
-	nil,                                 // 28: fund.v1.TransactionReq.MetadataEntry
-	(v1.ErrorCode)(0),                   // 29: common.v1.ErrorCode
-	(v1.TransferStatus)(0),              // 30: common.v1.TransferStatus
-	(v1.TransactionDirection)(0),        // 31: common.v1.TransactionDirection
-	(v1.TransactionType)(0),             // 32: common.v1.TransactionType
+	nil,                                 // 27: fund.v1.TransferProgressResp.NotMatchEntry
+	nil,                                 // 28: fund.v1.GetUserBalanceListResp.BalancesEntry
+	nil,                                 // 29: fund.v1.TransactionReq.MetadataEntry
+	(v1.ErrorCode)(0),                   // 30: common.v1.ErrorCode
+	(v1.TransferStatus)(0),              // 31: common.v1.TransferStatus
+	(v1.TransactionDirection)(0),        // 32: common.v1.TransactionDirection
+	(v1.TransactionType)(0),             // 33: common.v1.TransactionType
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
 	23, // 0: fund.v1.UserBalanceListResp.balances:type_name -> fund.v1.UserBalanceListResp.BalancesEntry
 	24, // 1: fund.v1.TransferInReq.extra_params:type_name -> fund.v1.TransferInReq.ExtraParamsEntry
-	29, // 2: fund.v1.TransferInResp.code:type_name -> common.v1.ErrorCode
-	30, // 3: fund.v1.TransferInResp.status:type_name -> common.v1.TransferStatus
+	30, // 2: fund.v1.TransferInResp.code:type_name -> common.v1.ErrorCode
+	31, // 3: fund.v1.TransferInResp.status:type_name -> common.v1.TransferStatus
 	25, // 4: fund.v1.TransferOutReq.extra_params:type_name -> fund.v1.TransferOutReq.ExtraParamsEntry
-	29, // 5: fund.v1.TransferOutResp.code:type_name -> common.v1.ErrorCode
-	30, // 6: fund.v1.TransferOutResp.status:type_name -> common.v1.TransferStatus
+	30, // 5: fund.v1.TransferOutResp.code:type_name -> common.v1.ErrorCode
+	31, // 6: fund.v1.TransferOutResp.status:type_name -> common.v1.TransferStatus
 	26, // 7: fund.v1.TransferProgressResp.progress:type_name -> fund.v1.TransferProgressResp.ProgressEntry
-	29, // 8: fund.v1.TransferProgressInfo.code:type_name -> common.v1.ErrorCode
-	31, // 9: fund.v1.TransferProgressInfo.transfer_type:type_name -> common.v1.TransactionDirection
-	30, // 10: fund.v1.TransferProgressInfo.status:type_name -> common.v1.TransferStatus
-	27, // 11: fund.v1.GetUserBalanceListResp.balances:type_name -> fund.v1.GetUserBalanceListResp.BalancesEntry
-	32, // 12: fund.v1.TransactionReq.type:type_name -> common.v1.TransactionType
-	28, // 13: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
-	30, // 14: fund.v1.TransferStatusUpdateReq.current_status:type_name -> common.v1.TransferStatus
-	30, // 15: fund.v1.TransferStatusUpdateResp.new_status:type_name -> common.v1.TransferStatus
-	10, // 16: fund.v1.TransferProgressResp.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
-	13, // 17: fund.v1.GetUserBalanceListResp.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
-	2,  // 18: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
-	4,  // 19: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
-	6,  // 20: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
-	8,  // 21: fund.v1.FundApiService.GetTransferProgress:input_type -> fund.v1.TransferProgressReq
-	11, // 22: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
-	14, // 23: fund.v1.FundInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
-	16, // 24: fund.v1.FundInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
-	18, // 25: fund.v1.FundInnerService.UpdateTransferStatus:input_type -> fund.v1.TransferStatusUpdateReq
-	20, // 26: fund.v1.FundInnerService.CreateUserBalanceRecord:input_type -> fund.v1.CreateUserBalanceRecordReq
-	22, // 27: fund.v1.FundInnerService.SaveGameRecord:input_type -> fund.v1.SaveGameRecordRequest
-	3,  // 28: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListResp
-	5,  // 29: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInResp
-	7,  // 30: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutResp
-	9,  // 31: fund.v1.FundApiService.GetTransferProgress:output_type -> fund.v1.TransferProgressResp
-	12, // 32: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceResp
-	15, // 33: fund.v1.FundInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListResp
-	17, // 34: fund.v1.FundInnerService.ProcessTransaction:output_type -> fund.v1.TransactionResp
-	19, // 35: fund.v1.FundInnerService.UpdateTransferStatus:output_type -> fund.v1.TransferStatusUpdateResp
-	21, // 36: fund.v1.FundInnerService.CreateUserBalanceRecord:output_type -> fund.v1.CreateUserBalanceRecordResp
-	1,  // 37: fund.v1.FundInnerService.SaveGameRecord:output_type -> fund.v1.FundResp
-	28, // [28:38] is the sub-list for method output_type
-	18, // [18:28] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	27, // 8: fund.v1.TransferProgressResp.not_match:type_name -> fund.v1.TransferProgressResp.NotMatchEntry
+	30, // 9: fund.v1.TransferProgressInfo.code:type_name -> common.v1.ErrorCode
+	32, // 10: fund.v1.TransferProgressInfo.transfer_type:type_name -> common.v1.TransactionDirection
+	31, // 11: fund.v1.TransferProgressInfo.status:type_name -> common.v1.TransferStatus
+	28, // 12: fund.v1.GetUserBalanceListResp.balances:type_name -> fund.v1.GetUserBalanceListResp.BalancesEntry
+	33, // 13: fund.v1.TransactionReq.type:type_name -> common.v1.TransactionType
+	29, // 14: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
+	31, // 15: fund.v1.TransferStatusUpdateReq.current_status:type_name -> common.v1.TransferStatus
+	31, // 16: fund.v1.TransferStatusUpdateResp.new_status:type_name -> common.v1.TransferStatus
+	10, // 17: fund.v1.TransferProgressResp.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
+	10, // 18: fund.v1.TransferProgressResp.NotMatchEntry.value:type_name -> fund.v1.TransferProgressInfo
+	13, // 19: fund.v1.GetUserBalanceListResp.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
+	2,  // 20: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
+	4,  // 21: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
+	6,  // 22: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
+	8,  // 23: fund.v1.FundApiService.GetTransferProgress:input_type -> fund.v1.TransferProgressReq
+	11, // 24: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
+	14, // 25: fund.v1.FundInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
+	16, // 26: fund.v1.FundInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
+	18, // 27: fund.v1.FundInnerService.UpdateTransferStatus:input_type -> fund.v1.TransferStatusUpdateReq
+	20, // 28: fund.v1.FundInnerService.CreateUserBalanceRecord:input_type -> fund.v1.CreateUserBalanceRecordReq
+	22, // 29: fund.v1.FundInnerService.SaveGameRecord:input_type -> fund.v1.SaveGameRecordRequest
+	3,  // 30: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListResp
+	5,  // 31: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInResp
+	7,  // 32: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutResp
+	9,  // 33: fund.v1.FundApiService.GetTransferProgress:output_type -> fund.v1.TransferProgressResp
+	12, // 34: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceResp
+	15, // 35: fund.v1.FundInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListResp
+	17, // 36: fund.v1.FundInnerService.ProcessTransaction:output_type -> fund.v1.TransactionResp
+	19, // 37: fund.v1.FundInnerService.UpdateTransferStatus:output_type -> fund.v1.TransferStatusUpdateResp
+	21, // 38: fund.v1.FundInnerService.CreateUserBalanceRecord:output_type -> fund.v1.CreateUserBalanceRecordResp
+	1,  // 39: fund.v1.FundInnerService.SaveGameRecord:output_type -> fund.v1.FundResp
+	30, // [30:40] is the sub-list for method output_type
+	20, // [20:30] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_fund_v1_fund_proto_init() }
@@ -1662,7 +1677,7 @@ func file_fund_v1_fund_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_fund_v1_fund_proto_rawDesc), len(file_fund_v1_fund_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
