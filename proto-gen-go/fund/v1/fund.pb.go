@@ -278,6 +278,7 @@ type TransferInResp struct {
 	MerchantOrderId string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"` // 商户订单ID
 	Status          v1.TransferStatus      `protobuf:"varint,5,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"`             // 转账状态：pending, processing, completed, failed
 	DepositAmount   string                 `protobuf:"bytes,6,opt,name=deposit_amount,json=depositAmount,proto3" json:"deposit_amount,omitempty"`         // 存款金额
+	BalanceAfter    string                 `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`            // 变更后余额
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -350,6 +351,13 @@ func (x *TransferInResp) GetStatus() v1.TransferStatus {
 func (x *TransferInResp) GetDepositAmount() string {
 	if x != nil {
 		return x.DepositAmount
+	}
+	return ""
+}
+
+func (x *TransferInResp) GetBalanceAfter() string {
+	if x != nil {
+		return x.BalanceAfter
 	}
 	return ""
 }
@@ -440,6 +448,7 @@ type TransferOutResp struct {
 	MerchantOrderId  string                 `protobuf:"bytes,4,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`  // 商户订单ID
 	Status           v1.TransferStatus      `protobuf:"varint,5,opt,name=status,proto3,enum=common.v1.TransferStatus" json:"status,omitempty"`              // 转账状态：pending, processing, completed, failed
 	WithdrawalAmount string                 `protobuf:"bytes,6,opt,name=withdrawal_amount,json=withdrawalAmount,proto3" json:"withdrawal_amount,omitempty"` // 取款金额
+	BalanceAfter     string                 `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`             // 变更后余额
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -512,6 +521,13 @@ func (x *TransferOutResp) GetStatus() v1.TransferStatus {
 func (x *TransferOutResp) GetWithdrawalAmount() string {
 	if x != nil {
 		return x.WithdrawalAmount
+	}
+	return ""
+}
+
+func (x *TransferOutResp) GetBalanceAfter() string {
+	if x != nil {
+		return x.BalanceAfter
 	}
 	return ""
 }
@@ -1462,14 +1478,15 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\fextra_params\x18\x05 \x03(\v2'.fund.v1.TransferInReq.ExtraParamsEntryR\vextraParams\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x81\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa6\x02\n" +
 	"\x0eTransferInResp\x12(\n" +
 	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x121\n" +
 	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12%\n" +
-	"\x0edeposit_amount\x18\x06 \x01(\tR\rdepositAmount\"\xb0\x02\n" +
+	"\x0edeposit_amount\x18\x06 \x01(\tR\rdepositAmount\x12#\n" +
+	"\rbalance_after\x18\a \x01(\tR\fbalanceAfter\"\xb0\x02\n" +
 	"\x0eTransferOutReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x02 \x01(\x03R\n" +
@@ -1479,14 +1496,15 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x11withdrawal_amount\x18\x05 \x01(\tR\x10withdrawalAmount\x1a>\n" +
 	"\x10ExtraParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x88\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xad\x02\n" +
 	"\x0fTransferOutResp\x12(\n" +
 	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12*\n" +
 	"\x11merchant_order_id\x18\x04 \x01(\tR\x0fmerchantOrderId\x121\n" +
 	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12+\n" +
-	"\x11withdrawal_amount\x18\x06 \x01(\tR\x10withdrawalAmount\"\x85\x01\n" +
+	"\x11withdrawal_amount\x18\x06 \x01(\tR\x10withdrawalAmount\x12#\n" +
+	"\rbalance_after\x18\a \x01(\tR\fbalanceAfter\"\x85\x01\n" +
 	"\x13TransferProgressReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12'\n" +
 	"\x0ftransaction_ids\x18\x02 \x03(\tR\x0etransactionIds\x12,\n" +
