@@ -49,7 +49,7 @@ message UserBalanceListResp {
 message TransferInReq{
   int64 user_id = 1;
   int64 platform_id = 2;
-  string amount = 3;
+  string deposit_amount = 3;  // 存款金额
   string merchant_order_id = 4;  // 商户订单ID
   map<string, string> extra_params = 5;
 }
@@ -61,6 +61,7 @@ message TransferInResp{
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4;  // 商户订单ID
   common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
+  string deposit_amount = 6;  // 存款金额
 }
 
 
@@ -70,7 +71,7 @@ message TransferOutReq {
   int64 platform_id = 2;
   string merchant_order_id = 3;  // 商户订单ID
   map<string, string> extra_params = 4;
-  string amount = 5;
+  string withdrawal_amount = 5; // 取款金额->todo 预留字段暂时不会使用[My rules are THE rules.]
 }
 
 // 发起转出操作;
@@ -80,7 +81,7 @@ message TransferOutResp {
   string transaction_id = 3; // 内部交易ID
   string merchant_order_id = 4;  // 商户订单ID
   common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
-  string amount = 6; // 转账金额
+  string withdrawal_amount = 6; // 取款金额
 }
 
 
