@@ -22,6 +22,7 @@ type (
 	GetUserBalanceListResp      = v1.GetUserBalanceListResp
 	GetUserBalanceReq           = v1.GetUserBalanceReq
 	GetUserBalanceResp          = v1.GetUserBalanceResp
+	SaveGameRecordRequest       = v1.SaveGameRecordRequest
 	TransactionReq              = v1.TransactionReq
 	TransactionResp             = v1.TransactionResp
 	TransferInReq               = v1.TransferInReq
@@ -48,6 +49,8 @@ type (
 		UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
 		// 创建用户帐变记录
 		CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error)
+		// 接收游戏结果数据，并将其持久化到数据库中。
+		SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error)
 	}
 
 	defaultFundInnerService struct {
@@ -89,4 +92,10 @@ func (m *defaultFundInnerService) UpdateTransferStatus(ctx context.Context, in *
 func (m *defaultFundInnerService) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.CreateUserBalanceRecord(ctx, in, opts...)
+}
+
+// 接收游戏结果数据，并将其持久化到数据库中。
+func (m *defaultFundInnerService) SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error) {
+	client := v1.NewFundInnerServiceClient(m.cli.Conn())
+	return client.SaveGameRecord(ctx, in, opts...)
 }

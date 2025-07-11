@@ -22,6 +22,7 @@ type (
 	GetUserBalanceListResp      = v1.GetUserBalanceListResp
 	GetUserBalanceReq           = v1.GetUserBalanceReq
 	GetUserBalanceResp          = v1.GetUserBalanceResp
+	SaveGameRecordRequest       = v1.SaveGameRecordRequest
 	TransactionReq              = v1.TransactionReq
 	TransactionResp             = v1.TransactionResp
 	TransferInReq               = v1.TransferInReq

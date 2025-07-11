@@ -19,274 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FundInnerService_GetUserBalance_FullMethodName          = "/fund.v1.FundInnerService/GetUserBalance"
-	FundInnerService_GetUserBalanceList_FullMethodName      = "/fund.v1.FundInnerService/GetUserBalanceList"
-	FundInnerService_ProcessTransaction_FullMethodName      = "/fund.v1.FundInnerService/ProcessTransaction"
-	FundInnerService_UpdateTransferStatus_FullMethodName    = "/fund.v1.FundInnerService/UpdateTransferStatus"
-	FundInnerService_CreateUserBalanceRecord_FullMethodName = "/fund.v1.FundInnerService/CreateUserBalanceRecord"
-)
-
-// FundInnerServiceClient is the client API for FundInnerService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// ////////////////  内部RPC   //////////////////
-type FundInnerServiceClient interface {
-	// 获取单个用户余额[实时更新的余额]
-	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
-	// 批量获取用户余额[实时更新的余额]
-	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
-	// 处理交易（根据type字段处理不同类型）
-	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
-	// 更新或查询需要延迟处理的转账状态。
-	UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
-	// 创建用户帐变记录
-	CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error)
-}
-
-type fundInnerServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewFundInnerServiceClient(cc grpc.ClientConnInterface) FundInnerServiceClient {
-	return &fundInnerServiceClient{cc}
-}
-
-func (c *fundInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserBalanceResp)
-	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalance_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fundInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserBalanceListResp)
-	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransactionResp)
-	err := c.cc.Invoke(ctx, FundInnerService_ProcessTransaction_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fundInnerServiceClient) UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransferStatusUpdateResp)
-	err := c.cc.Invoke(ctx, FundInnerService_UpdateTransferStatus_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fundInnerServiceClient) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateUserBalanceRecordResp)
-	err := c.cc.Invoke(ctx, FundInnerService_CreateUserBalanceRecord_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// FundInnerServiceServer is the server API for FundInnerService service.
-// All implementations must embed UnimplementedFundInnerServiceServer
-// for forward compatibility.
-//
-// ////////////////  内部RPC   //////////////////
-type FundInnerServiceServer interface {
-	// 获取单个用户余额[实时更新的余额]
-	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
-	// 批量获取用户余额[实时更新的余额]
-	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error)
-	// 处理交易（根据type字段处理不同类型）
-	ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error)
-	// 更新或查询需要延迟处理的转账状态。
-	UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error)
-	// 创建用户帐变记录
-	CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*CreateUserBalanceRecordResp, error)
-	mustEmbedUnimplementedFundInnerServiceServer()
-}
-
-// UnimplementedFundInnerServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedFundInnerServiceServer struct{}
-
-func (UnimplementedFundInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
-}
-func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
-}
-func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
-}
-func (UnimplementedFundInnerServiceServer) UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTransferStatus not implemented")
-}
-func (UnimplementedFundInnerServiceServer) CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*CreateUserBalanceRecordResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUserBalanceRecord not implemented")
-}
-func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
-func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
-
-// UnsafeFundInnerServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to FundInnerServiceServer will
-// result in compilation errors.
-type UnsafeFundInnerServiceServer interface {
-	mustEmbedUnimplementedFundInnerServiceServer()
-}
-
-func RegisterFundInnerServiceServer(s grpc.ServiceRegistrar, srv FundInnerServiceServer) {
-	// If the following call pancis, it indicates UnimplementedFundInnerServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&FundInnerService_ServiceDesc, srv)
-}
-
-func _FundInnerService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserBalanceReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).GetUserBalance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_GetUserBalance_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _FundInnerService_GetUserBalanceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserBalanceListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).GetUserBalanceList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_GetUserBalanceList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).GetUserBalanceList(ctx, req.(*GetUserBalanceListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _FundInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransactionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).ProcessTransaction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_ProcessTransaction_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).ProcessTransaction(ctx, req.(*TransactionReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _FundInnerService_UpdateTransferStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransferStatusUpdateReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).UpdateTransferStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_UpdateTransferStatus_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).UpdateTransferStatus(ctx, req.(*TransferStatusUpdateReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _FundInnerService_CreateUserBalanceRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserBalanceRecordReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FundInnerServiceServer).CreateUserBalanceRecord(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FundInnerService_CreateUserBalanceRecord_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).CreateUserBalanceRecord(ctx, req.(*CreateUserBalanceRecordReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var FundInnerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "fund.v1.FundInnerService",
-	HandlerType: (*FundInnerServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetUserBalance",
-			Handler:    _FundInnerService_GetUserBalance_Handler,
-		},
-		{
-			MethodName: "GetUserBalanceList",
-			Handler:    _FundInnerService_GetUserBalanceList_Handler,
-		},
-		{
-			MethodName: "ProcessTransaction",
-			Handler:    _FundInnerService_ProcessTransaction_Handler,
-		},
-		{
-			MethodName: "UpdateTransferStatus",
-			Handler:    _FundInnerService_UpdateTransferStatus_Handler,
-		},
-		{
-			MethodName: "CreateUserBalanceRecord",
-			Handler:    _FundInnerService_CreateUserBalanceRecord_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "fund/v1/fund.proto",
-}
-
-const (
 	FundApiService_GetUserBalanceList_FullMethodName  = "/fund.v1.FundApiService/GetUserBalanceList"
 	FundApiService_TransferIn_FullMethodName          = "/fund.v1.FundApiService/TransferIn"
 	FundApiService_TransferOut_FullMethodName         = "/fund.v1.FundApiService/TransferOut"
@@ -508,6 +240,314 @@ var FundApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTransferProgress",
 			Handler:    _FundApiService_GetTransferProgress_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "fund/v1/fund.proto",
+}
+
+const (
+	FundInnerService_GetUserBalance_FullMethodName          = "/fund.v1.FundInnerService/GetUserBalance"
+	FundInnerService_GetUserBalanceList_FullMethodName      = "/fund.v1.FundInnerService/GetUserBalanceList"
+	FundInnerService_ProcessTransaction_FullMethodName      = "/fund.v1.FundInnerService/ProcessTransaction"
+	FundInnerService_UpdateTransferStatus_FullMethodName    = "/fund.v1.FundInnerService/UpdateTransferStatus"
+	FundInnerService_CreateUserBalanceRecord_FullMethodName = "/fund.v1.FundInnerService/CreateUserBalanceRecord"
+	FundInnerService_SaveGameRecord_FullMethodName          = "/fund.v1.FundInnerService/SaveGameRecord"
+)
+
+// FundInnerServiceClient is the client API for FundInnerService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ////////////////  内部RPC   //////////////////
+type FundInnerServiceClient interface {
+	// 获取单个用户余额[实时更新的余额]
+	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
+	// 批量获取用户余额[实时更新的余额]
+	GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
+	// 处理交易（根据type字段处理不同类型）
+	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
+	// 更新或查询需要延迟处理的转账状态。
+	UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
+	// 创建用户帐变记录
+	CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error)
+	// 接收游戏结果数据，并将其持久化到数据库中。
+	SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error)
+}
+
+type fundInnerServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewFundInnerServiceClient(cc grpc.ClientConnInterface) FundInnerServiceClient {
+	return &fundInnerServiceClient{cc}
+}
+
+func (c *fundInnerServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserBalanceResp)
+	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundInnerServiceClient) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserBalanceListResp)
+	err := c.cc.Invoke(ctx, FundInnerService_GetUserBalanceList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundInnerServiceClient) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransactionResp)
+	err := c.cc.Invoke(ctx, FundInnerService_ProcessTransaction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundInnerServiceClient) UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransferStatusUpdateResp)
+	err := c.cc.Invoke(ctx, FundInnerService_UpdateTransferStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundInnerServiceClient) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateUserBalanceRecordResp)
+	err := c.cc.Invoke(ctx, FundInnerService_CreateUserBalanceRecord_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fundInnerServiceClient) SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FundResp)
+	err := c.cc.Invoke(ctx, FundInnerService_SaveGameRecord_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// FundInnerServiceServer is the server API for FundInnerService service.
+// All implementations must embed UnimplementedFundInnerServiceServer
+// for forward compatibility.
+//
+// ////////////////  内部RPC   //////////////////
+type FundInnerServiceServer interface {
+	// 获取单个用户余额[实时更新的余额]
+	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
+	// 批量获取用户余额[实时更新的余额]
+	GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error)
+	// 处理交易（根据type字段处理不同类型）
+	ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error)
+	// 更新或查询需要延迟处理的转账状态。
+	UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error)
+	// 创建用户帐变记录
+	CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*CreateUserBalanceRecordResp, error)
+	// 接收游戏结果数据，并将其持久化到数据库中。
+	SaveGameRecord(context.Context, *SaveGameRecordRequest) (*FundResp, error)
+	mustEmbedUnimplementedFundInnerServiceServer()
+}
+
+// UnimplementedFundInnerServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedFundInnerServiceServer struct{}
+
+func (UnimplementedFundInnerServiceServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
+}
+func (UnimplementedFundInnerServiceServer) GetUserBalanceList(context.Context, *GetUserBalanceListReq) (*GetUserBalanceListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalanceList not implemented")
+}
+func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessTransaction not implemented")
+}
+func (UnimplementedFundInnerServiceServer) UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTransferStatus not implemented")
+}
+func (UnimplementedFundInnerServiceServer) CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*CreateUserBalanceRecordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUserBalanceRecord not implemented")
+}
+func (UnimplementedFundInnerServiceServer) SaveGameRecord(context.Context, *SaveGameRecordRequest) (*FundResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveGameRecord not implemented")
+}
+func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
+func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeFundInnerServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FundInnerServiceServer will
+// result in compilation errors.
+type UnsafeFundInnerServiceServer interface {
+	mustEmbedUnimplementedFundInnerServiceServer()
+}
+
+func RegisterFundInnerServiceServer(s grpc.ServiceRegistrar, srv FundInnerServiceServer) {
+	// If the following call pancis, it indicates UnimplementedFundInnerServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&FundInnerService_ServiceDesc, srv)
+}
+
+func _FundInnerService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBalanceReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).GetUserBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_GetUserBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FundInnerService_GetUserBalanceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBalanceListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).GetUserBalanceList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_GetUserBalanceList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).GetUserBalanceList(ctx, req.(*GetUserBalanceListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FundInnerService_ProcessTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransactionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).ProcessTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_ProcessTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).ProcessTransaction(ctx, req.(*TransactionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FundInnerService_UpdateTransferStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferStatusUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).UpdateTransferStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_UpdateTransferStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).UpdateTransferStatus(ctx, req.(*TransferStatusUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FundInnerService_CreateUserBalanceRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserBalanceRecordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).CreateUserBalanceRecord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_CreateUserBalanceRecord_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).CreateUserBalanceRecord(ctx, req.(*CreateUserBalanceRecordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FundInnerService_SaveGameRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveGameRecordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).SaveGameRecord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_SaveGameRecord_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).SaveGameRecord(ctx, req.(*SaveGameRecordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var FundInnerService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "fund.v1.FundInnerService",
+	HandlerType: (*FundInnerServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUserBalance",
+			Handler:    _FundInnerService_GetUserBalance_Handler,
+		},
+		{
+			MethodName: "GetUserBalanceList",
+			Handler:    _FundInnerService_GetUserBalanceList_Handler,
+		},
+		{
+			MethodName: "ProcessTransaction",
+			Handler:    _FundInnerService_ProcessTransaction_Handler,
+		},
+		{
+			MethodName: "UpdateTransferStatus",
+			Handler:    _FundInnerService_UpdateTransferStatus_Handler,
+		},
+		{
+			MethodName: "CreateUserBalanceRecord",
+			Handler:    _FundInnerService_CreateUserBalanceRecord_Handler,
+		},
+		{
+			MethodName: "SaveGameRecord",
+			Handler:    _FundInnerService_SaveGameRecord_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

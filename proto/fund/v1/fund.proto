@@ -14,100 +14,6 @@ message FundResp{
 }
 
 
-//////////////////  内部RPC   //////////////////
-service FundInnerService {
-
-  // 获取单个用户余额[实时更新的余额]
-  rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceResp);
-
-  // 批量获取用户余额[实时更新的余额]
-  rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListResp);
-
-  // 处理交易（根据type字段处理不同类型）
-  rpc ProcessTransaction(TransactionReq) returns (TransactionResp);
-
-  // 更新或查询需要延迟处理的转账状态。
-  rpc UpdateTransferStatus(TransferStatusUpdateReq) returns (TransferStatusUpdateResp);
-
-  // 创建用户帐变记录
-  rpc CreateUserBalanceRecord(CreateUserBalanceRecordReq) returns (CreateUserBalanceRecordResp);
-}
-
-
-message CreateUserBalanceRecordReq {
-  bytes record = 1;   // userBalanceRecord结构体序列化
-}
-
-message CreateUserBalanceRecordResp {
-}
-
-// 获取单个用户余额请求
-message GetUserBalanceReq {
-  int64 user_id = 1;
-  int64 platform_id = 2;
-}
-
-// 获取单个用户余额响应
-message GetUserBalanceResp {
-  string balance = 1; // 游戏内余额
-  int64  version = 2; // 版本
-}
-
-// 用户余额信息
-message UserBalanceInfo {
-  string balance = 1; // 游戏内余额
-  int64  version = 2; // 版本
-}
-
-// 批量获取用户余额请求
-message GetUserBalanceListReq {
-  int64 user_id = 1;
-  repeated int64 platform_ids = 2;
-}
-
-// 批量获取用户余额响应
-message GetUserBalanceListResp {
-  map<int64, UserBalanceInfo> balances = 1; // platform_id => balance
-}
-
-
-// 交易请求消息
-message TransactionReq {
-  common.v1.TransactionType type = 1;
-  int64 user_id = 2;
-  int64 game_id = 3;
-  int64 platform_id = 4;
-  string amount = 5;    // 需要变动的金额 >=0
-  string order_id = 6;  // 订单ID
-  string description = 7; // 描述备注
-  map<string, string> metadata = 8;
-}
-
-// 交易响应消息
-message TransactionResp {
-  bool success = 1;  // 是否成功
-  string transaction_id = 2; // 账变记录ID
-  string balance_before = 3; // 变更前余额
-  string balance_after = 4; // 变更后余额
-  int64 timestamp = 5; // 当前时间戳
-}
-
-
-// 表示更新或查询延迟转账状态的请求。
-message TransferStatusUpdateReq {
-  string transaction_id = 1; // 原始转账交易的ID
-  common.v1.TransferStatus current_status = 2; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
-  string reason = 3; // 可选：状态更新的原因，特别是针对失败情况
-}
-
-// 表示转账状态更新/查询的响应。
-message TransferStatusUpdateResp {
-  string transaction_id = 1;
-  common.v1.TransferStatus new_status = 2; // 转账确认的新状态
-  string message = 3; // 可选：关于更新的消息
-  string timestamp = 4; // 状态更新的时间戳
-}
-
 
 //////////////////  暴露给API的RPC   //////////////////
 service FundApiService {
@@ -204,3 +110,111 @@ message TransferProgressInfo {
   int64 updated_time = 9; // 最后更新时间戳
 }
 
+
+
+
+
+//////////////////  内部RPC   //////////////////
+service FundInnerService {
+
+  // 获取单个用户余额[实时更新的余额]
+  rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceResp);
+
+  // 批量获取用户余额[实时更新的余额]
+  rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListResp);
+
+  // 处理交易（根据type字段处理不同类型）
+  rpc ProcessTransaction(TransactionReq) returns (TransactionResp);
+
+  // 更新或查询需要延迟处理的转账状态。
+  rpc UpdateTransferStatus(TransferStatusUpdateReq) returns (TransferStatusUpdateResp);
+
+  // 创建用户帐变记录
+  rpc CreateUserBalanceRecord(CreateUserBalanceRecordReq) returns (CreateUserBalanceRecordResp);
+
+  // 接收游戏结果数据，并将其持久化到数据库中。
+  rpc SaveGameRecord(SaveGameRecordRequest) returns (FundResp);
+}
+
+
+// 获取单个用户余额请求
+message GetUserBalanceReq {
+  int64 user_id = 1;
+  int64 platform_id = 2;
+}
+
+// 获取单个用户余额响应
+message GetUserBalanceResp {
+  string balance = 1; // 游戏内余额
+  int64  version = 2; // 版本
+}
+
+// 用户余额信息
+message UserBalanceInfo {
+  string balance = 1; // 游戏内余额
+  int64  version = 2; // 版本
+}
+
+// 批量获取用户余额请求
+message GetUserBalanceListReq {
+  int64 user_id = 1;
+  repeated int64 platform_ids = 2;
+}
+
+// 批量获取用户余额响应
+message GetUserBalanceListResp {
+  map<int64, UserBalanceInfo> balances = 1; // platform_id => balance
+}
+
+
+// 交易请求消息
+message TransactionReq {
+  common.v1.TransactionType type = 1;
+  int64 user_id = 2;
+  int64 game_id = 3;
+  int64 platform_id = 4;
+  string amount = 5;    // 需要变动的金额 >=0
+  string order_id = 6;  // 订单ID
+  string description = 7; // 描述备注
+  map<string, string> metadata = 8;
+}
+
+// 交易响应消息
+message TransactionResp {
+  bool success = 1;  // 是否成功
+  string transaction_id = 2; // 账变记录ID
+  string balance_before = 3; // 变更前余额
+  string balance_after = 4; // 变更后余额
+  int64 timestamp = 5; // 当前时间戳
+}
+
+
+// 表示更新或查询延迟转账状态的请求。
+message TransferStatusUpdateReq {
+  string transaction_id = 1; // 原始转账交易的ID
+  common.v1.TransferStatus current_status = 2; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
+  string reason = 3; // 可选：状态更新的原因，特别是针对失败情况
+}
+
+// 表示转账状态更新/查询的响应。
+message TransferStatusUpdateResp {
+  string transaction_id = 1;
+  common.v1.TransferStatus new_status = 2; // 转账确认的新状态
+  string message = 3; // 可选：关于更新的消息
+  string timestamp = 4; // 状态更新的时间戳
+}
+
+
+message CreateUserBalanceRecordReq {
+  bytes record = 1;   // userBalanceRecord结构体序列化
+}
+
+message CreateUserBalanceRecordResp {
+}
+
+
+// SaveGameRecordRequest 包含了存储多条完整游戏记录所需的所有信息。
+message SaveGameRecordRequest {
+  repeated bytes bet_details = 1;
+  repeated bytes bet_summaries = 2;
+}
