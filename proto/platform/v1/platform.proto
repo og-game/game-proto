@@ -90,11 +90,13 @@ message GetBetRecordListReq {
   int64 platform_id = 1;
   int64 begin_time = 2 ; //投注开始时间筛选  秒
   int64 end_time = 3; // 投注结算时间筛选 秒
+  int64 page = 4; // 页数
 }
 
 message GetBetRecordListResp {
   int64 total = 1;
-  repeated BetRecordListItem data = 2;
+  bool next_page = 2;// 是否还有下一页
+  repeated BetRecordListItem data = 3;
 }
 message BetRecordListItem {
   common.v1.BetStatus status = 1; // 投注状态
@@ -105,7 +107,9 @@ message BetRecordListItem {
   string user_id = 7; // 用户ID
   int64 merchant_id = 8;  // 商户ID
   string win_lost = 9; // 输赢
-
+  string currency_code = 10; // 币种
+  int64 created_at = 11;    // 创建时间
+  int64 settled_at = 12;  // 结算时间
 }
 
 service PlatformInnerService {
