@@ -195,13 +195,12 @@ message TransactionResp {
 
 // 表示更新或查询延迟转账状态的请求。
 message TransferStatusUpdateReq {
-  int64 merchant_id = 1;        // 商户ID
-  int64 user_id = 2;            // 用户ID
-  int64 platform_id = 3;        // 平台ID
-  string transaction_id = 4;    // 原始转账交易的ID
-  bool enable_retry = 5;        // 是否启用重试
-  common.v1.TransferStatus current_status = 6; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
-  string reason = 7; // 可选：状态更新的原因，特别是针对失败情况
+  int64 user_id = 1;            // 用户ID
+  int64 platform_id = 2;        // 平台ID
+  string transaction_id = 3;    // 原始转账交易的ID
+  bool enable_retry = 4;        // 是否启用重试
+  common.v1.TransferStatus current_status = 5; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
+  string reason = 6; // 可选：状态更新的原因，特别是针对失败情况
 }
 
 // 表示转账状态更新/查询的响应。

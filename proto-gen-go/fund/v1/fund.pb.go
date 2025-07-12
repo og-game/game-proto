@@ -1193,13 +1193,12 @@ func (x *TransactionResp) GetTimestamp() int64 {
 // 表示更新或查询延迟转账状态的请求。
 type TransferStatusUpdateReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                                        // 商户ID
-	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                    // 用户ID
-	PlatformId    int64                  `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                        // 平台ID
-	TransactionId string                 `protobuf:"bytes,4,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                // 原始转账交易的ID
-	EnableRetry   bool                   `protobuf:"varint,5,opt,name=enable_retry,json=enableRetry,proto3" json:"enable_retry,omitempty"`                                     // 是否启用重试
-	CurrentStatus v1.TransferStatus      `protobuf:"varint,6,opt,name=current_status,json=currentStatus,proto3,enum=common.v1.TransferStatus" json:"current_status,omitempty"` // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
-	Reason        string                 `protobuf:"bytes,7,opt,name=reason,proto3" json:"reason,omitempty"`                                                                   // 可选：状态更新的原因，特别是针对失败情况
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                    // 用户ID
+	PlatformId    int64                  `protobuf:"varint,2,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                        // 平台ID
+	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                // 原始转账交易的ID
+	EnableRetry   bool                   `protobuf:"varint,4,opt,name=enable_retry,json=enableRetry,proto3" json:"enable_retry,omitempty"`                                     // 是否启用重试
+	CurrentStatus v1.TransferStatus      `protobuf:"varint,5,opt,name=current_status,json=currentStatus,proto3,enum=common.v1.TransferStatus" json:"current_status,omitempty"` // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
+	Reason        string                 `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`                                                                   // 可选：状态更新的原因，特别是针对失败情况
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1232,13 +1231,6 @@ func (x *TransferStatusUpdateReq) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TransferStatusUpdateReq.ProtoReflect.Descriptor instead.
 func (*TransferStatusUpdateReq) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *TransferStatusUpdateReq) GetMerchantId() int64 {
-	if x != nil {
-		return x.MerchantId
-	}
-	return 0
 }
 
 func (x *TransferStatusUpdateReq) GetUserId() int64 {
@@ -1596,17 +1588,15 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12%\n" +
 	"\x0ebalance_before\x18\x03 \x01(\tR\rbalanceBefore\x12#\n" +
 	"\rbalance_after\x18\x04 \x01(\tR\fbalanceAfter\x12\x1c\n" +
-	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"\x98\x02\n" +
-	"\x17TransferStatusUpdateReq\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
-	"merchantId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1f\n" +
-	"\vplatform_id\x18\x03 \x01(\x03R\n" +
+	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"\xf7\x01\n" +
+	"\x17TransferStatusUpdateReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
+	"\vplatform_id\x18\x02 \x01(\x03R\n" +
 	"platformId\x12%\n" +
-	"\x0etransaction_id\x18\x04 \x01(\tR\rtransactionId\x12!\n" +
-	"\fenable_retry\x18\x05 \x01(\bR\venableRetry\x12@\n" +
-	"\x0ecurrent_status\x18\x06 \x01(\x0e2\x19.common.v1.TransferStatusR\rcurrentStatus\x12\x16\n" +
-	"\x06reason\x18\a \x01(\tR\x06reason\"\xbd\x01\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12!\n" +
+	"\fenable_retry\x18\x04 \x01(\bR\venableRetry\x12@\n" +
+	"\x0ecurrent_status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\rcurrentStatus\x12\x16\n" +
+	"\x06reason\x18\x06 \x01(\tR\x06reason\"\xbd\x01\n" +
 	"\x18TransferStatusUpdateResp\x12%\n" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x128\n" +
 	"\n" +
