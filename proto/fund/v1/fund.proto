@@ -200,9 +200,8 @@ message TransferStatusUpdateReq {
   int64 platform_id = 3;        // 平台ID
   string transaction_id = 4;    // 原始转账交易的ID
   bool enable_retry = 5;        // 是否启用重试
-  int64 max_retry_count = 6;    // 最大重试次数，默认10次
-  common.v1.TransferStatus current_status = 7; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
-  string reason = 8; // 可选：状态更新的原因，特别是针对失败情况
+  common.v1.TransferStatus current_status = 6; // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
+  string reason = 7; // 可选：状态更新的原因，特别是针对失败情况
 }
 
 // 表示转账状态更新/查询的响应。
@@ -211,7 +210,6 @@ message TransferStatusUpdateResp {
   common.v1.TransferStatus new_status = 2; // 转账确认的新状态
   int64 retry_count = 3;                      // 当前重试次数
   string workflow_id = 4;                     // 工作流ID（如果启动了重试）
-  string message = 5; // 可选：关于更新的消息
 }
 
 

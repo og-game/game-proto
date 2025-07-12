@@ -1198,9 +1198,8 @@ type TransferStatusUpdateReq struct {
 	PlatformId    int64                  `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                        // 平台ID
 	TransactionId string                 `protobuf:"bytes,4,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                // 原始转账交易的ID
 	EnableRetry   bool                   `protobuf:"varint,5,opt,name=enable_retry,json=enableRetry,proto3" json:"enable_retry,omitempty"`                                     // 是否启用重试
-	MaxRetryCount int64                  `protobuf:"varint,6,opt,name=max_retry_count,json=maxRetryCount,proto3" json:"max_retry_count,omitempty"`                             // 最大重试次数，默认10次
-	CurrentStatus v1.TransferStatus      `protobuf:"varint,7,opt,name=current_status,json=currentStatus,proto3,enum=common.v1.TransferStatus" json:"current_status,omitempty"` // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
-	Reason        string                 `protobuf:"bytes,8,opt,name=reason,proto3" json:"reason,omitempty"`                                                                   // 可选：状态更新的原因，特别是针对失败情况
+	CurrentStatus v1.TransferStatus      `protobuf:"varint,6,opt,name=current_status,json=currentStatus,proto3,enum=common.v1.TransferStatus" json:"current_status,omitempty"` // 当前报告的状态（例如："PROCESSING"（处理中）, "COMPLETED"（已完成）, "FAILED"（失败））
+	Reason        string                 `protobuf:"bytes,7,opt,name=reason,proto3" json:"reason,omitempty"`                                                                   // 可选：状态更新的原因，特别是针对失败情况
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1270,13 +1269,6 @@ func (x *TransferStatusUpdateReq) GetEnableRetry() bool {
 	return false
 }
 
-func (x *TransferStatusUpdateReq) GetMaxRetryCount() int64 {
-	if x != nil {
-		return x.MaxRetryCount
-	}
-	return 0
-}
-
 func (x *TransferStatusUpdateReq) GetCurrentStatus() v1.TransferStatus {
 	if x != nil {
 		return x.CurrentStatus
@@ -1298,7 +1290,6 @@ type TransferStatusUpdateResp struct {
 	NewStatus     v1.TransferStatus      `protobuf:"varint,2,opt,name=new_status,json=newStatus,proto3,enum=common.v1.TransferStatus" json:"new_status,omitempty"` // 转账确认的新状态
 	RetryCount    int64                  `protobuf:"varint,3,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`                            // 当前重试次数
 	WorkflowId    string                 `protobuf:"bytes,4,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`                             // 工作流ID（如果启动了重试）
-	Message       string                 `protobuf:"bytes,5,opt,name=message,proto3" json:"message,omitempty"`                                                     // 可选：关于更新的消息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1357,13 +1348,6 @@ func (x *TransferStatusUpdateResp) GetRetryCount() int64 {
 func (x *TransferStatusUpdateResp) GetWorkflowId() string {
 	if x != nil {
 		return x.WorkflowId
-	}
-	return ""
-}
-
-func (x *TransferStatusUpdateResp) GetMessage() string {
-	if x != nil {
-		return x.Message
 	}
 	return ""
 }
@@ -1612,7 +1596,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12%\n" +
 	"\x0ebalance_before\x18\x03 \x01(\tR\rbalanceBefore\x12#\n" +
 	"\rbalance_after\x18\x04 \x01(\tR\fbalanceAfter\x12\x1c\n" +
-	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"\xc0\x02\n" +
+	"\ttimestamp\x18\x05 \x01(\x03R\ttimestamp\"\x98\x02\n" +
 	"\x17TransferStatusUpdateReq\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
@@ -1620,10 +1604,9 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\vplatform_id\x18\x03 \x01(\x03R\n" +
 	"platformId\x12%\n" +
 	"\x0etransaction_id\x18\x04 \x01(\tR\rtransactionId\x12!\n" +
-	"\fenable_retry\x18\x05 \x01(\bR\venableRetry\x12&\n" +
-	"\x0fmax_retry_count\x18\x06 \x01(\x03R\rmaxRetryCount\x12@\n" +
-	"\x0ecurrent_status\x18\a \x01(\x0e2\x19.common.v1.TransferStatusR\rcurrentStatus\x12\x16\n" +
-	"\x06reason\x18\b \x01(\tR\x06reason\"\xd7\x01\n" +
+	"\fenable_retry\x18\x05 \x01(\bR\venableRetry\x12@\n" +
+	"\x0ecurrent_status\x18\x06 \x01(\x0e2\x19.common.v1.TransferStatusR\rcurrentStatus\x12\x16\n" +
+	"\x06reason\x18\a \x01(\tR\x06reason\"\xbd\x01\n" +
 	"\x18TransferStatusUpdateResp\x12%\n" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x128\n" +
 	"\n" +
@@ -1631,8 +1614,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\vretry_count\x18\x03 \x01(\x03R\n" +
 	"retryCount\x12\x1f\n" +
 	"\vworkflow_id\x18\x04 \x01(\tR\n" +
-	"workflowId\x12\x18\n" +
-	"\amessage\x18\x05 \x01(\tR\amessage\"4\n" +
+	"workflowId\"4\n" +
 	"\x1aCreateUserBalanceRecordReq\x12\x16\n" +
 	"\x06record\x18\x01 \x01(\fR\x06record\"\x1d\n" +
 	"\x1bCreateUserBalanceRecordResp\"]\n" +
