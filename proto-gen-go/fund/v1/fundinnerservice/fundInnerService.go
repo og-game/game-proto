@@ -14,29 +14,29 @@ import (
 )
 
 type (
-	CreateUserBalanceRecordReq  = v1.CreateUserBalanceRecordReq
-	CreateUserBalanceRecordResp = v1.CreateUserBalanceRecordResp
-	FundReq                     = v1.FundReq
-	FundResp                    = v1.FundResp
-	GetUserBalanceListReq       = v1.GetUserBalanceListReq
-	GetUserBalanceListResp      = v1.GetUserBalanceListResp
-	GetUserBalanceReq           = v1.GetUserBalanceReq
-	GetUserBalanceResp          = v1.GetUserBalanceResp
-	SaveGameRecordRequest       = v1.SaveGameRecordRequest
-	TransactionReq              = v1.TransactionReq
-	TransactionResp             = v1.TransactionResp
-	TransferInReq               = v1.TransferInReq
-	TransferInResp              = v1.TransferInResp
-	TransferOutReq              = v1.TransferOutReq
-	TransferOutResp             = v1.TransferOutResp
-	TransferProgressInfo        = v1.TransferProgressInfo
-	TransferProgressReq         = v1.TransferProgressReq
-	TransferProgressResp        = v1.TransferProgressResp
-	TransferStatusUpdateReq     = v1.TransferStatusUpdateReq
-	TransferStatusUpdateResp    = v1.TransferStatusUpdateResp
-	UserBalanceInfo             = v1.UserBalanceInfo
-	UserBalanceListReq          = v1.UserBalanceListReq
-	UserBalanceListResp         = v1.UserBalanceListResp
+	CreateUserBalanceRecordReq = v1.CreateUserBalanceRecordReq
+	FundReq                    = v1.FundReq
+	FundResp                   = v1.FundResp
+	GetUserBalanceListReq      = v1.GetUserBalanceListReq
+	GetUserBalanceListResp     = v1.GetUserBalanceListResp
+	GetUserBalanceReq          = v1.GetUserBalanceReq
+	GetUserBalanceResp         = v1.GetUserBalanceResp
+	SaveGameRecordRequest      = v1.SaveGameRecordRequest
+	TransactionReq             = v1.TransactionReq
+	TransactionResp            = v1.TransactionResp
+	TransferInReq              = v1.TransferInReq
+	TransferInResp             = v1.TransferInResp
+	TransferOutReq             = v1.TransferOutReq
+	TransferOutResp            = v1.TransferOutResp
+	TransferProgressInfo       = v1.TransferProgressInfo
+	TransferProgressReq        = v1.TransferProgressReq
+	TransferProgressResp       = v1.TransferProgressResp
+	TransferStatusUpdateReq    = v1.TransferStatusUpdateReq
+	TransferStatusUpdateResp   = v1.TransferStatusUpdateResp
+	UserBalanceInfo            = v1.UserBalanceInfo
+	UserBalanceListReq         = v1.UserBalanceListReq
+	UserBalanceListResp        = v1.UserBalanceListResp
+	UserBalanceRecordItem      = v1.UserBalanceRecordItem
 
 	FundInnerService interface {
 		// 获取单个用户余额[实时更新的余额]
@@ -47,8 +47,8 @@ type (
 		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
 		// 更新或查询需要延迟处理的转账状态。
 		UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
-		// 创建用户帐变记录
-		CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error)
+		// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
+		CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 		// 接收游戏结果数据，并将其持久化到数据库中。
 		SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error)
 	}
@@ -88,8 +88,8 @@ func (m *defaultFundInnerService) UpdateTransferStatus(ctx context.Context, in *
 	return client.UpdateTransferStatus(ctx, in, opts...)
 }
 
-// 创建用户帐变记录
-func (m *defaultFundInnerService) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error) {
+// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
+func (m *defaultFundInnerService) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.CreateUserBalanceRecord(ctx, in, opts...)
 }

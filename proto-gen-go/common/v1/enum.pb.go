@@ -483,6 +483,80 @@ func (BetStatus) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{7}
 }
 
+// UserBalanceTransactionType 用户账变交易类型枚举
+type UserBalanceTransactionType int32
+
+const (
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_UNSPECIFIED        UserBalanceTransactionType = 0  // 未指定
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME   UserBalanceTransactionType = 1  // 转入游戏
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME UserBalanceTransactionType = 2  // 从游戏转出
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_BET                UserBalanceTransactionType = 3  // 投注
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_SETTLEMENT         UserBalanceTransactionType = 4  // 结算派奖
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_DEPOSIT            UserBalanceTransactionType = 5  // 押金
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND     UserBalanceTransactionType = 6  // 返还押金
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_BET_CANCEL         UserBalanceTransactionType = 7  // 取消投注
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL  UserBalanceTransactionType = 8  // 结算撤单
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT      UserBalanceTransactionType = 9  // 重新派奖
+	UserBalanceTransactionType_CHANGE_TRANSACTION_TYPE_ADJUSTMENT         UserBalanceTransactionType = 10 // 调整金额
+)
+
+// Enum value maps for UserBalanceTransactionType.
+var (
+	UserBalanceTransactionType_name = map[int32]string{
+		0:  "CHANGE_TRANSACTION_TYPE_UNSPECIFIED",
+		1:  "CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME",
+		2:  "CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME",
+		3:  "CHANGE_TRANSACTION_TYPE_BET",
+		4:  "CHANGE_TRANSACTION_TYPE_SETTLEMENT",
+		5:  "CHANGE_TRANSACTION_TYPE_DEPOSIT",
+		6:  "CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND",
+		7:  "CHANGE_TRANSACTION_TYPE_BET_CANCEL",
+		8:  "CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL",
+		9:  "CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT",
+		10: "CHANGE_TRANSACTION_TYPE_ADJUSTMENT",
+	}
+	UserBalanceTransactionType_value = map[string]int32{
+		"CHANGE_TRANSACTION_TYPE_UNSPECIFIED":        0,
+		"CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME":   1,
+		"CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME": 2,
+		"CHANGE_TRANSACTION_TYPE_BET":                3,
+		"CHANGE_TRANSACTION_TYPE_SETTLEMENT":         4,
+		"CHANGE_TRANSACTION_TYPE_DEPOSIT":            5,
+		"CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND":     6,
+		"CHANGE_TRANSACTION_TYPE_BET_CANCEL":         7,
+		"CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL":  8,
+		"CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT":      9,
+		"CHANGE_TRANSACTION_TYPE_ADJUSTMENT":         10,
+	}
+)
+
+func (x UserBalanceTransactionType) Enum() *UserBalanceTransactionType {
+	p := new(UserBalanceTransactionType)
+	*p = x
+	return p
+}
+
+func (x UserBalanceTransactionType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserBalanceTransactionType) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v1_enum_proto_enumTypes[8].Descriptor()
+}
+
+func (UserBalanceTransactionType) Type() protoreflect.EnumType {
+	return &file_common_v1_enum_proto_enumTypes[8]
+}
+
+func (x UserBalanceTransactionType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserBalanceTransactionType.Descriptor instead.
+func (UserBalanceTransactionType) EnumDescriptor() ([]byte, []int) {
+	return file_common_v1_enum_proto_rawDescGZIP(), []int{8}
+}
+
 var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
@@ -536,7 +610,20 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x0eBET_STATUS_BET\x10\x01\x12\x15\n" +
 	"\x11BET_STATUS_SETTLE\x10\x02\x12\x15\n" +
 	"\x11BET_STATUS_CANCEL\x10\x03\x12\x16\n" +
-	"\x12BET_STATUS_DISCARD\x10\x04B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"\x12BET_STATUS_DISCARD\x10\x04*\xe7\x03\n" +
+	"\x1aUserBalanceTransactionType\x12'\n" +
+	"#CHANGE_TRANSACTION_TYPE_UNSPECIFIED\x10\x00\x12,\n" +
+	"(CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME\x10\x01\x12.\n" +
+	"*CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME\x10\x02\x12\x1f\n" +
+	"\x1bCHANGE_TRANSACTION_TYPE_BET\x10\x03\x12&\n" +
+	"\"CHANGE_TRANSACTION_TYPE_SETTLEMENT\x10\x04\x12#\n" +
+	"\x1fCHANGE_TRANSACTION_TYPE_DEPOSIT\x10\x05\x12*\n" +
+	"&CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND\x10\x06\x12&\n" +
+	"\"CHANGE_TRANSACTION_TYPE_BET_CANCEL\x10\a\x12-\n" +
+	")CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL\x10\b\x12)\n" +
+	"%CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT\x10\t\x12&\n" +
+	"\"CHANGE_TRANSACTION_TYPE_ADJUSTMENT\x10\n" +
+	"B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_enum_proto_rawDescOnce sync.Once
@@ -550,16 +637,17 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 	return file_common_v1_enum_proto_rawDescData
 }
 
-var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
+var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
 var file_common_v1_enum_proto_goTypes = []any{
-	(TransactionType)(0),      // 0: common.v1.TransactionType
-	(MoneyFlow)(0),            // 1: common.v1.MoneyFlow
-	(TransferStatus)(0),       // 2: common.v1.TransferStatus
-	(TransactionDirection)(0), // 3: common.v1.TransactionDirection
-	(ErrorCode)(0),            // 4: common.v1.ErrorCode
-	(GameState)(0),            // 5: common.v1.GameState
-	(GameBetState)(0),         // 6: common.v1.GameBetState
-	(BetStatus)(0),            // 7: common.v1.BetStatus
+	(TransactionType)(0),            // 0: common.v1.TransactionType
+	(MoneyFlow)(0),                  // 1: common.v1.MoneyFlow
+	(TransferStatus)(0),             // 2: common.v1.TransferStatus
+	(TransactionDirection)(0),       // 3: common.v1.TransactionDirection
+	(ErrorCode)(0),                  // 4: common.v1.ErrorCode
+	(GameState)(0),                  // 5: common.v1.GameState
+	(GameBetState)(0),               // 6: common.v1.GameBetState
+	(BetStatus)(0),                  // 7: common.v1.BetStatus
+	(UserBalanceTransactionType)(0), // 8: common.v1.UserBalanceTransactionType
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -579,7 +667,7 @@ func file_common_v1_enum_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_enum_proto_rawDesc), len(file_common_v1_enum_proto_rawDesc)),
-			NumEnums:      8,
+			NumEnums:      9,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

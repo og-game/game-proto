@@ -91,3 +91,20 @@ enum BetStatus {
   BET_STATUS_CANCEL = 3;    // 投注取消
   BET_STATUS_DISCARD = 4;   // 废弃
 }
+
+
+
+// UserBalanceTransactionType 用户账变交易类型枚举
+enum UserBalanceTransactionType {
+  CHANGE_TRANSACTION_TYPE_UNSPECIFIED = 0;               // 未指定
+  CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME = 1;          // 转入游戏
+  CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME = 2;        // 从游戏转出
+  CHANGE_TRANSACTION_TYPE_BET = 3;                       // 投注
+  CHANGE_TRANSACTION_TYPE_SETTLEMENT = 4;                // 结算派奖
+  CHANGE_TRANSACTION_TYPE_DEPOSIT = 5;                   // 押金
+  CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND = 6;            // 返还押金
+  CHANGE_TRANSACTION_TYPE_BET_CANCEL = 7;                // 取消投注
+  CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL = 8;         // 结算撤单
+  CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT = 9;             // 重新派奖
+  CHANGE_TRANSACTION_TYPE_ADJUSTMENT = 10;               // 调整金额
+}

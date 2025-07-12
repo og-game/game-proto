@@ -133,8 +133,8 @@ service FundInnerService {
   // 更新或查询需要延迟处理的转账状态。
   rpc UpdateTransferStatus(TransferStatusUpdateReq) returns (TransferStatusUpdateResp);
 
-  // 创建用户帐变记录
-  rpc CreateUserBalanceRecord(CreateUserBalanceRecordReq) returns (CreateUserBalanceRecordResp);
+  // 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
+  rpc CreateUserBalanceRecord(CreateUserBalanceRecordReq) returns (FundResp);
 
   // 接收游戏结果数据，并将其持久化到数据库中。
   rpc SaveGameRecord(SaveGameRecordRequest) returns (FundResp);
@@ -213,11 +213,31 @@ message TransferStatusUpdateResp {
 
 
 message CreateUserBalanceRecordReq {
-  bytes record = 1;   // userBalanceRecord结构体序列化
+  repeated UserBalanceRecordItem records = 1;     // 记录列表，限制1-1000条
+  string batch_id = 2;                            // 批次ID，用于幂等性控制
 }
 
-message CreateUserBalanceRecordResp {
+// UserBalanceRecordItem 用户余额变动记录项
+message UserBalanceRecordItem {
+  int64 merchant_id = 1;                          // 商户ID
+  int64 user_id = 2;                              // 用户ID
+  int64 platform_id = 3;                          // 平台ID
+  common.v1.UserBalanceTransactionType transaction_type = 4;                     // 交易类型
+  string amount = 5;                              // 变动金额（使用string表示decimal）
+  string balance_before = 6;                      // 变动前余额
+  string balance_after = 7;                       // 变动后余额
+  string currency_code = 8;                       // 币种代码
+  string related_order_id = 9;                    // 关联业务记录ID
+  string platform_order_id = 10;                 // 三方平台订单ID
+  string merchant_order_id = 11;                 // 下游商户订单ID
+  string transaction_id = 12;                     // 中台交易流水号（唯一）
+  string description = 13;                        // 交易描述
+  string remark = 14;                             // 备注信息
+  string client_ip = 15;                          // 客户端IP
+  string user_agent = 16;                         // 用户代理
+  string ext_data = 17;                           // 扩展数据（JSON格式）
 }
+
 
 
 // SaveGameRecordRequest 包含了存储多条完整游戏记录所需的所有信息。

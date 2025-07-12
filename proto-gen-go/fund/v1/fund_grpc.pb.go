@@ -269,8 +269,8 @@ type FundInnerServiceClient interface {
 	ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
 	// 更新或查询需要延迟处理的转账状态。
 	UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
-	// 创建用户帐变记录
-	CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error)
+	// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
+	CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 	// 接收游戏结果数据，并将其持久化到数据库中。
 	SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error)
 }
@@ -323,9 +323,9 @@ func (c *fundInnerServiceClient) UpdateTransferStatus(ctx context.Context, in *T
 	return out, nil
 }
 
-func (c *fundInnerServiceClient) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*CreateUserBalanceRecordResp, error) {
+func (c *fundInnerServiceClient) CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateUserBalanceRecordResp)
+	out := new(FundResp)
 	err := c.cc.Invoke(ctx, FundInnerService_CreateUserBalanceRecord_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -357,8 +357,8 @@ type FundInnerServiceServer interface {
 	ProcessTransaction(context.Context, *TransactionReq) (*TransactionResp, error)
 	// 更新或查询需要延迟处理的转账状态。
 	UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error)
-	// 创建用户帐变记录
-	CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*CreateUserBalanceRecordResp, error)
+	// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
+	CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*FundResp, error)
 	// 接收游戏结果数据，并将其持久化到数据库中。
 	SaveGameRecord(context.Context, *SaveGameRecordRequest) (*FundResp, error)
 	mustEmbedUnimplementedFundInnerServiceServer()
@@ -383,7 +383,7 @@ func (UnimplementedFundInnerServiceServer) ProcessTransaction(context.Context, *
 func (UnimplementedFundInnerServiceServer) UpdateTransferStatus(context.Context, *TransferStatusUpdateReq) (*TransferStatusUpdateResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTransferStatus not implemented")
 }
-func (UnimplementedFundInnerServiceServer) CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*CreateUserBalanceRecordResp, error) {
+func (UnimplementedFundInnerServiceServer) CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*FundResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUserBalanceRecord not implemented")
 }
 func (UnimplementedFundInnerServiceServer) SaveGameRecord(context.Context, *SaveGameRecordRequest) (*FundResp, error) {

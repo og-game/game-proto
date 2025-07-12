@@ -1345,8 +1345,9 @@ func (x *TransferStatusUpdateResp) GetWorkflowId() string {
 }
 
 type CreateUserBalanceRecordReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Record        []byte                 `protobuf:"bytes,1,opt,name=record,proto3" json:"record,omitempty"` // userBalanceRecord结构体序列化
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Records       []*UserBalanceRecordItem `protobuf:"bytes,1,rep,name=records,proto3" json:"records,omitempty"`                // 记录列表，限制1-1000条
+	BatchId       string                   `protobuf:"bytes,2,opt,name=batch_id,json=batchId,proto3" json:"batch_id,omitempty"` // 批次ID，用于幂等性控制
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1381,33 +1382,58 @@ func (*CreateUserBalanceRecordReq) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *CreateUserBalanceRecordReq) GetRecord() []byte {
+func (x *CreateUserBalanceRecordReq) GetRecords() []*UserBalanceRecordItem {
 	if x != nil {
-		return x.Record
+		return x.Records
 	}
 	return nil
 }
 
-type CreateUserBalanceRecordResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+func (x *CreateUserBalanceRecordReq) GetBatchId() string {
+	if x != nil {
+		return x.BatchId
+	}
+	return ""
 }
 
-func (x *CreateUserBalanceRecordResp) Reset() {
-	*x = CreateUserBalanceRecordResp{}
+// UserBalanceRecordItem 用户余额变动记录项
+type UserBalanceRecordItem struct {
+	state           protoimpl.MessageState        `protogen:"open.v1"`
+	MerchantId      int64                         `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                                                          // 商户ID
+	UserId          int64                         `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                                      // 用户ID
+	PlatformId      int64                         `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                                          // 平台ID
+	TransactionType v1.UserBalanceTransactionType `protobuf:"varint,4,opt,name=transaction_type,json=transactionType,proto3,enum=common.v1.UserBalanceTransactionType" json:"transaction_type,omitempty"` // 交易类型
+	Amount          string                        `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                                                                     // 变动金额（使用string表示decimal）
+	BalanceBefore   string                        `protobuf:"bytes,6,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"`                                                  // 变动前余额
+	BalanceAfter    string                        `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`                                                     // 变动后余额
+	CurrencyCode    string                        `protobuf:"bytes,8,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`                                                     // 币种代码
+	RelatedOrderId  string                        `protobuf:"bytes,9,opt,name=related_order_id,json=relatedOrderId,proto3" json:"related_order_id,omitempty"`                                             // 关联业务记录ID
+	PlatformOrderId string                        `protobuf:"bytes,10,opt,name=platform_order_id,json=platformOrderId,proto3" json:"platform_order_id,omitempty"`                                         // 三方平台订单ID
+	MerchantOrderId string                        `protobuf:"bytes,11,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`                                         // 下游商户订单ID
+	TransactionId   string                        `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                                 // 中台交易流水号（唯一）
+	Description     string                        `protobuf:"bytes,13,opt,name=description,proto3" json:"description,omitempty"`                                                                          // 交易描述
+	Remark          string                        `protobuf:"bytes,14,opt,name=remark,proto3" json:"remark,omitempty"`                                                                                    // 备注信息
+	ClientIp        string                        `protobuf:"bytes,15,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                                // 客户端IP
+	UserAgent       string                        `protobuf:"bytes,16,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`                                                             // 用户代理
+	ExtData         string                        `protobuf:"bytes,17,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                                   // 扩展数据（JSON格式）
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *UserBalanceRecordItem) Reset() {
+	*x = UserBalanceRecordItem{}
 	mi := &file_fund_v1_fund_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateUserBalanceRecordResp) String() string {
+func (x *UserBalanceRecordItem) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateUserBalanceRecordResp) ProtoMessage() {}
+func (*UserBalanceRecordItem) ProtoMessage() {}
 
-func (x *CreateUserBalanceRecordResp) ProtoReflect() protoreflect.Message {
+func (x *UserBalanceRecordItem) ProtoReflect() protoreflect.Message {
 	mi := &file_fund_v1_fund_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1419,9 +1445,128 @@ func (x *CreateUserBalanceRecordResp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateUserBalanceRecordResp.ProtoReflect.Descriptor instead.
-func (*CreateUserBalanceRecordResp) Descriptor() ([]byte, []int) {
+// Deprecated: Use UserBalanceRecordItem.ProtoReflect.Descriptor instead.
+func (*UserBalanceRecordItem) Descriptor() ([]byte, []int) {
 	return file_fund_v1_fund_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *UserBalanceRecordItem) GetMerchantId() int64 {
+	if x != nil {
+		return x.MerchantId
+	}
+	return 0
+}
+
+func (x *UserBalanceRecordItem) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UserBalanceRecordItem) GetPlatformId() int64 {
+	if x != nil {
+		return x.PlatformId
+	}
+	return 0
+}
+
+func (x *UserBalanceRecordItem) GetTransactionType() v1.UserBalanceTransactionType {
+	if x != nil {
+		return x.TransactionType
+	}
+	return v1.UserBalanceTransactionType(0)
+}
+
+func (x *UserBalanceRecordItem) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetBalanceBefore() string {
+	if x != nil {
+		return x.BalanceBefore
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetBalanceAfter() string {
+	if x != nil {
+		return x.BalanceAfter
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetCurrencyCode() string {
+	if x != nil {
+		return x.CurrencyCode
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetRelatedOrderId() string {
+	if x != nil {
+		return x.RelatedOrderId
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetPlatformOrderId() string {
+	if x != nil {
+		return x.PlatformOrderId
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetMerchantOrderId() string {
+	if x != nil {
+		return x.MerchantOrderId
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetClientIp() string {
+	if x != nil {
+		return x.ClientIp
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetUserAgent() string {
+	if x != nil {
+		return x.UserAgent
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetExtData() string {
+	if x != nil {
+		return x.ExtData
+	}
+	return ""
 }
 
 // SaveGameRecordRequest 包含了存储多条完整游戏记录所需的所有信息。
@@ -1604,10 +1749,32 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\vretry_count\x18\x03 \x01(\x03R\n" +
 	"retryCount\x12\x1f\n" +
 	"\vworkflow_id\x18\x04 \x01(\tR\n" +
-	"workflowId\"4\n" +
-	"\x1aCreateUserBalanceRecordReq\x12\x16\n" +
-	"\x06record\x18\x01 \x01(\fR\x06record\"\x1d\n" +
-	"\x1bCreateUserBalanceRecordResp\"]\n" +
+	"workflowId\"q\n" +
+	"\x1aCreateUserBalanceRecordReq\x128\n" +
+	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\x87\x05\n" +
+	"\x15UserBalanceRecordItem\x12\x1f\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
+	"merchantId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1f\n" +
+	"\vplatform_id\x18\x03 \x01(\x03R\n" +
+	"platformId\x12P\n" +
+	"\x10transaction_type\x18\x04 \x01(\x0e2%.common.v1.UserBalanceTransactionTypeR\x0ftransactionType\x12\x16\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\x12%\n" +
+	"\x0ebalance_before\x18\x06 \x01(\tR\rbalanceBefore\x12#\n" +
+	"\rbalance_after\x18\a \x01(\tR\fbalanceAfter\x12#\n" +
+	"\rcurrency_code\x18\b \x01(\tR\fcurrencyCode\x12(\n" +
+	"\x10related_order_id\x18\t \x01(\tR\x0erelatedOrderId\x12*\n" +
+	"\x11platform_order_id\x18\n" +
+	" \x01(\tR\x0fplatformOrderId\x12*\n" +
+	"\x11merchant_order_id\x18\v \x01(\tR\x0fmerchantOrderId\x12%\n" +
+	"\x0etransaction_id\x18\f \x01(\tR\rtransactionId\x12 \n" +
+	"\vdescription\x18\r \x01(\tR\vdescription\x12\x16\n" +
+	"\x06remark\x18\x0e \x01(\tR\x06remark\x12\x1b\n" +
+	"\tclient_ip\x18\x0f \x01(\tR\bclientIp\x12\x1d\n" +
+	"\n" +
+	"user_agent\x18\x10 \x01(\tR\tuserAgent\x12\x19\n" +
+	"\bext_data\x18\x11 \x01(\tR\aextData\"]\n" +
 	"\x15SaveGameRecordRequest\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
 	"betDetails\x12#\n" +
@@ -1617,13 +1784,13 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\n" +
 	"TransferIn\x12\x16.fund.v1.TransferInReq\x1a\x17.fund.v1.TransferInResp\x12@\n" +
 	"\vTransferOut\x12\x17.fund.v1.TransferOutReq\x1a\x18.fund.v1.TransferOutResp\x12R\n" +
-	"\x13GetTransferProgress\x12\x1c.fund.v1.TransferProgressReq\x1a\x1d.fund.v1.TransferProgressResp2\x85\x04\n" +
+	"\x13GetTransferProgress\x12\x1c.fund.v1.TransferProgressReq\x1a\x1d.fund.v1.TransferProgressResp2\xf2\x03\n" +
 	"\x10FundInnerService\x12I\n" +
 	"\x0eGetUserBalance\x12\x1a.fund.v1.GetUserBalanceReq\x1a\x1b.fund.v1.GetUserBalanceResp\x12U\n" +
 	"\x12GetUserBalanceList\x12\x1e.fund.v1.GetUserBalanceListReq\x1a\x1f.fund.v1.GetUserBalanceListResp\x12G\n" +
 	"\x12ProcessTransaction\x12\x17.fund.v1.TransactionReq\x1a\x18.fund.v1.TransactionResp\x12[\n" +
-	"\x14UpdateTransferStatus\x12 .fund.v1.TransferStatusUpdateReq\x1a!.fund.v1.TransferStatusUpdateResp\x12d\n" +
-	"\x17CreateUserBalanceRecord\x12#.fund.v1.CreateUserBalanceRecordReq\x1a$.fund.v1.CreateUserBalanceRecordResp\x12C\n" +
+	"\x14UpdateTransferStatus\x12 .fund.v1.TransferStatusUpdateReq\x1a!.fund.v1.TransferStatusUpdateResp\x12Q\n" +
+	"\x17CreateUserBalanceRecord\x12#.fund.v1.CreateUserBalanceRecordReq\x1a\x11.fund.v1.FundResp\x12C\n" +
 	"\x0eSaveGameRecord\x12\x1e.fund.v1.SaveGameRecordRequest\x1a\x11.fund.v1.FundRespB4Z2github.com/og-game/game-proto/proto-gen-go/fund/v1b\x06proto3"
 
 var (
@@ -1640,40 +1807,41 @@ func file_fund_v1_fund_proto_rawDescGZIP() []byte {
 
 var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_fund_v1_fund_proto_goTypes = []any{
-	(*FundReq)(nil),                     // 0: fund.v1.FundReq
-	(*FundResp)(nil),                    // 1: fund.v1.FundResp
-	(*UserBalanceListReq)(nil),          // 2: fund.v1.UserBalanceListReq
-	(*UserBalanceListResp)(nil),         // 3: fund.v1.UserBalanceListResp
-	(*TransferInReq)(nil),               // 4: fund.v1.TransferInReq
-	(*TransferInResp)(nil),              // 5: fund.v1.TransferInResp
-	(*TransferOutReq)(nil),              // 6: fund.v1.TransferOutReq
-	(*TransferOutResp)(nil),             // 7: fund.v1.TransferOutResp
-	(*TransferProgressReq)(nil),         // 8: fund.v1.TransferProgressReq
-	(*TransferProgressResp)(nil),        // 9: fund.v1.TransferProgressResp
-	(*TransferProgressInfo)(nil),        // 10: fund.v1.TransferProgressInfo
-	(*GetUserBalanceReq)(nil),           // 11: fund.v1.GetUserBalanceReq
-	(*GetUserBalanceResp)(nil),          // 12: fund.v1.GetUserBalanceResp
-	(*UserBalanceInfo)(nil),             // 13: fund.v1.UserBalanceInfo
-	(*GetUserBalanceListReq)(nil),       // 14: fund.v1.GetUserBalanceListReq
-	(*GetUserBalanceListResp)(nil),      // 15: fund.v1.GetUserBalanceListResp
-	(*TransactionReq)(nil),              // 16: fund.v1.TransactionReq
-	(*TransactionResp)(nil),             // 17: fund.v1.TransactionResp
-	(*TransferStatusUpdateReq)(nil),     // 18: fund.v1.TransferStatusUpdateReq
-	(*TransferStatusUpdateResp)(nil),    // 19: fund.v1.TransferStatusUpdateResp
-	(*CreateUserBalanceRecordReq)(nil),  // 20: fund.v1.CreateUserBalanceRecordReq
-	(*CreateUserBalanceRecordResp)(nil), // 21: fund.v1.CreateUserBalanceRecordResp
-	(*SaveGameRecordRequest)(nil),       // 22: fund.v1.SaveGameRecordRequest
-	nil,                                 // 23: fund.v1.UserBalanceListResp.BalancesEntry
-	nil,                                 // 24: fund.v1.TransferInReq.ExtraParamsEntry
-	nil,                                 // 25: fund.v1.TransferOutReq.ExtraParamsEntry
-	nil,                                 // 26: fund.v1.TransferProgressResp.ProgressEntry
-	nil,                                 // 27: fund.v1.TransferProgressResp.NotMatchEntry
-	nil,                                 // 28: fund.v1.GetUserBalanceListResp.BalancesEntry
-	nil,                                 // 29: fund.v1.TransactionReq.MetadataEntry
-	(v1.ErrorCode)(0),                   // 30: common.v1.ErrorCode
-	(v1.TransferStatus)(0),              // 31: common.v1.TransferStatus
-	(v1.TransactionDirection)(0),        // 32: common.v1.TransactionDirection
-	(v1.TransactionType)(0),             // 33: common.v1.TransactionType
+	(*FundReq)(nil),                    // 0: fund.v1.FundReq
+	(*FundResp)(nil),                   // 1: fund.v1.FundResp
+	(*UserBalanceListReq)(nil),         // 2: fund.v1.UserBalanceListReq
+	(*UserBalanceListResp)(nil),        // 3: fund.v1.UserBalanceListResp
+	(*TransferInReq)(nil),              // 4: fund.v1.TransferInReq
+	(*TransferInResp)(nil),             // 5: fund.v1.TransferInResp
+	(*TransferOutReq)(nil),             // 6: fund.v1.TransferOutReq
+	(*TransferOutResp)(nil),            // 7: fund.v1.TransferOutResp
+	(*TransferProgressReq)(nil),        // 8: fund.v1.TransferProgressReq
+	(*TransferProgressResp)(nil),       // 9: fund.v1.TransferProgressResp
+	(*TransferProgressInfo)(nil),       // 10: fund.v1.TransferProgressInfo
+	(*GetUserBalanceReq)(nil),          // 11: fund.v1.GetUserBalanceReq
+	(*GetUserBalanceResp)(nil),         // 12: fund.v1.GetUserBalanceResp
+	(*UserBalanceInfo)(nil),            // 13: fund.v1.UserBalanceInfo
+	(*GetUserBalanceListReq)(nil),      // 14: fund.v1.GetUserBalanceListReq
+	(*GetUserBalanceListResp)(nil),     // 15: fund.v1.GetUserBalanceListResp
+	(*TransactionReq)(nil),             // 16: fund.v1.TransactionReq
+	(*TransactionResp)(nil),            // 17: fund.v1.TransactionResp
+	(*TransferStatusUpdateReq)(nil),    // 18: fund.v1.TransferStatusUpdateReq
+	(*TransferStatusUpdateResp)(nil),   // 19: fund.v1.TransferStatusUpdateResp
+	(*CreateUserBalanceRecordReq)(nil), // 20: fund.v1.CreateUserBalanceRecordReq
+	(*UserBalanceRecordItem)(nil),      // 21: fund.v1.UserBalanceRecordItem
+	(*SaveGameRecordRequest)(nil),      // 22: fund.v1.SaveGameRecordRequest
+	nil,                                // 23: fund.v1.UserBalanceListResp.BalancesEntry
+	nil,                                // 24: fund.v1.TransferInReq.ExtraParamsEntry
+	nil,                                // 25: fund.v1.TransferOutReq.ExtraParamsEntry
+	nil,                                // 26: fund.v1.TransferProgressResp.ProgressEntry
+	nil,                                // 27: fund.v1.TransferProgressResp.NotMatchEntry
+	nil,                                // 28: fund.v1.GetUserBalanceListResp.BalancesEntry
+	nil,                                // 29: fund.v1.TransactionReq.MetadataEntry
+	(v1.ErrorCode)(0),                  // 30: common.v1.ErrorCode
+	(v1.TransferStatus)(0),             // 31: common.v1.TransferStatus
+	(v1.TransactionDirection)(0),       // 32: common.v1.TransactionDirection
+	(v1.TransactionType)(0),            // 33: common.v1.TransactionType
+	(v1.UserBalanceTransactionType)(0), // 34: common.v1.UserBalanceTransactionType
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
 	23, // 0: fund.v1.UserBalanceListResp.balances:type_name -> fund.v1.UserBalanceListResp.BalancesEntry
@@ -1693,34 +1861,36 @@ var file_fund_v1_fund_proto_depIdxs = []int32{
 	29, // 14: fund.v1.TransactionReq.metadata:type_name -> fund.v1.TransactionReq.MetadataEntry
 	31, // 15: fund.v1.TransferStatusUpdateReq.current_status:type_name -> common.v1.TransferStatus
 	31, // 16: fund.v1.TransferStatusUpdateResp.new_status:type_name -> common.v1.TransferStatus
-	10, // 17: fund.v1.TransferProgressResp.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
-	10, // 18: fund.v1.TransferProgressResp.NotMatchEntry.value:type_name -> fund.v1.TransferProgressInfo
-	13, // 19: fund.v1.GetUserBalanceListResp.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
-	2,  // 20: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
-	4,  // 21: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
-	6,  // 22: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
-	8,  // 23: fund.v1.FundApiService.GetTransferProgress:input_type -> fund.v1.TransferProgressReq
-	11, // 24: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
-	14, // 25: fund.v1.FundInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
-	16, // 26: fund.v1.FundInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
-	18, // 27: fund.v1.FundInnerService.UpdateTransferStatus:input_type -> fund.v1.TransferStatusUpdateReq
-	20, // 28: fund.v1.FundInnerService.CreateUserBalanceRecord:input_type -> fund.v1.CreateUserBalanceRecordReq
-	22, // 29: fund.v1.FundInnerService.SaveGameRecord:input_type -> fund.v1.SaveGameRecordRequest
-	3,  // 30: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListResp
-	5,  // 31: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInResp
-	7,  // 32: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutResp
-	9,  // 33: fund.v1.FundApiService.GetTransferProgress:output_type -> fund.v1.TransferProgressResp
-	12, // 34: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceResp
-	15, // 35: fund.v1.FundInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListResp
-	17, // 36: fund.v1.FundInnerService.ProcessTransaction:output_type -> fund.v1.TransactionResp
-	19, // 37: fund.v1.FundInnerService.UpdateTransferStatus:output_type -> fund.v1.TransferStatusUpdateResp
-	21, // 38: fund.v1.FundInnerService.CreateUserBalanceRecord:output_type -> fund.v1.CreateUserBalanceRecordResp
-	1,  // 39: fund.v1.FundInnerService.SaveGameRecord:output_type -> fund.v1.FundResp
-	30, // [30:40] is the sub-list for method output_type
-	20, // [20:30] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	21, // 17: fund.v1.CreateUserBalanceRecordReq.records:type_name -> fund.v1.UserBalanceRecordItem
+	34, // 18: fund.v1.UserBalanceRecordItem.transaction_type:type_name -> common.v1.UserBalanceTransactionType
+	10, // 19: fund.v1.TransferProgressResp.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
+	10, // 20: fund.v1.TransferProgressResp.NotMatchEntry.value:type_name -> fund.v1.TransferProgressInfo
+	13, // 21: fund.v1.GetUserBalanceListResp.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
+	2,  // 22: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
+	4,  // 23: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
+	6,  // 24: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
+	8,  // 25: fund.v1.FundApiService.GetTransferProgress:input_type -> fund.v1.TransferProgressReq
+	11, // 26: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
+	14, // 27: fund.v1.FundInnerService.GetUserBalanceList:input_type -> fund.v1.GetUserBalanceListReq
+	16, // 28: fund.v1.FundInnerService.ProcessTransaction:input_type -> fund.v1.TransactionReq
+	18, // 29: fund.v1.FundInnerService.UpdateTransferStatus:input_type -> fund.v1.TransferStatusUpdateReq
+	20, // 30: fund.v1.FundInnerService.CreateUserBalanceRecord:input_type -> fund.v1.CreateUserBalanceRecordReq
+	22, // 31: fund.v1.FundInnerService.SaveGameRecord:input_type -> fund.v1.SaveGameRecordRequest
+	3,  // 32: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListResp
+	5,  // 33: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInResp
+	7,  // 34: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutResp
+	9,  // 35: fund.v1.FundApiService.GetTransferProgress:output_type -> fund.v1.TransferProgressResp
+	12, // 36: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceResp
+	15, // 37: fund.v1.FundInnerService.GetUserBalanceList:output_type -> fund.v1.GetUserBalanceListResp
+	17, // 38: fund.v1.FundInnerService.ProcessTransaction:output_type -> fund.v1.TransactionResp
+	19, // 39: fund.v1.FundInnerService.UpdateTransferStatus:output_type -> fund.v1.TransferStatusUpdateResp
+	1,  // 40: fund.v1.FundInnerService.CreateUserBalanceRecord:output_type -> fund.v1.FundResp
+	1,  // 41: fund.v1.FundInnerService.SaveGameRecord:output_type -> fund.v1.FundResp
+	32, // [32:42] is the sub-list for method output_type
+	22, // [22:32] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_fund_v1_fund_proto_init() }
