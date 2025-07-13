@@ -231,11 +231,12 @@ message UserBalanceRecordItem {
   string platform_order_id = 10;                 // 三方平台订单ID
   string merchant_order_id = 11;                 // 下游商户订单ID
   string transaction_id = 12;                     // 中台交易流水号（唯一）
-  string description = 13;                        // 交易描述
-  string remark = 14;                             // 备注信息
-  string client_ip = 15;                          // 客户端IP
-  string user_agent = 16;                         // 用户代理
-  string ext_data = 17;                           // 扩展数据（JSON格式）
+  int64 trade_time = 13;   // 交易时间（毫秒）
+  string description = 14;                        // 交易描述
+  string remark = 15;                             // 备注信息
+  string client_ip = 16;                          // 客户端IP
+  string user_agent = 17;                         // 用户代理
+  string ext_data = 18;                           // 扩展数据（JSON格式）
 }
 
 
