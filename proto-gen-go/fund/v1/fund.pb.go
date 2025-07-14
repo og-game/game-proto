@@ -1022,7 +1022,8 @@ type TransactionReq struct {
 	Amount        string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                  // 需要变动的金额 >=0
 	OrderId       string                 `protobuf:"bytes,6,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"` // 订单ID
 	Description   string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`        // 描述备注
-	Metadata      map[string]string      `protobuf:"bytes,8,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	RoundId       string                 `protobuf:"bytes,8,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"` // 牌局ID
+	Metadata      map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1102,6 +1103,13 @@ func (x *TransactionReq) GetOrderId() string {
 func (x *TransactionReq) GetDescription() string {
 	if x != nil {
 		return x.Description
+	}
+	return ""
+}
+
+func (x *TransactionReq) GetRoundId() string {
+	if x != nil {
+		return x.RoundId
 	}
 	return ""
 }
@@ -1722,7 +1730,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bbalances\x18\x01 \x03(\v2-.fund.v1.GetUserBalanceListResp.BalancesEntryR\bbalances\x1aU\n" +
 	"\rBalancesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\x03R\x03key\x12.\n" +
-	"\x05value\x18\x02 \x01(\v2\x18.fund.v1.UserBalanceInfoR\x05value:\x028\x01\"\xe8\x02\n" +
+	"\x05value\x18\x02 \x01(\v2\x18.fund.v1.UserBalanceInfoR\x05value:\x028\x01\"\x83\x03\n" +
 	"\x0eTransactionReq\x12.\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1a.common.v1.TransactionTypeR\x04type\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x17\n" +
@@ -1731,8 +1739,9 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"platformId\x12\x16\n" +
 	"\x06amount\x18\x05 \x01(\tR\x06amount\x12\x19\n" +
 	"\border_id\x18\x06 \x01(\tR\aorderId\x12 \n" +
-	"\vdescription\x18\a \x01(\tR\vdescription\x12A\n" +
-	"\bmetadata\x18\b \x03(\v2%.fund.v1.TransactionReq.MetadataEntryR\bmetadata\x1a;\n" +
+	"\vdescription\x18\a \x01(\tR\vdescription\x12\x19\n" +
+	"\bround_id\x18\b \x01(\tR\aroundId\x12A\n" +
+	"\bmetadata\x18\t \x03(\v2%.fund.v1.TransactionReq.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbc\x01\n" +
