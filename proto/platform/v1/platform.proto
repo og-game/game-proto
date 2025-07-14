@@ -59,8 +59,9 @@ message GetDemoGameLinkReq {
 message GameInfo {
   string third_game_id = 1; // 三方游戏ID
   string name = 2;          // 游戏名称
-  common.v1.GameState game_state = 3;         // 游戏状态
-  common.v1.GameBetState  bet_state = 4;     // 游戏投注状态
+  string icon = 3;    // 游戏图标
+  common.v1.GameState game_state = 4;         // 游戏状态
+  common.v1.GameBetState  bet_state = 5;     // 游戏投注状态
 }
 
 // 获取游戏列表
