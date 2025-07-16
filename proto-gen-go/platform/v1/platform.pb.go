@@ -931,17 +931,17 @@ func (x *GetBetRecordListResp) GetData() []*BetRecordListItem {
 
 type BetRecordListItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        v1.BetStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.BetStatus" json:"status,omitempty"`         // 投注状态
-	BetAmount     string                 `protobuf:"bytes,2,opt,name=bet_amount,json=betAmount,proto3" json:"bet_amount,omitempty"`            // 投注金额
-	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方订单号
-	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`    // 三方游戏ID
-	RoundId       string                 `protobuf:"bytes,5,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"`                  // 牌局编号
-	UserId        string                 `protobuf:"bytes,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                     // 用户ID
-	MerchantId    int64                  `protobuf:"varint,8,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`        // 商户ID
-	SettledMount  string                 `protobuf:"bytes,9,opt,name=settled_mount,json=settledMount,proto3" json:"settled_mount,omitempty"`   // 结算金额
-	CurrencyCode  string                 `protobuf:"bytes,10,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`  // 币种
-	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`          // 创建时间
-	SettledAt     int64                  `protobuf:"varint,12,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`          // 结算时间
+	Status        v1.BetStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.BetStatus" json:"status,omitempty"`          // 投注状态
+	BetAmount     string                 `protobuf:"bytes,2,opt,name=bet_amount,json=betAmount,proto3" json:"bet_amount,omitempty"`             // 投注金额
+	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"`  // 三方订单号
+	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`     // 三方游戏ID
+	RoundId       string                 `protobuf:"bytes,5,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"`                   // 牌局编号
+	UserId        string                 `protobuf:"bytes,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                      // 用户ID
+	MerchantId    int64                  `protobuf:"varint,8,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`         // 商户ID
+	SettledAmount string                 `protobuf:"bytes,9,opt,name=settled_amount,json=settledAmount,proto3" json:"settled_amount,omitempty"` // 结算金额
+	CurrencyCode  string                 `protobuf:"bytes,10,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`   // 币种
+	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`           // 创建时间
+	SettledAt     int64                  `protobuf:"varint,12,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`           // 结算时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1025,9 +1025,9 @@ func (x *BetRecordListItem) GetMerchantId() int64 {
 	return 0
 }
 
-func (x *BetRecordListItem) GetSettledMount() string {
+func (x *BetRecordListItem) GetSettledAmount() string {
 	if x != nil {
-		return x.SettledMount
+		return x.SettledAmount
 	}
 	return ""
 }
@@ -1133,7 +1133,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x14GetBetRecordListResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12\x1b\n" +
 	"\tnext_page\x18\x02 \x01(\bR\bnextPage\x122\n" +
-	"\x04data\x18\x03 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\x87\x03\n" +
+	"\x04data\x18\x03 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\x89\x03\n" +
 	"\x11BetRecordListItem\x12,\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x14.common.v1.BetStatusR\x06status\x12\x1d\n" +
 	"\n" +
@@ -1143,8 +1143,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\tR\x06userId\x12\x1f\n" +
 	"\vmerchant_id\x18\b \x01(\x03R\n" +
-	"merchantId\x12#\n" +
-	"\rsettled_mount\x18\t \x01(\tR\fsettledMount\x12#\n" +
+	"merchantId\x12%\n" +
+	"\x0esettled_amount\x18\t \x01(\tR\rsettledAmount\x12#\n" +
 	"\rcurrency_code\x18\n" +
 	" \x01(\tR\fcurrencyCode\x12\x1d\n" +
 	"\n" +

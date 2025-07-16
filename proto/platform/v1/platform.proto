@@ -107,7 +107,7 @@ message BetRecordListItem {
   string round_id = 5;  // 牌局编号
   string user_id = 7; // 用户ID
   int64 merchant_id = 8;  // 商户ID
-  string settled_mount = 9; // 结算金额
+  string settled_amount = 9; // 结算金额
   string currency_code = 10; // 币种
   int64 created_at = 11;    // 创建时间
   int64 settled_at = 12;  // 结算时间
