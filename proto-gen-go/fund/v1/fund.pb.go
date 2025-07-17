@@ -1398,25 +1398,25 @@ func (x *CreateUserBalanceRecordReq) GetBatchId() string {
 
 // UserBalanceRecordItem 用户余额变动记录项
 type UserBalanceRecordItem struct {
-	state           protoimpl.MessageState        `protogen:"open.v1"`
-	MerchantId      int64                         `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                                                          // 商户ID
-	UserId          int64                         `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                                      // 用户ID
-	PlatformId      int64                         `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                                          // 平台ID
-	TransactionType v1.UserBalanceTransactionType `protobuf:"varint,4,opt,name=transaction_type,json=transactionType,proto3,enum=common.v1.UserBalanceTransactionType" json:"transaction_type,omitempty"` // 交易类型
-	Amount          string                        `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                                                                     // 变动金额（使用string表示decimal）
-	BalanceBefore   string                        `protobuf:"bytes,6,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"`                                                  // 变动前余额
-	BalanceAfter    string                        `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`                                                     // 变动后余额
-	CurrencyCode    string                        `protobuf:"bytes,8,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`                                                     // 币种代码
-	RelatedOrderId  string                        `protobuf:"bytes,9,opt,name=related_order_id,json=relatedOrderId,proto3" json:"related_order_id,omitempty"`                                             // 关联业务记录ID
-	PlatformOrderId string                        `protobuf:"bytes,10,opt,name=platform_order_id,json=platformOrderId,proto3" json:"platform_order_id,omitempty"`                                         // 三方平台订单ID
-	MerchantOrderId string                        `protobuf:"bytes,11,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`                                         // 下游商户订单ID
-	TransactionId   string                        `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                                 // 中台交易流水号（唯一）
-	TradeTime       int64                         `protobuf:"varint,13,opt,name=trade_time,json=tradeTime,proto3" json:"trade_time,omitempty"`                                                            // 交易时间（毫秒）
-	Description     string                        `protobuf:"bytes,14,opt,name=description,proto3" json:"description,omitempty"`                                                                          // 交易描述
-	Remark          string                        `protobuf:"bytes,15,opt,name=remark,proto3" json:"remark,omitempty"`                                                                                    // 备注信息
-	ClientIp        string                        `protobuf:"bytes,16,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                                // 客户端IP
-	UserAgent       string                        `protobuf:"bytes,17,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`                                                             // 用户代理
-	ExtData         string                        `protobuf:"bytes,18,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                                   // 扩展数据（JSON格式）
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	MerchantId      int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                                               // 商户ID
+	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                           // 用户ID
+	PlatformId      int64                  `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                               // 平台ID
+	TransactionType v1.TransactionType     `protobuf:"varint,4,opt,name=transaction_type,json=transactionType,proto3,enum=common.v1.TransactionType" json:"transaction_type,omitempty"` // 交易类型
+	Amount          string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                                                          // 变动金额（使用string表示decimal）
+	BalanceBefore   string                 `protobuf:"bytes,6,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"`                                       // 变动前余额
+	BalanceAfter    string                 `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`                                          // 变动后余额
+	CurrencyCode    string                 `protobuf:"bytes,8,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`                                          // 币种代码
+	RelatedOrderId  string                 `protobuf:"bytes,9,opt,name=related_order_id,json=relatedOrderId,proto3" json:"related_order_id,omitempty"`                                  // 关联业务记录ID
+	PlatformOrderId string                 `protobuf:"bytes,10,opt,name=platform_order_id,json=platformOrderId,proto3" json:"platform_order_id,omitempty"`                              // 三方平台订单ID
+	MerchantOrderId string                 `protobuf:"bytes,11,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`                              // 下游商户订单ID
+	TransactionId   string                 `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                      // 中台交易流水号（唯一）
+	TradeTime       int64                  `protobuf:"varint,13,opt,name=trade_time,json=tradeTime,proto3" json:"trade_time,omitempty"`                                                 // 交易时间（毫秒）
+	Description     string                 `protobuf:"bytes,14,opt,name=description,proto3" json:"description,omitempty"`                                                               // 交易描述
+	Remark          string                 `protobuf:"bytes,15,opt,name=remark,proto3" json:"remark,omitempty"`                                                                         // 备注信息
+	ClientIp        string                 `protobuf:"bytes,16,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                     // 客户端IP
+	UserAgent       string                 `protobuf:"bytes,17,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`                                                  // 用户代理
+	ExtData         string                 `protobuf:"bytes,18,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                        // 扩展数据（JSON格式）
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1472,11 +1472,11 @@ func (x *UserBalanceRecordItem) GetPlatformId() int64 {
 	return 0
 }
 
-func (x *UserBalanceRecordItem) GetTransactionType() v1.UserBalanceTransactionType {
+func (x *UserBalanceRecordItem) GetTransactionType() v1.TransactionType {
 	if x != nil {
 		return x.TransactionType
 	}
-	return v1.UserBalanceTransactionType(0)
+	return v1.TransactionType(0)
 }
 
 func (x *UserBalanceRecordItem) GetAmount() string {
@@ -1760,14 +1760,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"workflowId\"q\n" +
 	"\x1aCreateUserBalanceRecordReq\x128\n" +
 	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xa6\x05\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\x9b\x05\n" +
 	"\x15UserBalanceRecordItem\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vplatform_id\x18\x03 \x01(\x03R\n" +
-	"platformId\x12P\n" +
-	"\x10transaction_type\x18\x04 \x01(\x0e2%.common.v1.UserBalanceTransactionTypeR\x0ftransactionType\x12\x16\n" +
+	"platformId\x12E\n" +
+	"\x10transaction_type\x18\x04 \x01(\x0e2\x1a.common.v1.TransactionTypeR\x0ftransactionType\x12\x16\n" +
 	"\x06amount\x18\x05 \x01(\tR\x06amount\x12%\n" +
 	"\x0ebalance_before\x18\x06 \x01(\tR\rbalanceBefore\x12#\n" +
 	"\rbalance_after\x18\a \x01(\tR\fbalanceAfter\x12#\n" +
@@ -1851,7 +1851,6 @@ var file_fund_v1_fund_proto_goTypes = []any{
 	(v1.TransferStatus)(0),             // 31: common.v1.TransferStatus
 	(v1.TransactionDirection)(0),       // 32: common.v1.TransactionDirection
 	(v1.TransactionType)(0),            // 33: common.v1.TransactionType
-	(v1.UserBalanceTransactionType)(0), // 34: common.v1.UserBalanceTransactionType
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
 	23, // 0: fund.v1.UserBalanceListResp.balances:type_name -> fund.v1.UserBalanceListResp.BalancesEntry
@@ -1872,7 +1871,7 @@ var file_fund_v1_fund_proto_depIdxs = []int32{
 	31, // 15: fund.v1.TransferStatusUpdateReq.current_status:type_name -> common.v1.TransferStatus
 	31, // 16: fund.v1.TransferStatusUpdateResp.new_status:type_name -> common.v1.TransferStatus
 	21, // 17: fund.v1.CreateUserBalanceRecordReq.records:type_name -> fund.v1.UserBalanceRecordItem
-	34, // 18: fund.v1.UserBalanceRecordItem.transaction_type:type_name -> common.v1.UserBalanceTransactionType
+	33, // 18: fund.v1.UserBalanceRecordItem.transaction_type:type_name -> common.v1.TransactionType
 	10, // 19: fund.v1.TransferProgressResp.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
 	10, // 20: fund.v1.TransferProgressResp.NotMatchEntry.value:type_name -> fund.v1.TransferProgressInfo
 	13, // 21: fund.v1.GetUserBalanceListResp.BalancesEntry.value:type_name -> fund.v1.UserBalanceInfo
