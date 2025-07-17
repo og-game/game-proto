@@ -1424,7 +1424,8 @@ type UserBalanceRecordItem struct {
 	Remark          string                        `protobuf:"bytes,15,opt,name=remark,proto3" json:"remark,omitempty"`                                                                                    // 备注信息
 	ClientIp        string                        `protobuf:"bytes,16,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                                // 客户端IP
 	UserAgent       string                        `protobuf:"bytes,17,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`                                                             // 用户代理
-	ExtData         string                        `protobuf:"bytes,18,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                                   // 扩展数据（JSON格式）
+	MerchantUserId  string                        `protobuf:"bytes,18,opt,name=merchant_user_id,json=merchantUserId,proto3" json:"merchant_user_id,omitempty"`                                            // 商户用户ID
+	ExtData         string                        `protobuf:"bytes,19,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                                   // 扩展数据（JSON格式）
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1574,6 +1575,13 @@ func (x *UserBalanceRecordItem) GetClientIp() string {
 func (x *UserBalanceRecordItem) GetUserAgent() string {
 	if x != nil {
 		return x.UserAgent
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetMerchantUserId() string {
+	if x != nil {
+		return x.MerchantUserId
 	}
 	return ""
 }
@@ -1769,7 +1777,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"workflowId\"q\n" +
 	"\x1aCreateUserBalanceRecordReq\x128\n" +
 	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xa6\x05\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xd0\x05\n" +
 	"\x15UserBalanceRecordItem\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
@@ -1792,8 +1800,9 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x06remark\x18\x0f \x01(\tR\x06remark\x12\x1b\n" +
 	"\tclient_ip\x18\x10 \x01(\tR\bclientIp\x12\x1d\n" +
 	"\n" +
-	"user_agent\x18\x11 \x01(\tR\tuserAgent\x12\x19\n" +
-	"\bext_data\x18\x12 \x01(\tR\aextData\"]\n" +
+	"user_agent\x18\x11 \x01(\tR\tuserAgent\x12(\n" +
+	"\x10merchant_user_id\x18\x12 \x01(\tR\x0emerchantUserId\x12\x19\n" +
+	"\bext_data\x18\x13 \x01(\tR\aextData\"]\n" +
 	"\x15SaveGameRecordRequest\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
 	"betDetails\x12#\n" +
