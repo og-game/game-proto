@@ -59,8 +59,9 @@ message GetDemoGameLinkReq {
 message GameInfo {
   string third_game_id = 1; // 三方游戏ID
   string name = 2;          // 游戏名称
-  common.v1.GameState game_state = 3;         // 游戏状态
-  common.v1.GameBetState  bet_state = 4;     // 游戏投注状态
+  string icon = 3;    // 游戏图标
+  common.v1.GameState game_state = 4;         // 游戏状态
+  common.v1.GameBetState  bet_state = 5;     // 游戏投注状态
 }
 
 // 获取游戏列表
@@ -100,13 +101,13 @@ message GetBetRecordListResp {
 }
 message BetRecordListItem {
   common.v1.BetStatus status = 1; // 投注状态
-  string amount = 2;  // 投注金额
+  string bet_amount = 2;  // 投注金额
   string third_order_no = 3; // 三方订单号
   string third_game_id = 4;  // 三方游戏ID
   string round_id = 5;  // 牌局编号
   string user_id = 7; // 用户ID
   int64 merchant_id = 8;  // 商户ID
-  string win_lost = 9; // 输赢
+  string settled_amount = 9; // 结算金额
   string currency_code = 10; // 币种
   int64 created_at = 11;    // 创建时间
   int64 settled_at = 12;  // 结算时间

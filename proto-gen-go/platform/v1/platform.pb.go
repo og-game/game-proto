@@ -518,8 +518,9 @@ type GameInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`                   // 三方游戏ID
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                                                      // 游戏名称
-	GameState     v1.GameState           `protobuf:"varint,3,opt,name=game_state,json=gameState,proto3,enum=common.v1.GameState" json:"game_state,omitempty"` // 游戏状态
-	BetState      v1.GameBetState        `protobuf:"varint,4,opt,name=bet_state,json=betState,proto3,enum=common.v1.GameBetState" json:"bet_state,omitempty"` // 游戏投注状态
+	Icon          string                 `protobuf:"bytes,3,opt,name=icon,proto3" json:"icon,omitempty"`                                                      // 游戏图标
+	GameState     v1.GameState           `protobuf:"varint,4,opt,name=game_state,json=gameState,proto3,enum=common.v1.GameState" json:"game_state,omitempty"` // 游戏状态
+	BetState      v1.GameBetState        `protobuf:"varint,5,opt,name=bet_state,json=betState,proto3,enum=common.v1.GameBetState" json:"bet_state,omitempty"` // 游戏投注状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -564,6 +565,13 @@ func (x *GameInfo) GetThirdGameId() string {
 func (x *GameInfo) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *GameInfo) GetIcon() string {
+	if x != nil {
+		return x.Icon
 	}
 	return ""
 }
@@ -923,17 +931,17 @@ func (x *GetBetRecordListResp) GetData() []*BetRecordListItem {
 
 type BetRecordListItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        v1.BetStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.BetStatus" json:"status,omitempty"`         // 投注状态
-	Amount        string                 `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`                                   // 投注金额
-	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"` // 三方订单号
-	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`    // 三方游戏ID
-	RoundId       string                 `protobuf:"bytes,5,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"`                  // 牌局编号
-	UserId        string                 `protobuf:"bytes,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                     // 用户ID
-	MerchantId    int64                  `protobuf:"varint,8,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`        // 商户ID
-	WinLost       string                 `protobuf:"bytes,9,opt,name=win_lost,json=winLost,proto3" json:"win_lost,omitempty"`                  // 输赢
-	CurrencyCode  string                 `protobuf:"bytes,10,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`  // 币种
-	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`          // 创建时间
-	SettledAt     int64                  `protobuf:"varint,12,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`          // 结算时间
+	Status        v1.BetStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=common.v1.BetStatus" json:"status,omitempty"`          // 投注状态
+	BetAmount     string                 `protobuf:"bytes,2,opt,name=bet_amount,json=betAmount,proto3" json:"bet_amount,omitempty"`             // 投注金额
+	ThirdOrderNo  string                 `protobuf:"bytes,3,opt,name=third_order_no,json=thirdOrderNo,proto3" json:"third_order_no,omitempty"`  // 三方订单号
+	ThirdGameId   string                 `protobuf:"bytes,4,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`     // 三方游戏ID
+	RoundId       string                 `protobuf:"bytes,5,opt,name=round_id,json=roundId,proto3" json:"round_id,omitempty"`                   // 牌局编号
+	UserId        string                 `protobuf:"bytes,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                      // 用户ID
+	MerchantId    int64                  `protobuf:"varint,8,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`         // 商户ID
+	SettledAmount string                 `protobuf:"bytes,9,opt,name=settled_amount,json=settledAmount,proto3" json:"settled_amount,omitempty"` // 结算金额
+	CurrencyCode  string                 `protobuf:"bytes,10,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`   // 币种
+	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`           // 创建时间
+	SettledAt     int64                  `protobuf:"varint,12,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`           // 结算时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -975,9 +983,9 @@ func (x *BetRecordListItem) GetStatus() v1.BetStatus {
 	return v1.BetStatus(0)
 }
 
-func (x *BetRecordListItem) GetAmount() string {
+func (x *BetRecordListItem) GetBetAmount() string {
 	if x != nil {
-		return x.Amount
+		return x.BetAmount
 	}
 	return ""
 }
@@ -1017,9 +1025,9 @@ func (x *BetRecordListItem) GetMerchantId() int64 {
 	return 0
 }
 
-func (x *BetRecordListItem) GetWinLost() string {
+func (x *BetRecordListItem) GetSettledAmount() string {
 	if x != nil {
-		return x.WinLost
+		return x.SettledAmount
 	}
 	return ""
 }
@@ -1093,13 +1101,14 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12#\n" +
 	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12\x1f\n" +
 	"\vplatform_id\x18\a \x01(\x03R\n" +
-	"platformId\"\xad\x01\n" +
+	"platformId\"\xc1\x01\n" +
 	"\bGameInfo\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x123\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04icon\x18\x03 \x01(\tR\x04icon\x123\n" +
 	"\n" +
-	"game_state\x18\x03 \x01(\x0e2\x14.common.v1.GameStateR\tgameState\x124\n" +
-	"\tbet_state\x18\x04 \x01(\x0e2\x17.common.v1.GameBetStateR\bbetState\"1\n" +
+	"game_state\x18\x04 \x01(\x0e2\x14.common.v1.GameStateR\tgameState\x124\n" +
+	"\tbet_state\x18\x05 \x01(\x0e2\x17.common.v1.GameBetStateR\bbetState\"1\n" +
 	"\x0eGetGameListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
@@ -1124,17 +1133,18 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x14GetBetRecordListResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12\x1b\n" +
 	"\tnext_page\x18\x02 \x01(\bR\bnextPage\x122\n" +
-	"\x04data\x18\x03 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\xf6\x02\n" +
+	"\x04data\x18\x03 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\x89\x03\n" +
 	"\x11BetRecordListItem\x12,\n" +
-	"\x06status\x18\x01 \x01(\x0e2\x14.common.v1.BetStatusR\x06status\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\tR\x06amount\x12$\n" +
+	"\x06status\x18\x01 \x01(\x0e2\x14.common.v1.BetStatusR\x06status\x12\x1d\n" +
+	"\n" +
+	"bet_amount\x18\x02 \x01(\tR\tbetAmount\x12$\n" +
 	"\x0ethird_order_no\x18\x03 \x01(\tR\fthirdOrderNo\x12\"\n" +
 	"\rthird_game_id\x18\x04 \x01(\tR\vthirdGameId\x12\x19\n" +
 	"\bround_id\x18\x05 \x01(\tR\aroundId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\tR\x06userId\x12\x1f\n" +
 	"\vmerchant_id\x18\b \x01(\x03R\n" +
-	"merchantId\x12\x19\n" +
-	"\bwin_lost\x18\t \x01(\tR\awinLost\x12#\n" +
+	"merchantId\x12%\n" +
+	"\x0esettled_amount\x18\t \x01(\tR\rsettledAmount\x12#\n" +
 	"\rcurrency_code\x18\n" +
 	" \x01(\tR\fcurrencyCode\x12\x1d\n" +
 	"\n" +

@@ -180,7 +180,8 @@ message TransactionReq {
   string amount = 5;    // 需要变动的金额 >=0
   string order_id = 6;  // 订单ID
   string description = 7; // 描述备注
-  map<string, string> metadata = 8;
+  string round_id = 8; // 牌局ID
+  map<string, string> metadata = 9;
 }
 
 // 交易响应消息
@@ -236,7 +237,8 @@ message UserBalanceRecordItem {
   string remark = 15;                             // 备注信息
   string client_ip = 16;                          // 客户端IP
   string user_agent = 17;                         // 用户代理
-  string ext_data = 18;                           // 扩展数据（JSON格式）
+  string merchant_user_id = 18;  // 商户用户ID
+  string ext_data = 19;                           // 扩展数据（JSON格式）
 }
 
 
