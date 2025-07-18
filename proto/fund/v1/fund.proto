@@ -236,9 +236,10 @@ message UserBalanceRecordItem {
   string description = 14;                        // 交易描述
   string remark = 15;                             // 备注信息
   string client_ip = 16;                          // 客户端IP
-  string user_agent = 17;                         // 用户代理
-  string merchant_user_id = 18;  // 商户用户ID
-  string ext_data = 19;                           // 扩展数据（JSON格式）
+  string device_id = 17;                          // 设备ID
+  string device_os = 18;                          // 设备型号
+  string merchant_user_id = 19;  // 商户用户ID
+  string ext_data = 20;                           // 扩展数据（JSON格式）
 }
 
 
