@@ -940,8 +940,9 @@ type BetRecordListItem struct {
 	MerchantId    int64                  `protobuf:"varint,8,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`         // 商户ID
 	SettledAmount string                 `protobuf:"bytes,9,opt,name=settled_amount,json=settledAmount,proto3" json:"settled_amount,omitempty"` // 结算金额
 	CurrencyCode  string                 `protobuf:"bytes,10,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`   // 币种
-	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`           // 创建时间
+	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`           // 投注时间
 	SettledAt     int64                  `protobuf:"varint,12,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`           // 结算时间
+	UpdatedAt     int64                  `protobuf:"varint,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`           // 更新时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1053,6 +1054,13 @@ func (x *BetRecordListItem) GetSettledAt() int64 {
 	return 0
 }
 
+func (x *BetRecordListItem) GetUpdatedAt() int64 {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return 0
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
@@ -1133,7 +1141,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x14GetBetRecordListResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12\x1b\n" +
 	"\tnext_page\x18\x02 \x01(\bR\bnextPage\x122\n" +
-	"\x04data\x18\x03 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\x89\x03\n" +
+	"\x04data\x18\x03 \x03(\v2\x1e.platform.v1.BetRecordListItemR\x04data\"\xa8\x03\n" +
 	"\x11BetRecordListItem\x12,\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x14.common.v1.BetStatusR\x06status\x12\x1d\n" +
 	"\n" +
@@ -1150,7 +1158,9 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"settled_at\x18\f \x01(\x03R\tsettledAt2\xd7\x04\n" +
+	"settled_at\x18\f \x01(\x03R\tsettledAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\r \x01(\x03R\tupdatedAt2\xd7\x04\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
