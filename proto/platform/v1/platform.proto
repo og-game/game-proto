@@ -109,8 +109,9 @@ message BetRecordListItem {
   int64 merchant_id = 8;  // 商户ID
   string settled_amount = 9; // 结算金额
   string currency_code = 10; // 币种
-  int64 created_at = 11;    // 创建时间
+  int64 created_at = 11;    // 投注时间
   int64 settled_at = 12;  // 结算时间
+  int64 updated_at = 13; // 更新时间
 }
 
 service PlatformInnerService {
