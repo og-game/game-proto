@@ -245,6 +245,5 @@ message UserBalanceRecordItem {
 
 // SaveGameRecordRequest 包含了存储多条完整游戏记录所需的所有信息。
 message SaveGameRecordRequest {
-  repeated bytes bet_details = 1;
-  repeated bytes bet_summaries = 2;
+  repeated bytes bet_details = 1; // 游戏下注记录
 }

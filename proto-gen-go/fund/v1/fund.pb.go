@@ -1596,8 +1596,7 @@ func (x *UserBalanceRecordItem) GetExtData() string {
 // SaveGameRecordRequest 包含了存储多条完整游戏记录所需的所有信息。
 type SaveGameRecordRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	BetDetails    [][]byte               `protobuf:"bytes,1,rep,name=bet_details,json=betDetails,proto3" json:"bet_details,omitempty"`
-	BetSummaries  [][]byte               `protobuf:"bytes,2,rep,name=bet_summaries,json=betSummaries,proto3" json:"bet_summaries,omitempty"`
+	BetDetails    [][]byte               `protobuf:"bytes,1,rep,name=bet_details,json=betDetails,proto3" json:"bet_details,omitempty"` // 游戏下注记录
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1635,13 +1634,6 @@ func (*SaveGameRecordRequest) Descriptor() ([]byte, []int) {
 func (x *SaveGameRecordRequest) GetBetDetails() [][]byte {
 	if x != nil {
 		return x.BetDetails
-	}
-	return nil
-}
-
-func (x *SaveGameRecordRequest) GetBetSummaries() [][]byte {
-	if x != nil {
-		return x.BetSummaries
 	}
 	return nil
 }
@@ -1802,11 +1794,10 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\n" +
 	"user_agent\x18\x11 \x01(\tR\tuserAgent\x12(\n" +
 	"\x10merchant_user_id\x18\x12 \x01(\tR\x0emerchantUserId\x12\x19\n" +
-	"\bext_data\x18\x13 \x01(\tR\aextData\"]\n" +
+	"\bext_data\x18\x13 \x01(\tR\aextData\"8\n" +
 	"\x15SaveGameRecordRequest\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
-	"betDetails\x12#\n" +
-	"\rbet_summaries\x18\x02 \x03(\fR\fbetSummaries2\xb6\x02\n" +
+	"betDetails2\xb6\x02\n" +
 	"\x0eFundApiService\x12O\n" +
 	"\x12GetUserBalanceList\x12\x1b.fund.v1.UserBalanceListReq\x1a\x1c.fund.v1.UserBalanceListResp\x12=\n" +
 	"\n" +
