@@ -401,7 +401,6 @@ message ListWorkflowsData {
   repeated WorkflowInfo workflows = 1;
   string next_page_token = 2;
   bool has_more = 3;
-  int32 total_count = 4;               // 总数 (如果可获取)
 }
 
 // 工作流信息

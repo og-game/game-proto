@@ -2549,7 +2549,6 @@ type ListWorkflowsData struct {
 	Workflows     []*WorkflowInfo        `protobuf:"bytes,1,rep,name=workflows,proto3" json:"workflows,omitempty"`
 	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	HasMore       bool                   `protobuf:"varint,3,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
-	TotalCount    int32                  `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"` // 总数 (如果可获取)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2603,13 +2602,6 @@ func (x *ListWorkflowsData) GetHasMore() bool {
 		return x.HasMore
 	}
 	return false
-}
-
-func (x *ListWorkflowsData) GetTotalCount() int32 {
-	if x != nil {
-		return x.TotalCount
-	}
-	return 0
 }
 
 // 工作流信息
@@ -4645,13 +4637,11 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"x\n" +
 	"\x15ListWorkflowsResponse\x12+\n" +
 	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x122\n" +
-	"\x04data\x18\x02 \x01(\v2\x1e.temporal.v1.ListWorkflowsDataR\x04data\"\xb0\x01\n" +
+	"\x04data\x18\x02 \x01(\v2\x1e.temporal.v1.ListWorkflowsDataR\x04data\"\x8f\x01\n" +
 	"\x11ListWorkflowsData\x127\n" +
 	"\tworkflows\x18\x01 \x03(\v2\x19.temporal.v1.WorkflowInfoR\tworkflows\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x19\n" +
-	"\bhas_more\x18\x03 \x01(\bR\ahasMore\x12\x1f\n" +
-	"\vtotal_count\x18\x04 \x01(\x05R\n" +
-	"totalCount\"\xc4\x03\n" +
+	"\bhas_more\x18\x03 \x01(\bR\ahasMore\"\xc4\x03\n" +
 	"\fWorkflowInfo\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
