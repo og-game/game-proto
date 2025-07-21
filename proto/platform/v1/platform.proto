@@ -62,6 +62,7 @@ message GameInfo {
   string icon = 3;    // 游戏图标
   common.v1.GameState game_state = 4;         // 游戏状态
   common.v1.GameBetState  bet_state = 5;     // 游戏投注状态
+  bool IsTrialPlay = 6; // 是否允许试玩
 }
 
 // 获取游戏列表

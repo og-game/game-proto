@@ -521,6 +521,7 @@ type GameInfo struct {
 	Icon          string                 `protobuf:"bytes,3,opt,name=icon,proto3" json:"icon,omitempty"`                                                      // 游戏图标
 	GameState     v1.GameState           `protobuf:"varint,4,opt,name=game_state,json=gameState,proto3,enum=common.v1.GameState" json:"game_state,omitempty"` // 游戏状态
 	BetState      v1.GameBetState        `protobuf:"varint,5,opt,name=bet_state,json=betState,proto3,enum=common.v1.GameBetState" json:"bet_state,omitempty"` // 游戏投注状态
+	IsTrialPlay   bool                   `protobuf:"varint,6,opt,name=IsTrialPlay,proto3" json:"IsTrialPlay,omitempty"`                                       // 是否允许试玩
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -588,6 +589,13 @@ func (x *GameInfo) GetBetState() v1.GameBetState {
 		return x.BetState
 	}
 	return v1.GameBetState(0)
+}
+
+func (x *GameInfo) GetIsTrialPlay() bool {
+	if x != nil {
+		return x.IsTrialPlay
+	}
+	return false
 }
 
 // 获取游戏列表
@@ -1109,14 +1117,15 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12#\n" +
 	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12\x1f\n" +
 	"\vplatform_id\x18\a \x01(\x03R\n" +
-	"platformId\"\xc1\x01\n" +
+	"platformId\"\xe3\x01\n" +
 	"\bGameInfo\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
 	"\x04icon\x18\x03 \x01(\tR\x04icon\x123\n" +
 	"\n" +
 	"game_state\x18\x04 \x01(\x0e2\x14.common.v1.GameStateR\tgameState\x124\n" +
-	"\tbet_state\x18\x05 \x01(\x0e2\x17.common.v1.GameBetStateR\bbetState\"1\n" +
+	"\tbet_state\x18\x05 \x01(\x0e2\x17.common.v1.GameBetStateR\bbetState\x12 \n" +
+	"\vIsTrialPlay\x18\x06 \x01(\bR\vIsTrialPlay\"1\n" +
 	"\x0eGetGameListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
