@@ -204,11 +204,18 @@ message BatchTarget {
 
 // 控制选项
 message ControlOptions {
-  string reason = 1;                   // 操作原因
-  bytes details = 2;                   // 详细信息
-  bool wait_for_completion = 3;        // 等待完成
-  int32 timeout_seconds = 4;           // 超时时间
-  string reset_event_id = 5;           // 重置到的事件ID (RESET操作用)
+  string reason = 1;
+  bytes details = 2;
+  // 执行模式控制
+  bool async_mode = 3;                 // 明确的异步模式标识
+  bool wait_for_completion = 4;        // 是否等待完成（仅在sync模式下有效）
+  // 超时控制
+  int32 operation_timeout_seconds = 5;  // 操作本身的超时
+  int32 wait_timeout_seconds = 6;       // 等待完成的超时（同步模式）
+  string reset_event_id = 7;  // 重置到的事件ID (RESET操作用)
+  // 异步操作选项
+  string callback_url = 8;             // 回调通知URL
+  bool auto_cleanup = 9;               // 是否自动清理操作记录
 }
 
 // 控制响应

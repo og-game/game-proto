@@ -1075,14 +1075,21 @@ func (x *BatchTarget) GetMaxConcurrent() int32 {
 
 // 控制选项
 type ControlOptions struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Reason            string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`                                                   // 操作原因
-	Details           []byte                 `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`                                                 // 详细信息
-	WaitForCompletion bool                   `protobuf:"varint,3,opt,name=wait_for_completion,json=waitForCompletion,proto3" json:"wait_for_completion,omitempty"` // 等待完成
-	TimeoutSeconds    int32                  `protobuf:"varint,4,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`            // 超时时间
-	ResetEventId      string                 `protobuf:"bytes,5,opt,name=reset_event_id,json=resetEventId,proto3" json:"reset_event_id,omitempty"`                 // 重置到的事件ID (RESET操作用)
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Reason  string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	Details []byte                 `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	// 执行模式控制
+	AsyncMode         bool `protobuf:"varint,3,opt,name=async_mode,json=asyncMode,proto3" json:"async_mode,omitempty"`                           // 明确的异步模式标识
+	WaitForCompletion bool `protobuf:"varint,4,opt,name=wait_for_completion,json=waitForCompletion,proto3" json:"wait_for_completion,omitempty"` // 是否等待完成（仅在sync模式下有效）
+	// 超时控制
+	OperationTimeoutSeconds int32  `protobuf:"varint,5,opt,name=operation_timeout_seconds,json=operationTimeoutSeconds,proto3" json:"operation_timeout_seconds,omitempty"` // 操作本身的超时
+	WaitTimeoutSeconds      int32  `protobuf:"varint,6,opt,name=wait_timeout_seconds,json=waitTimeoutSeconds,proto3" json:"wait_timeout_seconds,omitempty"`                // 等待完成的超时（同步模式）
+	ResetEventId            string `protobuf:"bytes,7,opt,name=reset_event_id,json=resetEventId,proto3" json:"reset_event_id,omitempty"`                                   // 重置到的事件ID (RESET操作用)
+	// 异步操作选项
+	CallbackUrl   string `protobuf:"bytes,8,opt,name=callback_url,json=callbackUrl,proto3" json:"callback_url,omitempty"`  // 回调通知URL
+	AutoCleanup   bool   `protobuf:"varint,9,opt,name=auto_cleanup,json=autoCleanup,proto3" json:"auto_cleanup,omitempty"` // 是否自动清理操作记录
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ControlOptions) Reset() {
@@ -1129,6 +1136,13 @@ func (x *ControlOptions) GetDetails() []byte {
 	return nil
 }
 
+func (x *ControlOptions) GetAsyncMode() bool {
+	if x != nil {
+		return x.AsyncMode
+	}
+	return false
+}
+
 func (x *ControlOptions) GetWaitForCompletion() bool {
 	if x != nil {
 		return x.WaitForCompletion
@@ -1136,9 +1150,16 @@ func (x *ControlOptions) GetWaitForCompletion() bool {
 	return false
 }
 
-func (x *ControlOptions) GetTimeoutSeconds() int32 {
+func (x *ControlOptions) GetOperationTimeoutSeconds() int32 {
 	if x != nil {
-		return x.TimeoutSeconds
+		return x.OperationTimeoutSeconds
+	}
+	return 0
+}
+
+func (x *ControlOptions) GetWaitTimeoutSeconds() int32 {
+	if x != nil {
+		return x.WaitTimeoutSeconds
 	}
 	return 0
 }
@@ -1148,6 +1169,20 @@ func (x *ControlOptions) GetResetEventId() string {
 		return x.ResetEventId
 	}
 	return ""
+}
+
+func (x *ControlOptions) GetCallbackUrl() string {
+	if x != nil {
+		return x.CallbackUrl
+	}
+	return ""
+}
+
+func (x *ControlOptions) GetAutoCleanup() bool {
+	if x != nil {
+		return x.AutoCleanup
+	}
+	return false
 }
 
 // 控制响应
@@ -4477,13 +4512,18 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\fquery_filter\x18\x02 \x01(\tR\vqueryFilter\x12\x1d\n" +
 	"\n" +
 	"batch_size\x18\x03 \x01(\x05R\tbatchSize\x12%\n" +
-	"\x0emax_concurrent\x18\x04 \x01(\x05R\rmaxConcurrent\"\xc1\x01\n" +
+	"\x0emax_concurrent\x18\x04 \x01(\x05R\rmaxConcurrent\"\xeb\x02\n" +
 	"\x0eControlOptions\x12\x16\n" +
 	"\x06reason\x18\x01 \x01(\tR\x06reason\x12\x18\n" +
-	"\adetails\x18\x02 \x01(\fR\adetails\x12.\n" +
-	"\x13wait_for_completion\x18\x03 \x01(\bR\x11waitForCompletion\x12'\n" +
-	"\x0ftimeout_seconds\x18\x04 \x01(\x05R\x0etimeoutSeconds\x12$\n" +
-	"\x0ereset_event_id\x18\x05 \x01(\tR\fresetEventId\"|\n" +
+	"\adetails\x18\x02 \x01(\fR\adetails\x12\x1d\n" +
+	"\n" +
+	"async_mode\x18\x03 \x01(\bR\tasyncMode\x12.\n" +
+	"\x13wait_for_completion\x18\x04 \x01(\bR\x11waitForCompletion\x12:\n" +
+	"\x19operation_timeout_seconds\x18\x05 \x01(\x05R\x17operationTimeoutSeconds\x120\n" +
+	"\x14wait_timeout_seconds\x18\x06 \x01(\x05R\x12waitTimeoutSeconds\x12$\n" +
+	"\x0ereset_event_id\x18\a \x01(\tR\fresetEventId\x12!\n" +
+	"\fcallback_url\x18\b \x01(\tR\vcallbackUrl\x12!\n" +
+	"\fauto_cleanup\x18\t \x01(\bR\vautoCleanup\"|\n" +
 	"\x17ControlWorkflowResponse\x12+\n" +
 	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x124\n" +
 	"\x04data\x18\x02 \x01(\v2 .temporal.v1.ControlWorkflowDataR\x04data\"\xaf\x01\n" +
