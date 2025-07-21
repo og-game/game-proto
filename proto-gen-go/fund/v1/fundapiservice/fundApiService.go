@@ -14,26 +14,35 @@ import (
 )
 
 type (
+	BaseResponse               = v1.BaseResponse
 	CreateUserBalanceRecordReq = v1.CreateUserBalanceRecordReq
 	FundReq                    = v1.FundReq
 	FundResp                   = v1.FundResp
+	GetUserBalanceListData     = v1.GetUserBalanceListData
 	GetUserBalanceListReq      = v1.GetUserBalanceListReq
 	GetUserBalanceListResp     = v1.GetUserBalanceListResp
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
-	SaveGameRecordRequest      = v1.SaveGameRecordRequest
+	SaveGameRecordReq          = v1.SaveGameRecordReq
+	TransactionData            = v1.TransactionData
 	TransactionReq             = v1.TransactionReq
+	TransactionReqInfo         = v1.TransactionReqInfo
 	TransactionResp            = v1.TransactionResp
+	TransferInData             = v1.TransferInData
 	TransferInReq              = v1.TransferInReq
 	TransferInResp             = v1.TransferInResp
+	TransferOutData            = v1.TransferOutData
 	TransferOutReq             = v1.TransferOutReq
 	TransferOutResp            = v1.TransferOutResp
+	TransferProgressData       = v1.TransferProgressData
 	TransferProgressInfo       = v1.TransferProgressInfo
 	TransferProgressReq        = v1.TransferProgressReq
 	TransferProgressResp       = v1.TransferProgressResp
+	TransferStatusUpdateData   = v1.TransferStatusUpdateData
 	TransferStatusUpdateReq    = v1.TransferStatusUpdateReq
 	TransferStatusUpdateResp   = v1.TransferStatusUpdateResp
 	UserBalanceInfo            = v1.UserBalanceInfo
+	UserBalanceListData        = v1.UserBalanceListData
 	UserBalanceListReq         = v1.UserBalanceListReq
 	UserBalanceListResp        = v1.UserBalanceListResp
 	UserBalanceRecordItem      = v1.UserBalanceRecordItem

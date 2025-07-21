@@ -21,77 +21,77 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 交易类型枚举
-type TransactionType int32
+// 账变交易类型枚举
+type AccountChangeType int32
 
 const (
-	TransactionType_CHANGE_TRANSACTION_TYPE_UNSPECIFIED        TransactionType = 0  // 未指定
-	TransactionType_CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME   TransactionType = 1  // 转入游戏   - 玩家扣款
-	TransactionType_CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME TransactionType = 2  // 从游戏转出  - 玩家入款
-	TransactionType_CHANGE_TRANSACTION_TYPE_BET                TransactionType = 3  // 投注        - 玩家扣款
-	TransactionType_CHANGE_TRANSACTION_TYPE_SETTLEMENT         TransactionType = 4  // 结算派奖    - 玩家入款
-	TransactionType_CHANGE_TRANSACTION_TYPE_DEPOSIT            TransactionType = 5  // 押金        - 玩家扣款
-	TransactionType_CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND     TransactionType = 6  // 返还押金    - 玩家入款
-	TransactionType_CHANGE_TRANSACTION_TYPE_BET_CANCEL         TransactionType = 7  // 取消投注    - 玩家入款
-	TransactionType_CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL  TransactionType = 8  // 结算撤单    - 玩家扣款
-	TransactionType_CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT      TransactionType = 9  // 重新派奖    - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
-	TransactionType_CHANGE_TRANSACTION_TYPE_ADJUSTMENT         TransactionType = 10 // 调整金额    - 玩家入款-扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_UNSPECIFIED        AccountChangeType = 0  // 未指定
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET                AccountChangeType = 1  // 投注       - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT         AccountChangeType = 2  // 结算派奖   - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_DEPOSIT            AccountChangeType = 3  // 押金       - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND     AccountChangeType = 4  // 返还押金   - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET_CANCEL         AccountChangeType = 5  // 取消投注   - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL  AccountChangeType = 6  // 结算撤单   - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT      AccountChangeType = 7  // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME   AccountChangeType = 8  // 转入游戏   - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME AccountChangeType = 9  // 从游戏转出 - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_ADJUSTMENT         AccountChangeType = 10 // 调整金额   - 玩家[入款]-[扣款]
 )
 
-// Enum value maps for TransactionType.
+// Enum value maps for AccountChangeType.
 var (
-	TransactionType_name = map[int32]string{
-		0:  "CHANGE_TRANSACTION_TYPE_UNSPECIFIED",
-		1:  "CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME",
-		2:  "CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME",
-		3:  "CHANGE_TRANSACTION_TYPE_BET",
-		4:  "CHANGE_TRANSACTION_TYPE_SETTLEMENT",
-		5:  "CHANGE_TRANSACTION_TYPE_DEPOSIT",
-		6:  "CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND",
-		7:  "CHANGE_TRANSACTION_TYPE_BET_CANCEL",
-		8:  "CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL",
-		9:  "CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT",
-		10: "CHANGE_TRANSACTION_TYPE_ADJUSTMENT",
+	AccountChangeType_name = map[int32]string{
+		0:  "ACCOUNT_CHANGE_TYPE_UNSPECIFIED",
+		1:  "ACCOUNT_CHANGE_TYPE_BET",
+		2:  "ACCOUNT_CHANGE_TYPE_SETTLEMENT",
+		3:  "ACCOUNT_CHANGE_TYPE_DEPOSIT",
+		4:  "ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND",
+		5:  "ACCOUNT_CHANGE_TYPE_BET_CANCEL",
+		6:  "ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL",
+		7:  "ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT",
+		8:  "ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME",
+		9:  "ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME",
+		10: "ACCOUNT_CHANGE_TYPE_ADJUSTMENT",
 	}
-	TransactionType_value = map[string]int32{
-		"CHANGE_TRANSACTION_TYPE_UNSPECIFIED":        0,
-		"CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME":   1,
-		"CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME": 2,
-		"CHANGE_TRANSACTION_TYPE_BET":                3,
-		"CHANGE_TRANSACTION_TYPE_SETTLEMENT":         4,
-		"CHANGE_TRANSACTION_TYPE_DEPOSIT":            5,
-		"CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND":     6,
-		"CHANGE_TRANSACTION_TYPE_BET_CANCEL":         7,
-		"CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL":  8,
-		"CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT":      9,
-		"CHANGE_TRANSACTION_TYPE_ADJUSTMENT":         10,
+	AccountChangeType_value = map[string]int32{
+		"ACCOUNT_CHANGE_TYPE_UNSPECIFIED":        0,
+		"ACCOUNT_CHANGE_TYPE_BET":                1,
+		"ACCOUNT_CHANGE_TYPE_SETTLEMENT":         2,
+		"ACCOUNT_CHANGE_TYPE_DEPOSIT":            3,
+		"ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND":     4,
+		"ACCOUNT_CHANGE_TYPE_BET_CANCEL":         5,
+		"ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL":  6,
+		"ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT":      7,
+		"ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME":   8,
+		"ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME": 9,
+		"ACCOUNT_CHANGE_TYPE_ADJUSTMENT":         10,
 	}
 )
 
-func (x TransactionType) Enum() *TransactionType {
-	p := new(TransactionType)
+func (x AccountChangeType) Enum() *AccountChangeType {
+	p := new(AccountChangeType)
 	*p = x
 	return p
 }
 
-func (x TransactionType) String() string {
+func (x AccountChangeType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (TransactionType) Descriptor() protoreflect.EnumDescriptor {
+func (AccountChangeType) Descriptor() protoreflect.EnumDescriptor {
 	return file_common_v1_enum_proto_enumTypes[0].Descriptor()
 }
 
-func (TransactionType) Type() protoreflect.EnumType {
+func (AccountChangeType) Type() protoreflect.EnumType {
 	return &file_common_v1_enum_proto_enumTypes[0]
 }
 
-func (x TransactionType) Number() protoreflect.EnumNumber {
+func (x AccountChangeType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TransactionType.Descriptor instead.
-func (TransactionType) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use AccountChangeType.Descriptor instead.
+func (AccountChangeType) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{0}
 }
 
@@ -258,72 +258,68 @@ func (TransactionDirection) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{3}
 }
 
-// ErrorCode 通用错误码
-type ErrorCode int32
+// 游戏交易类型枚举
+type GameTransactionType int32
 
 const (
-	// 未知状态
-	ErrorCode_ERROR_CODE_UNSPECIFIED ErrorCode = 0
-	// 成功
-	ErrorCode_ERROR_CODE_SUCCESS ErrorCode = 200 // 操作成功
-	// 业务失败
-	ErrorCode_ERROR_CODE_BUSINESS_ERROR ErrorCode = 400 // 业务错误(参数错误、余额不足等)
-	// 业务失败
-	ErrorCode_ERROR_CODE_NOTFOUND_ERROR ErrorCode = 404 // 业务错误(数据未找到)
-	// 系统异常
-	ErrorCode_ERROR_CODE_SYSTEM_ERROR ErrorCode = 500 // 系统内部错误
-	// 网络异常
-	ErrorCode_ERROR_CODE_NETWORK_ERROR ErrorCode = 502 // 网络错误或第三方服务异常
-	// 超时异常
-	ErrorCode_ERROR_CODE_TIMEOUT ErrorCode = 504 // 操作超时
+	GameTransactionType_GAME_TRANSACTION_TYPE_UNSPECIFIED       GameTransactionType = 0 // 未指定
+	GameTransactionType_GAME_TRANSACTION_TYPE_BET               GameTransactionType = 1 // 投注       - 玩家扣款
+	GameTransactionType_GAME_TRANSACTION_TYPE_SETTLEMENT        GameTransactionType = 2 // 结算派奖   - 玩家入款
+	GameTransactionType_GAME_TRANSACTION_TYPE_DEPOSIT           GameTransactionType = 3 // 押金       - 玩家扣款
+	GameTransactionType_GAME_TRANSACTION_TYPE_DEPOSIT_REFUND    GameTransactionType = 4 // 返还押金   - 玩家入款
+	GameTransactionType_GAME_TRANSACTION_TYPE_BET_CANCEL        GameTransactionType = 5 // 取消投注   - 玩家入款
+	GameTransactionType_GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL GameTransactionType = 6 // [废弃]结算撤单   - 玩家扣款
+	GameTransactionType_GAME_TRANSACTION_TYPE_RE_SETTLEMENT     GameTransactionType = 7 // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
 )
 
-// Enum value maps for ErrorCode.
+// Enum value maps for GameTransactionType.
 var (
-	ErrorCode_name = map[int32]string{
-		0:   "ERROR_CODE_UNSPECIFIED",
-		200: "ERROR_CODE_SUCCESS",
-		400: "ERROR_CODE_BUSINESS_ERROR",
-		404: "ERROR_CODE_NOTFOUND_ERROR",
-		500: "ERROR_CODE_SYSTEM_ERROR",
-		502: "ERROR_CODE_NETWORK_ERROR",
-		504: "ERROR_CODE_TIMEOUT",
+	GameTransactionType_name = map[int32]string{
+		0: "GAME_TRANSACTION_TYPE_UNSPECIFIED",
+		1: "GAME_TRANSACTION_TYPE_BET",
+		2: "GAME_TRANSACTION_TYPE_SETTLEMENT",
+		3: "GAME_TRANSACTION_TYPE_DEPOSIT",
+		4: "GAME_TRANSACTION_TYPE_DEPOSIT_REFUND",
+		5: "GAME_TRANSACTION_TYPE_BET_CANCEL",
+		6: "GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL",
+		7: "GAME_TRANSACTION_TYPE_RE_SETTLEMENT",
 	}
-	ErrorCode_value = map[string]int32{
-		"ERROR_CODE_UNSPECIFIED":    0,
-		"ERROR_CODE_SUCCESS":        200,
-		"ERROR_CODE_BUSINESS_ERROR": 400,
-		"ERROR_CODE_NOTFOUND_ERROR": 404,
-		"ERROR_CODE_SYSTEM_ERROR":   500,
-		"ERROR_CODE_NETWORK_ERROR":  502,
-		"ERROR_CODE_TIMEOUT":        504,
+	GameTransactionType_value = map[string]int32{
+		"GAME_TRANSACTION_TYPE_UNSPECIFIED":       0,
+		"GAME_TRANSACTION_TYPE_BET":               1,
+		"GAME_TRANSACTION_TYPE_SETTLEMENT":        2,
+		"GAME_TRANSACTION_TYPE_DEPOSIT":           3,
+		"GAME_TRANSACTION_TYPE_DEPOSIT_REFUND":    4,
+		"GAME_TRANSACTION_TYPE_BET_CANCEL":        5,
+		"GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL": 6,
+		"GAME_TRANSACTION_TYPE_RE_SETTLEMENT":     7,
 	}
 )
 
-func (x ErrorCode) Enum() *ErrorCode {
-	p := new(ErrorCode)
+func (x GameTransactionType) Enum() *GameTransactionType {
+	p := new(GameTransactionType)
 	*p = x
 	return p
 }
 
-func (x ErrorCode) String() string {
+func (x GameTransactionType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ErrorCode) Descriptor() protoreflect.EnumDescriptor {
+func (GameTransactionType) Descriptor() protoreflect.EnumDescriptor {
 	return file_common_v1_enum_proto_enumTypes[4].Descriptor()
 }
 
-func (ErrorCode) Type() protoreflect.EnumType {
+func (GameTransactionType) Type() protoreflect.EnumType {
 	return &file_common_v1_enum_proto_enumTypes[4]
 }
 
-func (x ErrorCode) Number() protoreflect.EnumNumber {
+func (x GameTransactionType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ErrorCode.Descriptor instead.
-func (ErrorCode) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use GameTransactionType.Descriptor instead.
+func (GameTransactionType) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{4}
 }
 
@@ -436,59 +432,92 @@ func (GameBetState) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{6}
 }
 
-// 用户投注状态
-type BetStatus int32
+// ErrorCode 通用错误码
+type ErrorCode int32
 
 const (
-	BetStatus_BET_STATUS_UNKNOWN BetStatus = 0 // 未知
-	BetStatus_BET_STATUS_BET     BetStatus = 1 // 投注
-	BetStatus_BET_STATUS_SETTLE  BetStatus = 2 // 结算
-	BetStatus_BET_STATUS_CANCEL  BetStatus = 3 // 投注取消
-	BetStatus_BET_STATUS_DISCARD BetStatus = 4 // 废弃
+	ErrorCode_ERROR_CODE_UNSPECIFIED ErrorCode = 0 // 未知状态
+	// 成功状态码
+	ErrorCode_ERROR_CODE_SUCCESS ErrorCode = 200 // 操作成功
+	// 客户端错误 4xx
+	ErrorCode_ERROR_CODE_BAD_REQUEST          ErrorCode = 400 // 请求参数错误
+	ErrorCode_ERROR_CODE_UNAUTHORIZED         ErrorCode = 401 // 未授权
+	ErrorCode_ERROR_CODE_FORBIDDEN            ErrorCode = 403 // 禁止访问
+	ErrorCode_ERROR_CODE_NOT_FOUND            ErrorCode = 404 // 资源未找到
+	ErrorCode_ERROR_CODE_METHOD_NOT_ALLOWED   ErrorCode = 405 // 方法不允许
+	ErrorCode_ERROR_CODE_CONFLICT             ErrorCode = 409 // 资源冲突
+	ErrorCode_ERROR_CODE_UNPROCESSABLE_ENTITY ErrorCode = 422 // 请求格式正确但语义错误
+	ErrorCode_ERROR_CODE_TOO_MANY_REQUESTS    ErrorCode = 429 // 请求过于频繁
+	// 服务端错误 5xx
+	ErrorCode_ERROR_CODE_INTERNAL_SERVER_ERROR ErrorCode = 500 // 服务器内部错误
+	ErrorCode_ERROR_CODE_NOT_IMPLEMENTED       ErrorCode = 501 // 功能未实现
+	ErrorCode_ERROR_CODE_BAD_GATEWAY           ErrorCode = 502 // 网关错误或第三方服务异常
+	ErrorCode_ERROR_CODE_SERVICE_UNAVAILABLE   ErrorCode = 503 // 服务不可用
+	ErrorCode_ERROR_CODE_GATEWAY_TIMEOUT       ErrorCode = 504 // 网关超时
 )
 
-// Enum value maps for BetStatus.
+// Enum value maps for ErrorCode.
 var (
-	BetStatus_name = map[int32]string{
-		0: "BET_STATUS_UNKNOWN",
-		1: "BET_STATUS_BET",
-		2: "BET_STATUS_SETTLE",
-		3: "BET_STATUS_CANCEL",
-		4: "BET_STATUS_DISCARD",
+	ErrorCode_name = map[int32]string{
+		0:   "ERROR_CODE_UNSPECIFIED",
+		200: "ERROR_CODE_SUCCESS",
+		400: "ERROR_CODE_BAD_REQUEST",
+		401: "ERROR_CODE_UNAUTHORIZED",
+		403: "ERROR_CODE_FORBIDDEN",
+		404: "ERROR_CODE_NOT_FOUND",
+		405: "ERROR_CODE_METHOD_NOT_ALLOWED",
+		409: "ERROR_CODE_CONFLICT",
+		422: "ERROR_CODE_UNPROCESSABLE_ENTITY",
+		429: "ERROR_CODE_TOO_MANY_REQUESTS",
+		500: "ERROR_CODE_INTERNAL_SERVER_ERROR",
+		501: "ERROR_CODE_NOT_IMPLEMENTED",
+		502: "ERROR_CODE_BAD_GATEWAY",
+		503: "ERROR_CODE_SERVICE_UNAVAILABLE",
+		504: "ERROR_CODE_GATEWAY_TIMEOUT",
 	}
-	BetStatus_value = map[string]int32{
-		"BET_STATUS_UNKNOWN": 0,
-		"BET_STATUS_BET":     1,
-		"BET_STATUS_SETTLE":  2,
-		"BET_STATUS_CANCEL":  3,
-		"BET_STATUS_DISCARD": 4,
+	ErrorCode_value = map[string]int32{
+		"ERROR_CODE_UNSPECIFIED":           0,
+		"ERROR_CODE_SUCCESS":               200,
+		"ERROR_CODE_BAD_REQUEST":           400,
+		"ERROR_CODE_UNAUTHORIZED":          401,
+		"ERROR_CODE_FORBIDDEN":             403,
+		"ERROR_CODE_NOT_FOUND":             404,
+		"ERROR_CODE_METHOD_NOT_ALLOWED":    405,
+		"ERROR_CODE_CONFLICT":              409,
+		"ERROR_CODE_UNPROCESSABLE_ENTITY":  422,
+		"ERROR_CODE_TOO_MANY_REQUESTS":     429,
+		"ERROR_CODE_INTERNAL_SERVER_ERROR": 500,
+		"ERROR_CODE_NOT_IMPLEMENTED":       501,
+		"ERROR_CODE_BAD_GATEWAY":           502,
+		"ERROR_CODE_SERVICE_UNAVAILABLE":   503,
+		"ERROR_CODE_GATEWAY_TIMEOUT":       504,
 	}
 )
 
-func (x BetStatus) Enum() *BetStatus {
-	p := new(BetStatus)
+func (x ErrorCode) Enum() *ErrorCode {
+	p := new(ErrorCode)
 	*p = x
 	return p
 }
 
-func (x BetStatus) String() string {
+func (x ErrorCode) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (BetStatus) Descriptor() protoreflect.EnumDescriptor {
+func (ErrorCode) Descriptor() protoreflect.EnumDescriptor {
 	return file_common_v1_enum_proto_enumTypes[7].Descriptor()
 }
 
-func (BetStatus) Type() protoreflect.EnumType {
+func (ErrorCode) Type() protoreflect.EnumType {
 	return &file_common_v1_enum_proto_enumTypes[7]
 }
 
-func (x BetStatus) Number() protoreflect.EnumNumber {
+func (x ErrorCode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BetStatus.Descriptor instead.
-func (BetStatus) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use ErrorCode.Descriptor instead.
+func (ErrorCode) EnumDescriptor() ([]byte, []int) {
 	return file_common_v1_enum_proto_rawDescGZIP(), []int{7}
 }
 
@@ -496,19 +525,19 @@ var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
 	"\n" +
-	"\x14common/v1/enum.proto\x12\tcommon.v1*\xdc\x03\n" +
-	"\x0fTransactionType\x12'\n" +
-	"#CHANGE_TRANSACTION_TYPE_UNSPECIFIED\x10\x00\x12,\n" +
-	"(CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME\x10\x01\x12.\n" +
-	"*CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME\x10\x02\x12\x1f\n" +
-	"\x1bCHANGE_TRANSACTION_TYPE_BET\x10\x03\x12&\n" +
-	"\"CHANGE_TRANSACTION_TYPE_SETTLEMENT\x10\x04\x12#\n" +
-	"\x1fCHANGE_TRANSACTION_TYPE_DEPOSIT\x10\x05\x12*\n" +
-	"&CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND\x10\x06\x12&\n" +
-	"\"CHANGE_TRANSACTION_TYPE_BET_CANCEL\x10\a\x12-\n" +
-	")CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL\x10\b\x12)\n" +
-	"%CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT\x10\t\x12&\n" +
-	"\"CHANGE_TRANSACTION_TYPE_ADJUSTMENT\x10\n" +
+	"\x14common/v1/enum.proto\x12\tcommon.v1*\xb2\x03\n" +
+	"\x11AccountChangeType\x12#\n" +
+	"\x1fACCOUNT_CHANGE_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17ACCOUNT_CHANGE_TYPE_BET\x10\x01\x12\"\n" +
+	"\x1eACCOUNT_CHANGE_TYPE_SETTLEMENT\x10\x02\x12\x1f\n" +
+	"\x1bACCOUNT_CHANGE_TYPE_DEPOSIT\x10\x03\x12&\n" +
+	"\"ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND\x10\x04\x12\"\n" +
+	"\x1eACCOUNT_CHANGE_TYPE_BET_CANCEL\x10\x05\x12)\n" +
+	"%ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL\x10\x06\x12%\n" +
+	"!ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT\x10\a\x12(\n" +
+	"$ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME\x10\b\x12*\n" +
+	"&ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME\x10\t\x12\"\n" +
+	"\x1eACCOUNT_CHANGE_TYPE_ADJUSTMENT\x10\n" +
 	"*i\n" +
 	"\tMoneyFlow\x12\x1a\n" +
 	"\x16MONEY_FLOW_UNSPECIFIED\x10\x00\x12\x14\n" +
@@ -524,15 +553,16 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x14TransactionDirection\x12%\n" +
 	"!TRANSACTION_DIRECTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
 	"\x18TRANSACTION_DIRECTION_IN\x10\x01\x12\x1d\n" +
-	"\x19TRANSACTION_DIRECTION_OUT\x10\x02*\xd6\x01\n" +
-	"\tErrorCode\x12\x1a\n" +
-	"\x16ERROR_CODE_UNSPECIFIED\x10\x00\x12\x17\n" +
-	"\x12ERROR_CODE_SUCCESS\x10\xc8\x01\x12\x1e\n" +
-	"\x19ERROR_CODE_BUSINESS_ERROR\x10\x90\x03\x12\x1e\n" +
-	"\x19ERROR_CODE_NOTFOUND_ERROR\x10\x94\x03\x12\x1c\n" +
-	"\x17ERROR_CODE_SYSTEM_ERROR\x10\xf4\x03\x12\x1d\n" +
-	"\x18ERROR_CODE_NETWORK_ERROR\x10\xf6\x03\x12\x17\n" +
-	"\x12ERROR_CODE_TIMEOUT\x10\xf8\x03*\x96\x01\n" +
+	"\x19TRANSACTION_DIRECTION_OUT\x10\x02*\xca\x02\n" +
+	"\x13GameTransactionType\x12%\n" +
+	"!GAME_TRANSACTION_TYPE_UNSPECIFIED\x10\x00\x12\x1d\n" +
+	"\x19GAME_TRANSACTION_TYPE_BET\x10\x01\x12$\n" +
+	" GAME_TRANSACTION_TYPE_SETTLEMENT\x10\x02\x12!\n" +
+	"\x1dGAME_TRANSACTION_TYPE_DEPOSIT\x10\x03\x12(\n" +
+	"$GAME_TRANSACTION_TYPE_DEPOSIT_REFUND\x10\x04\x12$\n" +
+	" GAME_TRANSACTION_TYPE_BET_CANCEL\x10\x05\x12+\n" +
+	"'GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL\x10\x06\x12'\n" +
+	"#GAME_TRANSACTION_TYPE_RE_SETTLEMENT\x10\a*\x96\x01\n" +
 	"\tGameState\x12\x16\n" +
 	"\x12GAME_STATE_UNKNOWN\x10\x00\x12\x13\n" +
 	"\x0fGAME_STATE_OPEN\x10\x01\x12\x14\n" +
@@ -543,13 +573,23 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\fGameBetState\x12\x1a\n" +
 	"\x16GAME_BET_STATE_UNKNOWN\x10\x00\x12\x17\n" +
 	"\x13GAME_BET_STATE_OPEN\x10\x01\x12\x18\n" +
-	"\x14GAME_BET_STATE_CLOSE\x10\x02*}\n" +
-	"\tBetStatus\x12\x16\n" +
-	"\x12BET_STATUS_UNKNOWN\x10\x00\x12\x12\n" +
-	"\x0eBET_STATUS_BET\x10\x01\x12\x15\n" +
-	"\x11BET_STATUS_SETTLE\x10\x02\x12\x15\n" +
-	"\x11BET_STATUS_CANCEL\x10\x03\x12\x16\n" +
-	"\x12BET_STATUS_DISCARD\x10\x04B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"\x14GAME_BET_STATE_CLOSE\x10\x02*\xe3\x03\n" +
+	"\tErrorCode\x12\x1a\n" +
+	"\x16ERROR_CODE_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x12ERROR_CODE_SUCCESS\x10\xc8\x01\x12\x1b\n" +
+	"\x16ERROR_CODE_BAD_REQUEST\x10\x90\x03\x12\x1c\n" +
+	"\x17ERROR_CODE_UNAUTHORIZED\x10\x91\x03\x12\x19\n" +
+	"\x14ERROR_CODE_FORBIDDEN\x10\x93\x03\x12\x19\n" +
+	"\x14ERROR_CODE_NOT_FOUND\x10\x94\x03\x12\"\n" +
+	"\x1dERROR_CODE_METHOD_NOT_ALLOWED\x10\x95\x03\x12\x18\n" +
+	"\x13ERROR_CODE_CONFLICT\x10\x99\x03\x12$\n" +
+	"\x1fERROR_CODE_UNPROCESSABLE_ENTITY\x10\xa6\x03\x12!\n" +
+	"\x1cERROR_CODE_TOO_MANY_REQUESTS\x10\xad\x03\x12%\n" +
+	" ERROR_CODE_INTERNAL_SERVER_ERROR\x10\xf4\x03\x12\x1f\n" +
+	"\x1aERROR_CODE_NOT_IMPLEMENTED\x10\xf5\x03\x12\x1b\n" +
+	"\x16ERROR_CODE_BAD_GATEWAY\x10\xf6\x03\x12#\n" +
+	"\x1eERROR_CODE_SERVICE_UNAVAILABLE\x10\xf7\x03\x12\x1f\n" +
+	"\x1aERROR_CODE_GATEWAY_TIMEOUT\x10\xf8\x03B6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_enum_proto_rawDescOnce sync.Once
@@ -565,14 +605,14 @@ func file_common_v1_enum_proto_rawDescGZIP() []byte {
 
 var file_common_v1_enum_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
 var file_common_v1_enum_proto_goTypes = []any{
-	(TransactionType)(0),      // 0: common.v1.TransactionType
+	(AccountChangeType)(0),    // 0: common.v1.AccountChangeType
 	(MoneyFlow)(0),            // 1: common.v1.MoneyFlow
 	(TransferStatus)(0),       // 2: common.v1.TransferStatus
 	(TransactionDirection)(0), // 3: common.v1.TransactionDirection
-	(ErrorCode)(0),            // 4: common.v1.ErrorCode
+	(GameTransactionType)(0),  // 4: common.v1.GameTransactionType
 	(GameState)(0),            // 5: common.v1.GameState
 	(GameBetState)(0),         // 6: common.v1.GameBetState
-	(BetStatus)(0),            // 7: common.v1.BetStatus
+	(ErrorCode)(0),            // 7: common.v1.ErrorCode
 }
 var file_common_v1_enum_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

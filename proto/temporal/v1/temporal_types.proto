@@ -25,16 +25,25 @@ enum ControlOperation {
   RESET = 5;                           // 重置到某个点
 }
 
-// 控制结果
-enum ControlResult {
-  CONTROL_UNSPECIFIED = 0;   // 未知类型
-  CONTROL_SUCCESS = 1;
-  ALREADY_COMPLETED = 2;
-  ALREADY_CANCELLED = 3;
-  NOT_FOUND = 4;
-  OPERATION_FAILED = 5;
-}
+// 统一的控制操作结果枚举
+enum ControlOperationResult {
+  CONTROL_OPERATION_RESULT_UNSPECIFIED = 0;    // 未指定
 
+  // 操作状态类
+  CONTROL_OPERATION_RESULT_INITIATED = 1;      // 已发起（异步操作）
+  CONTROL_OPERATION_RESULT_IN_PROGRESS = 2;    // 进行中（异步操作）
+  CONTROL_OPERATION_RESULT_SUCCESS = 3;        // 操作成功
+
+  // 业务状态类
+  CONTROL_OPERATION_RESULT_ALREADY_COMPLETED = 4;   // 工作流已完成
+  CONTROL_OPERATION_RESULT_ALREADY_CANCELLED = 5;   // 工作流已取消
+  CONTROL_OPERATION_RESULT_NOT_FOUND = 6;           // 工作流不存在
+
+  // 失败类
+  CONTROL_OPERATION_RESULT_FAILED = 7;         // 操作失败
+  CONTROL_OPERATION_RESULT_TIMED_OUT = 8;      // 操作超时
+  CONTROL_OPERATION_RESULT_REJECTED = 9;       // 操作被拒绝（权限不足等）
+}
 // 查询类型
 enum QueryType {
   QUERY_UNSPECIFIED = 0;   // 未知类型

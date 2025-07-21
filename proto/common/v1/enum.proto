@@ -4,19 +4,24 @@ package common.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/common/v1";
 
 
-// 交易类型枚举
-enum TransactionType {
-  CHANGE_TRANSACTION_TYPE_UNSPECIFIED = 0;               // 未指定
-  CHANGE_TRANSACTION_TYPE_TRANSFER_TO_GAME = 1;          // 转入游戏   - 玩家扣款
-  CHANGE_TRANSACTION_TYPE_TRANSFER_FROM_GAME = 2;        // 从游戏转出  - 玩家入款
-  CHANGE_TRANSACTION_TYPE_BET = 3;                       // 投注        - 玩家扣款
-  CHANGE_TRANSACTION_TYPE_SETTLEMENT = 4;                // 结算派奖    - 玩家入款
-  CHANGE_TRANSACTION_TYPE_DEPOSIT = 5;                   // 押金        - 玩家扣款
-  CHANGE_TRANSACTION_TYPE_DEPOSIT_REFUND = 6;            // 返还押金    - 玩家入款
-  CHANGE_TRANSACTION_TYPE_BET_CANCEL = 7;                // 取消投注    - 玩家入款
-  CHANGE_TRANSACTION_TYPE_SETTLEMENT_CANCEL = 8;         // 结算撤单    - 玩家扣款
-  CHANGE_TRANSACTION_TYPE_RE_SETTLEMENT = 9;             // 重新派奖    - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
-  CHANGE_TRANSACTION_TYPE_ADJUSTMENT = 10;               // 调整金额    - 玩家入款-扣款
+// ===========================
+// 交易相关枚举
+// ===========================
+
+
+// 账变交易类型枚举
+enum AccountChangeType {
+  ACCOUNT_CHANGE_TYPE_UNSPECIFIED = 0;            // 未指定
+  ACCOUNT_CHANGE_TYPE_BET = 1;                    // 投注       - 玩家扣款
+  ACCOUNT_CHANGE_TYPE_SETTLEMENT = 2;             // 结算派奖   - 玩家入款
+  ACCOUNT_CHANGE_TYPE_DEPOSIT = 3;                // 押金       - 玩家扣款
+  ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND = 4;         // 返还押金   - 玩家入款
+  ACCOUNT_CHANGE_TYPE_BET_CANCEL = 5;             // 取消投注   - 玩家入款
+  ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL = 6;      // 结算撤单   - 玩家扣款
+  ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT = 7;          // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
+  ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME = 8;       // 转入游戏   - 玩家扣款
+  ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME = 9;     // 从游戏转出 - 玩家入款
+  ACCOUNT_CHANGE_TYPE_ADJUSTMENT = 10;            // 调整金额   - 玩家[入款]-[扣款]
 }
 
 // 资金流向枚举（可选，用于明确标识）
@@ -38,7 +43,6 @@ enum TransferStatus {
 }
 
 
-
 // TransactionDirection 表示交易的方向（例如：转入或转出）。
 enum TransactionDirection {
   // 未指定或未知方向。在 Protobuf 中，枚举的第一个字段必须是 0，
@@ -51,23 +55,25 @@ enum TransactionDirection {
 }
 
 
-// ErrorCode 通用错误码
-enum ErrorCode {
-  // 未知状态
-  ERROR_CODE_UNSPECIFIED = 0;
-  // 成功
-  ERROR_CODE_SUCCESS = 200;          // 操作成功
-  // 业务失败
-  ERROR_CODE_BUSINESS_ERROR = 400;   // 业务错误(参数错误、余额不足等)
-  // 业务失败
-  ERROR_CODE_NOTFOUND_ERROR = 404;   // 业务错误(数据未找到)
-  // 系统异常
-  ERROR_CODE_SYSTEM_ERROR = 500;     // 系统内部错误
-  // 网络异常
-  ERROR_CODE_NETWORK_ERROR = 502;    // 网络错误或第三方服务异常
-  // 超时异常
-  ERROR_CODE_TIMEOUT = 504;          // 操作超时
+
+// ===========================
+// 游戏相关枚举
+// ===========================
+
+
+// 游戏交易类型枚举
+enum GameTransactionType {
+  GAME_TRANSACTION_TYPE_UNSPECIFIED = 0;      // 未指定
+  GAME_TRANSACTION_TYPE_BET = 1;              // 投注       - 玩家扣款
+  GAME_TRANSACTION_TYPE_SETTLEMENT = 2;       // 结算派奖   - 玩家入款
+  GAME_TRANSACTION_TYPE_DEPOSIT = 3;          // 押金       - 玩家扣款
+  GAME_TRANSACTION_TYPE_DEPOSIT_REFUND = 4;   // 返还押金   - 玩家入款
+  GAME_TRANSACTION_TYPE_BET_CANCEL = 5;       // 取消投注   - 玩家入款
+  GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL = 6; // [废弃]结算撤单   - 玩家扣款
+  GAME_TRANSACTION_TYPE_RE_SETTLEMENT = 7;    // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
 }
+
+
 
 // 游戏状态
 enum GameState {
@@ -86,11 +92,30 @@ enum GameBetState {
   GAME_BET_STATE_CLOSE = 2; // 关闭
 }
 
-// 用户投注状态
-enum BetStatus {
-  BET_STATUS_UNKNOWN = 0;   // 未知
-  BET_STATUS_BET = 1;       // 投注
-  BET_STATUS_SETTLE = 2;    // 结算
-  BET_STATUS_CANCEL = 3;    // 投注取消
-  BET_STATUS_DISCARD = 4;   // 废弃
+
+
+// ===========================
+// 通用错误码枚举
+// ===========================
+
+// ErrorCode 通用错误码
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;                    // 未知状态
+  // 成功状态码
+  ERROR_CODE_SUCCESS = 200;                      // 操作成功
+  // 客户端错误 4xx
+  ERROR_CODE_BAD_REQUEST = 400;                  // 请求参数错误
+  ERROR_CODE_UNAUTHORIZED = 401;                 // 未授权
+  ERROR_CODE_FORBIDDEN = 403;                    // 禁止访问
+  ERROR_CODE_NOT_FOUND = 404;                    // 资源未找到
+  ERROR_CODE_METHOD_NOT_ALLOWED = 405;           // 方法不允许
+  ERROR_CODE_CONFLICT = 409;                     // 资源冲突
+  ERROR_CODE_UNPROCESSABLE_ENTITY = 422;         // 请求格式正确但语义错误
+  ERROR_CODE_TOO_MANY_REQUESTS = 429;            // 请求过于频繁
+  // 服务端错误 5xx
+  ERROR_CODE_INTERNAL_SERVER_ERROR = 500;       // 服务器内部错误
+  ERROR_CODE_NOT_IMPLEMENTED = 501;             // 功能未实现
+  ERROR_CODE_BAD_GATEWAY = 502;                 // 网关错误或第三方服务异常
+  ERROR_CODE_SERVICE_UNAVAILABLE = 503;         // 服务不可用
+  ERROR_CODE_GATEWAY_TIMEOUT = 504;             // 网关超时
 }

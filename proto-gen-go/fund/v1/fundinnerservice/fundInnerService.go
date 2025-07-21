@@ -14,26 +14,35 @@ import (
 )
 
 type (
+	BaseResponse               = v1.BaseResponse
 	CreateUserBalanceRecordReq = v1.CreateUserBalanceRecordReq
 	FundReq                    = v1.FundReq
 	FundResp                   = v1.FundResp
+	GetUserBalanceListData     = v1.GetUserBalanceListData
 	GetUserBalanceListReq      = v1.GetUserBalanceListReq
 	GetUserBalanceListResp     = v1.GetUserBalanceListResp
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
-	SaveGameRecordRequest      = v1.SaveGameRecordRequest
+	SaveGameRecordReq          = v1.SaveGameRecordReq
+	TransactionData            = v1.TransactionData
 	TransactionReq             = v1.TransactionReq
+	TransactionReqInfo         = v1.TransactionReqInfo
 	TransactionResp            = v1.TransactionResp
+	TransferInData             = v1.TransferInData
 	TransferInReq              = v1.TransferInReq
 	TransferInResp             = v1.TransferInResp
+	TransferOutData            = v1.TransferOutData
 	TransferOutReq             = v1.TransferOutReq
 	TransferOutResp            = v1.TransferOutResp
+	TransferProgressData       = v1.TransferProgressData
 	TransferProgressInfo       = v1.TransferProgressInfo
 	TransferProgressReq        = v1.TransferProgressReq
 	TransferProgressResp       = v1.TransferProgressResp
+	TransferStatusUpdateData   = v1.TransferStatusUpdateData
 	TransferStatusUpdateReq    = v1.TransferStatusUpdateReq
 	TransferStatusUpdateResp   = v1.TransferStatusUpdateResp
 	UserBalanceInfo            = v1.UserBalanceInfo
+	UserBalanceListData        = v1.UserBalanceListData
 	UserBalanceListReq         = v1.UserBalanceListReq
 	UserBalanceListResp        = v1.UserBalanceListResp
 	UserBalanceRecordItem      = v1.UserBalanceRecordItem
@@ -50,7 +59,7 @@ type (
 		// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
 		CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 		// 接收游戏结果数据，并将其持久化到数据库中。
-		SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error)
+		SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 	}
 
 	defaultFundInnerService struct {
@@ -95,7 +104,7 @@ func (m *defaultFundInnerService) CreateUserBalanceRecord(ctx context.Context, i
 }
 
 // 接收游戏结果数据，并将其持久化到数据库中。
-func (m *defaultFundInnerService) SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error) {
+func (m *defaultFundInnerService) SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.SaveGameRecord(ctx, in, opts...)
 }

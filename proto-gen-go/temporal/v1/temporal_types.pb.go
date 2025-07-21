@@ -139,62 +139,77 @@ func (ControlOperation) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_v1_temporal_types_proto_rawDescGZIP(), []int{1}
 }
 
-// 控制结果
-type ControlResult int32
+// 统一的控制操作结果枚举
+type ControlOperationResult int32
 
 const (
-	ControlResult_CONTROL_UNSPECIFIED ControlResult = 0 // 未知类型
-	ControlResult_CONTROL_SUCCESS     ControlResult = 1
-	ControlResult_ALREADY_COMPLETED   ControlResult = 2
-	ControlResult_ALREADY_CANCELLED   ControlResult = 3
-	ControlResult_NOT_FOUND           ControlResult = 4
-	ControlResult_OPERATION_FAILED    ControlResult = 5
+	ControlOperationResult_CONTROL_OPERATION_RESULT_UNSPECIFIED ControlOperationResult = 0 // 未指定
+	// 操作状态类
+	ControlOperationResult_CONTROL_OPERATION_RESULT_INITIATED   ControlOperationResult = 1 // 已发起（异步操作）
+	ControlOperationResult_CONTROL_OPERATION_RESULT_IN_PROGRESS ControlOperationResult = 2 // 进行中（异步操作）
+	ControlOperationResult_CONTROL_OPERATION_RESULT_SUCCESS     ControlOperationResult = 3 // 操作成功
+	// 业务状态类
+	ControlOperationResult_CONTROL_OPERATION_RESULT_ALREADY_COMPLETED ControlOperationResult = 4 // 工作流已完成
+	ControlOperationResult_CONTROL_OPERATION_RESULT_ALREADY_CANCELLED ControlOperationResult = 5 // 工作流已取消
+	ControlOperationResult_CONTROL_OPERATION_RESULT_NOT_FOUND         ControlOperationResult = 6 // 工作流不存在
+	// 失败类
+	ControlOperationResult_CONTROL_OPERATION_RESULT_FAILED    ControlOperationResult = 7 // 操作失败
+	ControlOperationResult_CONTROL_OPERATION_RESULT_TIMED_OUT ControlOperationResult = 8 // 操作超时
+	ControlOperationResult_CONTROL_OPERATION_RESULT_REJECTED  ControlOperationResult = 9 // 操作被拒绝（权限不足等）
 )
 
-// Enum value maps for ControlResult.
+// Enum value maps for ControlOperationResult.
 var (
-	ControlResult_name = map[int32]string{
-		0: "CONTROL_UNSPECIFIED",
-		1: "CONTROL_SUCCESS",
-		2: "ALREADY_COMPLETED",
-		3: "ALREADY_CANCELLED",
-		4: "NOT_FOUND",
-		5: "OPERATION_FAILED",
+	ControlOperationResult_name = map[int32]string{
+		0: "CONTROL_OPERATION_RESULT_UNSPECIFIED",
+		1: "CONTROL_OPERATION_RESULT_INITIATED",
+		2: "CONTROL_OPERATION_RESULT_IN_PROGRESS",
+		3: "CONTROL_OPERATION_RESULT_SUCCESS",
+		4: "CONTROL_OPERATION_RESULT_ALREADY_COMPLETED",
+		5: "CONTROL_OPERATION_RESULT_ALREADY_CANCELLED",
+		6: "CONTROL_OPERATION_RESULT_NOT_FOUND",
+		7: "CONTROL_OPERATION_RESULT_FAILED",
+		8: "CONTROL_OPERATION_RESULT_TIMED_OUT",
+		9: "CONTROL_OPERATION_RESULT_REJECTED",
 	}
-	ControlResult_value = map[string]int32{
-		"CONTROL_UNSPECIFIED": 0,
-		"CONTROL_SUCCESS":     1,
-		"ALREADY_COMPLETED":   2,
-		"ALREADY_CANCELLED":   3,
-		"NOT_FOUND":           4,
-		"OPERATION_FAILED":    5,
+	ControlOperationResult_value = map[string]int32{
+		"CONTROL_OPERATION_RESULT_UNSPECIFIED":       0,
+		"CONTROL_OPERATION_RESULT_INITIATED":         1,
+		"CONTROL_OPERATION_RESULT_IN_PROGRESS":       2,
+		"CONTROL_OPERATION_RESULT_SUCCESS":           3,
+		"CONTROL_OPERATION_RESULT_ALREADY_COMPLETED": 4,
+		"CONTROL_OPERATION_RESULT_ALREADY_CANCELLED": 5,
+		"CONTROL_OPERATION_RESULT_NOT_FOUND":         6,
+		"CONTROL_OPERATION_RESULT_FAILED":            7,
+		"CONTROL_OPERATION_RESULT_TIMED_OUT":         8,
+		"CONTROL_OPERATION_RESULT_REJECTED":          9,
 	}
 )
 
-func (x ControlResult) Enum() *ControlResult {
-	p := new(ControlResult)
+func (x ControlOperationResult) Enum() *ControlOperationResult {
+	p := new(ControlOperationResult)
 	*p = x
 	return p
 }
 
-func (x ControlResult) String() string {
+func (x ControlOperationResult) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ControlResult) Descriptor() protoreflect.EnumDescriptor {
+func (ControlOperationResult) Descriptor() protoreflect.EnumDescriptor {
 	return file_temporal_v1_temporal_types_proto_enumTypes[2].Descriptor()
 }
 
-func (ControlResult) Type() protoreflect.EnumType {
+func (ControlOperationResult) Type() protoreflect.EnumType {
 	return &file_temporal_v1_temporal_types_proto_enumTypes[2]
 }
 
-func (x ControlResult) Number() protoreflect.EnumNumber {
+func (x ControlOperationResult) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ControlResult.Descriptor instead.
-func (ControlResult) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use ControlOperationResult.Descriptor instead.
+func (ControlOperationResult) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_v1_temporal_types_proto_rawDescGZIP(), []int{2}
 }
 
@@ -667,14 +682,18 @@ const file_temporal_v1_temporal_types_proto_rawDesc = "" +
 	"\x05PAUSE\x10\x03\x12\n" +
 	"\n" +
 	"\x06RESUME\x10\x04\x12\t\n" +
-	"\x05RESET\x10\x05*\x90\x01\n" +
-	"\rControlResult\x12\x17\n" +
-	"\x13CONTROL_UNSPECIFIED\x10\x00\x12\x13\n" +
-	"\x0fCONTROL_SUCCESS\x10\x01\x12\x15\n" +
-	"\x11ALREADY_COMPLETED\x10\x02\x12\x15\n" +
-	"\x11ALREADY_CANCELLED\x10\x03\x12\r\n" +
-	"\tNOT_FOUND\x10\x04\x12\x14\n" +
-	"\x10OPERATION_FAILED\x10\x05*L\n" +
+	"\x05RESET\x10\x05*\xb6\x03\n" +
+	"\x16ControlOperationResult\x12(\n" +
+	"$CONTROL_OPERATION_RESULT_UNSPECIFIED\x10\x00\x12&\n" +
+	"\"CONTROL_OPERATION_RESULT_INITIATED\x10\x01\x12(\n" +
+	"$CONTROL_OPERATION_RESULT_IN_PROGRESS\x10\x02\x12$\n" +
+	" CONTROL_OPERATION_RESULT_SUCCESS\x10\x03\x12.\n" +
+	"*CONTROL_OPERATION_RESULT_ALREADY_COMPLETED\x10\x04\x12.\n" +
+	"*CONTROL_OPERATION_RESULT_ALREADY_CANCELLED\x10\x05\x12&\n" +
+	"\"CONTROL_OPERATION_RESULT_NOT_FOUND\x10\x06\x12#\n" +
+	"\x1fCONTROL_OPERATION_RESULT_FAILED\x10\a\x12&\n" +
+	"\"CONTROL_OPERATION_RESULT_TIMED_OUT\x10\b\x12%\n" +
+	"!CONTROL_OPERATION_RESULT_REJECTED\x10\t*L\n" +
 	"\tQueryType\x12\x15\n" +
 	"\x11QUERY_UNSPECIFIED\x10\x00\x12\n" +
 	"\n" +
@@ -735,16 +754,16 @@ func file_temporal_v1_temporal_types_proto_rawDescGZIP() []byte {
 var file_temporal_v1_temporal_types_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
 var file_temporal_v1_temporal_types_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_temporal_v1_temporal_types_proto_goTypes = []any{
-	(ExecutionMode)(0),      // 0: temporal.v1.ExecutionMode
-	(ControlOperation)(0),   // 1: temporal.v1.ControlOperation
-	(ControlResult)(0),      // 2: temporal.v1.ControlResult
-	(QueryType)(0),          // 3: temporal.v1.QueryType
-	(WorkflowState)(0),      // 4: temporal.v1.WorkflowState
-	(ScheduleOperation)(0),  // 5: temporal.v1.ScheduleOperation
-	(OverlapPolicy)(0),      // 6: temporal.v1.OverlapPolicy
-	(ScheduleState)(0),      // 7: temporal.v1.ScheduleState
-	(*WorkflowOptions)(nil), // 8: temporal.v1.WorkflowOptions
-	(*RetryPolicy)(nil),     // 9: temporal.v1.RetryPolicy
+	(ExecutionMode)(0),          // 0: temporal.v1.ExecutionMode
+	(ControlOperation)(0),       // 1: temporal.v1.ControlOperation
+	(ControlOperationResult)(0), // 2: temporal.v1.ControlOperationResult
+	(QueryType)(0),              // 3: temporal.v1.QueryType
+	(WorkflowState)(0),          // 4: temporal.v1.WorkflowState
+	(ScheduleOperation)(0),      // 5: temporal.v1.ScheduleOperation
+	(OverlapPolicy)(0),          // 6: temporal.v1.OverlapPolicy
+	(ScheduleState)(0),          // 7: temporal.v1.ScheduleState
+	(*WorkflowOptions)(nil),     // 8: temporal.v1.WorkflowOptions
+	(*RetryPolicy)(nil),         // 9: temporal.v1.RetryPolicy
 }
 var file_temporal_v1_temporal_types_proto_depIdxs = []int32{
 	9, // 0: temporal.v1.WorkflowOptions.retry_policy:type_name -> temporal.v1.RetryPolicy

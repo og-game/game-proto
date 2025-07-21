@@ -157,11 +157,64 @@ func (x *PageResponse) GetTotalPage() int64 {
 	return 0
 }
 
+// 统一基础响应结构
+type BaseResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          ErrorCode              `protobuf:"varint,1,opt,name=code,proto3,enum=common.v1.ErrorCode" json:"code,omitempty"` // 错误码
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`                     // 错误消息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BaseResponse) Reset() {
+	*x = BaseResponse{}
+	mi := &file_common_v1_base_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BaseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BaseResponse) ProtoMessage() {}
+
+func (x *BaseResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_common_v1_base_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BaseResponse.ProtoReflect.Descriptor instead.
+func (*BaseResponse) Descriptor() ([]byte, []int) {
+	return file_common_v1_base_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *BaseResponse) GetCode() ErrorCode {
+	if x != nil {
+		return x.Code
+	}
+	return ErrorCode_ERROR_CODE_UNSPECIFIED
+}
+
+func (x *BaseResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_common_v1_base_proto protoreflect.FileDescriptor
 
 const file_common_v1_base_proto_rawDesc = "" +
 	"\n" +
-	"\x14common/v1/base.proto\x12\tcommon.v1\"k\n" +
+	"\x14common/v1/base.proto\x12\tcommon.v1\x1a\x14common/v1/enum.proto\"k\n" +
 	"\vPageRequest\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x17\n" +
@@ -172,7 +225,10 @@ const file_common_v1_base_proto_rawDesc = "" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
 	"\x05total\x18\x03 \x01(\x03R\x05total\x12\x1d\n" +
 	"\n" +
-	"total_page\x18\x04 \x01(\x03R\ttotalPageB6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
+	"total_page\x18\x04 \x01(\x03R\ttotalPage\"R\n" +
+	"\fBaseResponse\x12(\n" +
+	"\x04code\x18\x01 \x01(\x0e2\x14.common.v1.ErrorCodeR\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessageB6Z4github.com/og-game/game-proto/proto-gen-go/common/v1b\x06proto3"
 
 var (
 	file_common_v1_base_proto_rawDescOnce sync.Once
@@ -186,17 +242,20 @@ func file_common_v1_base_proto_rawDescGZIP() []byte {
 	return file_common_v1_base_proto_rawDescData
 }
 
-var file_common_v1_base_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_common_v1_base_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_common_v1_base_proto_goTypes = []any{
 	(*PageRequest)(nil),  // 0: common.v1.PageRequest
 	(*PageResponse)(nil), // 1: common.v1.PageResponse
+	(*BaseResponse)(nil), // 2: common.v1.BaseResponse
+	(ErrorCode)(0),       // 3: common.v1.ErrorCode
 }
 var file_common_v1_base_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: common.v1.BaseResponse.code:type_name -> common.v1.ErrorCode
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_common_v1_base_proto_init() }
@@ -204,13 +263,14 @@ func file_common_v1_base_proto_init() {
 	if File_common_v1_base_proto != nil {
 		return
 	}
+	file_common_v1_enum_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v1_base_proto_rawDesc), len(file_common_v1_base_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

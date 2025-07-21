@@ -100,7 +100,7 @@ message GetBetRecordListResp {
   repeated BetRecordListItem data = 3;
 }
 message BetRecordListItem {
-  common.v1.BetStatus status = 1; // 投注状态
+  common.v1.GameTransactionType status = 1; // 投注状态
   string bet_amount = 2;  // 投注金额
   string third_order_no = 3; // 三方订单号
   string third_game_id = 4;  // 三方游戏ID

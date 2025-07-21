@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	WorkflowService_StartWorkflow_FullMethodName   = "/temporal.v1.WorkflowService/StartWorkflow"
-	WorkflowService_ControlWorkflow_FullMethodName = "/temporal.v1.WorkflowService/ControlWorkflow"
-	WorkflowService_QueryWorkflow_FullMethodName   = "/temporal.v1.WorkflowService/QueryWorkflow"
-	WorkflowService_ListWorkflows_FullMethodName   = "/temporal.v1.WorkflowService/ListWorkflows"
-	WorkflowService_ReplaceWorkflow_FullMethodName = "/temporal.v1.WorkflowService/ReplaceWorkflow"
+	WorkflowService_StartWorkflow_FullMethodName         = "/temporal.v1.WorkflowService/StartWorkflow"
+	WorkflowService_ControlWorkflow_FullMethodName       = "/temporal.v1.WorkflowService/ControlWorkflow"
+	WorkflowService_QueryControlOperation_FullMethodName = "/temporal.v1.WorkflowService/QueryControlOperation"
+	WorkflowService_QueryWorkflow_FullMethodName         = "/temporal.v1.WorkflowService/QueryWorkflow"
+	WorkflowService_ListWorkflows_FullMethodName         = "/temporal.v1.WorkflowService/ListWorkflows"
+	WorkflowService_ReplaceWorkflow_FullMethodName       = "/temporal.v1.WorkflowService/ReplaceWorkflow"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -38,6 +39,8 @@ type WorkflowServiceClient interface {
 	StartWorkflow(ctx context.Context, in *StartWorkflowRequest, opts ...grpc.CallOption) (*StartWorkflowResponse, error)
 	// 控制工作流 (取消/终止/暂停/恢复)
 	ControlWorkflow(ctx context.Context, in *ControlWorkflowRequest, opts ...grpc.CallOption) (*ControlWorkflowResponse, error)
+	// 查询控制操作状态
+	QueryControlOperation(ctx context.Context, in *QueryControlOperationRequest, opts ...grpc.CallOption) (*QueryControlOperationResponse, error)
 	// 查询工作流状态和历史
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 	// 列出工作流
@@ -68,6 +71,16 @@ func (c *workflowServiceClient) ControlWorkflow(ctx context.Context, in *Control
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ControlWorkflowResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_ControlWorkflow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) QueryControlOperation(ctx context.Context, in *QueryControlOperationRequest, opts ...grpc.CallOption) (*QueryControlOperationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(QueryControlOperationResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_QueryControlOperation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,6 +129,8 @@ type WorkflowServiceServer interface {
 	StartWorkflow(context.Context, *StartWorkflowRequest) (*StartWorkflowResponse, error)
 	// 控制工作流 (取消/终止/暂停/恢复)
 	ControlWorkflow(context.Context, *ControlWorkflowRequest) (*ControlWorkflowResponse, error)
+	// 查询控制操作状态
+	QueryControlOperation(context.Context, *QueryControlOperationRequest) (*QueryControlOperationResponse, error)
 	// 查询工作流状态和历史
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
 	// 列出工作流
@@ -137,6 +152,9 @@ func (UnimplementedWorkflowServiceServer) StartWorkflow(context.Context, *StartW
 }
 func (UnimplementedWorkflowServiceServer) ControlWorkflow(context.Context, *ControlWorkflowRequest) (*ControlWorkflowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ControlWorkflow not implemented")
+}
+func (UnimplementedWorkflowServiceServer) QueryControlOperation(context.Context, *QueryControlOperationRequest) (*QueryControlOperationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryControlOperation not implemented")
 }
 func (UnimplementedWorkflowServiceServer) QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryWorkflow not implemented")
@@ -200,6 +218,24 @@ func _WorkflowService_ControlWorkflow_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).ControlWorkflow(ctx, req.(*ControlWorkflowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_QueryControlOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryControlOperationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).QueryControlOperation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_QueryControlOperation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).QueryControlOperation(ctx, req.(*QueryControlOperationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -272,6 +308,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ControlWorkflow",
 			Handler:    _WorkflowService_ControlWorkflow_Handler,
+		},
+		{
+			MethodName: "QueryControlOperation",
+			Handler:    _WorkflowService_QueryControlOperation_Handler,
 		},
 		{
 			MethodName: "QueryWorkflow",

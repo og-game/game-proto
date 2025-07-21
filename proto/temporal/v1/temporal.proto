@@ -3,7 +3,11 @@ syntax = "proto3";
 package temporal.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/temporal/v1";
 
+import "common/v1/base.proto";
 import "temporal/v1/temporal_types.proto";
+
+
+
 
 // ================================
 // 1. 工作流管理服务 (合并执行和控制)
@@ -14,6 +18,9 @@ service WorkflowService {
 
   // 控制工作流 (取消/终止/暂停/恢复)
   rpc ControlWorkflow(ControlWorkflowRequest) returns (ControlWorkflowResponse);
+
+  // 查询控制操作状态
+  rpc QueryControlOperation(QueryControlOperationRequest) returns (QueryControlOperationResponse);
 
   // 查询工作流状态和历史
   rpc QueryWorkflow(QueryWorkflowRequest) returns (QueryWorkflowResponse);
@@ -119,11 +126,13 @@ message WorkflowItem {
 }
 
 
-// 启动响应
 message StartWorkflowResponse {
-  bool success = 1;
-  string message = 2;
+  common.v1.BaseResponse base = 1;               // 基础响应
+  StartWorkflowData data = 2;          // 业务数据
+}
 
+// 启动响应
+message StartWorkflowData {
   oneof result {
     SingleResult single_result = 3;    // 单个工作流结果
     BatchResult batch_result = 4;      // 批量结果
@@ -204,19 +213,63 @@ message ControlOptions {
 
 // 控制响应
 message ControlWorkflowResponse {
-  bool success = 1;
-  string message = 2;
-  ControlResult result = 3;
-  BatchControlResult batch_result = 4; // 批量操作结果
+  common.v1.BaseResponse base = 1;               // 基础响应
+  ControlWorkflowData data = 2;        // 业务数据
 }
 
+
+message ControlWorkflowData {
+  oneof result {
+    ControlOperationInfo single_result = 1;       // 单个操作结果
+    BatchControlResult batch_result = 2;          // 批量操作结果
+  }
+}
 
 // 批量控制结果
 message BatchControlResult {
   int32 total_count = 1;
   int32 success_count = 2;
   int32 failed_count = 3;
-  repeated ControlWorkflowResponse individual_results = 4;
+  repeated ControlOperationInfo results = 4;      // 使用详细信息
+}
+
+message ControlOperationInfo {
+  string workflow_id = 1;
+  string run_id = 2;
+  ControlOperation operation = 3;
+
+  // 统一的操作结果
+  ControlOperationResult result = 4;
+
+  // 扩展信息
+  string operation_id = 5;             // 操作ID，用于异步查询
+  int64 operation_time = 6;            // 操作时间戳
+  string completion_time = 7;          // 完成时间（如果完成）
+  string failure_reason = 8;           // 失败原因（如果失败）
+  map<string, string> metadata = 9;    // 额外的元数据
+}
+
+// ================================
+// 查询控制操作状态
+// ================================
+
+// 查询控制操作状态请求
+message QueryControlOperationRequest {
+  string operation_id = 1;             // 操作ID
+  string workflow_id = 2;              // 工作流ID（可选，用于过滤）
+}
+
+// 查询控制操作状态响应
+message QueryControlOperationResponse {
+  common.v1.BaseResponse base = 1;
+  QueryControlOperationData data = 2;
+}
+
+// 新增：查询控制操作数据
+message QueryControlOperationData {
+  string operation_id = 1;
+  ControlOperationInfo operation_info = 2;
+  repeated string related_workflows = 3;
 }
 
 // ================================
@@ -246,11 +299,17 @@ message QueryOptions {
   bool include_child_workflows = 5;
 }
 
-// 查询响应
-message QueryWorkflowResponse {
-  bool success = 1;
-  string message = 2;
 
+
+// 查询工作流响应
+message QueryWorkflowResponse {
+  common.v1.BaseResponse base = 1;               // 基础响应
+  QueryWorkflowData data = 2;          // 业务数据
+}
+
+
+// 查询响应
+message QueryWorkflowData {
   oneof result {
     WorkflowStatus status = 3;          // 状态结果
     WorkflowHistory history = 4;        // 历史结果
@@ -326,6 +385,12 @@ message ListOptions {
 
 // 列出工作流响应
 message ListWorkflowsResponse {
+  common.v1.BaseResponse base = 1;               // 基础响应
+  ListWorkflowsData data = 2;          // 业务数据
+}
+
+// 列出工作流响应
+message ListWorkflowsData {
   repeated WorkflowInfo workflows = 1;
   string next_page_token = 2;
   bool has_more = 3;
@@ -367,17 +432,19 @@ message ReplaceWorkflowRequest {
 
 // 替换工作流响应
 message ReplaceWorkflowResponse {
-  bool success = 1;
-  string message = 2;
-
-  // 取消结果
-  ControlResult cancel_result = 3;
-  string cancelled_workflow_id = 4;
-
-  // 启动结果
-  StartWorkflowResponse start_result = 5;
+  common.v1.BaseResponse base = 1;               // 基础响应
+  ReplaceWorkflowData data = 2;        // 业务数据
 }
 
+// 替换工作流数据
+message ReplaceWorkflowData {
+  // 取消结果
+  ControlOperationInfo cancel_result = 1;
+  string cancelled_workflow_id = 2;
+
+  // 启动结果
+  StartWorkflowData start_result = 3;
+}
 
 
 
@@ -395,9 +462,18 @@ message SignalWorkflowRequest {
 
 // 发送信号响应
 message SignalWorkflowResponse {
-  bool success = 1;
-  string message = 2;
+  common.v1.BaseResponse base = 1;               // 基础响应
+  SignalWorkflowData data = 2;         // 业务数据
 }
+
+// 发送信号数据
+message SignalWorkflowData {
+  string workflow_id = 1;
+  string run_id = 2;
+  string signal_name = 3;
+  int64 signal_time = 4;
+}
+
 
 // 信号并启动请求
 message SignalWithStartRequest {
@@ -418,12 +494,18 @@ message SignalWithStartRequest {
 
 // 信号并启动响应
 message SignalWithStartResponse {
-  bool success = 1;
-  string message = 2;
-  string workflow_id = 3;
-  string run_id = 4;
-  bool workflow_started = 5;           // 是否新启动了工作流
+  common.v1.BaseResponse base = 1;               // 基础响应
+  SignalWithStartData data = 2;        // 业务数据
 }
+
+// 信号并启动数据
+message SignalWithStartData {
+  string workflow_id = 1;
+  string run_id = 2;
+  bool workflow_started = 3;           // 是否新启动了工作流
+  int64 signal_time = 4;
+}
+
 
 // 查询工作流状态请求
 message QueryWorkflowStateRequest {
@@ -435,9 +517,14 @@ message QueryWorkflowStateRequest {
 
 // 查询工作流状态响应
 message QueryWorkflowStateResponse {
-  bool success = 1;
-  string message = 2;
-  bytes result = 3;                    // 查询结果
+  common.v1.BaseResponse base = 1;               // 基础响应
+  QueryWorkflowStateData data = 2;     // 业务数据
+}
+// 查询工作流状态数据
+message QueryWorkflowStateData {
+  string query_type = 1;
+  bytes result = 2;                    // 查询结果
+  int64 query_time = 3;
 }
 
 // ================================
@@ -490,10 +577,16 @@ message SchedulePolicy {
 
 // 管理调度响应
 message ManageScheduleResponse {
-  bool success = 1;
-  string message = 2;
-  string schedule_id = 3;
-  string next_execution_time = 4;      // 下次执行时间
+  common.v1.BaseResponse base = 1;               // 基础响应
+  ManageScheduleData data = 2;         // 业务数据
+}
+
+// 管理调度数据
+message ManageScheduleData {
+  string schedule_id = 1;
+  ScheduleOperation operation = 2;
+  string next_execution_time = 3;      // 下次执行时间
+  int64 operation_time = 4;
 }
 
 // 查询调度请求
@@ -503,9 +596,8 @@ message QueryScheduleRequest {
 
 // 查询调度响应
 message QueryScheduleResponse {
-  bool success = 1;
-  string message = 2;
-  ScheduleInfo schedule_info = 3;
+  common.v1.BaseResponse base = 1;               // 基础响应
+  ScheduleInfo data = 2;               // 业务数据
 }
 
 // 调度信息
@@ -538,6 +630,12 @@ message ListScheduleOptions {
 
 // 列出调度响应
 message ListSchedulesResponse {
+  common.v1.BaseResponse base = 1;               // 基础响应
+  ListSchedulesData data = 2;          // 业务数据
+}
+
+// 列出调度数据
+message ListSchedulesData {
   repeated ScheduleInfo schedules = 1;
   string next_page_token = 2;
   bool has_more = 3;

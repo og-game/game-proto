@@ -4,6 +4,7 @@ package fund.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/fund/v1";
 
 import "common/v1/enum.proto";
+import "fund/v1/fund_types.proto";
 
 message FundReq{
 
@@ -11,6 +12,14 @@ message FundReq{
 
 message FundResp{
 
+}
+
+
+
+// 统一响应结构
+message BaseResponse {
+  FundErrorCode code = 1;       // 业务错误码
+  string message = 2;           // 错误消息
 }
 
 
@@ -41,6 +50,13 @@ message UserBalanceListReq {
 
 // 批量获取用户余额响应
 message UserBalanceListResp {
+  BaseResponse base = 1;        // 基础响应
+  UserBalanceListData data = 2; // 业务数据
+}
+
+
+// 批量获取用户余额数据
+message UserBalanceListData {
   map<int64, string> balances = 1; // platform_id => balance
 }
 
@@ -54,15 +70,21 @@ message TransferInReq{
   map<string, string> extra_params = 5;
 }
 
+
+// 发起转入操作响应
+message TransferInResp {
+  BaseResponse base = 1;        // 基础响应
+  TransferInData data = 2; // 业务数据
+}
+
+
 // 发起转入操作
-message TransferInResp{
-  common.v1.ErrorCode code = 1;
-  string message = 2;
-  string transaction_id = 3; // 内部交易ID
-  string merchant_order_id = 4;  // 商户订单ID
-  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
-  string deposit_amount = 6;  // 存款金额
-  string balance_after = 7;  // 变更后余额
+message TransferInData{
+  string transaction_id = 1; // 内部交易ID
+  string merchant_order_id = 2;  // 商户订单ID
+  common.v1.TransferStatus status = 3; // 转账状态：pending, processing, completed, failed
+  string deposit_amount = 4;  // 存款金额
+  string balance_after = 5;  // 变更后余额
 }
 
 
@@ -75,15 +97,20 @@ message TransferOutReq {
   string withdrawal_amount = 5; // 取款金额->todo 预留字段暂时不会使用[My rules are THE rules.]
 }
 
-// 发起转出操作;
+
+// 发起转出操作响应
 message TransferOutResp {
-  common.v1.ErrorCode code = 1;
-  string message = 2;
-  string transaction_id = 3; // 内部交易ID
-  string merchant_order_id = 4;  // 商户订单ID
-  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
-  string withdrawal_amount = 6; // 取款金额
-  string balance_after = 7;  // 变更后余额
+  BaseResponse base = 1;        // 基础响应
+  TransferOutData data = 2; // 业务数据
+}
+
+// 发起转出操作;
+message TransferOutData {
+  string transaction_id = 1; // 内部交易ID
+  string merchant_order_id = 2;  // 商户订单ID
+  common.v1.TransferStatus status = 3; // 转账状态：pending, processing, completed, failed
+  string withdrawal_amount = 4; // 取款金额
+  string balance_after = 5;  // 变更后余额
 }
 
 
@@ -94,8 +121,15 @@ message TransferProgressReq {
   repeated string merchant_order_ids = 3; // 商户订单ID
 }
 
-// 查询转出状态响应
+
+// 查询转账进度响应
 message TransferProgressResp {
+  BaseResponse base = 1;                   // 基础响应
+  TransferProgressData data = 2;           // 业务数据
+}
+
+// 转账进度信息
+message TransferProgressData {
   map<string, TransferProgressInfo> progress = 1; // transaction_id => progress
   map<string, TransferProgressInfo> not_match = 2; // transaction_id => progress 没有匹配到的交易结果
 }
@@ -103,15 +137,13 @@ message TransferProgressResp {
 
 // 转账操作
 message TransferProgressInfo {
-  common.v1.ErrorCode code = 1;
-  string message = 2;
-  string transaction_id = 3; // 内部交易ID
-  string merchant_order_id = 4; // 商户交易ID
-  string amount = 5; // 转账金额
-  common.v1.TransactionDirection transfer_type = 6;
-  common.v1.TransferStatus status = 7; // 转账状态：pending, processing, completed, failed
-  int64 created_time = 8; // 申请时间戳
-  int64 updated_time = 9; // 最后更新时间戳
+  string transaction_id = 1; // 内部交易ID
+  string merchant_order_id = 2; // 商户交易ID
+  string amount = 3; // 转账金额
+  common.v1.TransactionDirection transfer_type = 4;
+  common.v1.TransferStatus status = 5; // 转账状态：pending, processing, completed, failed
+  int64 created_time = 6; // 申请时间戳
+  int64 updated_time = 7; // 最后更新时间戳
 }
 
 
@@ -137,7 +169,7 @@ service FundInnerService {
   rpc CreateUserBalanceRecord(CreateUserBalanceRecordReq) returns (FundResp);
 
   // 接收游戏结果数据，并将其持久化到数据库中。
-  rpc SaveGameRecord(SaveGameRecordRequest) returns (FundResp);
+  rpc SaveGameRecord(SaveGameRecordReq) returns (FundResp);
 }
 
 
@@ -149,14 +181,14 @@ message GetUserBalanceReq {
 
 // 获取单个用户余额响应
 message GetUserBalanceResp {
-  string balance = 1; // 游戏内余额
-  int64  version = 2; // 版本
+  BaseResponse base = 1;                   // 基础响应
+  UserBalanceInfo data = 2;                // 业务数据
 }
 
 // 用户余额信息
 message UserBalanceInfo {
-  string balance = 1; // 游戏内余额
-  int64  version = 2; // 版本
+  string balance = 1;                      // 游戏内余额
+  int64 version = 2;                       // 版本号
 }
 
 // 批量获取用户余额请求
@@ -167,13 +199,23 @@ message GetUserBalanceListReq {
 
 // 批量获取用户余额响应
 message GetUserBalanceListResp {
+  BaseResponse base = 1;                   // 基础响应
+  GetUserBalanceListData data = 2;         // 业务数据
+}
+
+// 批量获取用户余额响应
+message GetUserBalanceListData {
   map<int64, UserBalanceInfo> balances = 1; // platform_id => balance
 }
 
 
-// 交易请求消息
+//交易请求消息
 message TransactionReq {
-  common.v1.TransactionType type = 1;
+  repeated TransactionReqInfo params = 1;
+}
+
+message TransactionReqInfo {
+  common.v1.AccountChangeType type = 1;
   int64 user_id = 2;
   int64 game_id = 3;
   int64 platform_id = 4;
@@ -186,11 +228,16 @@ message TransactionReq {
 
 // 交易响应消息
 message TransactionResp {
-  bool success = 1;  // 是否成功
-  string transaction_id = 2; // 账变记录ID
-  string balance_before = 3; // 变更前余额
-  string balance_after = 4; // 变更后余额
-  int64 timestamp = 5; // 当前时间戳
+  BaseResponse base = 1;                   // 基础响应
+  TransactionData data = 2;                // 业务数据
+}
+
+// 交易响应消息
+message TransactionData {
+  string transaction_id = 1; // 账变记录ID
+  string balance_before = 2; // 变更前余额
+  string balance_after = 3; // 变更后余额
+  int64 timestamp = 4; // 当前时间戳
 }
 
 
@@ -204,47 +251,57 @@ message TransferStatusUpdateReq {
   string reason = 6; // 可选：状态更新的原因，特别是针对失败情况
 }
 
-// 表示转账状态更新/查询的响应。
+
+// 转账状态更新响应
 message TransferStatusUpdateResp {
-  string transaction_id = 1;
+  BaseResponse base = 1;                   // 基础响应
+  TransferStatusUpdateData data = 2;       // 业务数据
+}
+
+// 转账状态更新数据
+message TransferStatusUpdateData {
+  string transaction_id = 1;               // 交易ID
   common.v1.TransferStatus new_status = 2; // 转账确认的新状态
-  int64 retry_count = 3;                      // 当前重试次数
-  string workflow_id = 4;                     // 工作流ID（如果启动了重试）
+  int64 retry_count = 3;                   // 当前重试次数
+  string workflow_id = 4;                  // 工作流ID（如果启动了重试）
 }
 
 
+
+// 创建用户余额记录请求
 message CreateUserBalanceRecordReq {
-  repeated UserBalanceRecordItem records = 1;     // 记录列表，限制1-1000条
-  string batch_id = 2;                            // 批次ID，用于幂等性控制
+  repeated UserBalanceRecordItem records = 1; // 记录列表，限制1-1000条
+  string batch_id = 2;                     // 批次ID，用于幂等性控制
 }
+
 
 // UserBalanceRecordItem 用户余额变动记录项
 message UserBalanceRecordItem {
-  int64 merchant_id = 1;                          // 商户ID
-  int64 user_id = 2;                              // 用户ID
-  int64 platform_id = 3;                          // 平台ID
-  common.v1.TransactionType transaction_type = 4;                     // 交易类型
-  string amount = 5;                              // 变动金额（使用string表示decimal）
-  string balance_before = 6;                      // 变动前余额
-  string balance_after = 7;                       // 变动后余额
-  string currency_code = 8;                       // 币种代码
-  string related_order_id = 9;                    // 关联业务记录ID
-  string platform_order_id = 10;                 // 三方平台订单ID
-  string merchant_order_id = 11;                 // 下游商户订单ID
-  string transaction_id = 12;                     // 中台交易流水号（唯一）
-  int64 trade_time = 13;                          // 交易时间（毫秒）
-  string description = 14;                        // 交易描述
-  string remark = 15;                             // 备注信息
-  string client_ip = 16;                          // 客户端IP
-  string device_id = 17;                          // 设备ID
-  string device_os = 18;                          // 设备型号
-  string merchant_user_id = 19;  // 商户用户ID
-  string ext_data = 20;                           // 扩展数据（JSON格式）
+  int64 merchant_id = 1;                   // 商户ID
+  int64 user_id = 2;                       // 用户ID
+  int64 platform_id = 3;                   // 平台ID
+  common.v1.AccountChangeType transaction_type = 4; // 账变交易类型
+  string amount = 5;                       // 变动金额（使用string表示decimal）
+  string balance_before = 6;               // 变动前余额
+  string balance_after = 7;                // 变动后余额
+  string currency_code = 8;                // 币种代码
+  string related_order_id = 9;             // 关联业务记录ID
+  string platform_order_id = 10;          // 三方平台订单ID
+  string merchant_order_id = 11;           // 下游商户订单ID
+  string transaction_id = 12;              // 中台交易流水号（唯一）
+  int64 trade_time = 13;                   // 交易时间（毫秒）
+  string description = 14;                 // 交易描述
+  string remark = 15;                      // 备注信息
+  string client_ip = 16;                   // 客户端IP
+  string device_id = 17;                   // 设备ID
+  string device_os = 18;                   // 设备型号
+  string merchant_user_id = 19;            // 商户用户ID
+  string ext_data = 20;                    // 扩展数据（JSON格式）
 }
 
 
 
-// SaveGameRecordRequest 包含了存储多条完整游戏记录所需的所有信息。
-message SaveGameRecordRequest {
+// SaveGameRecordReq 包含了存储多条完整游戏记录所需的所有信息。
+message SaveGameRecordReq {
   repeated bytes bet_details = 1; // 游戏下注记录
 }

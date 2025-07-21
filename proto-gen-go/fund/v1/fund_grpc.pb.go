@@ -272,7 +272,7 @@ type FundInnerServiceClient interface {
 	// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
 	CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 	// 接收游戏结果数据，并将其持久化到数据库中。
-	SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error)
+	SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 }
 
 type fundInnerServiceClient struct {
@@ -333,7 +333,7 @@ func (c *fundInnerServiceClient) CreateUserBalanceRecord(ctx context.Context, in
 	return out, nil
 }
 
-func (c *fundInnerServiceClient) SaveGameRecord(ctx context.Context, in *SaveGameRecordRequest, opts ...grpc.CallOption) (*FundResp, error) {
+func (c *fundInnerServiceClient) SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FundResp)
 	err := c.cc.Invoke(ctx, FundInnerService_SaveGameRecord_FullMethodName, in, out, cOpts...)
@@ -360,7 +360,7 @@ type FundInnerServiceServer interface {
 	// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
 	CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*FundResp, error)
 	// 接收游戏结果数据，并将其持久化到数据库中。
-	SaveGameRecord(context.Context, *SaveGameRecordRequest) (*FundResp, error)
+	SaveGameRecord(context.Context, *SaveGameRecordReq) (*FundResp, error)
 	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
@@ -386,7 +386,7 @@ func (UnimplementedFundInnerServiceServer) UpdateTransferStatus(context.Context,
 func (UnimplementedFundInnerServiceServer) CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*FundResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUserBalanceRecord not implemented")
 }
-func (UnimplementedFundInnerServiceServer) SaveGameRecord(context.Context, *SaveGameRecordRequest) (*FundResp, error) {
+func (UnimplementedFundInnerServiceServer) SaveGameRecord(context.Context, *SaveGameRecordReq) (*FundResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveGameRecord not implemented")
 }
 func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
@@ -501,7 +501,7 @@ func _FundInnerService_CreateUserBalanceRecord_Handler(srv interface{}, ctx cont
 }
 
 func _FundInnerService_SaveGameRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SaveGameRecordRequest)
+	in := new(SaveGameRecordReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -513,7 +513,7 @@ func _FundInnerService_SaveGameRecord_Handler(srv interface{}, ctx context.Conte
 		FullMethod: FundInnerService_SaveGameRecord_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FundInnerServiceServer).SaveGameRecord(ctx, req.(*SaveGameRecordRequest))
+		return srv.(FundInnerServiceServer).SaveGameRecord(ctx, req.(*SaveGameRecordReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
