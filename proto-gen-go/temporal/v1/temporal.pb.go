@@ -3045,7 +3045,6 @@ type SignalWorkflowData struct {
 	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	SignalName    string                 `protobuf:"bytes,3,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
-	SignalTime    int64                  `protobuf:"varint,4,opt,name=signal_time,json=signalTime,proto3" json:"signal_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3099,13 +3098,6 @@ func (x *SignalWorkflowData) GetSignalName() string {
 		return x.SignalName
 	}
 	return ""
-}
-
-func (x *SignalWorkflowData) GetSignalTime() int64 {
-	if x != nil {
-		return x.SignalTime
-	}
-	return 0
 }
 
 // 信号并启动请求
@@ -3271,7 +3263,6 @@ type SignalWithStartData struct {
 	WorkflowId      string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId           string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	WorkflowStarted bool                   `protobuf:"varint,3,opt,name=workflow_started,json=workflowStarted,proto3" json:"workflow_started,omitempty"` // 是否新启动了工作流
-	SignalTime      int64                  `protobuf:"varint,4,opt,name=signal_time,json=signalTime,proto3" json:"signal_time,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -3325,13 +3316,6 @@ func (x *SignalWithStartData) GetWorkflowStarted() bool {
 		return x.WorkflowStarted
 	}
 	return false
-}
-
-func (x *SignalWithStartData) GetSignalTime() int64 {
-	if x != nil {
-		return x.SignalTime
-	}
-	return 0
 }
 
 // 查询工作流状态请求
@@ -3461,7 +3445,6 @@ type QueryWorkflowStateData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	QueryType     string                 `protobuf:"bytes,1,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
 	Result        []byte                 `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"` // 查询结果
-	QueryTime     int64                  `protobuf:"varint,3,opt,name=query_time,json=queryTime,proto3" json:"query_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3508,13 +3491,6 @@ func (x *QueryWorkflowStateData) GetResult() []byte {
 		return x.Result
 	}
 	return nil
-}
-
-func (x *QueryWorkflowStateData) GetQueryTime() int64 {
-	if x != nil {
-		return x.QueryTime
-	}
-	return 0
 }
 
 // 管理调度请求
@@ -3895,7 +3871,6 @@ type ManageScheduleData struct {
 	ScheduleId        string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 	Operation         ScheduleOperation      `protobuf:"varint,2,opt,name=operation,proto3,enum=temporal.v1.ScheduleOperation" json:"operation,omitempty"`
 	NextExecutionTime string                 `protobuf:"bytes,3,opt,name=next_execution_time,json=nextExecutionTime,proto3" json:"next_execution_time,omitempty"` // 下次执行时间
-	OperationTime     int64                  `protobuf:"varint,4,opt,name=operation_time,json=operationTime,proto3" json:"operation_time,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -3949,13 +3924,6 @@ func (x *ManageScheduleData) GetNextExecutionTime() string {
 		return x.NextExecutionTime
 	}
 	return ""
-}
-
-func (x *ManageScheduleData) GetOperationTime() int64 {
-	if x != nil {
-		return x.OperationTime
-	}
-	return 0
 }
 
 // 查询调度请求
@@ -4683,15 +4651,13 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x05input\x18\x04 \x01(\fR\x05input\"z\n" +
 	"\x16SignalWorkflowResponse\x12+\n" +
 	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x123\n" +
-	"\x04data\x18\x02 \x01(\v2\x1f.temporal.v1.SignalWorkflowDataR\x04data\"\x8e\x01\n" +
+	"\x04data\x18\x02 \x01(\v2\x1f.temporal.v1.SignalWorkflowDataR\x04data\"m\n" +
 	"\x12SignalWorkflowData\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1f\n" +
 	"\vsignal_name\x18\x03 \x01(\tR\n" +
-	"signalName\x12\x1f\n" +
-	"\vsignal_time\x18\x04 \x01(\x03R\n" +
-	"signalTime\"\xcd\x03\n" +
+	"signalName\"\xcd\x03\n" +
 	"\x16SignalWithStartRequest\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12#\n" +
@@ -4709,14 +4675,12 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"|\n" +
 	"\x17SignalWithStartResponse\x12+\n" +
 	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x124\n" +
-	"\x04data\x18\x02 \x01(\v2 .temporal.v1.SignalWithStartDataR\x04data\"\x99\x01\n" +
+	"\x04data\x18\x02 \x01(\v2 .temporal.v1.SignalWithStartDataR\x04data\"x\n" +
 	"\x13SignalWithStartData\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12)\n" +
-	"\x10workflow_started\x18\x03 \x01(\bR\x0fworkflowStarted\x12\x1f\n" +
-	"\vsignal_time\x18\x04 \x01(\x03R\n" +
-	"signalTime\"\x88\x01\n" +
+	"\x10workflow_started\x18\x03 \x01(\bR\x0fworkflowStarted\"\x88\x01\n" +
 	"\x19QueryWorkflowStateRequest\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
@@ -4726,13 +4690,11 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x05input\x18\x04 \x01(\fR\x05input\"\x82\x01\n" +
 	"\x1aQueryWorkflowStateResponse\x12+\n" +
 	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x127\n" +
-	"\x04data\x18\x02 \x01(\v2#.temporal.v1.QueryWorkflowStateDataR\x04data\"n\n" +
+	"\x04data\x18\x02 \x01(\v2#.temporal.v1.QueryWorkflowStateDataR\x04data\"O\n" +
 	"\x16QueryWorkflowStateData\x12\x1d\n" +
 	"\n" +
 	"query_type\x18\x01 \x01(\tR\tqueryType\x12\x16\n" +
-	"\x06result\x18\x02 \x01(\fR\x06result\x12\x1d\n" +
-	"\n" +
-	"query_time\x18\x03 \x01(\x03R\tqueryTime\"\xbd\x01\n" +
+	"\x06result\x18\x02 \x01(\fR\x06result\"\xbd\x01\n" +
 	"\x15ManageScheduleRequest\x12\x1f\n" +
 	"\vschedule_id\x18\x01 \x01(\tR\n" +
 	"scheduleId\x12<\n" +
@@ -4769,13 +4731,12 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x10pause_on_failure\x18\x03 \x01(\bR\x0epauseOnFailure\"z\n" +
 	"\x16ManageScheduleResponse\x12+\n" +
 	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x123\n" +
-	"\x04data\x18\x02 \x01(\v2\x1f.temporal.v1.ManageScheduleDataR\x04data\"\xca\x01\n" +
+	"\x04data\x18\x02 \x01(\v2\x1f.temporal.v1.ManageScheduleDataR\x04data\"\xa3\x01\n" +
 	"\x12ManageScheduleData\x12\x1f\n" +
 	"\vschedule_id\x18\x01 \x01(\tR\n" +
 	"scheduleId\x12<\n" +
 	"\toperation\x18\x02 \x01(\x0e2\x1e.temporal.v1.ScheduleOperationR\toperation\x12.\n" +
-	"\x13next_execution_time\x18\x03 \x01(\tR\x11nextExecutionTime\x12%\n" +
-	"\x0eoperation_time\x18\x04 \x01(\x03R\roperationTime\"7\n" +
+	"\x13next_execution_time\x18\x03 \x01(\tR\x11nextExecutionTime\"7\n" +
 	"\x14QueryScheduleRequest\x12\x1f\n" +
 	"\vschedule_id\x18\x01 \x01(\tR\n" +
 	"scheduleId\"s\n" +

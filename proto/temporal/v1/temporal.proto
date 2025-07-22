@@ -477,7 +477,6 @@ message SignalWorkflowData {
   string workflow_id = 1;
   string run_id = 2;
   string signal_name = 3;
-  int64 signal_time = 4;
 }
 
 
@@ -509,7 +508,6 @@ message SignalWithStartData {
   string workflow_id = 1;
   string run_id = 2;
   bool workflow_started = 3;           // 是否新启动了工作流
-  int64 signal_time = 4;
 }
 
 
@@ -530,7 +528,6 @@ message QueryWorkflowStateResponse {
 message QueryWorkflowStateData {
   string query_type = 1;
   bytes result = 2;                    // 查询结果
-  int64 query_time = 3;
 }
 
 // ================================
@@ -592,7 +589,6 @@ message ManageScheduleData {
   string schedule_id = 1;
   ScheduleOperation operation = 2;
   string next_execution_time = 3;      // 下次执行时间
-  int64 operation_time = 4;
 }
 
 // 查询调度请求
