@@ -33,9 +33,9 @@ const (
 	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET_CANCEL         AccountChangeType = 5  // 取消投注   - 玩家入款
 	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL  AccountChangeType = 6  // 结算撤单   - 玩家扣款
 	AccountChangeType_ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT      AccountChangeType = 7  // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME   AccountChangeType = 8  // 转入游戏   - 玩家扣款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME AccountChangeType = 9  // 从游戏转出 - 玩家入款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_ADJUSTMENT         AccountChangeType = 10 // 调整金额   - 玩家[入款]-[扣款]
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_ADJUSTMENT         AccountChangeType = 8  // 调整金额   - 玩家[入款]-[扣款]
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME   AccountChangeType = 9  // 转入游戏   - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME AccountChangeType = 10 // 从游戏转出 - 玩家入款
 )
 
 // Enum value maps for AccountChangeType.
@@ -49,9 +49,9 @@ var (
 		5:  "ACCOUNT_CHANGE_TYPE_BET_CANCEL",
 		6:  "ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL",
 		7:  "ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT",
-		8:  "ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME",
-		9:  "ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME",
-		10: "ACCOUNT_CHANGE_TYPE_ADJUSTMENT",
+		8:  "ACCOUNT_CHANGE_TYPE_ADJUSTMENT",
+		9:  "ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME",
+		10: "ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME",
 	}
 	AccountChangeType_value = map[string]int32{
 		"ACCOUNT_CHANGE_TYPE_UNSPECIFIED":        0,
@@ -62,9 +62,9 @@ var (
 		"ACCOUNT_CHANGE_TYPE_BET_CANCEL":         5,
 		"ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL":  6,
 		"ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT":      7,
-		"ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME":   8,
-		"ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME": 9,
-		"ACCOUNT_CHANGE_TYPE_ADJUSTMENT":         10,
+		"ACCOUNT_CHANGE_TYPE_ADJUSTMENT":         8,
+		"ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME":   9,
+		"ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME": 10,
 	}
 )
 
@@ -268,8 +268,9 @@ const (
 	GameTransactionType_GAME_TRANSACTION_TYPE_DEPOSIT           GameTransactionType = 3 // 押金       - 玩家扣款
 	GameTransactionType_GAME_TRANSACTION_TYPE_DEPOSIT_REFUND    GameTransactionType = 4 // 返还押金   - 玩家入款
 	GameTransactionType_GAME_TRANSACTION_TYPE_BET_CANCEL        GameTransactionType = 5 // 取消投注   - 玩家入款
-	GameTransactionType_GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL GameTransactionType = 6 // [废弃]结算撤单   - 玩家扣款
+	GameTransactionType_GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL GameTransactionType = 6 // 结算撤单/废弃   - 玩家扣款
 	GameTransactionType_GAME_TRANSACTION_TYPE_RE_SETTLEMENT     GameTransactionType = 7 // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
+	GameTransactionType_GAME_TRANSACTION_TYPE_ADJUSTMENT        GameTransactionType = 8 // 调整金额   - 玩家[入款]-[扣款]
 )
 
 // Enum value maps for GameTransactionType.
@@ -283,6 +284,7 @@ var (
 		5: "GAME_TRANSACTION_TYPE_BET_CANCEL",
 		6: "GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL",
 		7: "GAME_TRANSACTION_TYPE_RE_SETTLEMENT",
+		8: "GAME_TRANSACTION_TYPE_ADJUSTMENT",
 	}
 	GameTransactionType_value = map[string]int32{
 		"GAME_TRANSACTION_TYPE_UNSPECIFIED":       0,
@@ -293,6 +295,7 @@ var (
 		"GAME_TRANSACTION_TYPE_BET_CANCEL":        5,
 		"GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL": 6,
 		"GAME_TRANSACTION_TYPE_RE_SETTLEMENT":     7,
+		"GAME_TRANSACTION_TYPE_ADJUSTMENT":        8,
 	}
 )
 
@@ -534,10 +537,10 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\"ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND\x10\x04\x12\"\n" +
 	"\x1eACCOUNT_CHANGE_TYPE_BET_CANCEL\x10\x05\x12)\n" +
 	"%ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL\x10\x06\x12%\n" +
-	"!ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT\x10\a\x12(\n" +
-	"$ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME\x10\b\x12*\n" +
-	"&ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME\x10\t\x12\"\n" +
-	"\x1eACCOUNT_CHANGE_TYPE_ADJUSTMENT\x10\n" +
+	"!ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT\x10\a\x12\"\n" +
+	"\x1eACCOUNT_CHANGE_TYPE_ADJUSTMENT\x10\b\x12(\n" +
+	"$ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME\x10\t\x12*\n" +
+	"&ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME\x10\n" +
 	"*i\n" +
 	"\tMoneyFlow\x12\x1a\n" +
 	"\x16MONEY_FLOW_UNSPECIFIED\x10\x00\x12\x14\n" +
@@ -553,7 +556,7 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x14TransactionDirection\x12%\n" +
 	"!TRANSACTION_DIRECTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
 	"\x18TRANSACTION_DIRECTION_IN\x10\x01\x12\x1d\n" +
-	"\x19TRANSACTION_DIRECTION_OUT\x10\x02*\xca\x02\n" +
+	"\x19TRANSACTION_DIRECTION_OUT\x10\x02*\xf0\x02\n" +
 	"\x13GameTransactionType\x12%\n" +
 	"!GAME_TRANSACTION_TYPE_UNSPECIFIED\x10\x00\x12\x1d\n" +
 	"\x19GAME_TRANSACTION_TYPE_BET\x10\x01\x12$\n" +
@@ -562,7 +565,8 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"$GAME_TRANSACTION_TYPE_DEPOSIT_REFUND\x10\x04\x12$\n" +
 	" GAME_TRANSACTION_TYPE_BET_CANCEL\x10\x05\x12+\n" +
 	"'GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL\x10\x06\x12'\n" +
-	"#GAME_TRANSACTION_TYPE_RE_SETTLEMENT\x10\a*\x96\x01\n" +
+	"#GAME_TRANSACTION_TYPE_RE_SETTLEMENT\x10\a\x12$\n" +
+	" GAME_TRANSACTION_TYPE_ADJUSTMENT\x10\b*\x96\x01\n" +
 	"\tGameState\x12\x16\n" +
 	"\x12GAME_STATE_UNKNOWN\x10\x00\x12\x13\n" +
 	"\x0fGAME_STATE_OPEN\x10\x01\x12\x14\n" +

@@ -19,9 +19,10 @@ enum AccountChangeType {
   ACCOUNT_CHANGE_TYPE_BET_CANCEL = 5;             // 取消投注   - 玩家入款
   ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL = 6;      // 结算撤单   - 玩家扣款
   ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT = 7;          // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
-  ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME = 8;       // 转入游戏   - 玩家扣款
-  ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME = 9;     // 从游戏转出 - 玩家入款
-  ACCOUNT_CHANGE_TYPE_ADJUSTMENT = 10;            // 调整金额   - 玩家[入款]-[扣款]
+  ACCOUNT_CHANGE_TYPE_ADJUSTMENT = 8;            // 调整金额   - 玩家[入款]-[扣款]
+  ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME = 9;       // 转入游戏   - 玩家扣款
+  ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME = 10;     // 从游戏转出 - 玩家入款
+
 }
 
 // 资金流向枚举（可选，用于明确标识）
@@ -69,9 +70,11 @@ enum GameTransactionType {
   GAME_TRANSACTION_TYPE_DEPOSIT = 3;          // 押金       - 玩家扣款
   GAME_TRANSACTION_TYPE_DEPOSIT_REFUND = 4;   // 返还押金   - 玩家入款
   GAME_TRANSACTION_TYPE_BET_CANCEL = 5;       // 取消投注   - 玩家入款
-  GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL = 6; // [废弃]结算撤单   - 玩家扣款
+  GAME_TRANSACTION_TYPE_SETTLEMENT_CANCEL = 6; // 结算撤单/废弃   - 玩家扣款
   GAME_TRANSACTION_TYPE_RE_SETTLEMENT = 7;    // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
+  GAME_TRANSACTION_TYPE_ADJUSTMENT = 8;      // 调整金额   - 玩家[入款]-[扣款]
 }
+
 
 
 
