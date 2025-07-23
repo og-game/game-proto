@@ -33,6 +33,8 @@ type GetGameLinkReq struct {
 	TransferBalance string                 `protobuf:"bytes,7,opt,name=transfer_balance,json=transferBalance,proto3" json:"transfer_balance,omitempty"` // 转入金额
 	PlatformId      int64                  `protobuf:"varint,8,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`               // 厂商id
 	ClientType      int64                  `protobuf:"varint,9,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`               // 设备类型 1 pc 2 手机 默认 2
+	Nickname        string                 `protobuf:"bytes,10,opt,name=nickname,proto3" json:"nickname,omitempty"`                                     // 昵称
+	Avatar          string                 `protobuf:"bytes,11,opt,name=avatar,proto3" json:"avatar,omitempty"`                                         // 头像
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -128,6 +130,20 @@ func (x *GetGameLinkReq) GetClientType() int64 {
 		return x.ClientType
 	}
 	return 0
+}
+
+func (x *GetGameLinkReq) GetNickname() string {
+	if x != nil {
+		return x.Nickname
+	}
+	return ""
+}
+
+func (x *GetGameLinkReq) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
 }
 
 type GetGameLinkResp struct {
@@ -1073,7 +1089,7 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\xbe\x02\n" +
+	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\xf2\x02\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1085,7 +1101,10 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vplatform_id\x18\b \x01(\x03R\n" +
 	"platformId\x12\x1f\n" +
 	"\vclient_type\x18\t \x01(\x03R\n" +
-	"clientType\"#\n" +
+	"clientType\x12\x1a\n" +
+	"\bnickname\x18\n" +
+	" \x01(\tR\bnickname\x12\x16\n" +
+	"\x06avatar\x18\v \x01(\tR\x06avatar\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
