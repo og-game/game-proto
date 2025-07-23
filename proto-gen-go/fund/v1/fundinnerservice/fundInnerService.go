@@ -18,16 +18,13 @@ type (
 	CreateUserBalanceRecordReq = v1.CreateUserBalanceRecordReq
 	FundReq                    = v1.FundReq
 	FundResp                   = v1.FundResp
-	GetUserBalanceListData     = v1.GetUserBalanceListData
-	GetUserBalanceListReq      = v1.GetUserBalanceListReq
-	GetUserBalanceListResp     = v1.GetUserBalanceListResp
+	GameTransactionReq         = v1.GameTransactionReq
+	GameTransactionResp        = v1.GameTransactionResp
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
 	SaveGameRecordReq          = v1.SaveGameRecordReq
 	TransactionData            = v1.TransactionData
-	TransactionReq             = v1.TransactionReq
 	TransactionReqInfo         = v1.TransactionReqInfo
-	TransactionResp            = v1.TransactionResp
 	TransferInData             = v1.TransferInData
 	TransferInReq              = v1.TransferInReq
 	TransferInResp             = v1.TransferInResp
@@ -50,10 +47,8 @@ type (
 	FundInnerService interface {
 		// 获取单个用户余额[实时更新的余额]
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
-		// 批量获取用户余额[实时更新的余额]
-		GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error)
-		// 处理交易（根据type字段处理不同类型）
-		ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error)
+		// 处理游戏相关交易（根据type字段处理不同类型）
+		ProcessGameTransaction(ctx context.Context, in *GameTransactionReq, opts ...grpc.CallOption) (*GameTransactionResp, error)
 		// 更新或查询需要延迟处理的转账状态。
 		UpdateTransferStatus(ctx context.Context, in *TransferStatusUpdateReq, opts ...grpc.CallOption) (*TransferStatusUpdateResp, error)
 		// 创建用户帐变记录---只管请求，不返回具体执行的结果（除非rpc服务返回error）
@@ -79,16 +74,10 @@ func (m *defaultFundInnerService) GetUserBalance(ctx context.Context, in *GetUse
 	return client.GetUserBalance(ctx, in, opts...)
 }
 
-// 批量获取用户余额[实时更新的余额]
-func (m *defaultFundInnerService) GetUserBalanceList(ctx context.Context, in *GetUserBalanceListReq, opts ...grpc.CallOption) (*GetUserBalanceListResp, error) {
+// 处理游戏相关交易（根据type字段处理不同类型）
+func (m *defaultFundInnerService) ProcessGameTransaction(ctx context.Context, in *GameTransactionReq, opts ...grpc.CallOption) (*GameTransactionResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
-	return client.GetUserBalanceList(ctx, in, opts...)
-}
-
-// 处理交易（根据type字段处理不同类型）
-func (m *defaultFundInnerService) ProcessTransaction(ctx context.Context, in *TransactionReq, opts ...grpc.CallOption) (*TransactionResp, error) {
-	client := v1.NewFundInnerServiceClient(m.cli.Conn())
-	return client.ProcessTransaction(ctx, in, opts...)
+	return client.ProcessGameTransaction(ctx, in, opts...)
 }
 
 // 更新或查询需要延迟处理的转账状态。

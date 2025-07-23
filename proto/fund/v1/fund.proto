@@ -156,11 +156,8 @@ service FundInnerService {
   // 获取单个用户余额[实时更新的余额]
   rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceResp);
 
-  // 批量获取用户余额[实时更新的余额]
-  rpc GetUserBalanceList(GetUserBalanceListReq) returns (GetUserBalanceListResp);
-
-  // 处理交易（根据type字段处理不同类型）
-  rpc ProcessTransaction(TransactionReq) returns (TransactionResp);
+  // 处理游戏相关交易（根据type字段处理不同类型）
+  rpc ProcessGameTransaction(GameTransactionReq) returns (GameTransactionResp);
 
   // 更新或查询需要延迟处理的转账状态。
   rpc UpdateTransferStatus(TransferStatusUpdateReq) returns (TransferStatusUpdateResp);
@@ -191,34 +188,17 @@ message UserBalanceInfo {
   int64 version = 2;                       // 版本号
 }
 
-// 批量获取用户余额请求
-message GetUserBalanceListReq {
-  int64 user_id = 1;
-  repeated int64 platform_ids = 2;
-}
-
-// 批量获取用户余额响应
-message GetUserBalanceListResp {
-  BaseResponse base = 1;                   // 基础响应
-  GetUserBalanceListData data = 2;         // 业务数据
-}
-
-// 批量获取用户余额响应
-message GetUserBalanceListData {
-  map<int64, UserBalanceInfo> balances = 1; // platform_id => balance
-}
-
 
 //交易请求消息
-message TransactionReq {
+message GameTransactionReq {
+  int64 user_id = 2;
+  int64 game_id = 3;
+  int64 platform_id = 4;
   repeated TransactionReqInfo params = 1;
 }
 
 message TransactionReqInfo {
-  common.v1.AccountChangeType type = 1;
-  int64 user_id = 2;
-  int64 game_id = 3;
-  int64 platform_id = 4;
+  common.v1.GameTransactionType type = 1;
   string amount = 5;    // 需要变动的金额 >=0
   string order_id = 6;  // 订单ID
   string description = 7; // 描述备注
@@ -227,9 +207,10 @@ message TransactionReqInfo {
 }
 
 // 交易响应消息
-message TransactionResp {
+message GameTransactionResp {
   BaseResponse base = 1;                   // 基础响应
-  TransactionData data = 2;                // 业务数据
+  repeated TransactionData data = 2;       // 业务数据
+  string final_balance_after = 3;                // 批次变更后的余额
 }
 
 // 交易响应消息
