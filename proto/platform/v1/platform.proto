@@ -15,6 +15,8 @@ message GetGameLinkReq {
   string transfer_balance = 7; // 转入金额
   int64 platform_id = 8 ; // 厂商id
   int64 client_type = 9; // 设备类型 1 pc 2 手机 默认 2
+  string nickname = 10; // 昵称
+  string avatar = 11; // 头像
 }
 
 message GetGameLinkResp {
