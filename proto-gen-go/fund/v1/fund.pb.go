@@ -1690,7 +1690,6 @@ type UserBalanceRecordItem struct {
 	MerchantOrderId string                 `protobuf:"bytes,11,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`                                // 下游商户订单ID
 	TransactionId   string                 `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                        // 中台交易流水号（唯一）
 	TradeTime       int64                  `protobuf:"varint,13,opt,name=trade_time,json=tradeTime,proto3" json:"trade_time,omitempty"`                                                   // 交易时间（毫秒）
-	Description     string                 `protobuf:"bytes,14,opt,name=description,proto3" json:"description,omitempty"`                                                                 // 交易描述
 	Remark          string                 `protobuf:"bytes,15,opt,name=remark,proto3" json:"remark,omitempty"`                                                                           // 备注信息
 	ClientIp        string                 `protobuf:"bytes,16,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                       // 客户端IP
 	DeviceId        string                 `protobuf:"bytes,17,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                                                       // 设备ID
@@ -1820,13 +1819,6 @@ func (x *UserBalanceRecordItem) GetTradeTime() int64 {
 		return x.TradeTime
 	}
 	return 0
-}
-
-func (x *UserBalanceRecordItem) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
 }
 
 func (x *UserBalanceRecordItem) GetRemark() string {
@@ -2056,7 +2048,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"workflowId\"q\n" +
 	"\x1aCreateUserBalanceRecordReq\x128\n" +
 	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xe2\x05\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xc0\x05\n" +
 	"\x15UserBalanceRecordItem\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
@@ -2074,8 +2066,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x11merchant_order_id\x18\v \x01(\tR\x0fmerchantOrderId\x12%\n" +
 	"\x0etransaction_id\x18\f \x01(\tR\rtransactionId\x12\x1d\n" +
 	"\n" +
-	"trade_time\x18\r \x01(\x03R\ttradeTime\x12 \n" +
-	"\vdescription\x18\x0e \x01(\tR\vdescription\x12\x16\n" +
+	"trade_time\x18\r \x01(\x03R\ttradeTime\x12\x16\n" +
 	"\x06remark\x18\x0f \x01(\tR\x06remark\x12\x1b\n" +
 	"\tclient_ip\x18\x10 \x01(\tR\bclientIp\x12\x1b\n" +
 	"\tdevice_id\x18\x11 \x01(\tR\bdeviceId\x12\x1b\n" +
