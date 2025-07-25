@@ -1093,6 +1093,94 @@ func (x *BetRecordListItem) GetUpdatedAt() int64 {
 	return 0
 }
 
+type GetGameHTMLReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Param         string                 `protobuf:"bytes,1,opt,name=param,proto3" json:"param,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGameHTMLReq) Reset() {
+	*x = GetGameHTMLReq{}
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGameHTMLReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameHTMLReq) ProtoMessage() {}
+
+func (x *GetGameHTMLReq) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameHTMLReq.ProtoReflect.Descriptor instead.
+func (*GetGameHTMLReq) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetGameHTMLReq) GetParam() string {
+	if x != nil {
+		return x.Param
+	}
+	return ""
+}
+
+type GetGameHTMLResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Html          string                 `protobuf:"bytes,1,opt,name=html,proto3" json:"html,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGameHTMLResp) Reset() {
+	*x = GetGameHTMLResp{}
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGameHTMLResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameHTMLResp) ProtoMessage() {}
+
+func (x *GetGameHTMLResp) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameHTMLResp.ProtoReflect.Descriptor instead.
+func (*GetGameHTMLResp) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetGameHTMLResp) GetHtml() string {
+	if x != nil {
+		return x.Html
+	}
+	return ""
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
@@ -1199,7 +1287,11 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"settled_at\x18\f \x01(\x03R\tsettledAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\r \x01(\x03R\tupdatedAt2\xd7\x04\n" +
+	"updated_at\x18\r \x01(\x03R\tupdatedAt\"&\n" +
+	"\x0eGetGameHTMLReq\x12\x14\n" +
+	"\x05param\x18\x01 \x01(\tR\x05param\"%\n" +
+	"\x0fGetGameHTMLResp\x12\x12\n" +
+	"\x04html\x18\x01 \x01(\tR\x04html2\xa1\x05\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
@@ -1207,7 +1299,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\bTransfer\x12\x18.platform.v1.TransferReq\x1a\x19.platform.v1.TransferResp\x12H\n" +
 	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListResp\x12l\n" +
 	"\x17GetTransferRecordStatus\x12'.platform.v1.GetTransferRecordStatusReq\x1a(.platform.v1.GetTransferRecordStatusResp\x12W\n" +
-	"\x10GetBetRecordList\x12 .platform.v1.GetBetRecordListReq\x1a!.platform.v1.GetBetRecordListRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
+	"\x10GetBetRecordList\x12 .platform.v1.GetBetRecordListReq\x1a!.platform.v1.GetBetRecordListResp\x12H\n" +
+	"\vGetGameHTML\x12\x1b.platform.v1.GetGameHTMLReq\x1a\x1c.platform.v1.GetGameHTMLRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
 
 var (
 	file_platform_v1_platform_proto_rawDescOnce sync.Once
@@ -1221,7 +1314,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetGameLinkReq)(nil),              // 0: platform.v1.GetGameLinkReq
 	(*GetGameLinkResp)(nil),             // 1: platform.v1.GetGameLinkResp
@@ -1238,19 +1331,21 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetBetRecordListReq)(nil),         // 12: platform.v1.GetBetRecordListReq
 	(*GetBetRecordListResp)(nil),        // 13: platform.v1.GetBetRecordListResp
 	(*BetRecordListItem)(nil),           // 14: platform.v1.BetRecordListItem
-	(v1.TransferStatus)(0),              // 15: common.v1.TransferStatus
-	(v1.GameState)(0),                   // 16: common.v1.GameState
-	(v1.GameBetState)(0),                // 17: common.v1.GameBetState
-	(v1.GameTransactionType)(0),         // 18: common.v1.GameTransactionType
+	(*GetGameHTMLReq)(nil),              // 15: platform.v1.GetGameHTMLReq
+	(*GetGameHTMLResp)(nil),             // 16: platform.v1.GetGameHTMLResp
+	(v1.TransferStatus)(0),              // 17: common.v1.TransferStatus
+	(v1.GameState)(0),                   // 18: common.v1.GameState
+	(v1.GameBetState)(0),                // 19: common.v1.GameBetState
+	(v1.GameTransactionType)(0),         // 20: common.v1.GameTransactionType
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	15, // 0: platform.v1.TransferResp.transfer_status:type_name -> common.v1.TransferStatus
-	16, // 1: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
-	17, // 2: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
+	17, // 0: platform.v1.TransferResp.transfer_status:type_name -> common.v1.TransferStatus
+	18, // 1: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
+	19, // 2: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
 	7,  // 3: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
-	15, // 4: platform.v1.GetTransferRecordStatusResp.status:type_name -> common.v1.TransferStatus
+	17, // 4: platform.v1.GetTransferRecordStatusResp.status:type_name -> common.v1.TransferStatus
 	14, // 5: platform.v1.GetBetRecordListResp.data:type_name -> platform.v1.BetRecordListItem
-	18, // 6: platform.v1.BetRecordListItem.status:type_name -> common.v1.GameTransactionType
+	20, // 6: platform.v1.BetRecordListItem.status:type_name -> common.v1.GameTransactionType
 	0,  // 7: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
 	6,  // 8: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
 	2,  // 9: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
@@ -1258,15 +1353,17 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	8,  // 11: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
 	10, // 12: platform.v1.PlatformInnerService.GetTransferRecordStatus:input_type -> platform.v1.GetTransferRecordStatusReq
 	12, // 13: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
-	1,  // 14: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
-	1,  // 15: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
-	3,  // 16: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
-	5,  // 17: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
-	9,  // 18: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
-	11, // 19: platform.v1.PlatformInnerService.GetTransferRecordStatus:output_type -> platform.v1.GetTransferRecordStatusResp
-	13, // 20: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
-	14, // [14:21] is the sub-list for method output_type
-	7,  // [7:14] is the sub-list for method input_type
+	15, // 14: platform.v1.PlatformInnerService.GetGameHTML:input_type -> platform.v1.GetGameHTMLReq
+	1,  // 15: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
+	1,  // 16: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
+	3,  // 17: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
+	5,  // 18: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
+	9,  // 19: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
+	11, // 20: platform.v1.PlatformInnerService.GetTransferRecordStatus:output_type -> platform.v1.GetTransferRecordStatusResp
+	13, // 21: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
+	16, // 22: platform.v1.PlatformInnerService.GetGameHTML:output_type -> platform.v1.GetGameHTMLResp
+	15, // [15:23] is the sub-list for method output_type
+	7,  // [7:15] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -1283,7 +1380,7 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

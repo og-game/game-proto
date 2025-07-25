@@ -118,6 +118,13 @@ message BetRecordListItem {
   int64 updated_at = 13; // 更新时间
 }
 
+message GetGameHTMLReq {
+  string param = 1;
+}
+message GetGameHTMLResp {
+  string html = 1;
+}
+
 service PlatformInnerService {
 
   // 获取游戏链接
@@ -140,5 +147,8 @@ service PlatformInnerService {
 
   // 获取投注记录
   rpc GetBetRecordList(GetBetRecordListReq) returns (GetBetRecordListResp);
+
+  // 获取游戏HTML
+  rpc GetGameHTML(GetGameHTMLReq) returns (GetGameHTMLResp);
 }
 
