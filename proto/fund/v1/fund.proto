@@ -210,7 +210,8 @@ message TransactionReqInfo {
 message GameTransactionResp {
   BaseResponse base = 1;                   // 基础响应
   repeated TransactionData data = 2;       // 业务数据
-  string final_balance_after = 3;                // 批次变更后的余额
+  string initial_balance = 3;                // 批次变更前的初始余额
+  string final_balance_after = 4;            // 批次变更后的余额
 }
 
 // 交易响应消息

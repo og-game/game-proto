@@ -1289,7 +1289,8 @@ type GameTransactionResp struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Base              *BaseResponse          `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`                                                      // 基础响应
 	Data              []*TransactionData     `protobuf:"bytes,2,rep,name=data,proto3" json:"data,omitempty"`                                                      // 业务数据
-	FinalBalanceAfter string                 `protobuf:"bytes,3,opt,name=final_balance_after,json=finalBalanceAfter,proto3" json:"final_balance_after,omitempty"` // 批次变更后的余额
+	InitialBalance    string                 `protobuf:"bytes,3,opt,name=initial_balance,json=initialBalance,proto3" json:"initial_balance,omitempty"`            // 批次变更前的初始余额
+	FinalBalanceAfter string                 `protobuf:"bytes,4,opt,name=final_balance_after,json=finalBalanceAfter,proto3" json:"final_balance_after,omitempty"` // 批次变更后的余额
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1336,6 +1337,13 @@ func (x *GameTransactionResp) GetData() []*TransactionData {
 		return x.Data
 	}
 	return nil
+}
+
+func (x *GameTransactionResp) GetInitialBalance() string {
+	if x != nil {
+		return x.InitialBalance
+	}
+	return ""
 }
 
 func (x *GameTransactionResp) GetFinalBalanceAfter() string {
@@ -2017,11 +2025,12 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bmetadata\x18\t \x03(\v2).fund.v1.TransactionReqInfo.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9e\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc7\x01\n" +
 	"\x13GameTransactionResp\x12)\n" +
 	"\x04base\x18\x01 \x01(\v2\x15.fund.v1.BaseResponseR\x04base\x12,\n" +
-	"\x04data\x18\x02 \x03(\v2\x18.fund.v1.TransactionDataR\x04data\x12.\n" +
-	"\x13final_balance_after\x18\x03 \x01(\tR\x11finalBalanceAfter\"\xa2\x01\n" +
+	"\x04data\x18\x02 \x03(\v2\x18.fund.v1.TransactionDataR\x04data\x12'\n" +
+	"\x0finitial_balance\x18\x03 \x01(\tR\x0einitialBalance\x12.\n" +
+	"\x13final_balance_after\x18\x04 \x01(\tR\x11finalBalanceAfter\"\xa2\x01\n" +
 	"\x0fTransactionData\x12%\n" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12%\n" +
 	"\x0ebalance_before\x18\x02 \x01(\tR\rbalanceBefore\x12#\n" +
