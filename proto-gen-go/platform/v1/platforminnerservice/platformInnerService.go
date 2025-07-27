@@ -19,6 +19,8 @@ type (
 	GetBetRecordListReq         = v1.GetBetRecordListReq
 	GetBetRecordListResp        = v1.GetBetRecordListResp
 	GetDemoGameLinkReq          = v1.GetDemoGameLinkReq
+	GetGameHTMLReq              = v1.GetGameHTMLReq
+	GetGameHTMLResp             = v1.GetGameHTMLResp
 	GetGameLinkReq              = v1.GetGameLinkReq
 	GetGameLinkResp             = v1.GetGameLinkResp
 	GetGameListReq              = v1.GetGameListReq
@@ -45,6 +47,8 @@ type (
 		GetTransferRecordStatus(ctx context.Context, in *GetTransferRecordStatusReq, opts ...grpc.CallOption) (*GetTransferRecordStatusResp, error)
 		// 获取投注记录
 		GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error)
+		// 获取游戏HTML
+		GetGameHTML(ctx context.Context, in *GetGameHTMLReq, opts ...grpc.CallOption) (*GetGameHTMLResp, error)
 	}
 
 	defaultPlatformInnerService struct {
@@ -98,4 +102,10 @@ func (m *defaultPlatformInnerService) GetTransferRecordStatus(ctx context.Contex
 func (m *defaultPlatformInnerService) GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
 	return client.GetBetRecordList(ctx, in, opts...)
+}
+
+// 获取游戏HTML
+func (m *defaultPlatformInnerService) GetGameHTML(ctx context.Context, in *GetGameHTMLReq, opts ...grpc.CallOption) (*GetGameHTMLResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.GetGameHTML(ctx, in, opts...)
 }
