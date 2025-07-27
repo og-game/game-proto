@@ -25,17 +25,17 @@ const (
 type AccountChangeType int32
 
 const (
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_UNSPECIFIED        AccountChangeType = 0  // 未指定
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET                AccountChangeType = 1  // 投注       - 玩家扣款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT         AccountChangeType = 2  // 结算派奖   - 玩家入款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_DEPOSIT            AccountChangeType = 3  // 押金       - 玩家扣款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND     AccountChangeType = 4  // 返还押金   - 玩家入款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET_CANCEL         AccountChangeType = 5  // 取消投注   - 玩家入款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL  AccountChangeType = 6  // 结算撤单   - 玩家扣款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT      AccountChangeType = 7  // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_ADJUSTMENT         AccountChangeType = 8  // 调整金额   - 玩家[入款]-[扣款]
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME   AccountChangeType = 9  // 转入游戏   - 玩家扣款
-	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME AccountChangeType = 10 // 从游戏转出 - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_UNSPECIFIED       AccountChangeType = 0  // 未指定
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET               AccountChangeType = 1  // 投注       - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT        AccountChangeType = 2  // 结算派奖   - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_DEPOSIT           AccountChangeType = 3  // 押金       - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND    AccountChangeType = 4  // 返还押金   - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_BET_CANCEL        AccountChangeType = 5  // 取消投注   - 玩家入款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL AccountChangeType = 6  // 结算撤单   - 玩家扣款
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT     AccountChangeType = 7  // 重新派奖   - 玩家入款-扣款[之前派奖的钱扣除，加新派奖的钱]
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_ADJUSTMENT        AccountChangeType = 8  // 调整金额   - 玩家[入款]-[扣款]
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_IN       AccountChangeType = 9  // 资金转入中台 - 玩家入款[单一钱包：直接保存在中台钱包；转账钱包(中台不存资金)：资金同步转到三方游戏平台]
+	AccountChangeType_ACCOUNT_CHANGE_TYPE_TRANSFER_OUT      AccountChangeType = 10 // 资金转出中台 - 玩家扣款[单一钱包：直接扣除中台钱包；转账钱包(中台不存资金)：同步转出三方游戏平台的资金给下游用户]
 )
 
 // Enum value maps for AccountChangeType.
@@ -50,21 +50,21 @@ var (
 		6:  "ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL",
 		7:  "ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT",
 		8:  "ACCOUNT_CHANGE_TYPE_ADJUSTMENT",
-		9:  "ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME",
-		10: "ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME",
+		9:  "ACCOUNT_CHANGE_TYPE_TRANSFER_IN",
+		10: "ACCOUNT_CHANGE_TYPE_TRANSFER_OUT",
 	}
 	AccountChangeType_value = map[string]int32{
-		"ACCOUNT_CHANGE_TYPE_UNSPECIFIED":        0,
-		"ACCOUNT_CHANGE_TYPE_BET":                1,
-		"ACCOUNT_CHANGE_TYPE_SETTLEMENT":         2,
-		"ACCOUNT_CHANGE_TYPE_DEPOSIT":            3,
-		"ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND":     4,
-		"ACCOUNT_CHANGE_TYPE_BET_CANCEL":         5,
-		"ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL":  6,
-		"ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT":      7,
-		"ACCOUNT_CHANGE_TYPE_ADJUSTMENT":         8,
-		"ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME":   9,
-		"ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME": 10,
+		"ACCOUNT_CHANGE_TYPE_UNSPECIFIED":       0,
+		"ACCOUNT_CHANGE_TYPE_BET":               1,
+		"ACCOUNT_CHANGE_TYPE_SETTLEMENT":        2,
+		"ACCOUNT_CHANGE_TYPE_DEPOSIT":           3,
+		"ACCOUNT_CHANGE_TYPE_DEPOSIT_REFUND":    4,
+		"ACCOUNT_CHANGE_TYPE_BET_CANCEL":        5,
+		"ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL": 6,
+		"ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT":     7,
+		"ACCOUNT_CHANGE_TYPE_ADJUSTMENT":        8,
+		"ACCOUNT_CHANGE_TYPE_TRANSFER_IN":       9,
+		"ACCOUNT_CHANGE_TYPE_TRANSFER_OUT":      10,
 	}
 )
 
@@ -528,7 +528,7 @@ var File_common_v1_enum_proto protoreflect.FileDescriptor
 
 const file_common_v1_enum_proto_rawDesc = "" +
 	"\n" +
-	"\x14common/v1/enum.proto\x12\tcommon.v1*\xb2\x03\n" +
+	"\x14common/v1/enum.proto\x12\tcommon.v1*\xa7\x03\n" +
 	"\x11AccountChangeType\x12#\n" +
 	"\x1fACCOUNT_CHANGE_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17ACCOUNT_CHANGE_TYPE_BET\x10\x01\x12\"\n" +
@@ -538,9 +538,9 @@ const file_common_v1_enum_proto_rawDesc = "" +
 	"\x1eACCOUNT_CHANGE_TYPE_BET_CANCEL\x10\x05\x12)\n" +
 	"%ACCOUNT_CHANGE_TYPE_SETTLEMENT_CANCEL\x10\x06\x12%\n" +
 	"!ACCOUNT_CHANGE_TYPE_RE_SETTLEMENT\x10\a\x12\"\n" +
-	"\x1eACCOUNT_CHANGE_TYPE_ADJUSTMENT\x10\b\x12(\n" +
-	"$ACCOUNT_CHANGE_TYPE_TRANSFER_TO_GAME\x10\t\x12*\n" +
-	"&ACCOUNT_CHANGE_TYPE_TRANSFER_FROM_GAME\x10\n" +
+	"\x1eACCOUNT_CHANGE_TYPE_ADJUSTMENT\x10\b\x12#\n" +
+	"\x1fACCOUNT_CHANGE_TYPE_TRANSFER_IN\x10\t\x12$\n" +
+	" ACCOUNT_CHANGE_TYPE_TRANSFER_OUT\x10\n" +
 	"*i\n" +
 	"\tMoneyFlow\x12\x1a\n" +
 	"\x16MONEY_FLOW_UNSPECIFIED\x10\x00\x12\x14\n" +
