@@ -22,6 +22,42 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type PlatformResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlatformResp) Reset() {
+	*x = PlatformResp{}
+	mi := &file_platform_v1_platform_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlatformResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlatformResp) ProtoMessage() {}
+
+func (x *PlatformResp) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlatformResp.ProtoReflect.Descriptor instead.
+func (*PlatformResp) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
+}
+
 type GetGameLinkReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId     string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`           // 三方游戏id
@@ -41,7 +77,7 @@ type GetGameLinkReq struct {
 
 func (x *GetGameLinkReq) Reset() {
 	*x = GetGameLinkReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[0]
+	mi := &file_platform_v1_platform_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -53,7 +89,7 @@ func (x *GetGameLinkReq) String() string {
 func (*GetGameLinkReq) ProtoMessage() {}
 
 func (x *GetGameLinkReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[0]
+	mi := &file_platform_v1_platform_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -66,7 +102,7 @@ func (x *GetGameLinkReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameLinkReq.ProtoReflect.Descriptor instead.
 func (*GetGameLinkReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{0}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetGameLinkReq) GetThirdGameId() string {
@@ -155,7 +191,7 @@ type GetGameLinkResp struct {
 
 func (x *GetGameLinkResp) Reset() {
 	*x = GetGameLinkResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[1]
+	mi := &file_platform_v1_platform_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -167,7 +203,7 @@ func (x *GetGameLinkResp) String() string {
 func (*GetGameLinkResp) ProtoMessage() {}
 
 func (x *GetGameLinkResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[1]
+	mi := &file_platform_v1_platform_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -180,7 +216,7 @@ func (x *GetGameLinkResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameLinkResp.ProtoReflect.Descriptor instead.
 func (*GetGameLinkResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{1}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetGameLinkResp) GetUrl() string {
@@ -200,7 +236,7 @@ type GetUserBalanceReq struct {
 
 func (x *GetUserBalanceReq) Reset() {
 	*x = GetUserBalanceReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[2]
+	mi := &file_platform_v1_platform_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -212,7 +248,7 @@ func (x *GetUserBalanceReq) String() string {
 func (*GetUserBalanceReq) ProtoMessage() {}
 
 func (x *GetUserBalanceReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[2]
+	mi := &file_platform_v1_platform_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -225,7 +261,7 @@ func (x *GetUserBalanceReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserBalanceReq.ProtoReflect.Descriptor instead.
 func (*GetUserBalanceReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{2}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetUserBalanceReq) GetUserId() int64 {
@@ -251,7 +287,7 @@ type GetUserBalanceResp struct {
 
 func (x *GetUserBalanceResp) Reset() {
 	*x = GetUserBalanceResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[3]
+	mi := &file_platform_v1_platform_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -263,7 +299,7 @@ func (x *GetUserBalanceResp) String() string {
 func (*GetUserBalanceResp) ProtoMessage() {}
 
 func (x *GetUserBalanceResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[3]
+	mi := &file_platform_v1_platform_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -276,7 +312,7 @@ func (x *GetUserBalanceResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserBalanceResp.ProtoReflect.Descriptor instead.
 func (*GetUserBalanceResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{3}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetUserBalanceResp) GetBalance() string {
@@ -300,7 +336,7 @@ type TransferReq struct {
 
 func (x *TransferReq) Reset() {
 	*x = TransferReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[4]
+	mi := &file_platform_v1_platform_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -312,7 +348,7 @@ func (x *TransferReq) String() string {
 func (*TransferReq) ProtoMessage() {}
 
 func (x *TransferReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[4]
+	mi := &file_platform_v1_platform_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -325,7 +361,7 @@ func (x *TransferReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransferReq.ProtoReflect.Descriptor instead.
 func (*TransferReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{4}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *TransferReq) GetPlatformId() int64 {
@@ -382,7 +418,7 @@ type TransferResp struct {
 
 func (x *TransferResp) Reset() {
 	*x = TransferResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[5]
+	mi := &file_platform_v1_platform_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -394,7 +430,7 @@ func (x *TransferResp) String() string {
 func (*TransferResp) ProtoMessage() {}
 
 func (x *TransferResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[5]
+	mi := &file_platform_v1_platform_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,7 +443,7 @@ func (x *TransferResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransferResp.ProtoReflect.Descriptor instead.
 func (*TransferResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{5}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *TransferResp) GetOrderNo() string {
@@ -453,7 +489,7 @@ type GetDemoGameLinkReq struct {
 
 func (x *GetDemoGameLinkReq) Reset() {
 	*x = GetDemoGameLinkReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -465,7 +501,7 @@ func (x *GetDemoGameLinkReq) String() string {
 func (*GetDemoGameLinkReq) ProtoMessage() {}
 
 func (x *GetDemoGameLinkReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,7 +514,7 @@ func (x *GetDemoGameLinkReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDemoGameLinkReq.ProtoReflect.Descriptor instead.
 func (*GetDemoGameLinkReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{6}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetDemoGameLinkReq) GetThirdGameId() string {
@@ -545,7 +581,7 @@ type GameInfo struct {
 
 func (x *GameInfo) Reset() {
 	*x = GameInfo{}
-	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -557,7 +593,7 @@ func (x *GameInfo) String() string {
 func (*GameInfo) ProtoMessage() {}
 
 func (x *GameInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -570,7 +606,7 @@ func (x *GameInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GameInfo.ProtoReflect.Descriptor instead.
 func (*GameInfo) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{7}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GameInfo) GetThirdGameId() string {
@@ -632,7 +668,7 @@ type GetGameListReq struct {
 
 func (x *GetGameListReq) Reset() {
 	*x = GetGameListReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	mi := &file_platform_v1_platform_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -644,7 +680,7 @@ func (x *GetGameListReq) String() string {
 func (*GetGameListReq) ProtoMessage() {}
 
 func (x *GetGameListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	mi := &file_platform_v1_platform_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -657,7 +693,7 @@ func (x *GetGameListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameListReq.ProtoReflect.Descriptor instead.
 func (*GetGameListReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{8}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetGameListReq) GetPlatformId() int64 {
@@ -676,7 +712,7 @@ type GetGameListResp struct {
 
 func (x *GetGameListResp) Reset() {
 	*x = GetGameListResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	mi := &file_platform_v1_platform_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -688,7 +724,7 @@ func (x *GetGameListResp) String() string {
 func (*GetGameListResp) ProtoMessage() {}
 
 func (x *GetGameListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	mi := &file_platform_v1_platform_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -701,7 +737,7 @@ func (x *GetGameListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameListResp.ProtoReflect.Descriptor instead.
 func (*GetGameListResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{9}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetGameListResp) GetGameInfo() []*GameInfo {
@@ -724,7 +760,7 @@ type GetTransferRecordStatusReq struct {
 
 func (x *GetTransferRecordStatusReq) Reset() {
 	*x = GetTransferRecordStatusReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	mi := &file_platform_v1_platform_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -736,7 +772,7 @@ func (x *GetTransferRecordStatusReq) String() string {
 func (*GetTransferRecordStatusReq) ProtoMessage() {}
 
 func (x *GetTransferRecordStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	mi := &file_platform_v1_platform_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -749,7 +785,7 @@ func (x *GetTransferRecordStatusReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTransferRecordStatusReq.ProtoReflect.Descriptor instead.
 func (*GetTransferRecordStatusReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{10}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetTransferRecordStatusReq) GetPlatformId() int64 {
@@ -790,7 +826,7 @@ type GetTransferRecordStatusResp struct {
 
 func (x *GetTransferRecordStatusResp) Reset() {
 	*x = GetTransferRecordStatusResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	mi := &file_platform_v1_platform_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -802,7 +838,7 @@ func (x *GetTransferRecordStatusResp) String() string {
 func (*GetTransferRecordStatusResp) ProtoMessage() {}
 
 func (x *GetTransferRecordStatusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	mi := &file_platform_v1_platform_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -815,7 +851,7 @@ func (x *GetTransferRecordStatusResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTransferRecordStatusResp.ProtoReflect.Descriptor instead.
 func (*GetTransferRecordStatusResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetTransferRecordStatusResp) GetStatus() v1.TransferStatus {
@@ -845,7 +881,7 @@ type GetBetRecordListReq struct {
 
 func (x *GetBetRecordListReq) Reset() {
 	*x = GetBetRecordListReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	mi := &file_platform_v1_platform_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -857,7 +893,7 @@ func (x *GetBetRecordListReq) String() string {
 func (*GetBetRecordListReq) ProtoMessage() {}
 
 func (x *GetBetRecordListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	mi := &file_platform_v1_platform_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -870,7 +906,7 @@ func (x *GetBetRecordListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBetRecordListReq.ProtoReflect.Descriptor instead.
 func (*GetBetRecordListReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{12}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetBetRecordListReq) GetPlatformId() int64 {
@@ -912,7 +948,7 @@ type GetBetRecordListResp struct {
 
 func (x *GetBetRecordListResp) Reset() {
 	*x = GetBetRecordListResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	mi := &file_platform_v1_platform_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -924,7 +960,7 @@ func (x *GetBetRecordListResp) String() string {
 func (*GetBetRecordListResp) ProtoMessage() {}
 
 func (x *GetBetRecordListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	mi := &file_platform_v1_platform_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -937,7 +973,7 @@ func (x *GetBetRecordListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBetRecordListResp.ProtoReflect.Descriptor instead.
 func (*GetBetRecordListResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{13}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetBetRecordListResp) GetTotal() int64 {
@@ -981,7 +1017,7 @@ type BetRecordListItem struct {
 
 func (x *BetRecordListItem) Reset() {
 	*x = BetRecordListItem{}
-	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -993,7 +1029,7 @@ func (x *BetRecordListItem) String() string {
 func (*BetRecordListItem) ProtoMessage() {}
 
 func (x *BetRecordListItem) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1006,7 +1042,7 @@ func (x *BetRecordListItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BetRecordListItem.ProtoReflect.Descriptor instead.
 func (*BetRecordListItem) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{14}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *BetRecordListItem) GetStatus() v1.GameTransactionType {
@@ -1102,7 +1138,7 @@ type GetGameHTMLReq struct {
 
 func (x *GetGameHTMLReq) Reset() {
 	*x = GetGameHTMLReq{}
-	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1114,7 +1150,7 @@ func (x *GetGameHTMLReq) String() string {
 func (*GetGameHTMLReq) ProtoMessage() {}
 
 func (x *GetGameHTMLReq) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1127,7 +1163,7 @@ func (x *GetGameHTMLReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameHTMLReq.ProtoReflect.Descriptor instead.
 func (*GetGameHTMLReq) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{15}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetGameHTMLReq) GetParam() string {
@@ -1146,7 +1182,7 @@ type GetGameHTMLResp struct {
 
 func (x *GetGameHTMLResp) Reset() {
 	*x = GetGameHTMLResp{}
-	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	mi := &file_platform_v1_platform_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1158,7 +1194,7 @@ func (x *GetGameHTMLResp) String() string {
 func (*GetGameHTMLResp) ProtoMessage() {}
 
 func (x *GetGameHTMLResp) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	mi := &file_platform_v1_platform_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1171,7 +1207,7 @@ func (x *GetGameHTMLResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameHTMLResp.ProtoReflect.Descriptor instead.
 func (*GetGameHTMLResp) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{16}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetGameHTMLResp) GetHtml() string {
@@ -1181,11 +1217,58 @@ func (x *GetGameHTMLResp) GetHtml() string {
 	return ""
 }
 
+// 同步厂商游戏的请求体
+type SyncProviderGamesReq struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 厂商的唯一标识码，例如 "PG", "PP", "EVO"
+	PlatformId    int64 `protobuf:"varint,1,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"` // 厂商id
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncProviderGamesReq) Reset() {
+	*x = SyncProviderGamesReq{}
+	mi := &file_platform_v1_platform_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncProviderGamesReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncProviderGamesReq) ProtoMessage() {}
+
+func (x *SyncProviderGamesReq) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncProviderGamesReq.ProtoReflect.Descriptor instead.
+func (*SyncProviderGamesReq) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *SyncProviderGamesReq) GetPlatformId() int64 {
+	if x != nil {
+		return x.PlatformId
+	}
+	return 0
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\xf2\x02\n" +
+	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\x0e\n" +
+	"\fPlatformResp\"\xf2\x02\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1291,7 +1374,10 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x0eGetGameHTMLReq\x12\x14\n" +
 	"\x05param\x18\x01 \x01(\tR\x05param\"%\n" +
 	"\x0fGetGameHTMLResp\x12\x12\n" +
-	"\x04html\x18\x01 \x01(\tR\x04html2\xa1\x05\n" +
+	"\x04html\x18\x01 \x01(\tR\x04html\"7\n" +
+	"\x14SyncProviderGamesReq\x12\x1f\n" +
+	"\vplatform_id\x18\x01 \x01(\x03R\n" +
+	"platformId2\xf4\x05\n" +
 	"\x14PlatformInnerService\x12H\n" +
 	"\vGetGameLink\x12\x1b.platform.v1.GetGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12P\n" +
 	"\x0fGetDemoGameLink\x12\x1f.platform.v1.GetDemoGameLinkReq\x1a\x1c.platform.v1.GetGameLinkResp\x12Q\n" +
@@ -1300,7 +1386,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vGetGameList\x12\x1b.platform.v1.GetGameListReq\x1a\x1c.platform.v1.GetGameListResp\x12l\n" +
 	"\x17GetTransferRecordStatus\x12'.platform.v1.GetTransferRecordStatusReq\x1a(.platform.v1.GetTransferRecordStatusResp\x12W\n" +
 	"\x10GetBetRecordList\x12 .platform.v1.GetBetRecordListReq\x1a!.platform.v1.GetBetRecordListResp\x12H\n" +
-	"\vGetGameHTML\x12\x1b.platform.v1.GetGameHTMLReq\x1a\x1c.platform.v1.GetGameHTMLRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
+	"\vGetGameHTML\x12\x1b.platform.v1.GetGameHTMLReq\x1a\x1c.platform.v1.GetGameHTMLResp\x12Q\n" +
+	"\x11SyncProviderGames\x12!.platform.v1.SyncProviderGamesReq\x1a\x19.platform.v1.PlatformRespB8Z6github.com/og-game/game-proto/proto-gen-go/platform/v1b\x06proto3"
 
 var (
 	file_platform_v1_platform_proto_rawDescOnce sync.Once
@@ -1314,56 +1401,60 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_platform_v1_platform_proto_goTypes = []any{
-	(*GetGameLinkReq)(nil),              // 0: platform.v1.GetGameLinkReq
-	(*GetGameLinkResp)(nil),             // 1: platform.v1.GetGameLinkResp
-	(*GetUserBalanceReq)(nil),           // 2: platform.v1.GetUserBalanceReq
-	(*GetUserBalanceResp)(nil),          // 3: platform.v1.GetUserBalanceResp
-	(*TransferReq)(nil),                 // 4: platform.v1.TransferReq
-	(*TransferResp)(nil),                // 5: platform.v1.TransferResp
-	(*GetDemoGameLinkReq)(nil),          // 6: platform.v1.GetDemoGameLinkReq
-	(*GameInfo)(nil),                    // 7: platform.v1.GameInfo
-	(*GetGameListReq)(nil),              // 8: platform.v1.GetGameListReq
-	(*GetGameListResp)(nil),             // 9: platform.v1.GetGameListResp
-	(*GetTransferRecordStatusReq)(nil),  // 10: platform.v1.GetTransferRecordStatusReq
-	(*GetTransferRecordStatusResp)(nil), // 11: platform.v1.GetTransferRecordStatusResp
-	(*GetBetRecordListReq)(nil),         // 12: platform.v1.GetBetRecordListReq
-	(*GetBetRecordListResp)(nil),        // 13: platform.v1.GetBetRecordListResp
-	(*BetRecordListItem)(nil),           // 14: platform.v1.BetRecordListItem
-	(*GetGameHTMLReq)(nil),              // 15: platform.v1.GetGameHTMLReq
-	(*GetGameHTMLResp)(nil),             // 16: platform.v1.GetGameHTMLResp
-	(v1.TransferStatus)(0),              // 17: common.v1.TransferStatus
-	(v1.GameState)(0),                   // 18: common.v1.GameState
-	(v1.GameBetState)(0),                // 19: common.v1.GameBetState
-	(v1.GameTransactionType)(0),         // 20: common.v1.GameTransactionType
+	(*PlatformResp)(nil),                // 0: platform.v1.PlatformResp
+	(*GetGameLinkReq)(nil),              // 1: platform.v1.GetGameLinkReq
+	(*GetGameLinkResp)(nil),             // 2: platform.v1.GetGameLinkResp
+	(*GetUserBalanceReq)(nil),           // 3: platform.v1.GetUserBalanceReq
+	(*GetUserBalanceResp)(nil),          // 4: platform.v1.GetUserBalanceResp
+	(*TransferReq)(nil),                 // 5: platform.v1.TransferReq
+	(*TransferResp)(nil),                // 6: platform.v1.TransferResp
+	(*GetDemoGameLinkReq)(nil),          // 7: platform.v1.GetDemoGameLinkReq
+	(*GameInfo)(nil),                    // 8: platform.v1.GameInfo
+	(*GetGameListReq)(nil),              // 9: platform.v1.GetGameListReq
+	(*GetGameListResp)(nil),             // 10: platform.v1.GetGameListResp
+	(*GetTransferRecordStatusReq)(nil),  // 11: platform.v1.GetTransferRecordStatusReq
+	(*GetTransferRecordStatusResp)(nil), // 12: platform.v1.GetTransferRecordStatusResp
+	(*GetBetRecordListReq)(nil),         // 13: platform.v1.GetBetRecordListReq
+	(*GetBetRecordListResp)(nil),        // 14: platform.v1.GetBetRecordListResp
+	(*BetRecordListItem)(nil),           // 15: platform.v1.BetRecordListItem
+	(*GetGameHTMLReq)(nil),              // 16: platform.v1.GetGameHTMLReq
+	(*GetGameHTMLResp)(nil),             // 17: platform.v1.GetGameHTMLResp
+	(*SyncProviderGamesReq)(nil),        // 18: platform.v1.SyncProviderGamesReq
+	(v1.TransferStatus)(0),              // 19: common.v1.TransferStatus
+	(v1.GameState)(0),                   // 20: common.v1.GameState
+	(v1.GameBetState)(0),                // 21: common.v1.GameBetState
+	(v1.GameTransactionType)(0),         // 22: common.v1.GameTransactionType
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	17, // 0: platform.v1.TransferResp.transfer_status:type_name -> common.v1.TransferStatus
-	18, // 1: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
-	19, // 2: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
-	7,  // 3: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
-	17, // 4: platform.v1.GetTransferRecordStatusResp.status:type_name -> common.v1.TransferStatus
-	14, // 5: platform.v1.GetBetRecordListResp.data:type_name -> platform.v1.BetRecordListItem
-	20, // 6: platform.v1.BetRecordListItem.status:type_name -> common.v1.GameTransactionType
-	0,  // 7: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
-	6,  // 8: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
-	2,  // 9: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
-	4,  // 10: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
-	8,  // 11: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
-	10, // 12: platform.v1.PlatformInnerService.GetTransferRecordStatus:input_type -> platform.v1.GetTransferRecordStatusReq
-	12, // 13: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
-	15, // 14: platform.v1.PlatformInnerService.GetGameHTML:input_type -> platform.v1.GetGameHTMLReq
-	1,  // 15: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
-	1,  // 16: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
-	3,  // 17: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
-	5,  // 18: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
-	9,  // 19: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
-	11, // 20: platform.v1.PlatformInnerService.GetTransferRecordStatus:output_type -> platform.v1.GetTransferRecordStatusResp
-	13, // 21: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
-	16, // 22: platform.v1.PlatformInnerService.GetGameHTML:output_type -> platform.v1.GetGameHTMLResp
-	15, // [15:23] is the sub-list for method output_type
-	7,  // [7:15] is the sub-list for method input_type
+	19, // 0: platform.v1.TransferResp.transfer_status:type_name -> common.v1.TransferStatus
+	20, // 1: platform.v1.GameInfo.game_state:type_name -> common.v1.GameState
+	21, // 2: platform.v1.GameInfo.bet_state:type_name -> common.v1.GameBetState
+	8,  // 3: platform.v1.GetGameListResp.game_info:type_name -> platform.v1.GameInfo
+	19, // 4: platform.v1.GetTransferRecordStatusResp.status:type_name -> common.v1.TransferStatus
+	15, // 5: platform.v1.GetBetRecordListResp.data:type_name -> platform.v1.BetRecordListItem
+	22, // 6: platform.v1.BetRecordListItem.status:type_name -> common.v1.GameTransactionType
+	1,  // 7: platform.v1.PlatformInnerService.GetGameLink:input_type -> platform.v1.GetGameLinkReq
+	7,  // 8: platform.v1.PlatformInnerService.GetDemoGameLink:input_type -> platform.v1.GetDemoGameLinkReq
+	3,  // 9: platform.v1.PlatformInnerService.GetUserBalance:input_type -> platform.v1.GetUserBalanceReq
+	5,  // 10: platform.v1.PlatformInnerService.Transfer:input_type -> platform.v1.TransferReq
+	9,  // 11: platform.v1.PlatformInnerService.GetGameList:input_type -> platform.v1.GetGameListReq
+	11, // 12: platform.v1.PlatformInnerService.GetTransferRecordStatus:input_type -> platform.v1.GetTransferRecordStatusReq
+	13, // 13: platform.v1.PlatformInnerService.GetBetRecordList:input_type -> platform.v1.GetBetRecordListReq
+	16, // 14: platform.v1.PlatformInnerService.GetGameHTML:input_type -> platform.v1.GetGameHTMLReq
+	18, // 15: platform.v1.PlatformInnerService.SyncProviderGames:input_type -> platform.v1.SyncProviderGamesReq
+	2,  // 16: platform.v1.PlatformInnerService.GetGameLink:output_type -> platform.v1.GetGameLinkResp
+	2,  // 17: platform.v1.PlatformInnerService.GetDemoGameLink:output_type -> platform.v1.GetGameLinkResp
+	4,  // 18: platform.v1.PlatformInnerService.GetUserBalance:output_type -> platform.v1.GetUserBalanceResp
+	6,  // 19: platform.v1.PlatformInnerService.Transfer:output_type -> platform.v1.TransferResp
+	10, // 20: platform.v1.PlatformInnerService.GetGameList:output_type -> platform.v1.GetGameListResp
+	12, // 21: platform.v1.PlatformInnerService.GetTransferRecordStatus:output_type -> platform.v1.GetTransferRecordStatusResp
+	14, // 22: platform.v1.PlatformInnerService.GetBetRecordList:output_type -> platform.v1.GetBetRecordListResp
+	17, // 23: platform.v1.PlatformInnerService.GetGameHTML:output_type -> platform.v1.GetGameHTMLResp
+	0,  // 24: platform.v1.PlatformInnerService.SyncProviderGames:output_type -> platform.v1.PlatformResp
+	16, // [16:25] is the sub-list for method output_type
+	7,  // [7:16] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -1380,7 +1471,7 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

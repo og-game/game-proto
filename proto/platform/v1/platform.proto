@@ -5,6 +5,10 @@ option go_package = "github.com/og-game/game-proto/proto-gen-go/platform/v1";
 
 import "common/v1/enum.proto";
 
+message PlatformResp{
+
+}
+
 message GetGameLinkReq {
   string third_game_id = 1; // 三方游戏id
   int64 user_id = 2; // 用户id
@@ -150,5 +154,13 @@ service PlatformInnerService {
 
   // 获取游戏HTML
   rpc GetGameHTML(GetGameHTMLReq) returns (GetGameHTMLResp);
+
+  // 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
+  rpc SyncProviderGames(SyncProviderGamesReq) returns (PlatformResp);
 }
 
+// 同步厂商游戏的请求体
+message SyncProviderGamesReq {
+  // 厂商的唯一标识码，例如 "PG", "PP", "EVO"
+  int64 platform_id = 1; // 厂商id
+}

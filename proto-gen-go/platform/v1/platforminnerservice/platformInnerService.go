@@ -29,6 +29,8 @@ type (
 	GetTransferRecordStatusResp = v1.GetTransferRecordStatusResp
 	GetUserBalanceReq           = v1.GetUserBalanceReq
 	GetUserBalanceResp          = v1.GetUserBalanceResp
+	PlatformResp                = v1.PlatformResp
+	SyncProviderGamesReq        = v1.SyncProviderGamesReq
 	TransferReq                 = v1.TransferReq
 	TransferResp                = v1.TransferResp
 
@@ -49,6 +51,8 @@ type (
 		GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error)
 		// 获取游戏HTML
 		GetGameHTML(ctx context.Context, in *GetGameHTMLReq, opts ...grpc.CallOption) (*GetGameHTMLResp, error)
+		// 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
+		SyncProviderGames(ctx context.Context, in *SyncProviderGamesReq, opts ...grpc.CallOption) (*PlatformResp, error)
 	}
 
 	defaultPlatformInnerService struct {
@@ -108,4 +112,10 @@ func (m *defaultPlatformInnerService) GetBetRecordList(ctx context.Context, in *
 func (m *defaultPlatformInnerService) GetGameHTML(ctx context.Context, in *GetGameHTMLReq, opts ...grpc.CallOption) (*GetGameHTMLResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
 	return client.GetGameHTML(ctx, in, opts...)
+}
+
+// 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
+func (m *defaultPlatformInnerService) SyncProviderGames(ctx context.Context, in *SyncProviderGamesReq, opts ...grpc.CallOption) (*PlatformResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.SyncProviderGames(ctx, in, opts...)
 }

@@ -27,6 +27,7 @@ const (
 	PlatformInnerService_GetTransferRecordStatus_FullMethodName = "/platform.v1.PlatformInnerService/GetTransferRecordStatus"
 	PlatformInnerService_GetBetRecordList_FullMethodName        = "/platform.v1.PlatformInnerService/GetBetRecordList"
 	PlatformInnerService_GetGameHTML_FullMethodName             = "/platform.v1.PlatformInnerService/GetGameHTML"
+	PlatformInnerService_SyncProviderGames_FullMethodName       = "/platform.v1.PlatformInnerService/SyncProviderGames"
 )
 
 // PlatformInnerServiceClient is the client API for PlatformInnerService service.
@@ -49,6 +50,8 @@ type PlatformInnerServiceClient interface {
 	GetBetRecordList(ctx context.Context, in *GetBetRecordListReq, opts ...grpc.CallOption) (*GetBetRecordListResp, error)
 	// 获取游戏HTML
 	GetGameHTML(ctx context.Context, in *GetGameHTMLReq, opts ...grpc.CallOption) (*GetGameHTMLResp, error)
+	// 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
+	SyncProviderGames(ctx context.Context, in *SyncProviderGamesReq, opts ...grpc.CallOption) (*PlatformResp, error)
 }
 
 type platformInnerServiceClient struct {
@@ -139,6 +142,16 @@ func (c *platformInnerServiceClient) GetGameHTML(ctx context.Context, in *GetGam
 	return out, nil
 }
 
+func (c *platformInnerServiceClient) SyncProviderGames(ctx context.Context, in *SyncProviderGamesReq, opts ...grpc.CallOption) (*PlatformResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PlatformResp)
+	err := c.cc.Invoke(ctx, PlatformInnerService_SyncProviderGames_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlatformInnerServiceServer is the server API for PlatformInnerService service.
 // All implementations must embed UnimplementedPlatformInnerServiceServer
 // for forward compatibility.
@@ -159,6 +172,8 @@ type PlatformInnerServiceServer interface {
 	GetBetRecordList(context.Context, *GetBetRecordListReq) (*GetBetRecordListResp, error)
 	// 获取游戏HTML
 	GetGameHTML(context.Context, *GetGameHTMLReq) (*GetGameHTMLResp, error)
+	// 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
+	SyncProviderGames(context.Context, *SyncProviderGamesReq) (*PlatformResp, error)
 	mustEmbedUnimplementedPlatformInnerServiceServer()
 }
 
@@ -192,6 +207,9 @@ func (UnimplementedPlatformInnerServiceServer) GetBetRecordList(context.Context,
 }
 func (UnimplementedPlatformInnerServiceServer) GetGameHTML(context.Context, *GetGameHTMLReq) (*GetGameHTMLResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGameHTML not implemented")
+}
+func (UnimplementedPlatformInnerServiceServer) SyncProviderGames(context.Context, *SyncProviderGamesReq) (*PlatformResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncProviderGames not implemented")
 }
 func (UnimplementedPlatformInnerServiceServer) mustEmbedUnimplementedPlatformInnerServiceServer() {}
 func (UnimplementedPlatformInnerServiceServer) testEmbeddedByValue()                              {}
@@ -358,6 +376,24 @@ func _PlatformInnerService_GetGameHTML_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlatformInnerService_SyncProviderGames_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncProviderGamesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlatformInnerServiceServer).SyncProviderGames(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlatformInnerService_SyncProviderGames_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlatformInnerServiceServer).SyncProviderGames(ctx, req.(*SyncProviderGamesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlatformInnerService_ServiceDesc is the grpc.ServiceDesc for PlatformInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -396,6 +432,10 @@ var PlatformInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGameHTML",
 			Handler:    _PlatformInnerService_GetGameHTML_Handler,
+		},
+		{
+			MethodName: "SyncProviderGames",
+			Handler:    _PlatformInnerService_SyncProviderGames_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
