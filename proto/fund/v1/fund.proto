@@ -68,6 +68,7 @@ message TransferInReq{
   string deposit_amount = 3;  // 存款金额
   string merchant_order_id = 4;  // 商户订单ID
   map<string, string> extra_params = 5;
+  optional int64 game_id = 6; // 游戏ID 可选
 }
 
 
@@ -95,6 +96,7 @@ message TransferOutReq {
   string merchant_order_id = 3;  // 商户订单ID
   map<string, string> extra_params = 4;
   string withdrawal_amount = 5; // 取款金额->todo 预留字段暂时不会使用[My rules are THE rules.]
+  optional int64 game_id = 6; // 游戏ID 可选
 }
 
 
