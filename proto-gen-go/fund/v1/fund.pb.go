@@ -1720,6 +1720,8 @@ type UserBalanceRecordItem struct {
 	DeviceOs        string                 `protobuf:"bytes,18,opt,name=device_os,json=deviceOs,proto3" json:"device_os,omitempty"`                                                       // 设备型号
 	MerchantUserId  string                 `protobuf:"bytes,19,opt,name=merchant_user_id,json=merchantUserId,proto3" json:"merchant_user_id,omitempty"`                                   // 商户用户ID
 	ExtData         string                 `protobuf:"bytes,20,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                          // 扩展数据（JSON格式）
+	GameId          *int64                 `protobuf:"varint,21,opt,name=game_id,json=gameId,proto3,oneof" json:"game_id,omitempty"`                                                      // 游戏ID 可选
+	CategoryCode    *string                `protobuf:"bytes,22,opt,name=category_code,json=categoryCode,proto3,oneof" json:"category_code,omitempty"`                                     // 游戏分类 可选
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1883,6 +1885,20 @@ func (x *UserBalanceRecordItem) GetMerchantUserId() string {
 func (x *UserBalanceRecordItem) GetExtData() string {
 	if x != nil {
 		return x.ExtData
+	}
+	return ""
+}
+
+func (x *UserBalanceRecordItem) GetGameId() int64 {
+	if x != nil && x.GameId != nil {
+		return *x.GameId
+	}
+	return 0
+}
+
+func (x *UserBalanceRecordItem) GetCategoryCode() string {
+	if x != nil && x.CategoryCode != nil {
+		return *x.CategoryCode
 	}
 	return ""
 }
@@ -2079,7 +2095,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"workflowId\"q\n" +
 	"\x1aCreateUserBalanceRecordReq\x128\n" +
 	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xc0\x05\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xa6\x06\n" +
 	"\x15UserBalanceRecordItem\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
@@ -2103,7 +2119,12 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\tdevice_id\x18\x11 \x01(\tR\bdeviceId\x12\x1b\n" +
 	"\tdevice_os\x18\x12 \x01(\tR\bdeviceOs\x12(\n" +
 	"\x10merchant_user_id\x18\x13 \x01(\tR\x0emerchantUserId\x12\x19\n" +
-	"\bext_data\x18\x14 \x01(\tR\aextData\"4\n" +
+	"\bext_data\x18\x14 \x01(\tR\aextData\x12\x1c\n" +
+	"\agame_id\x18\x15 \x01(\x03H\x00R\x06gameId\x88\x01\x01\x12(\n" +
+	"\rcategory_code\x18\x16 \x01(\tH\x01R\fcategoryCode\x88\x01\x01B\n" +
+	"\n" +
+	"\b_game_idB\x10\n" +
+	"\x0e_category_code\"4\n" +
 	"\x11SaveGameRecordReq\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
 	"betDetails2\xb6\x02\n" +
@@ -2242,6 +2263,7 @@ func file_fund_v1_fund_proto_init() {
 	file_fund_v1_fund_types_proto_init()
 	file_fund_v1_fund_proto_msgTypes[6].OneofWrappers = []any{}
 	file_fund_v1_fund_proto_msgTypes[9].OneofWrappers = []any{}
+	file_fund_v1_fund_proto_msgTypes[27].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

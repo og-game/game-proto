@@ -280,6 +280,8 @@ message UserBalanceRecordItem {
   string device_os = 18;                   // 设备型号
   string merchant_user_id = 19;            // 商户用户ID
   string ext_data = 20;                    // 扩展数据（JSON格式）
+  optional int64 game_id = 21; // 游戏ID 可选
+  optional string category_code = 22; // 游戏分类 可选
 }
 
 
