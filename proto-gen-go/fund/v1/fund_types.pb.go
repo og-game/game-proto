@@ -95,6 +95,7 @@ const (
 	FundErrorCode_FUND_ERROR_CODE_CONFIGURATION_ERROR    FundErrorCode = 1604 // 配置错误
 	FundErrorCode_FUND_ERROR_CODE_NETWORK_ERROR          FundErrorCode = 1605 // 网络错误
 	FundErrorCode_FUND_ERROR_CODE_TIMEOUT_ERROR          FundErrorCode = 1606 // 超时错误
+	FundErrorCode_FUND_ERROR_CODE_DUPLICATE_ERROR        FundErrorCode = 1607 // 重复请求
 	// 业务规则错误 1700-1799
 	FundErrorCode_FUND_ERROR_CODE_BUSINESS_HOURS_RESTRICTION FundErrorCode = 1700 // 营业时间限制
 	FundErrorCode_FUND_ERROR_CODE_MAINTENANCE_MODE           FundErrorCode = 1701 // 维护模式
@@ -166,6 +167,7 @@ var (
 		1604: "FUND_ERROR_CODE_CONFIGURATION_ERROR",
 		1605: "FUND_ERROR_CODE_NETWORK_ERROR",
 		1606: "FUND_ERROR_CODE_TIMEOUT_ERROR",
+		1607: "FUND_ERROR_CODE_DUPLICATE_ERROR",
 		1700: "FUND_ERROR_CODE_BUSINESS_HOURS_RESTRICTION",
 		1701: "FUND_ERROR_CODE_MAINTENANCE_MODE",
 		1702: "FUND_ERROR_CODE_FEATURE_DISABLED",
@@ -233,6 +235,7 @@ var (
 		"FUND_ERROR_CODE_CONFIGURATION_ERROR":           1604,
 		"FUND_ERROR_CODE_NETWORK_ERROR":                 1605,
 		"FUND_ERROR_CODE_TIMEOUT_ERROR":                 1606,
+		"FUND_ERROR_CODE_DUPLICATE_ERROR":               1607,
 		"FUND_ERROR_CODE_BUSINESS_HOURS_RESTRICTION":    1700,
 		"FUND_ERROR_CODE_MAINTENANCE_MODE":              1701,
 		"FUND_ERROR_CODE_FEATURE_DISABLED":              1702,
@@ -272,7 +275,7 @@ var File_fund_v1_fund_types_proto protoreflect.FileDescriptor
 
 const file_fund_v1_fund_types_proto_rawDesc = "" +
 	"\n" +
-	"\x18fund/v1/fund_types.proto\x12\afund.v1*\x82\x14\n" +
+	"\x18fund/v1/fund_types.proto\x12\afund.v1*\xa8\x14\n" +
 	"\rFundErrorCode\x12\x1f\n" +
 	"\x1bFUND_ERROR_CODE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x12ERROR_CODE_SUCCESS\x10\xc8\x01\x12\x1b\n" +
@@ -345,7 +348,8 @@ const file_fund_v1_fund_types_proto_rawDesc = "" +
 	"&FUND_ERROR_CODE_EXTERNAL_SERVICE_ERROR\x10\xc3\f\x12(\n" +
 	"#FUND_ERROR_CODE_CONFIGURATION_ERROR\x10\xc4\f\x12\"\n" +
 	"\x1dFUND_ERROR_CODE_NETWORK_ERROR\x10\xc5\f\x12\"\n" +
-	"\x1dFUND_ERROR_CODE_TIMEOUT_ERROR\x10\xc6\f\x12/\n" +
+	"\x1dFUND_ERROR_CODE_TIMEOUT_ERROR\x10\xc6\f\x12$\n" +
+	"\x1fFUND_ERROR_CODE_DUPLICATE_ERROR\x10\xc7\f\x12/\n" +
 	"*FUND_ERROR_CODE_BUSINESS_HOURS_RESTRICTION\x10\xa4\r\x12%\n" +
 	" FUND_ERROR_CODE_MAINTENANCE_MODE\x10\xa5\r\x12%\n" +
 	" FUND_ERROR_CODE_FEATURE_DISABLED\x10\xa6\r\x12)\n" +
