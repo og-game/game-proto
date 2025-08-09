@@ -575,7 +575,7 @@ type GameInfo struct {
 	BetState      v1.GameBetState        `protobuf:"varint,5,opt,name=bet_state,json=betState,proto3,enum=common.v1.GameBetState" json:"bet_state,omitempty"` // 游戏投注状态
 	IsTrialPlay   bool                   `protobuf:"varint,6,opt,name=IsTrialPlay,proto3" json:"IsTrialPlay,omitempty"`                                       // 是否允许试玩
 	Currencies    []string               `protobuf:"bytes,7,rep,name=currencies,proto3" json:"currencies,omitempty"`                                          // 币种
-	IsMaterial    bool                   `protobuf:"varint,8,opt,name=IsMaterial,proto3" json:"IsMaterial,omitempty"`                                         // 是否支持素材 1-支持 2-不支持
+	IsMaterial    bool                   `protobuf:"varint,8,opt,name=IsMaterial,proto3" json:"IsMaterial,omitempty"`                                         // 是否支持素材
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
