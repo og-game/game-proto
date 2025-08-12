@@ -41,7 +41,7 @@ type FundApiServiceClient interface {
 	// 获取转账进度状态
 	GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error)
 	// 发送坏账通知给下游
-	SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*FundResp, error)
+	SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*SendBadDebtNotifyResp, error)
 }
 
 type fundApiServiceClient struct {
@@ -92,9 +92,9 @@ func (c *fundApiServiceClient) GetTransferProgress(ctx context.Context, in *Tran
 	return out, nil
 }
 
-func (c *fundApiServiceClient) SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*FundResp, error) {
+func (c *fundApiServiceClient) SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*SendBadDebtNotifyResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FundResp)
+	out := new(SendBadDebtNotifyResp)
 	err := c.cc.Invoke(ctx, FundApiService_SendBadDebtNotification_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -117,7 +117,7 @@ type FundApiServiceServer interface {
 	// 获取转账进度状态
 	GetTransferProgress(context.Context, *TransferProgressReq) (*TransferProgressResp, error)
 	// 发送坏账通知给下游
-	SendBadDebtNotification(context.Context, *SendBadDebtNotifyReq) (*FundResp, error)
+	SendBadDebtNotification(context.Context, *SendBadDebtNotifyReq) (*SendBadDebtNotifyResp, error)
 	mustEmbedUnimplementedFundApiServiceServer()
 }
 
@@ -140,7 +140,7 @@ func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferO
 func (UnimplementedFundApiServiceServer) GetTransferProgress(context.Context, *TransferProgressReq) (*TransferProgressResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransferProgress not implemented")
 }
-func (UnimplementedFundApiServiceServer) SendBadDebtNotification(context.Context, *SendBadDebtNotifyReq) (*FundResp, error) {
+func (UnimplementedFundApiServiceServer) SendBadDebtNotification(context.Context, *SendBadDebtNotifyReq) (*SendBadDebtNotifyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendBadDebtNotification not implemented")
 }
 func (UnimplementedFundApiServiceServer) mustEmbedUnimplementedFundApiServiceServer() {}

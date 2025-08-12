@@ -40,7 +40,7 @@ service FundApiService {
   rpc GetTransferProgress(TransferProgressReq) returns (TransferProgressResp);
 
   // 发送坏账通知给下游
-  rpc SendBadDebtNotification(SendBadDebtNotifyReq) returns (FundResp);
+  rpc SendBadDebtNotification(SendBadDebtNotifyReq) returns (SendBadDebtNotifyResp);
 }
 
 
@@ -159,7 +159,9 @@ message SendBadDebtNotifyReq {
   optional int64 user_id = 4; // 用户ID
 }
 
-
+message SendBadDebtNotifyResp {
+  BaseResponse base = 1;                   // 基础响应
+}
 
 //////////////////  内部RPC   //////////////////
 service FundInnerService {

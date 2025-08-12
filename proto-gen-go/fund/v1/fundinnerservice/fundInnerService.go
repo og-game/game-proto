@@ -24,6 +24,7 @@ type (
 	GetUserBalanceResp         = v1.GetUserBalanceResp
 	SaveGameRecordReq          = v1.SaveGameRecordReq
 	SendBadDebtNotifyReq       = v1.SendBadDebtNotifyReq
+	SendBadDebtNotifyResp      = v1.SendBadDebtNotifyResp
 	TransactionData            = v1.TransactionData
 	TransactionReqInfo         = v1.TransactionReqInfo
 	TransferInData             = v1.TransferInData
