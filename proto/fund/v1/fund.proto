@@ -157,6 +157,7 @@ message SendBadDebtNotifyReq {
   }
   optional int64 merchant_id = 3; // 商户ID
   optional int64 user_id = 4; // 用户ID
+  bool is_manual = 5; // 是否手动执行=>false
 }
 
 message SendBadDebtNotifyResp {

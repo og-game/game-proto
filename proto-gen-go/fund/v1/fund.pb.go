@@ -997,6 +997,7 @@ type SendBadDebtNotifyReq struct {
 	Data          isSendBadDebtNotifyReq_Data `protobuf_oneof:"data"`
 	MerchantId    *int64                      `protobuf:"varint,3,opt,name=merchant_id,json=merchantId,proto3,oneof" json:"merchant_id,omitempty"` // 商户ID
 	UserId        *int64                      `protobuf:"varint,4,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`             // 用户ID
+	IsManual      bool                        `protobuf:"varint,5,opt,name=is_manual,json=isManual,proto3" json:"is_manual,omitempty"`             // 是否手动执行=>false
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1068,6 +1069,13 @@ func (x *SendBadDebtNotifyReq) GetUserId() int64 {
 		return *x.UserId
 	}
 	return 0
+}
+
+func (x *SendBadDebtNotifyReq) GetIsManual() bool {
+	if x != nil {
+		return x.IsManual
+	}
+	return false
 }
 
 type isSendBadDebtNotifyReq_Data interface {
@@ -2179,13 +2187,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\rtransfer_type\x18\x04 \x01(\x0e2\x1f.common.v1.TransactionDirectionR\ftransferType\x121\n" +
 	"\x06status\x18\x05 \x01(\x0e2\x19.common.v1.TransferStatusR\x06status\x12!\n" +
 	"\fcreated_time\x18\x06 \x01(\x03R\vcreatedTime\x12!\n" +
-	"\fupdated_time\x18\a \x01(\x03R\vupdatedTime\"\xc9\x01\n" +
+	"\fupdated_time\x18\a \x01(\x03R\vupdatedTime\"\xe6\x01\n" +
 	"\x14SendBadDebtNotifyReq\x12 \n" +
 	"\vbad_debt_id\x18\x01 \x01(\x03H\x00R\tbadDebtId\x12'\n" +
 	"\x0etransaction_id\x18\x02 \x01(\tH\x00R\rtransactionId\x12$\n" +
 	"\vmerchant_id\x18\x03 \x01(\x03H\x01R\n" +
 	"merchantId\x88\x01\x01\x12\x1c\n" +
-	"\auser_id\x18\x04 \x01(\x03H\x02R\x06userId\x88\x01\x01B\x06\n" +
+	"\auser_id\x18\x04 \x01(\x03H\x02R\x06userId\x88\x01\x01\x12\x1b\n" +
+	"\tis_manual\x18\x05 \x01(\bR\bisManualB\x06\n" +
 	"\x04dataB\x0e\n" +
 	"\f_merchant_idB\n" +
 	"\n" +
