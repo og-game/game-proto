@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FundApiService_GetUserBalanceList_FullMethodName  = "/fund.v1.FundApiService/GetUserBalanceList"
-	FundApiService_TransferIn_FullMethodName          = "/fund.v1.FundApiService/TransferIn"
-	FundApiService_TransferOut_FullMethodName         = "/fund.v1.FundApiService/TransferOut"
-	FundApiService_GetTransferProgress_FullMethodName = "/fund.v1.FundApiService/GetTransferProgress"
+	FundApiService_GetUserBalanceList_FullMethodName      = "/fund.v1.FundApiService/GetUserBalanceList"
+	FundApiService_TransferIn_FullMethodName              = "/fund.v1.FundApiService/TransferIn"
+	FundApiService_TransferOut_FullMethodName             = "/fund.v1.FundApiService/TransferOut"
+	FundApiService_GetTransferProgress_FullMethodName     = "/fund.v1.FundApiService/GetTransferProgress"
+	FundApiService_SendBadDebtNotification_FullMethodName = "/fund.v1.FundApiService/SendBadDebtNotification"
 )
 
 // FundApiServiceClient is the client API for FundApiService service.
@@ -39,6 +40,8 @@ type FundApiServiceClient interface {
 	TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error)
 	// 获取转账进度状态
 	GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error)
+	// 发送坏账通知给下游
+	SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*FundResp, error)
 }
 
 type fundApiServiceClient struct {
@@ -89,6 +92,16 @@ func (c *fundApiServiceClient) GetTransferProgress(ctx context.Context, in *Tran
 	return out, nil
 }
 
+func (c *fundApiServiceClient) SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*FundResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FundResp)
+	err := c.cc.Invoke(ctx, FundApiService_SendBadDebtNotification_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FundApiServiceServer is the server API for FundApiService service.
 // All implementations must embed UnimplementedFundApiServiceServer
 // for forward compatibility.
@@ -103,6 +116,8 @@ type FundApiServiceServer interface {
 	TransferOut(context.Context, *TransferOutReq) (*TransferOutResp, error)
 	// 获取转账进度状态
 	GetTransferProgress(context.Context, *TransferProgressReq) (*TransferProgressResp, error)
+	// 发送坏账通知给下游
+	SendBadDebtNotification(context.Context, *SendBadDebtNotifyReq) (*FundResp, error)
 	mustEmbedUnimplementedFundApiServiceServer()
 }
 
@@ -124,6 +139,9 @@ func (UnimplementedFundApiServiceServer) TransferOut(context.Context, *TransferO
 }
 func (UnimplementedFundApiServiceServer) GetTransferProgress(context.Context, *TransferProgressReq) (*TransferProgressResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransferProgress not implemented")
+}
+func (UnimplementedFundApiServiceServer) SendBadDebtNotification(context.Context, *SendBadDebtNotifyReq) (*FundResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendBadDebtNotification not implemented")
 }
 func (UnimplementedFundApiServiceServer) mustEmbedUnimplementedFundApiServiceServer() {}
 func (UnimplementedFundApiServiceServer) testEmbeddedByValue()                        {}
@@ -218,6 +236,24 @@ func _FundApiService_GetTransferProgress_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FundApiService_SendBadDebtNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendBadDebtNotifyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundApiServiceServer).SendBadDebtNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundApiService_SendBadDebtNotification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundApiServiceServer).SendBadDebtNotification(ctx, req.(*SendBadDebtNotifyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FundApiService_ServiceDesc is the grpc.ServiceDesc for FundApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -240,6 +276,10 @@ var FundApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTransferProgress",
 			Handler:    _FundApiService_GetTransferProgress_Handler,
+		},
+		{
+			MethodName: "SendBadDebtNotification",
+			Handler:    _FundApiService_SendBadDebtNotification_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

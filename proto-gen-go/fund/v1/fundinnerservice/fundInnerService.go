@@ -23,6 +23,7 @@ type (
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
 	SaveGameRecordReq          = v1.SaveGameRecordReq
+	SendBadDebtNotifyReq       = v1.SendBadDebtNotifyReq
 	TransactionData            = v1.TransactionData
 	TransactionReqInfo         = v1.TransactionReqInfo
 	TransferInData             = v1.TransferInData

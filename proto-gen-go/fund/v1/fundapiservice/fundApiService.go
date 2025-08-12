@@ -23,6 +23,7 @@ type (
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
 	SaveGameRecordReq          = v1.SaveGameRecordReq
+	SendBadDebtNotifyReq       = v1.SendBadDebtNotifyReq
 	TransactionData            = v1.TransactionData
 	TransactionReqInfo         = v1.TransactionReqInfo
 	TransferInData             = v1.TransferInData
@@ -53,6 +54,8 @@ type (
 		TransferOut(ctx context.Context, in *TransferOutReq, opts ...grpc.CallOption) (*TransferOutResp, error)
 		// 获取转账进度状态
 		GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error)
+		// 发送坏账通知给下游
+		SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*FundResp, error)
 	}
 
 	defaultFundApiService struct {
@@ -88,4 +91,10 @@ func (m *defaultFundApiService) TransferOut(ctx context.Context, in *TransferOut
 func (m *defaultFundApiService) GetTransferProgress(ctx context.Context, in *TransferProgressReq, opts ...grpc.CallOption) (*TransferProgressResp, error) {
 	client := v1.NewFundApiServiceClient(m.cli.Conn())
 	return client.GetTransferProgress(ctx, in, opts...)
+}
+
+// 发送坏账通知给下游
+func (m *defaultFundApiService) SendBadDebtNotification(ctx context.Context, in *SendBadDebtNotifyReq, opts ...grpc.CallOption) (*FundResp, error) {
+	client := v1.NewFundApiServiceClient(m.cli.Conn())
+	return client.SendBadDebtNotification(ctx, in, opts...)
 }
