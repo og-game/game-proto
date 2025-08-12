@@ -39,6 +39,8 @@ service FundApiService {
   // 获取转账进度状态
   rpc GetTransferProgress(TransferProgressReq) returns (TransferProgressResp);
 
+  // 发送坏账通知给下游
+  rpc SendBadDebtNotification(SendBadDebtNotifyReq) returns (FundResp);
 }
 
 
@@ -148,7 +150,14 @@ message TransferProgressInfo {
   int64 updated_time = 7; // 最后更新时间戳
 }
 
-
+message SendBadDebtNotifyReq {
+  oneof data {
+    int64 bad_debt_id = 1; // 内部交易主键ID
+    string transaction_id = 2; // 内部交易ID
+  }
+  optional int64 merchant_id = 3; // 商户ID
+  optional int64 user_id = 4; // 用户ID
+}
 
 
 
