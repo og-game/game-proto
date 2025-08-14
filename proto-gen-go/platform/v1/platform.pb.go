@@ -71,6 +71,7 @@ type GetGameLinkReq struct {
 	ClientType      int64                  `protobuf:"varint,9,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`               // 设备类型 1 pc 2 手机 默认 2
 	Nickname        string                 `protobuf:"bytes,10,opt,name=nickname,proto3" json:"nickname,omitempty"`                                     // 昵称
 	Avatar          string                 `protobuf:"bytes,11,opt,name=avatar,proto3" json:"avatar,omitempty"`                                         // 头像
+	GameId          int64                  `protobuf:"varint,12,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                          // 游戏ID
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -180,6 +181,13 @@ func (x *GetGameLinkReq) GetAvatar() string {
 		return x.Avatar
 	}
 	return ""
+}
+
+func (x *GetGameLinkReq) GetGameId() int64 {
+	if x != nil {
+		return x.GameId
+	}
+	return 0
 }
 
 type GetGameLinkResp struct {
@@ -483,6 +491,7 @@ type GetDemoGameLinkReq struct {
 	ClientIp      string                 `protobuf:"bytes,5,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`             // ip
 	LanguageCode  string                 `protobuf:"bytes,6,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty"` // 语言
 	PlatformId    int64                  `protobuf:"varint,7,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`      // 厂商id
+	GameId        int64                  `protobuf:"varint,12,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                 // 游戏ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -566,6 +575,13 @@ func (x *GetDemoGameLinkReq) GetPlatformId() int64 {
 	return 0
 }
 
+func (x *GetDemoGameLinkReq) GetGameId() int64 {
+	if x != nil {
+		return x.GameId
+	}
+	return 0
+}
+
 type GameInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ThirdGameId   string                 `protobuf:"bytes,1,opt,name=third_game_id,json=thirdGameId,proto3" json:"third_game_id,omitempty"`                   // 三方游戏ID
@@ -576,6 +592,7 @@ type GameInfo struct {
 	IsTrialPlay   bool                   `protobuf:"varint,6,opt,name=IsTrialPlay,proto3" json:"IsTrialPlay,omitempty"`                                       // 是否允许试玩
 	Currencies    []string               `protobuf:"bytes,7,rep,name=currencies,proto3" json:"currencies,omitempty"`                                          // 币种
 	IsMaterial    bool                   `protobuf:"varint,8,opt,name=IsMaterial,proto3" json:"IsMaterial,omitempty"`                                         // 是否支持素材
+	Orientation   int64                  `protobuf:"varint,9,opt,name=Orientation,proto3" json:"Orientation,omitempty"`                                       // 屏幕方向 0 横屏 1 竖屏 2 混合
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -664,6 +681,13 @@ func (x *GameInfo) GetIsMaterial() bool {
 		return x.IsMaterial
 	}
 	return false
+}
+
+func (x *GameInfo) GetOrientation() int64 {
+	if x != nil {
+		return x.Orientation
+	}
+	return 0
 }
 
 // 获取游戏列表
@@ -1276,7 +1300,7 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\x0e\n" +
-	"\fPlatformResp\"\xf2\x02\n" +
+	"\fPlatformResp\"\x8b\x03\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1291,7 +1315,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"clientType\x12\x1a\n" +
 	"\bnickname\x18\n" +
 	" \x01(\tR\bnickname\x12\x16\n" +
-	"\x06avatar\x18\v \x01(\tR\x06avatar\"#\n" +
+	"\x06avatar\x18\v \x01(\tR\x06avatar\x12\x17\n" +
+	"\agame_id\x18\f \x01(\x03R\x06gameId\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
@@ -1313,7 +1338,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\border_no\x18\x01 \x01(\tR\aorderNo\x12$\n" +
 	"\x0ethird_order_no\x18\x02 \x01(\tR\fthirdOrderNo\x12\x18\n" +
 	"\abalance\x18\x03 \x01(\tR\abalance\x12B\n" +
-	"\x0ftransfer_status\x18\x04 \x01(\x0e2\x19.common.v1.TransferStatusR\x0etransferStatus\"\xfa\x01\n" +
+	"\x0ftransfer_status\x18\x04 \x01(\x0e2\x19.common.v1.TransferStatusR\x0etransferStatus\"\x93\x02\n" +
 	"\x12GetDemoGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1323,7 +1348,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\tclient_ip\x18\x05 \x01(\tR\bclientIp\x12#\n" +
 	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12\x1f\n" +
 	"\vplatform_id\x18\a \x01(\x03R\n" +
-	"platformId\"\xa3\x02\n" +
+	"platformId\x12\x17\n" +
+	"\agame_id\x18\f \x01(\x03R\x06gameId\"\xc5\x02\n" +
 	"\bGameInfo\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -1337,7 +1363,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"currencies\x12\x1e\n" +
 	"\n" +
 	"IsMaterial\x18\b \x01(\bR\n" +
-	"IsMaterial\"1\n" +
+	"IsMaterial\x12 \n" +
+	"\vOrientation\x18\t \x01(\x03R\vOrientation\"1\n" +
 	"\x0eGetGameListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
