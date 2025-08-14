@@ -275,7 +275,7 @@ message CreateUserBalanceRecordReq {
 message UserBalanceRecordItem {
   int64 merchant_id = 1;                   // 商户ID
   int64 user_id = 2;                       // 用户ID
-  int64 platform_id = 3;                   // 平台ID
+  int64 platform_id = 3;                   // 用户实际平台ID
   common.v1.AccountChangeType transaction_type = 4; // 账变交易类型
   string amount = 5;                       // 变动金额（使用string表示decimal）
   string balance_before = 6;               // 变动前余额
@@ -292,8 +292,10 @@ message UserBalanceRecordItem {
   string device_os = 18;                   // 设备型号
   string merchant_user_id = 19;            // 商户用户ID
   string ext_data = 20;                    // 扩展数据（JSON格式）
-  optional int64 game_id = 21; // 游戏ID 可选
+  optional int64 game_id = 21; // 用户实际游戏ID 可选
   optional string category_code = 22; // 游戏分类 可选
+  optional int64 original_user_id = 23;                       // 用户原始游戏ID
+  optional int64 original_platform_id = 24;                   // 用户原始平台ID
 }
 
 

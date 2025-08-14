@@ -1850,30 +1850,32 @@ func (x *CreateUserBalanceRecordReq) GetBatchId() string {
 
 // UserBalanceRecordItem 用户余额变动记录项
 type UserBalanceRecordItem struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId      int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                                                 // 商户ID
-	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                             // 用户ID
-	PlatformId      int64                  `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                                 // 平台ID
-	TransactionType v1.AccountChangeType   `protobuf:"varint,4,opt,name=transaction_type,json=transactionType,proto3,enum=common.v1.AccountChangeType" json:"transaction_type,omitempty"` // 账变交易类型
-	Amount          string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                                                            // 变动金额（使用string表示decimal）
-	BalanceBefore   string                 `protobuf:"bytes,6,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"`                                         // 变动前余额
-	BalanceAfter    string                 `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`                                            // 变动后余额
-	CurrencyCode    string                 `protobuf:"bytes,8,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`                                            // 币种代码
-	RelatedOrderId  string                 `protobuf:"bytes,9,opt,name=related_order_id,json=relatedOrderId,proto3" json:"related_order_id,omitempty"`                                    // 关联业务记录ID
-	PlatformOrderId string                 `protobuf:"bytes,10,opt,name=platform_order_id,json=platformOrderId,proto3" json:"platform_order_id,omitempty"`                                // 三方平台订单ID
-	MerchantOrderId string                 `protobuf:"bytes,11,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`                                // 下游商户订单ID
-	TransactionId   string                 `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                        // 中台交易流水号（唯一）
-	TradeTime       int64                  `protobuf:"varint,13,opt,name=trade_time,json=tradeTime,proto3" json:"trade_time,omitempty"`                                                   // 交易时间（毫秒）
-	Remark          string                 `protobuf:"bytes,15,opt,name=remark,proto3" json:"remark,omitempty"`                                                                           // 备注信息
-	ClientIp        string                 `protobuf:"bytes,16,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                       // 客户端IP
-	DeviceId        string                 `protobuf:"bytes,17,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                                                       // 设备ID
-	DeviceOs        string                 `protobuf:"bytes,18,opt,name=device_os,json=deviceOs,proto3" json:"device_os,omitempty"`                                                       // 设备型号
-	MerchantUserId  string                 `protobuf:"bytes,19,opt,name=merchant_user_id,json=merchantUserId,proto3" json:"merchant_user_id,omitempty"`                                   // 商户用户ID
-	ExtData         string                 `protobuf:"bytes,20,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                          // 扩展数据（JSON格式）
-	GameId          *int64                 `protobuf:"varint,21,opt,name=game_id,json=gameId,proto3,oneof" json:"game_id,omitempty"`                                                      // 游戏ID 可选
-	CategoryCode    *string                `protobuf:"bytes,22,opt,name=category_code,json=categoryCode,proto3,oneof" json:"category_code,omitempty"`                                     // 游戏分类 可选
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	MerchantId         int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                                                 // 商户ID
+	UserId             int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                             // 用户ID
+	PlatformId         int64                  `protobuf:"varint,3,opt,name=platform_id,json=platformId,proto3" json:"platform_id,omitempty"`                                                 // 用户实际平台ID
+	TransactionType    v1.AccountChangeType   `protobuf:"varint,4,opt,name=transaction_type,json=transactionType,proto3,enum=common.v1.AccountChangeType" json:"transaction_type,omitempty"` // 账变交易类型
+	Amount             string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                                                                            // 变动金额（使用string表示decimal）
+	BalanceBefore      string                 `protobuf:"bytes,6,opt,name=balance_before,json=balanceBefore,proto3" json:"balance_before,omitempty"`                                         // 变动前余额
+	BalanceAfter       string                 `protobuf:"bytes,7,opt,name=balance_after,json=balanceAfter,proto3" json:"balance_after,omitempty"`                                            // 变动后余额
+	CurrencyCode       string                 `protobuf:"bytes,8,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`                                            // 币种代码
+	RelatedOrderId     string                 `protobuf:"bytes,9,opt,name=related_order_id,json=relatedOrderId,proto3" json:"related_order_id,omitempty"`                                    // 关联业务记录ID
+	PlatformOrderId    string                 `protobuf:"bytes,10,opt,name=platform_order_id,json=platformOrderId,proto3" json:"platform_order_id,omitempty"`                                // 三方平台订单ID
+	MerchantOrderId    string                 `protobuf:"bytes,11,opt,name=merchant_order_id,json=merchantOrderId,proto3" json:"merchant_order_id,omitempty"`                                // 下游商户订单ID
+	TransactionId      string                 `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                                        // 中台交易流水号（唯一）
+	TradeTime          int64                  `protobuf:"varint,13,opt,name=trade_time,json=tradeTime,proto3" json:"trade_time,omitempty"`                                                   // 交易时间（毫秒）
+	Remark             string                 `protobuf:"bytes,15,opt,name=remark,proto3" json:"remark,omitempty"`                                                                           // 备注信息
+	ClientIp           string                 `protobuf:"bytes,16,opt,name=client_ip,json=clientIp,proto3" json:"client_ip,omitempty"`                                                       // 客户端IP
+	DeviceId           string                 `protobuf:"bytes,17,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                                                       // 设备ID
+	DeviceOs           string                 `protobuf:"bytes,18,opt,name=device_os,json=deviceOs,proto3" json:"device_os,omitempty"`                                                       // 设备型号
+	MerchantUserId     string                 `protobuf:"bytes,19,opt,name=merchant_user_id,json=merchantUserId,proto3" json:"merchant_user_id,omitempty"`                                   // 商户用户ID
+	ExtData            string                 `protobuf:"bytes,20,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                          // 扩展数据（JSON格式）
+	GameId             *int64                 `protobuf:"varint,21,opt,name=game_id,json=gameId,proto3,oneof" json:"game_id,omitempty"`                                                      // 用户实际游戏ID 可选
+	CategoryCode       *string                `protobuf:"bytes,22,opt,name=category_code,json=categoryCode,proto3,oneof" json:"category_code,omitempty"`                                     // 游戏分类 可选
+	OriginalUserId     *int64                 `protobuf:"varint,23,opt,name=original_user_id,json=originalUserId,proto3,oneof" json:"original_user_id,omitempty"`                            // 用户原始游戏ID
+	OriginalPlatformId *int64                 `protobuf:"varint,24,opt,name=original_platform_id,json=originalPlatformId,proto3,oneof" json:"original_platform_id,omitempty"`                // 用户原始平台ID
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *UserBalanceRecordItem) Reset() {
@@ -2051,6 +2053,20 @@ func (x *UserBalanceRecordItem) GetCategoryCode() string {
 		return *x.CategoryCode
 	}
 	return ""
+}
+
+func (x *UserBalanceRecordItem) GetOriginalUserId() int64 {
+	if x != nil && x.OriginalUserId != nil {
+		return *x.OriginalUserId
+	}
+	return 0
+}
+
+func (x *UserBalanceRecordItem) GetOriginalPlatformId() int64 {
+	if x != nil && x.OriginalPlatformId != nil {
+		return *x.OriginalPlatformId
+	}
+	return 0
 }
 
 // SaveGameRecordReq 包含了存储多条完整游戏记录所需的所有信息。
@@ -2258,7 +2274,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"workflowId\"q\n" +
 	"\x1aCreateUserBalanceRecordReq\x128\n" +
 	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xa6\x06\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xba\a\n" +
 	"\x15UserBalanceRecordItem\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
@@ -2284,10 +2300,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x10merchant_user_id\x18\x13 \x01(\tR\x0emerchantUserId\x12\x19\n" +
 	"\bext_data\x18\x14 \x01(\tR\aextData\x12\x1c\n" +
 	"\agame_id\x18\x15 \x01(\x03H\x00R\x06gameId\x88\x01\x01\x12(\n" +
-	"\rcategory_code\x18\x16 \x01(\tH\x01R\fcategoryCode\x88\x01\x01B\n" +
+	"\rcategory_code\x18\x16 \x01(\tH\x01R\fcategoryCode\x88\x01\x01\x12-\n" +
+	"\x10original_user_id\x18\x17 \x01(\x03H\x02R\x0eoriginalUserId\x88\x01\x01\x125\n" +
+	"\x14original_platform_id\x18\x18 \x01(\x03H\x03R\x12originalPlatformId\x88\x01\x01B\n" +
 	"\n" +
 	"\b_game_idB\x10\n" +
-	"\x0e_category_code\"4\n" +
+	"\x0e_category_codeB\x13\n" +
+	"\x11_original_user_idB\x17\n" +
+	"\x15_original_platform_id\"4\n" +
 	"\x11SaveGameRecordReq\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
 	"betDetails2\x90\x03\n" +
