@@ -1872,7 +1872,7 @@ type UserBalanceRecordItem struct {
 	ExtData            string                 `protobuf:"bytes,20,opt,name=ext_data,json=extData,proto3" json:"ext_data,omitempty"`                                                          // 扩展数据（JSON格式）
 	GameId             *int64                 `protobuf:"varint,21,opt,name=game_id,json=gameId,proto3,oneof" json:"game_id,omitempty"`                                                      // 用户实际游戏ID 可选
 	CategoryCode       *string                `protobuf:"bytes,22,opt,name=category_code,json=categoryCode,proto3,oneof" json:"category_code,omitempty"`                                     // 游戏分类 可选
-	OriginalUserId     *int64                 `protobuf:"varint,23,opt,name=original_user_id,json=originalUserId,proto3,oneof" json:"original_user_id,omitempty"`                            // 用户原始游戏ID
+	OriginalGameId     *int64                 `protobuf:"varint,23,opt,name=original_game_id,json=originalGameId,proto3,oneof" json:"original_game_id,omitempty"`                            // 用户原始游戏ID
 	OriginalPlatformId *int64                 `protobuf:"varint,24,opt,name=original_platform_id,json=originalPlatformId,proto3,oneof" json:"original_platform_id,omitempty"`                // 用户原始平台ID
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -2055,9 +2055,9 @@ func (x *UserBalanceRecordItem) GetCategoryCode() string {
 	return ""
 }
 
-func (x *UserBalanceRecordItem) GetOriginalUserId() int64 {
-	if x != nil && x.OriginalUserId != nil {
-		return *x.OriginalUserId
+func (x *UserBalanceRecordItem) GetOriginalGameId() int64 {
+	if x != nil && x.OriginalGameId != nil {
+		return *x.OriginalGameId
 	}
 	return 0
 }
@@ -2301,12 +2301,12 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\bext_data\x18\x14 \x01(\tR\aextData\x12\x1c\n" +
 	"\agame_id\x18\x15 \x01(\x03H\x00R\x06gameId\x88\x01\x01\x12(\n" +
 	"\rcategory_code\x18\x16 \x01(\tH\x01R\fcategoryCode\x88\x01\x01\x12-\n" +
-	"\x10original_user_id\x18\x17 \x01(\x03H\x02R\x0eoriginalUserId\x88\x01\x01\x125\n" +
+	"\x10original_game_id\x18\x17 \x01(\x03H\x02R\x0eoriginalGameId\x88\x01\x01\x125\n" +
 	"\x14original_platform_id\x18\x18 \x01(\x03H\x03R\x12originalPlatformId\x88\x01\x01B\n" +
 	"\n" +
 	"\b_game_idB\x10\n" +
 	"\x0e_category_codeB\x13\n" +
-	"\x11_original_user_idB\x17\n" +
+	"\x11_original_game_idB\x17\n" +
 	"\x15_original_platform_id\"4\n" +
 	"\x11SaveGameRecordReq\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
