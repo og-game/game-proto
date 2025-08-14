@@ -592,7 +592,7 @@ type GameInfo struct {
 	IsTrialPlay   bool                   `protobuf:"varint,6,opt,name=IsTrialPlay,proto3" json:"IsTrialPlay,omitempty"`                                       // 是否允许试玩
 	Currencies    []string               `protobuf:"bytes,7,rep,name=currencies,proto3" json:"currencies,omitempty"`                                          // 币种
 	IsMaterial    bool                   `protobuf:"varint,8,opt,name=IsMaterial,proto3" json:"IsMaterial,omitempty"`                                         // 是否支持素材
-	Orientation   int64                  `protobuf:"varint,9,opt,name=Orientation,proto3" json:"Orientation,omitempty"`                                       // 屏幕方向 0 横屏 1 竖屏 2 混合
+	Orientation   int64                  `protobuf:"varint,9,opt,name=Orientation,proto3" json:"Orientation,omitempty"`                                       // 屏幕方向 1-都支持 2-竖屏 3-横屏
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

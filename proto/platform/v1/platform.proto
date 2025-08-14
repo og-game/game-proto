@@ -73,7 +73,7 @@ message GameInfo {
   bool IsTrialPlay = 6; // 是否允许试玩
   repeated string currencies = 7; // 币种
   bool IsMaterial = 8; // 是否支持素材
-  int64 Orientation = 9; // 屏幕方向 0 横屏 1 竖屏 2 混合
+  int64 Orientation = 9; // 屏幕方向 1-都支持 2-竖屏 3-横屏
 }
 
 // 获取游戏列表
