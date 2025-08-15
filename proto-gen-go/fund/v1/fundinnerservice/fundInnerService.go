@@ -23,6 +23,8 @@ type (
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
 	SaveGameRecordReq          = v1.SaveGameRecordReq
+	SaveMQFailedMessageReq     = v1.SaveMQFailedMessageReq
+	SaveMQFailedMessageResp    = v1.SaveMQFailedMessageResp
 	SendBadDebtNotifyReq       = v1.SendBadDebtNotifyReq
 	SendBadDebtNotifyResp      = v1.SendBadDebtNotifyResp
 	TransactionData            = v1.TransactionData
@@ -57,6 +59,8 @@ type (
 		CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 		// 接收游戏结果数据，并将其持久化到数据库中。
 		SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error)
+		// SaveMQFailedMessage 保存MQ发送失败的消息【后台任务会自动补偿】
+		SaveMQFailedMessage(ctx context.Context, in *SaveMQFailedMessageReq, opts ...grpc.CallOption) (*SaveMQFailedMessageResp, error)
 	}
 
 	defaultFundInnerService struct {
@@ -98,4 +102,10 @@ func (m *defaultFundInnerService) CreateUserBalanceRecord(ctx context.Context, i
 func (m *defaultFundInnerService) SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error) {
 	client := v1.NewFundInnerServiceClient(m.cli.Conn())
 	return client.SaveGameRecord(ctx, in, opts...)
+}
+
+// SaveMQFailedMessage 保存MQ发送失败的消息【后台任务会自动补偿】
+func (m *defaultFundInnerService) SaveMQFailedMessage(ctx context.Context, in *SaveMQFailedMessageReq, opts ...grpc.CallOption) (*SaveMQFailedMessageResp, error) {
+	client := v1.NewFundInnerServiceClient(m.cli.Conn())
+	return client.SaveMQFailedMessage(ctx, in, opts...)
 }

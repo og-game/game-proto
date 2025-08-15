@@ -23,6 +23,8 @@ type (
 	GetUserBalanceReq          = v1.GetUserBalanceReq
 	GetUserBalanceResp         = v1.GetUserBalanceResp
 	SaveGameRecordReq          = v1.SaveGameRecordReq
+	SaveMQFailedMessageReq     = v1.SaveMQFailedMessageReq
+	SaveMQFailedMessageResp    = v1.SaveMQFailedMessageResp
 	SendBadDebtNotifyReq       = v1.SendBadDebtNotifyReq
 	SendBadDebtNotifyResp      = v1.SendBadDebtNotifyResp
 	TransactionData            = v1.TransactionData

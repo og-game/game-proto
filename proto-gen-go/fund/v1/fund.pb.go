@@ -2114,6 +2114,152 @@ func (x *SaveGameRecordReq) GetBetDetails() [][]byte {
 	return nil
 }
 
+// SaveMQFailedMessageReq 保存失败消息请求
+type SaveMQFailedMessageReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Topic         string                 `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`                                                                                     // 消息主题
+	Tag           string                 `protobuf:"bytes,2,opt,name=tag,proto3" json:"tag,omitempty"`                                                                                         // 消息标签
+	MessageGroup  string                 `protobuf:"bytes,3,opt,name=message_group,json=messageGroup,proto3" json:"message_group,omitempty"`                                                   // 消息分组
+	MessageKeys   []string               `protobuf:"bytes,4,rep,name=message_keys,json=messageKeys,proto3" json:"message_keys,omitempty"`                                                      // 消息键列表
+	MessageBody   []byte                 `protobuf:"bytes,5,opt,name=message_body,json=messageBody,proto3" json:"message_body,omitempty"`                                                      // 消息体
+	MessageType   string                 `protobuf:"bytes,6,opt,name=message_type,json=messageType,proto3" json:"message_type,omitempty"`                                                      // 消息类型
+	Properties    map[string]string      `protobuf:"bytes,7,rep,name=properties,proto3" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // 消息属性
+	ErrorMsg      string                 `protobuf:"bytes,8,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`                                                               // 错误信息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SaveMQFailedMessageReq) Reset() {
+	*x = SaveMQFailedMessageReq{}
+	mi := &file_fund_v1_fund_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SaveMQFailedMessageReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SaveMQFailedMessageReq) ProtoMessage() {}
+
+func (x *SaveMQFailedMessageReq) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SaveMQFailedMessageReq.ProtoReflect.Descriptor instead.
+func (*SaveMQFailedMessageReq) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *SaveMQFailedMessageReq) GetTopic() string {
+	if x != nil {
+		return x.Topic
+	}
+	return ""
+}
+
+func (x *SaveMQFailedMessageReq) GetTag() string {
+	if x != nil {
+		return x.Tag
+	}
+	return ""
+}
+
+func (x *SaveMQFailedMessageReq) GetMessageGroup() string {
+	if x != nil {
+		return x.MessageGroup
+	}
+	return ""
+}
+
+func (x *SaveMQFailedMessageReq) GetMessageKeys() []string {
+	if x != nil {
+		return x.MessageKeys
+	}
+	return nil
+}
+
+func (x *SaveMQFailedMessageReq) GetMessageBody() []byte {
+	if x != nil {
+		return x.MessageBody
+	}
+	return nil
+}
+
+func (x *SaveMQFailedMessageReq) GetMessageType() string {
+	if x != nil {
+		return x.MessageType
+	}
+	return ""
+}
+
+func (x *SaveMQFailedMessageReq) GetProperties() map[string]string {
+	if x != nil {
+		return x.Properties
+	}
+	return nil
+}
+
+func (x *SaveMQFailedMessageReq) GetErrorMsg() string {
+	if x != nil {
+		return x.ErrorMsg
+	}
+	return ""
+}
+
+// SaveMQFailedMessageResp 保存失败消息响应
+type SaveMQFailedMessageResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Base          *BaseResponse          `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"` // 基础响应
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SaveMQFailedMessageResp) Reset() {
+	*x = SaveMQFailedMessageResp{}
+	mi := &file_fund_v1_fund_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SaveMQFailedMessageResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SaveMQFailedMessageResp) ProtoMessage() {}
+
+func (x *SaveMQFailedMessageResp) ProtoReflect() protoreflect.Message {
+	mi := &file_fund_v1_fund_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SaveMQFailedMessageResp.ProtoReflect.Descriptor instead.
+func (*SaveMQFailedMessageResp) Descriptor() ([]byte, []int) {
+	return file_fund_v1_fund_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *SaveMQFailedMessageResp) GetBase() *BaseResponse {
+	if x != nil {
+		return x.Base
+	}
+	return nil
+}
+
 var File_fund_v1_fund_proto protoreflect.FileDescriptor
 
 const file_fund_v1_fund_proto_rawDesc = "" +
@@ -2310,20 +2456,37 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x15_original_platform_id\"4\n" +
 	"\x11SaveGameRecordReq\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
-	"betDetails2\x90\x03\n" +
+	"betDetails\"\xfb\x02\n" +
+	"\x16SaveMQFailedMessageReq\x12\x14\n" +
+	"\x05topic\x18\x01 \x01(\tR\x05topic\x12\x10\n" +
+	"\x03tag\x18\x02 \x01(\tR\x03tag\x12#\n" +
+	"\rmessage_group\x18\x03 \x01(\tR\fmessageGroup\x12!\n" +
+	"\fmessage_keys\x18\x04 \x03(\tR\vmessageKeys\x12!\n" +
+	"\fmessage_body\x18\x05 \x01(\fR\vmessageBody\x12!\n" +
+	"\fmessage_type\x18\x06 \x01(\tR\vmessageType\x12O\n" +
+	"\n" +
+	"properties\x18\a \x03(\v2/.fund.v1.SaveMQFailedMessageReq.PropertiesEntryR\n" +
+	"properties\x12\x1b\n" +
+	"\terror_msg\x18\b \x01(\tR\berrorMsg\x1a=\n" +
+	"\x0fPropertiesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"D\n" +
+	"\x17SaveMQFailedMessageResp\x12)\n" +
+	"\x04base\x18\x01 \x01(\v2\x15.fund.v1.BaseResponseR\x04base2\x90\x03\n" +
 	"\x0eFundApiService\x12O\n" +
 	"\x12GetUserBalanceList\x12\x1b.fund.v1.UserBalanceListReq\x1a\x1c.fund.v1.UserBalanceListResp\x12=\n" +
 	"\n" +
 	"TransferIn\x12\x16.fund.v1.TransferInReq\x1a\x17.fund.v1.TransferInResp\x12@\n" +
 	"\vTransferOut\x12\x17.fund.v1.TransferOutReq\x1a\x18.fund.v1.TransferOutResp\x12R\n" +
 	"\x13GetTransferProgress\x12\x1c.fund.v1.TransferProgressReq\x1a\x1d.fund.v1.TransferProgressResp\x12X\n" +
-	"\x17SendBadDebtNotification\x12\x1d.fund.v1.SendBadDebtNotifyReq\x1a\x1e.fund.v1.SendBadDebtNotifyResp2\xa3\x03\n" +
+	"\x17SendBadDebtNotification\x12\x1d.fund.v1.SendBadDebtNotifyReq\x1a\x1e.fund.v1.SendBadDebtNotifyResp2\xfd\x03\n" +
 	"\x10FundInnerService\x12I\n" +
 	"\x0eGetUserBalance\x12\x1a.fund.v1.GetUserBalanceReq\x1a\x1b.fund.v1.GetUserBalanceResp\x12S\n" +
 	"\x16ProcessGameTransaction\x12\x1b.fund.v1.GameTransactionReq\x1a\x1c.fund.v1.GameTransactionResp\x12[\n" +
 	"\x14UpdateTransferStatus\x12 .fund.v1.TransferStatusUpdateReq\x1a!.fund.v1.TransferStatusUpdateResp\x12Q\n" +
 	"\x17CreateUserBalanceRecord\x12#.fund.v1.CreateUserBalanceRecordReq\x1a\x11.fund.v1.FundResp\x12?\n" +
-	"\x0eSaveGameRecord\x12\x1a.fund.v1.SaveGameRecordReq\x1a\x11.fund.v1.FundRespB4Z2github.com/og-game/game-proto/proto-gen-go/fund/v1b\x06proto3"
+	"\x0eSaveGameRecord\x12\x1a.fund.v1.SaveGameRecordReq\x1a\x11.fund.v1.FundResp\x12X\n" +
+	"\x13SaveMQFailedMessage\x12\x1f.fund.v1.SaveMQFailedMessageReq\x1a .fund.v1.SaveMQFailedMessageRespB4Z2github.com/og-game/game-proto/proto-gen-go/fund/v1b\x06proto3"
 
 var (
 	file_fund_v1_fund_proto_rawDescOnce sync.Once
@@ -2337,7 +2500,7 @@ func file_fund_v1_fund_proto_rawDescGZIP() []byte {
 	return file_fund_v1_fund_proto_rawDescData
 }
 
-var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+var file_fund_v1_fund_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
 var file_fund_v1_fund_proto_goTypes = []any{
 	(*FundReq)(nil),                    // 0: fund.v1.FundReq
 	(*FundResp)(nil),                   // 1: fund.v1.FundResp
@@ -2370,78 +2533,85 @@ var file_fund_v1_fund_proto_goTypes = []any{
 	(*CreateUserBalanceRecordReq)(nil), // 28: fund.v1.CreateUserBalanceRecordReq
 	(*UserBalanceRecordItem)(nil),      // 29: fund.v1.UserBalanceRecordItem
 	(*SaveGameRecordReq)(nil),          // 30: fund.v1.SaveGameRecordReq
-	nil,                                // 31: fund.v1.UserBalanceListData.BalancesEntry
-	nil,                                // 32: fund.v1.TransferInReq.ExtraParamsEntry
-	nil,                                // 33: fund.v1.TransferOutReq.ExtraParamsEntry
-	nil,                                // 34: fund.v1.TransferProgressData.ProgressEntry
-	nil,                                // 35: fund.v1.TransferProgressData.NotMatchEntry
-	nil,                                // 36: fund.v1.TransactionReqInfo.MetadataEntry
-	(FundErrorCode)(0),                 // 37: fund.v1.FundErrorCode
-	(v1.TransferStatus)(0),             // 38: common.v1.TransferStatus
-	(v1.TransactionDirection)(0),       // 39: common.v1.TransactionDirection
-	(v1.GameTransactionType)(0),        // 40: common.v1.GameTransactionType
-	(v1.AccountChangeType)(0),          // 41: common.v1.AccountChangeType
+	(*SaveMQFailedMessageReq)(nil),     // 31: fund.v1.SaveMQFailedMessageReq
+	(*SaveMQFailedMessageResp)(nil),    // 32: fund.v1.SaveMQFailedMessageResp
+	nil,                                // 33: fund.v1.UserBalanceListData.BalancesEntry
+	nil,                                // 34: fund.v1.TransferInReq.ExtraParamsEntry
+	nil,                                // 35: fund.v1.TransferOutReq.ExtraParamsEntry
+	nil,                                // 36: fund.v1.TransferProgressData.ProgressEntry
+	nil,                                // 37: fund.v1.TransferProgressData.NotMatchEntry
+	nil,                                // 38: fund.v1.TransactionReqInfo.MetadataEntry
+	nil,                                // 39: fund.v1.SaveMQFailedMessageReq.PropertiesEntry
+	(FundErrorCode)(0),                 // 40: fund.v1.FundErrorCode
+	(v1.TransferStatus)(0),             // 41: common.v1.TransferStatus
+	(v1.TransactionDirection)(0),       // 42: common.v1.TransactionDirection
+	(v1.GameTransactionType)(0),        // 43: common.v1.GameTransactionType
+	(v1.AccountChangeType)(0),          // 44: common.v1.AccountChangeType
 }
 var file_fund_v1_fund_proto_depIdxs = []int32{
-	37, // 0: fund.v1.BaseResponse.code:type_name -> fund.v1.FundErrorCode
+	40, // 0: fund.v1.BaseResponse.code:type_name -> fund.v1.FundErrorCode
 	2,  // 1: fund.v1.UserBalanceListResp.base:type_name -> fund.v1.BaseResponse
 	5,  // 2: fund.v1.UserBalanceListResp.data:type_name -> fund.v1.UserBalanceListData
-	31, // 3: fund.v1.UserBalanceListData.balances:type_name -> fund.v1.UserBalanceListData.BalancesEntry
-	32, // 4: fund.v1.TransferInReq.extra_params:type_name -> fund.v1.TransferInReq.ExtraParamsEntry
+	33, // 3: fund.v1.UserBalanceListData.balances:type_name -> fund.v1.UserBalanceListData.BalancesEntry
+	34, // 4: fund.v1.TransferInReq.extra_params:type_name -> fund.v1.TransferInReq.ExtraParamsEntry
 	2,  // 5: fund.v1.TransferInResp.base:type_name -> fund.v1.BaseResponse
 	8,  // 6: fund.v1.TransferInResp.data:type_name -> fund.v1.TransferInData
-	38, // 7: fund.v1.TransferInData.status:type_name -> common.v1.TransferStatus
-	33, // 8: fund.v1.TransferOutReq.extra_params:type_name -> fund.v1.TransferOutReq.ExtraParamsEntry
+	41, // 7: fund.v1.TransferInData.status:type_name -> common.v1.TransferStatus
+	35, // 8: fund.v1.TransferOutReq.extra_params:type_name -> fund.v1.TransferOutReq.ExtraParamsEntry
 	2,  // 9: fund.v1.TransferOutResp.base:type_name -> fund.v1.BaseResponse
 	11, // 10: fund.v1.TransferOutResp.data:type_name -> fund.v1.TransferOutData
-	38, // 11: fund.v1.TransferOutData.status:type_name -> common.v1.TransferStatus
+	41, // 11: fund.v1.TransferOutData.status:type_name -> common.v1.TransferStatus
 	2,  // 12: fund.v1.TransferProgressResp.base:type_name -> fund.v1.BaseResponse
 	14, // 13: fund.v1.TransferProgressResp.data:type_name -> fund.v1.TransferProgressData
-	34, // 14: fund.v1.TransferProgressData.progress:type_name -> fund.v1.TransferProgressData.ProgressEntry
-	35, // 15: fund.v1.TransferProgressData.not_match:type_name -> fund.v1.TransferProgressData.NotMatchEntry
-	39, // 16: fund.v1.TransferProgressInfo.transfer_type:type_name -> common.v1.TransactionDirection
-	38, // 17: fund.v1.TransferProgressInfo.status:type_name -> common.v1.TransferStatus
+	36, // 14: fund.v1.TransferProgressData.progress:type_name -> fund.v1.TransferProgressData.ProgressEntry
+	37, // 15: fund.v1.TransferProgressData.not_match:type_name -> fund.v1.TransferProgressData.NotMatchEntry
+	42, // 16: fund.v1.TransferProgressInfo.transfer_type:type_name -> common.v1.TransactionDirection
+	41, // 17: fund.v1.TransferProgressInfo.status:type_name -> common.v1.TransferStatus
 	2,  // 18: fund.v1.SendBadDebtNotifyResp.base:type_name -> fund.v1.BaseResponse
 	2,  // 19: fund.v1.GetUserBalanceResp.base:type_name -> fund.v1.BaseResponse
 	20, // 20: fund.v1.GetUserBalanceResp.data:type_name -> fund.v1.UserBalanceInfo
 	22, // 21: fund.v1.GameTransactionReq.params:type_name -> fund.v1.TransactionReqInfo
-	40, // 22: fund.v1.TransactionReqInfo.type:type_name -> common.v1.GameTransactionType
-	36, // 23: fund.v1.TransactionReqInfo.metadata:type_name -> fund.v1.TransactionReqInfo.MetadataEntry
+	43, // 22: fund.v1.TransactionReqInfo.type:type_name -> common.v1.GameTransactionType
+	38, // 23: fund.v1.TransactionReqInfo.metadata:type_name -> fund.v1.TransactionReqInfo.MetadataEntry
 	2,  // 24: fund.v1.GameTransactionResp.base:type_name -> fund.v1.BaseResponse
 	24, // 25: fund.v1.GameTransactionResp.data:type_name -> fund.v1.TransactionData
-	38, // 26: fund.v1.TransferStatusUpdateReq.current_status:type_name -> common.v1.TransferStatus
+	41, // 26: fund.v1.TransferStatusUpdateReq.current_status:type_name -> common.v1.TransferStatus
 	2,  // 27: fund.v1.TransferStatusUpdateResp.base:type_name -> fund.v1.BaseResponse
 	27, // 28: fund.v1.TransferStatusUpdateResp.data:type_name -> fund.v1.TransferStatusUpdateData
-	38, // 29: fund.v1.TransferStatusUpdateData.new_status:type_name -> common.v1.TransferStatus
+	41, // 29: fund.v1.TransferStatusUpdateData.new_status:type_name -> common.v1.TransferStatus
 	29, // 30: fund.v1.CreateUserBalanceRecordReq.records:type_name -> fund.v1.UserBalanceRecordItem
-	41, // 31: fund.v1.UserBalanceRecordItem.transaction_type:type_name -> common.v1.AccountChangeType
-	15, // 32: fund.v1.TransferProgressData.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
-	15, // 33: fund.v1.TransferProgressData.NotMatchEntry.value:type_name -> fund.v1.TransferProgressInfo
-	3,  // 34: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
-	6,  // 35: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
-	9,  // 36: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
-	12, // 37: fund.v1.FundApiService.GetTransferProgress:input_type -> fund.v1.TransferProgressReq
-	16, // 38: fund.v1.FundApiService.SendBadDebtNotification:input_type -> fund.v1.SendBadDebtNotifyReq
-	18, // 39: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
-	21, // 40: fund.v1.FundInnerService.ProcessGameTransaction:input_type -> fund.v1.GameTransactionReq
-	25, // 41: fund.v1.FundInnerService.UpdateTransferStatus:input_type -> fund.v1.TransferStatusUpdateReq
-	28, // 42: fund.v1.FundInnerService.CreateUserBalanceRecord:input_type -> fund.v1.CreateUserBalanceRecordReq
-	30, // 43: fund.v1.FundInnerService.SaveGameRecord:input_type -> fund.v1.SaveGameRecordReq
-	4,  // 44: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListResp
-	7,  // 45: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInResp
-	10, // 46: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutResp
-	13, // 47: fund.v1.FundApiService.GetTransferProgress:output_type -> fund.v1.TransferProgressResp
-	17, // 48: fund.v1.FundApiService.SendBadDebtNotification:output_type -> fund.v1.SendBadDebtNotifyResp
-	19, // 49: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceResp
-	23, // 50: fund.v1.FundInnerService.ProcessGameTransaction:output_type -> fund.v1.GameTransactionResp
-	26, // 51: fund.v1.FundInnerService.UpdateTransferStatus:output_type -> fund.v1.TransferStatusUpdateResp
-	1,  // 52: fund.v1.FundInnerService.CreateUserBalanceRecord:output_type -> fund.v1.FundResp
-	1,  // 53: fund.v1.FundInnerService.SaveGameRecord:output_type -> fund.v1.FundResp
-	44, // [44:54] is the sub-list for method output_type
-	34, // [34:44] is the sub-list for method input_type
-	34, // [34:34] is the sub-list for extension type_name
-	34, // [34:34] is the sub-list for extension extendee
-	0,  // [0:34] is the sub-list for field type_name
+	44, // 31: fund.v1.UserBalanceRecordItem.transaction_type:type_name -> common.v1.AccountChangeType
+	39, // 32: fund.v1.SaveMQFailedMessageReq.properties:type_name -> fund.v1.SaveMQFailedMessageReq.PropertiesEntry
+	2,  // 33: fund.v1.SaveMQFailedMessageResp.base:type_name -> fund.v1.BaseResponse
+	15, // 34: fund.v1.TransferProgressData.ProgressEntry.value:type_name -> fund.v1.TransferProgressInfo
+	15, // 35: fund.v1.TransferProgressData.NotMatchEntry.value:type_name -> fund.v1.TransferProgressInfo
+	3,  // 36: fund.v1.FundApiService.GetUserBalanceList:input_type -> fund.v1.UserBalanceListReq
+	6,  // 37: fund.v1.FundApiService.TransferIn:input_type -> fund.v1.TransferInReq
+	9,  // 38: fund.v1.FundApiService.TransferOut:input_type -> fund.v1.TransferOutReq
+	12, // 39: fund.v1.FundApiService.GetTransferProgress:input_type -> fund.v1.TransferProgressReq
+	16, // 40: fund.v1.FundApiService.SendBadDebtNotification:input_type -> fund.v1.SendBadDebtNotifyReq
+	18, // 41: fund.v1.FundInnerService.GetUserBalance:input_type -> fund.v1.GetUserBalanceReq
+	21, // 42: fund.v1.FundInnerService.ProcessGameTransaction:input_type -> fund.v1.GameTransactionReq
+	25, // 43: fund.v1.FundInnerService.UpdateTransferStatus:input_type -> fund.v1.TransferStatusUpdateReq
+	28, // 44: fund.v1.FundInnerService.CreateUserBalanceRecord:input_type -> fund.v1.CreateUserBalanceRecordReq
+	30, // 45: fund.v1.FundInnerService.SaveGameRecord:input_type -> fund.v1.SaveGameRecordReq
+	31, // 46: fund.v1.FundInnerService.SaveMQFailedMessage:input_type -> fund.v1.SaveMQFailedMessageReq
+	4,  // 47: fund.v1.FundApiService.GetUserBalanceList:output_type -> fund.v1.UserBalanceListResp
+	7,  // 48: fund.v1.FundApiService.TransferIn:output_type -> fund.v1.TransferInResp
+	10, // 49: fund.v1.FundApiService.TransferOut:output_type -> fund.v1.TransferOutResp
+	13, // 50: fund.v1.FundApiService.GetTransferProgress:output_type -> fund.v1.TransferProgressResp
+	17, // 51: fund.v1.FundApiService.SendBadDebtNotification:output_type -> fund.v1.SendBadDebtNotifyResp
+	19, // 52: fund.v1.FundInnerService.GetUserBalance:output_type -> fund.v1.GetUserBalanceResp
+	23, // 53: fund.v1.FundInnerService.ProcessGameTransaction:output_type -> fund.v1.GameTransactionResp
+	26, // 54: fund.v1.FundInnerService.UpdateTransferStatus:output_type -> fund.v1.TransferStatusUpdateResp
+	1,  // 55: fund.v1.FundInnerService.CreateUserBalanceRecord:output_type -> fund.v1.FundResp
+	1,  // 56: fund.v1.FundInnerService.SaveGameRecord:output_type -> fund.v1.FundResp
+	32, // 57: fund.v1.FundInnerService.SaveMQFailedMessage:output_type -> fund.v1.SaveMQFailedMessageResp
+	47, // [47:58] is the sub-list for method output_type
+	36, // [36:47] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_fund_v1_fund_proto_init() }
@@ -2463,7 +2633,7 @@ func file_fund_v1_fund_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_fund_v1_fund_proto_rawDesc), len(file_fund_v1_fund_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   37,
+			NumMessages:   40,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

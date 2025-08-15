@@ -181,6 +181,9 @@ service FundInnerService {
 
   // 接收游戏结果数据，并将其持久化到数据库中。
   rpc SaveGameRecord(SaveGameRecordReq) returns (FundResp);
+
+  // SaveMQFailedMessage 保存MQ发送失败的消息【后台任务会自动补偿】
+  rpc SaveMQFailedMessage(SaveMQFailedMessageReq) returns (SaveMQFailedMessageResp);
 }
 
 
@@ -262,14 +265,11 @@ message TransferStatusUpdateData {
   string workflow_id = 4;                  // 工作流ID（如果启动了重试）
 }
 
-
-
 // 创建用户余额记录请求
 message CreateUserBalanceRecordReq {
   repeated UserBalanceRecordItem records = 1; // 记录列表，限制1-1000条
   string batch_id = 2;                     // 批次ID，用于幂等性控制
 }
-
 
 // UserBalanceRecordItem 用户余额变动记录项
 message UserBalanceRecordItem {
@@ -299,8 +299,25 @@ message UserBalanceRecordItem {
 }
 
 
-
 // SaveGameRecordReq 包含了存储多条完整游戏记录所需的所有信息。
 message SaveGameRecordReq {
   repeated bytes bet_details = 1; // 游戏下注记录
+}
+
+
+// SaveMQFailedMessageReq 保存失败消息请求
+message SaveMQFailedMessageReq {
+  string topic = 1;           // 消息主题
+  string tag = 2;             // 消息标签
+  string message_group = 3;   // 消息分组
+  repeated string message_keys = 4;  // 消息键列表
+  bytes message_body = 5;     // 消息体
+  string message_type = 6;    // 消息类型
+  map<string, string> properties = 7;  // 消息属性
+  string error_msg = 8;       // 错误信息
+}
+
+// SaveMQFailedMessageResp 保存失败消息响应
+message SaveMQFailedMessageResp {
+  BaseResponse base = 1;                   // 基础响应
 }

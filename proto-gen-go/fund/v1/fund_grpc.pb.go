@@ -292,6 +292,7 @@ const (
 	FundInnerService_UpdateTransferStatus_FullMethodName    = "/fund.v1.FundInnerService/UpdateTransferStatus"
 	FundInnerService_CreateUserBalanceRecord_FullMethodName = "/fund.v1.FundInnerService/CreateUserBalanceRecord"
 	FundInnerService_SaveGameRecord_FullMethodName          = "/fund.v1.FundInnerService/SaveGameRecord"
+	FundInnerService_SaveMQFailedMessage_FullMethodName     = "/fund.v1.FundInnerService/SaveMQFailedMessage"
 )
 
 // FundInnerServiceClient is the client API for FundInnerService service.
@@ -310,6 +311,8 @@ type FundInnerServiceClient interface {
 	CreateUserBalanceRecord(ctx context.Context, in *CreateUserBalanceRecordReq, opts ...grpc.CallOption) (*FundResp, error)
 	// 接收游戏结果数据，并将其持久化到数据库中。
 	SaveGameRecord(ctx context.Context, in *SaveGameRecordReq, opts ...grpc.CallOption) (*FundResp, error)
+	// SaveMQFailedMessage 保存MQ发送失败的消息【后台任务会自动补偿】
+	SaveMQFailedMessage(ctx context.Context, in *SaveMQFailedMessageReq, opts ...grpc.CallOption) (*SaveMQFailedMessageResp, error)
 }
 
 type fundInnerServiceClient struct {
@@ -370,6 +373,16 @@ func (c *fundInnerServiceClient) SaveGameRecord(ctx context.Context, in *SaveGam
 	return out, nil
 }
 
+func (c *fundInnerServiceClient) SaveMQFailedMessage(ctx context.Context, in *SaveMQFailedMessageReq, opts ...grpc.CallOption) (*SaveMQFailedMessageResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveMQFailedMessageResp)
+	err := c.cc.Invoke(ctx, FundInnerService_SaveMQFailedMessage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FundInnerServiceServer is the server API for FundInnerService service.
 // All implementations must embed UnimplementedFundInnerServiceServer
 // for forward compatibility.
@@ -386,6 +399,8 @@ type FundInnerServiceServer interface {
 	CreateUserBalanceRecord(context.Context, *CreateUserBalanceRecordReq) (*FundResp, error)
 	// 接收游戏结果数据，并将其持久化到数据库中。
 	SaveGameRecord(context.Context, *SaveGameRecordReq) (*FundResp, error)
+	// SaveMQFailedMessage 保存MQ发送失败的消息【后台任务会自动补偿】
+	SaveMQFailedMessage(context.Context, *SaveMQFailedMessageReq) (*SaveMQFailedMessageResp, error)
 	mustEmbedUnimplementedFundInnerServiceServer()
 }
 
@@ -410,6 +425,9 @@ func (UnimplementedFundInnerServiceServer) CreateUserBalanceRecord(context.Conte
 }
 func (UnimplementedFundInnerServiceServer) SaveGameRecord(context.Context, *SaveGameRecordReq) (*FundResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveGameRecord not implemented")
+}
+func (UnimplementedFundInnerServiceServer) SaveMQFailedMessage(context.Context, *SaveMQFailedMessageReq) (*SaveMQFailedMessageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveMQFailedMessage not implemented")
 }
 func (UnimplementedFundInnerServiceServer) mustEmbedUnimplementedFundInnerServiceServer() {}
 func (UnimplementedFundInnerServiceServer) testEmbeddedByValue()                          {}
@@ -522,6 +540,24 @@ func _FundInnerService_SaveGameRecord_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FundInnerService_SaveMQFailedMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveMQFailedMessageReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FundInnerServiceServer).SaveMQFailedMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FundInnerService_SaveMQFailedMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FundInnerServiceServer).SaveMQFailedMessage(ctx, req.(*SaveMQFailedMessageReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FundInnerService_ServiceDesc is the grpc.ServiceDesc for FundInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -548,6 +584,10 @@ var FundInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SaveGameRecord",
 			Handler:    _FundInnerService_SaveGameRecord_Handler,
+		},
+		{
+			MethodName: "SaveMQFailedMessage",
+			Handler:    _FundInnerService_SaveMQFailedMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
