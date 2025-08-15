@@ -2118,8 +2118,8 @@ func (x *SaveGameRecordReq) GetBetDetails() [][]byte {
 type SaveMQFailedMessageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Topic         string                 `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`                                                                                     // 消息主题
-	Tag           string                 `protobuf:"bytes,2,opt,name=tag,proto3" json:"tag,omitempty"`                                                                                         // 消息标签
-	MessageGroup  string                 `protobuf:"bytes,3,opt,name=message_group,json=messageGroup,proto3" json:"message_group,omitempty"`                                                   // 消息分组
+	Tag           *string                `protobuf:"bytes,2,opt,name=tag,proto3,oneof" json:"tag,omitempty"`                                                                                   // 消息标签
+	MessageGroup  *string                `protobuf:"bytes,3,opt,name=message_group,json=messageGroup,proto3,oneof" json:"message_group,omitempty"`                                             // 消息分组
 	MessageKeys   []string               `protobuf:"bytes,4,rep,name=message_keys,json=messageKeys,proto3" json:"message_keys,omitempty"`                                                      // 消息键列表
 	MessageBody   []byte                 `protobuf:"bytes,5,opt,name=message_body,json=messageBody,proto3" json:"message_body,omitempty"`                                                      // 消息体
 	MessageType   string                 `protobuf:"bytes,6,opt,name=message_type,json=messageType,proto3" json:"message_type,omitempty"`                                                      // 消息类型
@@ -2167,15 +2167,15 @@ func (x *SaveMQFailedMessageReq) GetTopic() string {
 }
 
 func (x *SaveMQFailedMessageReq) GetTag() string {
-	if x != nil {
-		return x.Tag
+	if x != nil && x.Tag != nil {
+		return *x.Tag
 	}
 	return ""
 }
 
 func (x *SaveMQFailedMessageReq) GetMessageGroup() string {
-	if x != nil {
-		return x.MessageGroup
+	if x != nil && x.MessageGroup != nil {
+		return *x.MessageGroup
 	}
 	return ""
 }
@@ -2456,11 +2456,11 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\x15_original_platform_id\"4\n" +
 	"\x11SaveGameRecordReq\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
-	"betDetails\"\xfb\x02\n" +
+	"betDetails\"\x9f\x03\n" +
 	"\x16SaveMQFailedMessageReq\x12\x14\n" +
-	"\x05topic\x18\x01 \x01(\tR\x05topic\x12\x10\n" +
-	"\x03tag\x18\x02 \x01(\tR\x03tag\x12#\n" +
-	"\rmessage_group\x18\x03 \x01(\tR\fmessageGroup\x12!\n" +
+	"\x05topic\x18\x01 \x01(\tR\x05topic\x12\x15\n" +
+	"\x03tag\x18\x02 \x01(\tH\x00R\x03tag\x88\x01\x01\x12(\n" +
+	"\rmessage_group\x18\x03 \x01(\tH\x01R\fmessageGroup\x88\x01\x01\x12!\n" +
 	"\fmessage_keys\x18\x04 \x03(\tR\vmessageKeys\x12!\n" +
 	"\fmessage_body\x18\x05 \x01(\fR\vmessageBody\x12!\n" +
 	"\fmessage_type\x18\x06 \x01(\tR\vmessageType\x12O\n" +
@@ -2470,7 +2470,9 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\terror_msg\x18\b \x01(\tR\berrorMsg\x1a=\n" +
 	"\x0fPropertiesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"D\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x06\n" +
+	"\x04_tagB\x10\n" +
+	"\x0e_message_group\"D\n" +
 	"\x17SaveMQFailedMessageResp\x12)\n" +
 	"\x04base\x18\x01 \x01(\v2\x15.fund.v1.BaseResponseR\x04base2\x90\x03\n" +
 	"\x0eFundApiService\x12O\n" +
@@ -2627,6 +2629,7 @@ func file_fund_v1_fund_proto_init() {
 		(*SendBadDebtNotifyReq_TransactionId)(nil),
 	}
 	file_fund_v1_fund_proto_msgTypes[29].OneofWrappers = []any{}
+	file_fund_v1_fund_proto_msgTypes[31].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -308,8 +308,8 @@ message SaveGameRecordReq {
 // SaveMQFailedMessageReq 保存失败消息请求
 message SaveMQFailedMessageReq {
   string topic = 1;           // 消息主题
-  string tag = 2;             // 消息标签
-  string message_group = 3;   // 消息分组
+  optional string tag = 2;             // 消息标签
+  optional string message_group = 3;   // 消息分组
   repeated string message_keys = 4;  // 消息键列表
   bytes message_body = 5;     // 消息体
   string message_type = 6;    // 消息类型
