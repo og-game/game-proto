@@ -593,6 +593,7 @@ type GameInfo struct {
 	Currencies    []string               `protobuf:"bytes,7,rep,name=currencies,proto3" json:"currencies,omitempty"`                                          // 币种
 	IsMaterial    bool                   `protobuf:"varint,8,opt,name=IsMaterial,proto3" json:"IsMaterial,omitempty"`                                         // 是否支持素材
 	Orientation   int64                  `protobuf:"varint,9,opt,name=Orientation,proto3" json:"Orientation,omitempty"`                                       // 屏幕方向 1-都支持 2-竖屏 3-横屏
+	CategoryCode  string                 `protobuf:"bytes,10,opt,name=categoryCode,proto3" json:"categoryCode,omitempty"`                                     // 分类code
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -688,6 +689,13 @@ func (x *GameInfo) GetOrientation() int64 {
 		return x.Orientation
 	}
 	return 0
+}
+
+func (x *GameInfo) GetCategoryCode() string {
+	if x != nil {
+		return x.CategoryCode
+	}
+	return ""
 }
 
 // 获取游戏列表
@@ -1349,7 +1357,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\rlanguage_code\x18\x06 \x01(\tR\flanguageCode\x12\x1f\n" +
 	"\vplatform_id\x18\a \x01(\x03R\n" +
 	"platformId\x12\x17\n" +
-	"\agame_id\x18\f \x01(\x03R\x06gameId\"\xc5\x02\n" +
+	"\agame_id\x18\f \x01(\x03R\x06gameId\"\xe9\x02\n" +
 	"\bGameInfo\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -1364,7 +1372,9 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"IsMaterial\x18\b \x01(\bR\n" +
 	"IsMaterial\x12 \n" +
-	"\vOrientation\x18\t \x01(\x03R\vOrientation\"1\n" +
+	"\vOrientation\x18\t \x01(\x03R\vOrientation\x12\"\n" +
+	"\fcategoryCode\x18\n" +
+	" \x01(\tR\fcategoryCode\"1\n" +
 	"\x0eGetGameListReq\x12\x1f\n" +
 	"\vplatform_id\x18\x01 \x01(\x03R\n" +
 	"platformId\"E\n" +
