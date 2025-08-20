@@ -22,6 +22,7 @@ message GetGameLinkReq {
   string nickname = 10; // 昵称
   string avatar = 11; // 头像
   int64 game_id = 12; // 游戏ID
+  int64 is_material = 13; // 是否支持素材 1-支持 2-不支持
 }
 
 message GetGameLinkResp {
@@ -62,6 +63,7 @@ message GetDemoGameLinkReq {
   string language_code = 6; // 语言
   int64 platform_id = 7 ; // 厂商id
   int64 game_id = 12; // 游戏ID
+  int64 is_material = 13; // 是否支持素材 1-支持 2-不支持
 }
 
 message GameInfo {
@@ -74,6 +76,7 @@ message GameInfo {
   repeated string currencies = 7; // 币种
   bool IsMaterial = 8; // 是否支持素材
   int64 Orientation = 9; // 屏幕方向 1-都支持 2-竖屏 3-横屏
+  string categoryCode = 10; // 分类code
 }
 
 // 获取游戏列表
