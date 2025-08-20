@@ -111,3 +111,25 @@ message RetryPolicy {
   int32 maximum_attempts = 4;
   repeated string non_retryable_error_types = 5;
 }
+
+
+// 搜索属性类别
+enum SearchAttributeCategory {
+  SEARCH_ATTRIBUTE_CATEGORY_UNSPECIFIED = 0;
+  SEARCH_ATTRIBUTE_CATEGORY_ALL = 1;                      // 所有属性
+  SEARCH_ATTRIBUTE_CATEGORY_SYSTEM = 2;                   // 系统属性
+  SEARCH_ATTRIBUTE_CATEGORY_CUSTOM = 3;                   // 自定义属性
+}
+
+
+// 搜索属性类型
+enum SearchAttributeType {
+  SEARCH_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  SEARCH_ATTRIBUTE_TYPE_KEYWORD = 1;        // 关键词（精确匹配）
+  SEARCH_ATTRIBUTE_TYPE_TEXT = 2;           // 文本（全文搜索）
+  SEARCH_ATTRIBUTE_TYPE_INT = 3;            // 整数
+  SEARCH_ATTRIBUTE_TYPE_DOUBLE = 4;         // 浮点数
+  SEARCH_ATTRIBUTE_TYPE_BOOL = 5;           // 布尔值
+  SEARCH_ATTRIBUTE_TYPE_DATETIME = 6;       // 日期时间
+  SEARCH_ATTRIBUTE_TYPE_KEYWORD_LIST = 7;   // 关键词列表
+}

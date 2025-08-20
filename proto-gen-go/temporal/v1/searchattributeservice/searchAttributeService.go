@@ -2,7 +2,7 @@
 // goctl 1.8.4
 // Source: temporal.proto
 
-package scheduleservice
+package searchattributeservice
 
 import (
 	"context"
@@ -103,40 +103,56 @@ type (
 	WorkflowStatus                    = v1.WorkflowStatus
 	WorkflowTarget                    = v1.WorkflowTarget
 
-	ScheduleService interface {
-		// 管理调度 (创建/更新/删除/暂停/恢复)
-		ManageSchedule(ctx context.Context, in *ManageScheduleRequest, opts ...grpc.CallOption) (*ManageScheduleResponse, error)
-		// 查询调度
-		QuerySchedule(ctx context.Context, in *QueryScheduleRequest, opts ...grpc.CallOption) (*QueryScheduleResponse, error)
-		// 列出调度
-		ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
+	SearchAttributeService interface {
+		// 注册搜索属性
+		RegisterSearchAttributes(ctx context.Context, in *RegisterSearchAttributesRequest, opts ...grpc.CallOption) (*RegisterSearchAttributesResponse, error)
+		// 列出搜索属性
+		ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error)
+		// 删除搜索属性（谨慎使用）
+		RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error)
+		// 查询搜索属性使用情况
+		QuerySearchAttributeUsage(ctx context.Context, in *QuerySearchAttributeUsageRequest, opts ...grpc.CallOption) (*QuerySearchAttributeUsageResponse, error)
+		// 验证搜索属性
+		ValidateSearchAttributes(ctx context.Context, in *ValidateSearchAttributesRequest, opts ...grpc.CallOption) (*ValidateSearchAttributesResponse, error)
 	}
 
-	defaultScheduleService struct {
+	defaultSearchAttributeService struct {
 		cli zrpc.Client
 	}
 )
 
-func NewScheduleService(cli zrpc.Client) ScheduleService {
-	return &defaultScheduleService{
+func NewSearchAttributeService(cli zrpc.Client) SearchAttributeService {
+	return &defaultSearchAttributeService{
 		cli: cli,
 	}
 }
 
-// 管理调度 (创建/更新/删除/暂停/恢复)
-func (m *defaultScheduleService) ManageSchedule(ctx context.Context, in *ManageScheduleRequest, opts ...grpc.CallOption) (*ManageScheduleResponse, error) {
-	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.ManageSchedule(ctx, in, opts...)
+// 注册搜索属性
+func (m *defaultSearchAttributeService) RegisterSearchAttributes(ctx context.Context, in *RegisterSearchAttributesRequest, opts ...grpc.CallOption) (*RegisterSearchAttributesResponse, error) {
+	client := v1.NewSearchAttributeServiceClient(m.cli.Conn())
+	return client.RegisterSearchAttributes(ctx, in, opts...)
 }
 
-// 查询调度
-func (m *defaultScheduleService) QuerySchedule(ctx context.Context, in *QueryScheduleRequest, opts ...grpc.CallOption) (*QueryScheduleResponse, error) {
-	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.QuerySchedule(ctx, in, opts...)
+// 列出搜索属性
+func (m *defaultSearchAttributeService) ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error) {
+	client := v1.NewSearchAttributeServiceClient(m.cli.Conn())
+	return client.ListSearchAttributes(ctx, in, opts...)
 }
 
-// 列出调度
-func (m *defaultScheduleService) ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error) {
-	client := v1.NewScheduleServiceClient(m.cli.Conn())
-	return client.ListSchedules(ctx, in, opts...)
+// 删除搜索属性（谨慎使用）
+func (m *defaultSearchAttributeService) RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error) {
+	client := v1.NewSearchAttributeServiceClient(m.cli.Conn())
+	return client.RemoveSearchAttributes(ctx, in, opts...)
+}
+
+// 查询搜索属性使用情况
+func (m *defaultSearchAttributeService) QuerySearchAttributeUsage(ctx context.Context, in *QuerySearchAttributeUsageRequest, opts ...grpc.CallOption) (*QuerySearchAttributeUsageResponse, error) {
+	client := v1.NewSearchAttributeServiceClient(m.cli.Conn())
+	return client.QuerySearchAttributeUsage(ctx, in, opts...)
+}
+
+// 验证搜索属性
+func (m *defaultSearchAttributeService) ValidateSearchAttributes(ctx context.Context, in *ValidateSearchAttributesRequest, opts ...grpc.CallOption) (*ValidateSearchAttributesResponse, error) {
+	client := v1.NewSearchAttributeServiceClient(m.cli.Conn())
+	return client.ValidateSearchAttributes(ctx, in, opts...)
 }

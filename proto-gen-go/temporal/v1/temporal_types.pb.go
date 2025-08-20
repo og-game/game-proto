@@ -505,6 +505,124 @@ func (ScheduleState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_v1_temporal_types_proto_rawDescGZIP(), []int{7}
 }
 
+// 搜索属性类别
+type SearchAttributeCategory int32
+
+const (
+	SearchAttributeCategory_SEARCH_ATTRIBUTE_CATEGORY_UNSPECIFIED SearchAttributeCategory = 0
+	SearchAttributeCategory_SEARCH_ATTRIBUTE_CATEGORY_ALL         SearchAttributeCategory = 1 // 所有属性
+	SearchAttributeCategory_SEARCH_ATTRIBUTE_CATEGORY_SYSTEM      SearchAttributeCategory = 2 // 系统属性
+	SearchAttributeCategory_SEARCH_ATTRIBUTE_CATEGORY_CUSTOM      SearchAttributeCategory = 3 // 自定义属性
+)
+
+// Enum value maps for SearchAttributeCategory.
+var (
+	SearchAttributeCategory_name = map[int32]string{
+		0: "SEARCH_ATTRIBUTE_CATEGORY_UNSPECIFIED",
+		1: "SEARCH_ATTRIBUTE_CATEGORY_ALL",
+		2: "SEARCH_ATTRIBUTE_CATEGORY_SYSTEM",
+		3: "SEARCH_ATTRIBUTE_CATEGORY_CUSTOM",
+	}
+	SearchAttributeCategory_value = map[string]int32{
+		"SEARCH_ATTRIBUTE_CATEGORY_UNSPECIFIED": 0,
+		"SEARCH_ATTRIBUTE_CATEGORY_ALL":         1,
+		"SEARCH_ATTRIBUTE_CATEGORY_SYSTEM":      2,
+		"SEARCH_ATTRIBUTE_CATEGORY_CUSTOM":      3,
+	}
+)
+
+func (x SearchAttributeCategory) Enum() *SearchAttributeCategory {
+	p := new(SearchAttributeCategory)
+	*p = x
+	return p
+}
+
+func (x SearchAttributeCategory) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SearchAttributeCategory) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_v1_temporal_types_proto_enumTypes[8].Descriptor()
+}
+
+func (SearchAttributeCategory) Type() protoreflect.EnumType {
+	return &file_temporal_v1_temporal_types_proto_enumTypes[8]
+}
+
+func (x SearchAttributeCategory) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SearchAttributeCategory.Descriptor instead.
+func (SearchAttributeCategory) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_types_proto_rawDescGZIP(), []int{8}
+}
+
+// 搜索属性类型
+type SearchAttributeType int32
+
+const (
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_UNSPECIFIED  SearchAttributeType = 0
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_KEYWORD      SearchAttributeType = 1 // 关键词（精确匹配）
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_TEXT         SearchAttributeType = 2 // 文本（全文搜索）
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_INT          SearchAttributeType = 3 // 整数
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_DOUBLE       SearchAttributeType = 4 // 浮点数
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_BOOL         SearchAttributeType = 5 // 布尔值
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_DATETIME     SearchAttributeType = 6 // 日期时间
+	SearchAttributeType_SEARCH_ATTRIBUTE_TYPE_KEYWORD_LIST SearchAttributeType = 7 // 关键词列表
+)
+
+// Enum value maps for SearchAttributeType.
+var (
+	SearchAttributeType_name = map[int32]string{
+		0: "SEARCH_ATTRIBUTE_TYPE_UNSPECIFIED",
+		1: "SEARCH_ATTRIBUTE_TYPE_KEYWORD",
+		2: "SEARCH_ATTRIBUTE_TYPE_TEXT",
+		3: "SEARCH_ATTRIBUTE_TYPE_INT",
+		4: "SEARCH_ATTRIBUTE_TYPE_DOUBLE",
+		5: "SEARCH_ATTRIBUTE_TYPE_BOOL",
+		6: "SEARCH_ATTRIBUTE_TYPE_DATETIME",
+		7: "SEARCH_ATTRIBUTE_TYPE_KEYWORD_LIST",
+	}
+	SearchAttributeType_value = map[string]int32{
+		"SEARCH_ATTRIBUTE_TYPE_UNSPECIFIED":  0,
+		"SEARCH_ATTRIBUTE_TYPE_KEYWORD":      1,
+		"SEARCH_ATTRIBUTE_TYPE_TEXT":         2,
+		"SEARCH_ATTRIBUTE_TYPE_INT":          3,
+		"SEARCH_ATTRIBUTE_TYPE_DOUBLE":       4,
+		"SEARCH_ATTRIBUTE_TYPE_BOOL":         5,
+		"SEARCH_ATTRIBUTE_TYPE_DATETIME":     6,
+		"SEARCH_ATTRIBUTE_TYPE_KEYWORD_LIST": 7,
+	}
+)
+
+func (x SearchAttributeType) Enum() *SearchAttributeType {
+	p := new(SearchAttributeType)
+	*p = x
+	return p
+}
+
+func (x SearchAttributeType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SearchAttributeType) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_v1_temporal_types_proto_enumTypes[9].Descriptor()
+}
+
+func (SearchAttributeType) Type() protoreflect.EnumType {
+	return &file_temporal_v1_temporal_types_proto_enumTypes[9]
+}
+
+func (x SearchAttributeType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SearchAttributeType.Descriptor instead.
+func (SearchAttributeType) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_types_proto_rawDescGZIP(), []int{9}
+}
+
 // 统一的工作流选项
 type WorkflowOptions struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
@@ -737,7 +855,21 @@ const file_temporal_v1_temporal_types_proto_rawDesc = "" +
 	"\x06ACTIVE\x10\x01\x12\n" +
 	"\n" +
 	"\x06PAUSED\x10\x02\x12\v\n" +
-	"\aDELETED\x10\x03B8Z6github.com/og-game/game-proto/proto-gen-go/temporal/v1b\x06proto3"
+	"\aDELETED\x10\x03*\xb3\x01\n" +
+	"\x17SearchAttributeCategory\x12)\n" +
+	"%SEARCH_ATTRIBUTE_CATEGORY_UNSPECIFIED\x10\x00\x12!\n" +
+	"\x1dSEARCH_ATTRIBUTE_CATEGORY_ALL\x10\x01\x12$\n" +
+	" SEARCH_ATTRIBUTE_CATEGORY_SYSTEM\x10\x02\x12$\n" +
+	" SEARCH_ATTRIBUTE_CATEGORY_CUSTOM\x10\x03*\xac\x02\n" +
+	"\x13SearchAttributeType\x12%\n" +
+	"!SEARCH_ATTRIBUTE_TYPE_UNSPECIFIED\x10\x00\x12!\n" +
+	"\x1dSEARCH_ATTRIBUTE_TYPE_KEYWORD\x10\x01\x12\x1e\n" +
+	"\x1aSEARCH_ATTRIBUTE_TYPE_TEXT\x10\x02\x12\x1d\n" +
+	"\x19SEARCH_ATTRIBUTE_TYPE_INT\x10\x03\x12 \n" +
+	"\x1cSEARCH_ATTRIBUTE_TYPE_DOUBLE\x10\x04\x12\x1e\n" +
+	"\x1aSEARCH_ATTRIBUTE_TYPE_BOOL\x10\x05\x12\"\n" +
+	"\x1eSEARCH_ATTRIBUTE_TYPE_DATETIME\x10\x06\x12&\n" +
+	"\"SEARCH_ATTRIBUTE_TYPE_KEYWORD_LIST\x10\aB8Z6github.com/og-game/game-proto/proto-gen-go/temporal/v1b\x06proto3"
 
 var (
 	file_temporal_v1_temporal_types_proto_rawDescOnce sync.Once
@@ -751,27 +883,29 @@ func file_temporal_v1_temporal_types_proto_rawDescGZIP() []byte {
 	return file_temporal_v1_temporal_types_proto_rawDescData
 }
 
-var file_temporal_v1_temporal_types_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
+var file_temporal_v1_temporal_types_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
 var file_temporal_v1_temporal_types_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_temporal_v1_temporal_types_proto_goTypes = []any{
-	(ExecutionMode)(0),          // 0: temporal.v1.ExecutionMode
-	(ControlOperation)(0),       // 1: temporal.v1.ControlOperation
-	(ControlOperationResult)(0), // 2: temporal.v1.ControlOperationResult
-	(QueryType)(0),              // 3: temporal.v1.QueryType
-	(WorkflowState)(0),          // 4: temporal.v1.WorkflowState
-	(ScheduleOperation)(0),      // 5: temporal.v1.ScheduleOperation
-	(OverlapPolicy)(0),          // 6: temporal.v1.OverlapPolicy
-	(ScheduleState)(0),          // 7: temporal.v1.ScheduleState
-	(*WorkflowOptions)(nil),     // 8: temporal.v1.WorkflowOptions
-	(*RetryPolicy)(nil),         // 9: temporal.v1.RetryPolicy
+	(ExecutionMode)(0),           // 0: temporal.v1.ExecutionMode
+	(ControlOperation)(0),        // 1: temporal.v1.ControlOperation
+	(ControlOperationResult)(0),  // 2: temporal.v1.ControlOperationResult
+	(QueryType)(0),               // 3: temporal.v1.QueryType
+	(WorkflowState)(0),           // 4: temporal.v1.WorkflowState
+	(ScheduleOperation)(0),       // 5: temporal.v1.ScheduleOperation
+	(OverlapPolicy)(0),           // 6: temporal.v1.OverlapPolicy
+	(ScheduleState)(0),           // 7: temporal.v1.ScheduleState
+	(SearchAttributeCategory)(0), // 8: temporal.v1.SearchAttributeCategory
+	(SearchAttributeType)(0),     // 9: temporal.v1.SearchAttributeType
+	(*WorkflowOptions)(nil),      // 10: temporal.v1.WorkflowOptions
+	(*RetryPolicy)(nil),          // 11: temporal.v1.RetryPolicy
 }
 var file_temporal_v1_temporal_types_proto_depIdxs = []int32{
-	9, // 0: temporal.v1.WorkflowOptions.retry_policy:type_name -> temporal.v1.RetryPolicy
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	11, // 0: temporal.v1.WorkflowOptions.retry_policy:type_name -> temporal.v1.RetryPolicy
+	1,  // [1:1] is the sub-list for method output_type
+	1,  // [1:1] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_temporal_v1_temporal_types_proto_init() }
@@ -784,7 +918,7 @@ func file_temporal_v1_temporal_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_v1_temporal_types_proto_rawDesc), len(file_temporal_v1_temporal_types_proto_rawDesc)),
-			NumEnums:      8,
+			NumEnums:      10,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

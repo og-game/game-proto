@@ -60,6 +60,27 @@ service ScheduleService {
   rpc ListSchedules(ListSchedulesRequest) returns (ListSchedulesResponse);
 }
 
+
+// ================================
+// 4. 搜索属性服务
+// ================================
+service SearchAttributeService {
+  // 注册搜索属性
+  rpc RegisterSearchAttributes(RegisterSearchAttributesRequest) returns (RegisterSearchAttributesResponse);
+
+  // 列出搜索属性
+  rpc ListSearchAttributes(ListSearchAttributesRequest) returns (ListSearchAttributesResponse);
+
+  // 删除搜索属性（谨慎使用）
+  rpc RemoveSearchAttributes(RemoveSearchAttributesRequest) returns (RemoveSearchAttributesResponse);
+
+  // 查询搜索属性使用情况
+  rpc QuerySearchAttributeUsage(QuerySearchAttributeUsageRequest) returns (QuerySearchAttributeUsageResponse);
+
+  // 验证搜索属性
+  rpc ValidateSearchAttributes(ValidateSearchAttributesRequest) returns (ValidateSearchAttributesResponse);
+}
+
 // ================================
 // 核心消息定义
 // ================================
@@ -642,4 +663,237 @@ message ListSchedulesData {
   string next_page_token = 2;
   bool has_more = 3;
   int32 total_count = 4;
+}
+
+
+
+// ================================
+// 搜索属性相关消息定义
+// ================================
+
+// 注册搜索属性请求
+message RegisterSearchAttributesRequest {
+  string namespace = 1;                                    // 命名空间
+  map<string, SearchAttributeType> attributes = 2;        // 属性名称 -> 类型映射
+  bool skip_if_exists = 3;                                // 如果已存在则跳过
+  string reason = 4;                                       // 注册原因
+}
+
+
+// 注册搜索属性响应
+message RegisterSearchAttributesResponse {
+  common.v1.BaseResponse base = 1;
+  RegisterSearchAttributesData data = 2;
+}
+
+// 注册搜索属性数据
+message RegisterSearchAttributesData {
+  int32 total_requested = 1;                              // 请求注册的总数
+  int32 successfully_registered = 2;                      // 成功注册的数量
+  int32 already_existed = 3;                              // 已存在的数量
+  int32 failed = 4;                                       // 失败的数量
+  repeated SearchAttributeRegistrationResult results = 5;  // 详细结果
+}
+
+// 单个属性注册结果
+message SearchAttributeRegistrationResult {
+  string attribute_name = 1;
+  SearchAttributeType attribute_type = 2;
+  bool success = 3;
+  string error_message = 4;                               // 如果失败，错误信息
+  bool already_existed = 5;                               // 是否已存在
+}
+
+// 列出搜索属性请求
+message ListSearchAttributesRequest {
+  string namespace = 1;                                    // 命名空间
+  SearchAttributeFilter filter = 2;                       // 过滤条件
+  int32 page_size = 3;
+  string next_page_token = 4;
+}
+
+// 搜索属性过滤器
+message SearchAttributeFilter {
+  repeated SearchAttributeType types = 1;                 // 按类型过滤
+  repeated string name_patterns = 2;                      // 名称模式（支持通配符）
+  SearchAttributeCategory category = 3;                   // 属性类别
+  bool include_system = 4;                                // 是否包含系统属性
+}
+
+
+// 列出搜索属性响应
+message ListSearchAttributesResponse {
+  common.v1.BaseResponse base = 1;
+  ListSearchAttributesData data = 2;
+}
+
+// 列出搜索属性数据
+message ListSearchAttributesData {
+  repeated SearchAttributeInfo attributes = 1;            // 属性列表
+  int32 total_count = 2;                                  // 总数量
+  string next_page_token = 3;
+  bool has_more = 4;
+  SearchAttributeStats stats = 5;                         // 统计信息
+}
+
+// 搜索属性信息
+message SearchAttributeInfo {
+  string name = 1;                                        // 属性名称
+  SearchAttributeType type = 2;                           // 属性类型
+  SearchAttributeCategory category = 3;                   // 属性类别
+  string description = 4;                                 // 描述
+  int64 created_time = 5;                                 // 创建时间
+  int64 last_modified_time = 6;                          // 最后修改时间
+  bool is_reserved = 7;                                   // 是否为保留属性
+  bool is_alias = 8;                                      // 是否为别名
+  string alias_for = 9;                                   // 如果是别名，指向的原始属性
+  map<string, string> metadata = 10;                      // 额外元数据
+}
+
+// 搜索属性统计
+message SearchAttributeStats {
+  int32 total_system_attributes = 1;                      // 系统属性总数
+  int32 total_custom_attributes = 2;                      // 自定义属性总数
+  int32 max_custom_attributes = 3;                        // 最大自定义属性数限制
+  int32 remaining_slots = 4;                              // 剩余可用槽位
+  map<string, int32> type_distribution = 5;               // 类型分布统计
+}
+
+// 删除搜索属性请求
+message RemoveSearchAttributesRequest {
+  string namespace = 1;                                    // 命名空间
+  repeated string attribute_names = 2;                    // 要删除的属性名称列表
+  bool force = 3;                                         // 强制删除（即使有工作流在使用）
+  string reason = 4;                                      // 删除原因
+}
+
+// 删除搜索属性响应
+message RemoveSearchAttributesResponse {
+  common.v1.BaseResponse base = 1;
+  RemoveSearchAttributesData data = 2;
+}
+
+// 删除搜索属性数据
+message RemoveSearchAttributesData {
+  int32 total_requested = 1;                              // 请求删除的总数
+  int32 successfully_removed = 2;                         // 成功删除的数量
+  int32 not_found = 3;                                    // 未找到的数量
+  int32 failed = 4;                                       // 失败的数量
+  repeated SearchAttributeRemovalResult results = 5;      // 详细结果
+}
+
+// 单个属性删除结果
+message SearchAttributeRemovalResult {
+  string attribute_name = 1;
+  bool success = 2;
+  string error_message = 3;                               // 如果失败，错误信息
+  bool not_found = 4;                                     // 是否未找到
+  int32 affected_workflows = 5;                           // 受影响的工作流数量
+}
+
+// 查询搜索属性使用情况请求
+message QuerySearchAttributeUsageRequest {
+  string namespace = 1;                                    // 命名空间
+  repeated string attribute_names = 2;                    // 要查询的属性名称（空则查询所有）
+  UsageQueryOptions options = 3;                          // 查询选项
+}
+
+// 使用情况查询选项
+message UsageQueryOptions {
+  bool include_workflow_counts = 1;                       // 包含工作流计数
+  bool include_value_distribution = 2;                    // 包含值分布
+  bool include_recent_workflows = 3;                      // 包含最近的工作流
+  int32 recent_workflows_limit = 4;                       // 最近工作流数量限制
+  string time_range_start = 5;                            // 时间范围开始（RFC3339）
+  string time_range_end = 6;                              // 时间范围结束（RFC3339）
+}
+
+// 查询搜索属性使用情况响应
+message QuerySearchAttributeUsageResponse {
+  common.v1.BaseResponse base = 1;
+  QuerySearchAttributeUsageData data = 2;
+}
+
+// 查询搜索属性使用情况数据
+message QuerySearchAttributeUsageData {
+  repeated SearchAttributeUsage usages = 1;               // 使用情况列表
+  int64 query_time = 2;                                   // 查询时间
+}
+
+// 搜索属性使用情况
+message SearchAttributeUsage {
+  string attribute_name = 1;                              // 属性名称
+  SearchAttributeType attribute_type = 2;                 // 属性类型
+  int64 total_workflows = 3;                              // 使用该属性的工作流总数
+  int64 active_workflows = 4;                             // 活跃工作流数量
+  int64 closed_workflows = 5;                             // 已关闭工作流数量
+  repeated ValueDistribution value_distribution = 6;      // 值分布
+  repeated string recent_workflow_ids = 7;                // 最近使用的工作流ID
+  int64 last_used_time = 8;                              // 最后使用时间
+  UsageStats stats = 9;                                   // 使用统计
+}
+
+// 值分布
+message ValueDistribution {
+  string value = 1;                                       // 值（字符串表示）
+  int64 count = 2;                                        // 出现次数
+  double percentage = 3;                                  // 百分比
+}
+
+// 使用统计
+message UsageStats {
+  int64 queries_per_day = 1;                             // 每天查询次数
+  int64 updates_per_day = 2;                             // 每天更新次数
+  double avg_value_length = 3;                           // 平均值长度
+  int64 unique_values = 4;                               // 唯一值数量
+}
+
+// 验证搜索属性请求
+message ValidateSearchAttributesRequest {
+  string namespace = 1;                                    // 命名空间
+  map<string, SearchAttributeValidation> validations = 2; // 要验证的属性
+}
+
+// 搜索属性验证
+message SearchAttributeValidation {
+  string attribute_name = 1;
+  SearchAttributeType expected_type = 2;
+  oneof value {
+    string string_value = 3;
+    int64 int_value = 4;
+    double double_value = 5;
+    bool bool_value = 6;
+    string datetime_value = 7;                           // RFC3339 格式
+    StringList keyword_list_value = 8;
+  }
+}
+
+// 字符串列表
+message StringList {
+  repeated string values = 1;
+}
+
+// 验证搜索属性响应
+message ValidateSearchAttributesResponse {
+  common.v1.BaseResponse base = 1;
+  ValidateSearchAttributesData data = 2;
+}
+
+// 验证搜索属性数据
+message ValidateSearchAttributesData {
+  bool all_valid = 1;                                     // 是否全部有效
+  repeated ValidationResult results = 2;                  // 验证结果列表
+}
+
+// 验证结果
+message ValidationResult {
+  string attribute_name = 1;
+  bool is_valid = 2;
+  bool is_registered = 3;                                 // 是否已注册
+  bool type_matches = 4;                                  // 类型是否匹配
+  bool value_valid = 5;                                   // 值是否有效
+  string error_message = 6;                               // 错误信息
+  SearchAttributeType registered_type = 7;                // 已注册的类型
+  SearchAttributeType provided_type = 8;                  // 提供的类型
+  repeated string suggestions = 9;                        // 修正建议
 }

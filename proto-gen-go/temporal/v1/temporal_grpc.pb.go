@@ -714,3 +714,276 @@ var ScheduleService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "temporal/v1/temporal.proto",
 }
+
+const (
+	SearchAttributeService_RegisterSearchAttributes_FullMethodName  = "/temporal.v1.SearchAttributeService/RegisterSearchAttributes"
+	SearchAttributeService_ListSearchAttributes_FullMethodName      = "/temporal.v1.SearchAttributeService/ListSearchAttributes"
+	SearchAttributeService_RemoveSearchAttributes_FullMethodName    = "/temporal.v1.SearchAttributeService/RemoveSearchAttributes"
+	SearchAttributeService_QuerySearchAttributeUsage_FullMethodName = "/temporal.v1.SearchAttributeService/QuerySearchAttributeUsage"
+	SearchAttributeService_ValidateSearchAttributes_FullMethodName  = "/temporal.v1.SearchAttributeService/ValidateSearchAttributes"
+)
+
+// SearchAttributeServiceClient is the client API for SearchAttributeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// ================================
+// 4. 搜索属性服务
+// ================================
+type SearchAttributeServiceClient interface {
+	// 注册搜索属性
+	RegisterSearchAttributes(ctx context.Context, in *RegisterSearchAttributesRequest, opts ...grpc.CallOption) (*RegisterSearchAttributesResponse, error)
+	// 列出搜索属性
+	ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error)
+	// 删除搜索属性（谨慎使用）
+	RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error)
+	// 查询搜索属性使用情况
+	QuerySearchAttributeUsage(ctx context.Context, in *QuerySearchAttributeUsageRequest, opts ...grpc.CallOption) (*QuerySearchAttributeUsageResponse, error)
+	// 验证搜索属性
+	ValidateSearchAttributes(ctx context.Context, in *ValidateSearchAttributesRequest, opts ...grpc.CallOption) (*ValidateSearchAttributesResponse, error)
+}
+
+type searchAttributeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewSearchAttributeServiceClient(cc grpc.ClientConnInterface) SearchAttributeServiceClient {
+	return &searchAttributeServiceClient{cc}
+}
+
+func (c *searchAttributeServiceClient) RegisterSearchAttributes(ctx context.Context, in *RegisterSearchAttributesRequest, opts ...grpc.CallOption) (*RegisterSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RegisterSearchAttributesResponse)
+	err := c.cc.Invoke(ctx, SearchAttributeService_RegisterSearchAttributes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *searchAttributeServiceClient) ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSearchAttributesResponse)
+	err := c.cc.Invoke(ctx, SearchAttributeService_ListSearchAttributes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *searchAttributeServiceClient) RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RemoveSearchAttributesResponse)
+	err := c.cc.Invoke(ctx, SearchAttributeService_RemoveSearchAttributes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *searchAttributeServiceClient) QuerySearchAttributeUsage(ctx context.Context, in *QuerySearchAttributeUsageRequest, opts ...grpc.CallOption) (*QuerySearchAttributeUsageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(QuerySearchAttributeUsageResponse)
+	err := c.cc.Invoke(ctx, SearchAttributeService_QuerySearchAttributeUsage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *searchAttributeServiceClient) ValidateSearchAttributes(ctx context.Context, in *ValidateSearchAttributesRequest, opts ...grpc.CallOption) (*ValidateSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateSearchAttributesResponse)
+	err := c.cc.Invoke(ctx, SearchAttributeService_ValidateSearchAttributes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SearchAttributeServiceServer is the server API for SearchAttributeService service.
+// All implementations must embed UnimplementedSearchAttributeServiceServer
+// for forward compatibility.
+//
+// ================================
+// 4. 搜索属性服务
+// ================================
+type SearchAttributeServiceServer interface {
+	// 注册搜索属性
+	RegisterSearchAttributes(context.Context, *RegisterSearchAttributesRequest) (*RegisterSearchAttributesResponse, error)
+	// 列出搜索属性
+	ListSearchAttributes(context.Context, *ListSearchAttributesRequest) (*ListSearchAttributesResponse, error)
+	// 删除搜索属性（谨慎使用）
+	RemoveSearchAttributes(context.Context, *RemoveSearchAttributesRequest) (*RemoveSearchAttributesResponse, error)
+	// 查询搜索属性使用情况
+	QuerySearchAttributeUsage(context.Context, *QuerySearchAttributeUsageRequest) (*QuerySearchAttributeUsageResponse, error)
+	// 验证搜索属性
+	ValidateSearchAttributes(context.Context, *ValidateSearchAttributesRequest) (*ValidateSearchAttributesResponse, error)
+	mustEmbedUnimplementedSearchAttributeServiceServer()
+}
+
+// UnimplementedSearchAttributeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedSearchAttributeServiceServer struct{}
+
+func (UnimplementedSearchAttributeServiceServer) RegisterSearchAttributes(context.Context, *RegisterSearchAttributesRequest) (*RegisterSearchAttributesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterSearchAttributes not implemented")
+}
+func (UnimplementedSearchAttributeServiceServer) ListSearchAttributes(context.Context, *ListSearchAttributesRequest) (*ListSearchAttributesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSearchAttributes not implemented")
+}
+func (UnimplementedSearchAttributeServiceServer) RemoveSearchAttributes(context.Context, *RemoveSearchAttributesRequest) (*RemoveSearchAttributesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveSearchAttributes not implemented")
+}
+func (UnimplementedSearchAttributeServiceServer) QuerySearchAttributeUsage(context.Context, *QuerySearchAttributeUsageRequest) (*QuerySearchAttributeUsageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QuerySearchAttributeUsage not implemented")
+}
+func (UnimplementedSearchAttributeServiceServer) ValidateSearchAttributes(context.Context, *ValidateSearchAttributesRequest) (*ValidateSearchAttributesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateSearchAttributes not implemented")
+}
+func (UnimplementedSearchAttributeServiceServer) mustEmbedUnimplementedSearchAttributeServiceServer() {
+}
+func (UnimplementedSearchAttributeServiceServer) testEmbeddedByValue() {}
+
+// UnsafeSearchAttributeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SearchAttributeServiceServer will
+// result in compilation errors.
+type UnsafeSearchAttributeServiceServer interface {
+	mustEmbedUnimplementedSearchAttributeServiceServer()
+}
+
+func RegisterSearchAttributeServiceServer(s grpc.ServiceRegistrar, srv SearchAttributeServiceServer) {
+	// If the following call pancis, it indicates UnimplementedSearchAttributeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&SearchAttributeService_ServiceDesc, srv)
+}
+
+func _SearchAttributeService_RegisterSearchAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterSearchAttributesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearchAttributeServiceServer).RegisterSearchAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SearchAttributeService_RegisterSearchAttributes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearchAttributeServiceServer).RegisterSearchAttributes(ctx, req.(*RegisterSearchAttributesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SearchAttributeService_ListSearchAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSearchAttributesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearchAttributeServiceServer).ListSearchAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SearchAttributeService_ListSearchAttributes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearchAttributeServiceServer).ListSearchAttributes(ctx, req.(*ListSearchAttributesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SearchAttributeService_RemoveSearchAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveSearchAttributesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearchAttributeServiceServer).RemoveSearchAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SearchAttributeService_RemoveSearchAttributes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearchAttributeServiceServer).RemoveSearchAttributes(ctx, req.(*RemoveSearchAttributesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SearchAttributeService_QuerySearchAttributeUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySearchAttributeUsageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearchAttributeServiceServer).QuerySearchAttributeUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SearchAttributeService_QuerySearchAttributeUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearchAttributeServiceServer).QuerySearchAttributeUsage(ctx, req.(*QuerySearchAttributeUsageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SearchAttributeService_ValidateSearchAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateSearchAttributesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearchAttributeServiceServer).ValidateSearchAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SearchAttributeService_ValidateSearchAttributes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearchAttributeServiceServer).ValidateSearchAttributes(ctx, req.(*ValidateSearchAttributesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// SearchAttributeService_ServiceDesc is the grpc.ServiceDesc for SearchAttributeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var SearchAttributeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "temporal.v1.SearchAttributeService",
+	HandlerType: (*SearchAttributeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "RegisterSearchAttributes",
+			Handler:    _SearchAttributeService_RegisterSearchAttributes_Handler,
+		},
+		{
+			MethodName: "ListSearchAttributes",
+			Handler:    _SearchAttributeService_ListSearchAttributes_Handler,
+		},
+		{
+			MethodName: "RemoveSearchAttributes",
+			Handler:    _SearchAttributeService_RemoveSearchAttributes_Handler,
+		},
+		{
+			MethodName: "QuerySearchAttributeUsage",
+			Handler:    _SearchAttributeService_QuerySearchAttributeUsage_Handler,
+		},
+		{
+			MethodName: "ValidateSearchAttributes",
+			Handler:    _SearchAttributeService_ValidateSearchAttributes_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "temporal/v1/temporal.proto",
+}
