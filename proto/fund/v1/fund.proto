@@ -296,6 +296,7 @@ message UserBalanceRecordItem {
   optional string category_code = 22; // 游戏分类 可选
   optional int64 original_game_id = 23;                       // 用户原始游戏ID
   optional int64 original_platform_id = 24;                   // 用户原始平台ID
+  optional int32 is_diversion = 25;                   // 是否切流【1：开启，2：未开启】
 }
 
 

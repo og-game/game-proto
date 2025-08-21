@@ -1874,6 +1874,7 @@ type UserBalanceRecordItem struct {
 	CategoryCode       *string                `protobuf:"bytes,22,opt,name=category_code,json=categoryCode,proto3,oneof" json:"category_code,omitempty"`                                     // 游戏分类 可选
 	OriginalGameId     *int64                 `protobuf:"varint,23,opt,name=original_game_id,json=originalGameId,proto3,oneof" json:"original_game_id,omitempty"`                            // 用户原始游戏ID
 	OriginalPlatformId *int64                 `protobuf:"varint,24,opt,name=original_platform_id,json=originalPlatformId,proto3,oneof" json:"original_platform_id,omitempty"`                // 用户原始平台ID
+	IsDiversion        *int32                 `protobuf:"varint,25,opt,name=is_diversion,json=isDiversion,proto3,oneof" json:"is_diversion,omitempty"`                                       // 是否切流【1：开启，2：未开启】
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -2065,6 +2066,13 @@ func (x *UserBalanceRecordItem) GetOriginalGameId() int64 {
 func (x *UserBalanceRecordItem) GetOriginalPlatformId() int64 {
 	if x != nil && x.OriginalPlatformId != nil {
 		return *x.OriginalPlatformId
+	}
+	return 0
+}
+
+func (x *UserBalanceRecordItem) GetIsDiversion() int32 {
+	if x != nil && x.IsDiversion != nil {
+		return *x.IsDiversion
 	}
 	return 0
 }
@@ -2420,7 +2428,7 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"workflowId\"q\n" +
 	"\x1aCreateUserBalanceRecordReq\x128\n" +
 	"\arecords\x18\x01 \x03(\v2\x1e.fund.v1.UserBalanceRecordItemR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xba\a\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xf3\a\n" +
 	"\x15UserBalanceRecordItem\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x17\n" +
@@ -2448,12 +2456,14 @@ const file_fund_v1_fund_proto_rawDesc = "" +
 	"\agame_id\x18\x15 \x01(\x03H\x00R\x06gameId\x88\x01\x01\x12(\n" +
 	"\rcategory_code\x18\x16 \x01(\tH\x01R\fcategoryCode\x88\x01\x01\x12-\n" +
 	"\x10original_game_id\x18\x17 \x01(\x03H\x02R\x0eoriginalGameId\x88\x01\x01\x125\n" +
-	"\x14original_platform_id\x18\x18 \x01(\x03H\x03R\x12originalPlatformId\x88\x01\x01B\n" +
+	"\x14original_platform_id\x18\x18 \x01(\x03H\x03R\x12originalPlatformId\x88\x01\x01\x12&\n" +
+	"\fis_diversion\x18\x19 \x01(\x05H\x04R\visDiversion\x88\x01\x01B\n" +
 	"\n" +
 	"\b_game_idB\x10\n" +
 	"\x0e_category_codeB\x13\n" +
 	"\x11_original_game_idB\x17\n" +
-	"\x15_original_platform_id\"4\n" +
+	"\x15_original_platform_idB\x0f\n" +
+	"\r_is_diversion\"4\n" +
 	"\x11SaveGameRecordReq\x12\x1f\n" +
 	"\vbet_details\x18\x01 \x03(\fR\n" +
 	"betDetails\"\x9f\x03\n" +
