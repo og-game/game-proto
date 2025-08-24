@@ -1,0 +1,231 @@
+syntax = "proto3";
+
+package notifier.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/notifier/v1";
+
+import "google/protobuf/timestamp.proto";
+import "notifier/v1/notifier_types.proto";
+import "notifier/v1/notifier_events.proto";
+
+// ==================== 核心推送结构 ====================
+
+// 推送载荷 - 所有推送的基础结构
+message NotificationPayload {
+  Header header = 1;
+  EventWrapper event = 2;                   // 使用统一的事件包装器
+
+  // 批量支持
+  repeated EventWrapper batch_events = 3;   // 批量事件（可选）
+
+  // 安全信息
+  string signature = 4;                     // HMAC-SHA256签名
+  int64 nonce = 5;                         // 防重放随机数
+}
+
+// 推送头
+message Header {
+  string notification_id = 1;              // 推送唯一ID
+  string merchant_id = 2;                  // 商户ID
+  PushChannel channel = 3;                 // 推送通道
+  int32 retry_count = 4;                   // 重试次数
+  google.protobuf.Timestamp pushed_at = 5; // 推送时间
+  string version = 6;                      // API版本
+}
+
+
+// 通用推送响应
+message NotificationResponse {
+  bool success = 1;                         // 是否成功
+  string error_msg = 2;                       // 错误信息【错误的时候有值】
+  string reference_id = 3;                  // 商户引用ID
+  google.protobuf.Timestamp received_at = 4;
+  repeated BatchResult batch_results = 5;
+}
+
+// 批量响应
+message BatchResult {
+  string event_id = 1;
+  bool success = 2;
+  string error_msg = 3;                    // 错误信息【错误的时候有值】
+  string reference_id = 4;                  // 商户引用ID
+}
+// ==================== HTTP推送 ====================
+
+// HTTP推送请求（将序列化为JSON）
+message HttpNotificationRequest {
+  NotificationPayload payload = 1;          // 核心载荷
+  optional string callback_url = 2;                  // 回调URL（可选-选择异步推送的时使用）
+  optional int32 timeout_seconds = 3;                // 超时时间
+}
+
+// HTTP推送响应（商户返回）
+message HttpNotificationResponse {
+  NotificationResponse response = 1;        // 使用通用响应
+}
+
+// ==================== WebSocket推送 ====================
+
+// WebSocket消息帧
+message WebSocketFrame {
+  string frame_id = 1;
+  WebSocketFrameType type = 2;              // 使用枚举
+  int64 sequence = 3;                       // 序列号
+
+  // 消息内容
+  oneof content {
+    NotificationPayload notification = 4;   // 通知载荷
+    WebSocketHeartbeat heartbeat = 5;       // 心跳
+    WebSocketAck ack = 6;                   // 确认
+    WebSocketError error = 7;               // 错误
+    WebSocketControl control = 8;           // 控制
+  }
+
+  google.protobuf.Timestamp timestamp = 10;
+}
+
+// WebSocket心跳
+message WebSocketHeartbeat {
+  int64 sequence = 1;
+  int64 timestamp_ms = 2;
+}
+
+// WebSocket确认
+message WebSocketAck {
+  string frame_id = 1;                      // 确认的帧ID
+  bool success = 2;
+  string message = 3;
+}
+
+// WebSocket错误
+message WebSocketError {
+  string code = 1;
+  string message = 2;
+  bool recoverable = 3;
+}
+
+// WebSocket控制
+message WebSocketControl {
+  StreamAction action = 1;                  // 使用枚举
+  map<string, string> parameters = 2;
+}
+
+// ==================== gRPC流式推送 ====================
+
+// gRPC流式请求
+message StreamNotificationRequest {
+  oneof content {
+    StreamHeader header = 1;                // 流开始
+    NotificationPayload notification = 2;   // 通知载荷
+    StreamControl control = 3;              // 流控制
+    StreamFooter footer = 4;                // 流结束
+  }
+}
+
+// 流头信息
+message StreamHeader {
+  string stream_id = 1;
+  string merchant_id = 2;
+  google.protobuf.Timestamp start_time = 3;
+  map<string, string> metadata = 4;
+}
+
+// 流控制
+message StreamControl {
+  StreamAction action = 1;                  // 使用枚举
+  map<string, string> parameters = 2;
+}
+
+// 流尾信息
+message StreamFooter {
+  int64 total_count = 1;
+  int64 success_count = 2;
+  int64 failed_count = 3;
+  google.protobuf.Timestamp end_time = 4;
+}
+
+// gRPC流式响应
+message StreamNotificationResponse {
+  string stream_id = 1;
+  oneof content {
+    StreamAck ack = 2;                      // 确认
+    StreamError error = 3;                  // 错误
+    StreamStatus status = 4;                // 状态
+  }
+}
+
+// 流确认
+message StreamAck {
+  string notification_id = 1;
+  bool success = 2;
+  string message = 3;
+}
+
+// 流错误
+message StreamError {
+  string code = 1;
+  string message = 2;
+  bool recoverable = 3;
+}
+
+// 流状态
+message StreamStatus {
+  int64 received_count = 1;
+  int64 processed_count = 2;
+  int64 failed_count = 3;
+}
+
+// ==================== 机器人推送 ====================
+
+// 机器人推送消息
+message RobotNotification {
+  NotificationPayload payload = 1;          // 核心载荷
+
+  // 机器人特定配置
+  RobotType robot_type = 2;                 // 使用枚举
+  string channel_id = 3;                    // 频道/群组ID
+
+  // 消息格式化
+  RobotMessage message = 4;
+}
+
+// 机器人消息内容
+message RobotMessage {
+  string title = 1;
+  string content = 2;                       // Markdown格式
+  NotificationPriority priority = 3;        // 使用枚举
+
+  // 交互元素
+  repeated RobotButton buttons = 4;
+  repeated RobotAttachment attachments = 5;
+
+  // 显示选项
+  bool mention_all = 6;                     // @所有人
+  repeated string mention_users = 7;        // @特定用户
+}
+
+// 机器人按钮
+message RobotButton {
+  string id = 1;
+  string text = 2;
+  ButtonAction action = 3;                  // 使用枚举
+  string value = 4;                         // URL或回调值
+  ButtonStyle style = 5;                    // 使用枚举
+}
+
+// 机器人附件
+message RobotAttachment {
+  AttachmentType type = 1;                  // 使用枚举
+  string url = 2;
+  string title = 3;
+  string description = 4;
+}
+
+// 机器人交互回调
+message RobotCallback {
+  string notification_id = 1;
+  string button_id = 2;
+  string user_id = 3;
+  ButtonAction action = 4;                  // 使用枚举
+  string value = 5;
+  google.protobuf.Timestamp triggered_at = 6;
+}

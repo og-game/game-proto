@@ -1,0 +1,283 @@
+syntax = "proto3";
+
+package notifier.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/notifier/v1";
+
+
+
+
+
+
+// 通知服务错误码
+enum NotifierErrorCode {
+  NOTIFIER_ERROR_CODE_UNSPECIFIED = 0;          // 未指定错误
+
+  // 成功状态
+  NOTIFIER_ERROR_CODE_SUCCESS = 200;            // 成功
+
+  // 客户端错误 4xx
+  NOTIFIER_ERROR_CODE_BAD_REQUEST = 400;        // 请求参数错误
+  NOTIFIER_ERROR_CODE_UNAUTHORIZED = 401;       // 未授权
+  NOTIFIER_ERROR_CODE_FORBIDDEN = 403;          // 权限不足
+  NOTIFIER_ERROR_CODE_NOT_FOUND = 404;          // 资源不存在
+  NOTIFIER_ERROR_CODE_CONFLICT = 409;           // 资源已存在
+  NOTIFIER_ERROR_CODE_TOO_MANY_REQUESTS = 429;  // 请求过于频繁
+
+  // 服务端错误 5xx
+  NOTIFIER_ERROR_CODE_INTERNAL_SERVER_ERROR = 500; // 未知错误
+  NOTIFIER_ERROR_CODE_TIMEOUT = 504;              // 超时
+  NOTIFIER_ERROR_CODE_SERVICE_UNAVAILABLE = 503;  // 服务不可用
+  NOTIFIER_ERROR_CODE_ENDPOINT_FAILED = 510;      // 端点推送失败
+
+  // 商户相关错误 600-699
+  NOTIFIER_ERROR_CODE_MERCHANT_DISABLED = 600;    // 商户已禁用
+
+  // 订阅相关错误 700-799
+  NOTIFIER_ERROR_CODE_SUBSCRIPTION_LIMIT = 700;   // 订阅限制
+
+  // 安全相关错误 800-899
+  NOTIFIER_ERROR_CODE_SIGNATURE_INVALID = 800;    // 签名验证失败
+}
+
+
+
+// ==================== 核心枚举定义 ====================
+
+// 商户状态
+enum MerchantStatus {
+  MERCHANT_STATUS_UNSPECIFIED = 0;
+  MERCHANT_STATUS_ACTIVE = 1;       // 已激活
+  MERCHANT_STATUS_SUSPENDED = 2;    // 暂停
+  MERCHANT_STATUS_DISABLED = 3;     // 已禁用
+}
+
+// 数据获取方式
+enum DataAcquisitionMethod {
+  LEVEL_UNSPECIFIED = 0;
+  LEVEL_MANDATORY = 1;    // 强制推送
+  LEVEL_SUBSCRIPTION = 2; // 订阅推送
+  LEVEL_PASSIVE = 3;      // 被动拉取
+}
+
+// 订阅模式
+enum SubscriptionMode {
+  MODE_UNSPECIFIED = 0;
+  MODE_ALL = 1;           // 订阅所有（需要特殊权限）
+  MODE_CATEGORY = 2;      // 按大类订阅
+  MODE_SPECIFIC = 3;      // 按具体事件订阅
+  MODE_MIXED = 4;         // 混合模式（大类+具体事件）
+}
+
+
+// 推送通道 - 实际使用的4种模式
+enum PushChannel {
+  CHANNEL_UNSPECIFIED = 0;
+  CHANNEL_HTTP = 1;          // HTTP webhook
+  CHANNEL_WEBSOCKET = 2;     // WebSocket长连接
+  CHANNEL_GRPC = 3;          // gRPC流式
+  CHANNEL_ROBOT = 4;         // 机器人（Slack/Lark等）
+}
+
+// 推送状态
+enum PushStatus {
+  PUSH_STATUS_UNSPECIFIED = 0;
+  PUSH_STATUS_PENDING = 1;    // 待推送
+  PUSH_STATUS_SUCCESS = 2;    // 推送成功
+  PUSH_STATUS_FAILED = 3;     // 推送失败
+  PUSH_STATUS_RETRY = 4;      // 重试中
+}
+
+// 通知优先级
+enum NotificationPriority {
+  PRIORITY_UNSPECIFIED = 0;
+  PRIORITY_LOW = 1;         // 低优先级
+  PRIORITY_NORMAL = 2;      // 普通
+  PRIORITY_HIGH = 3;        // 高优先级
+  PRIORITY_CRITICAL = 4;    // 紧急
+}
+
+
+
+// 通知类别 - 大类
+enum NotificationCategory {
+  CATEGORY_UNSPECIFIED = 0;
+  CATEGORY_SYSTEM = 1;        // 系统通知
+  CATEGORY_RISK = 2;          // 风控通知
+  CATEGORY_GAME = 3;          // 游戏通知
+  CATEGORY_REPORT = 4;        // 报表通知
+}
+
+
+// 事件类型 - 小类（具体事件）
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED = 0;
+
+  // 系统事件 (1xx) - CATEGORY_SYSTEM
+  EVENT_TYPE_SYSTEM_MAINTENANCE = 101;      // 系统维护
+  EVENT_TYPE_SYSTEM_ANNOUNCEMENT = 102;     // 系统公告
+  EVENT_TYPE_SYSTEM_UPGRADE = 103;          // 系统升级
+  EVENT_TYPE_SYSTEM_ERROR = 104;            // 系统异常
+
+  // 风控事件 (2xx) - CATEGORY_RISK
+  EVENT_TYPE_RISK_ALERT = 201;              // 风险告警
+  EVENT_TYPE_BAD_DEBT = 202;                // 坏账通知
+  EVENT_TYPE_FRAUD_DETECTED = 203;          // 欺诈检测
+  EVENT_TYPE_ABNORMAL_BEHAVIOR = 204;       // 异常行为
+
+  // 游戏事件 (3xx) - CATEGORY_GAME
+  EVENT_TYPE_GAME_RESULT = 301;             // 游戏结果
+  EVENT_TYPE_GAME_BIG_WIN = 302;            // 大奖通知
+
+
+  // 报表事件 (4xx) - CATEGORY_REPORT
+  EVENT_TYPE_DAILY_REPORT = 401;            // 日报
+  EVENT_TYPE_WEEKLY_REPORT = 402;           // 周报
+  EVENT_TYPE_MONTHLY_REPORT = 403;          // 月报
+  EVENT_TYPE_ANOMALY_REPORT = 404;          // 异常报告
+  EVENT_TYPE_CUSTOM_REPORT = 405;           // 自定义报表
+
+}
+
+// 风险级别
+enum RiskLevel {
+  RISK_LEVEL_UNSPECIFIED = 0;
+  RISK_LEVEL_LOW = 1;
+  RISK_LEVEL_MEDIUM = 2;
+  RISK_LEVEL_HIGH = 3;
+  RISK_LEVEL_CRITICAL = 4;
+}
+
+// 风险类型
+enum RiskType {
+  RISK_TYPE_UNSPECIFIED = 0;
+  RISK_TYPE_FRAUD = 1;          // 欺诈
+  RISK_TYPE_ABNORMAL = 2;       // 异常
+  RISK_TYPE_SUSPICIOUS = 3;     // 可疑
+  RISK_TYPE_BLACKLIST = 4;      // 黑名单
+  RISK_TYPE_MONEY_LAUNDERING = 5; // 洗钱
+}
+
+// 系统维护类型
+enum MaintenanceType {
+  MAINTENANCE_TYPE_UNSPECIFIED = 0;
+  MAINTENANCE_TYPE_SCHEDULED = 1;    // 计划维护
+  MAINTENANCE_TYPE_EMERGENCY = 2;    // 紧急维护
+  MAINTENANCE_TYPE_UPGRADE = 3;      // 系统升级
+}
+
+// 公告类型
+enum AnnouncementType {
+  ANNOUNCEMENT_TYPE_UNSPECIFIED = 0;
+  ANNOUNCEMENT_TYPE_INFO = 1;        // 信息
+  ANNOUNCEMENT_TYPE_WARNING = 2;     // 警告
+  ANNOUNCEMENT_TYPE_CRITICAL = 3;    // 重要
+}
+
+// 游戏记录状态
+enum GameRecordStatus {
+  GAME_STATUS_UNSPECIFIED = 0;
+  GAME_STATUS_BETTING = 1;     // 投注中
+  GAME_STATUS_SETTLED = 2;     // 已结算
+  GAME_STATUS_CANCELLED = 3;   // 已取消
+  GAME_STATUS_ADJUSTED = 4;    // 已调整
+}
+
+// 异常类型
+enum AnomalyType {
+  ANOMALY_TYPE_UNSPECIFIED = 0;
+  ANOMALY_TYPE_TRAFFIC = 1;         // 流量异常
+  ANOMALY_TYPE_REVENUE = 2;         // 收入异常
+  ANOMALY_TYPE_USER_BEHAVIOR = 3;   // 用户行为异常
+  ANOMALY_TYPE_SYSTEM = 4;          // 系统异常
+  ANOMALY_TYPE_PAYMENT = 5;         // 支付异常
+  ANOMALY_TYPE_GAME = 6;            // 游戏异常
+}
+
+
+// 机器人类型
+enum RobotType {
+  ROBOT_TYPE_UNSPECIFIED = 0;
+  ROBOT_TYPE_SLACK = 1;
+  ROBOT_TYPE_LARK = 2;
+  ROBOT_TYPE_TEAMS = 3;
+  ROBOT_TYPE_TELEGRAM = 4;
+  ROBOT_TYPE_WEBHOOK = 5;      // 通用Webhook
+}
+
+// 附件类型
+enum AttachmentType {
+  ATTACHMENT_TYPE_UNSPECIFIED = 0;
+  ATTACHMENT_TYPE_IMAGE = 1;
+  ATTACHMENT_TYPE_FILE = 2;
+  ATTACHMENT_TYPE_LINK = 3;
+}
+
+// 按钮动作类型
+enum ButtonAction {
+  BUTTON_ACTION_UNSPECIFIED = 0;
+  BUTTON_ACTION_URL = 1;          // 打开URL
+  BUTTON_ACTION_CALLBACK = 2;     // 回调
+  BUTTON_ACTION_COMMAND = 3;      // 执行命令
+}
+
+// 按钮样式
+enum ButtonStyle {
+  BUTTON_STYLE_UNSPECIFIED = 0;
+  BUTTON_STYLE_DEFAULT = 1;
+  BUTTON_STYLE_PRIMARY = 2;
+  BUTTON_STYLE_SUCCESS = 3;
+  BUTTON_STYLE_DANGER = 4;
+  BUTTON_STYLE_WARNING = 5;
+}
+
+// WebSocket帧类型
+enum WebSocketFrameType {
+  WS_FRAME_UNSPECIFIED = 0;
+  WS_FRAME_NOTIFICATION = 1;    // 通知消息
+  WS_FRAME_HEARTBEAT = 2;       // 心跳
+  WS_FRAME_ACK = 3;            // 确认
+  WS_FRAME_ERROR = 4;          // 错误
+  WS_FRAME_CONTROL = 5;        // 控制消息
+}
+
+// 流控制动作
+enum StreamAction {
+  STREAM_ACTION_UNSPECIFIED = 0;
+  STREAM_ACTION_START = 1;       // 开始
+  STREAM_ACTION_PAUSE = 2;       // 暂停
+  STREAM_ACTION_RESUME = 3;      // 恢复
+  STREAM_ACTION_STOP = 4;        // 停止
+}
+
+// 认证类型
+enum AuthType {
+  AUTH_TYPE_UNSPECIFIED = 0;
+  AUTH_TYPE_NONE = 1;           // 无需认证
+  AUTH_TYPE_TOKEN = 2;          // Token认证
+  AUTH_TYPE_SIGNATURE = 3;      // 签名认证
+  AUTH_TYPE_OAUTH = 4;          // OAuth认证
+}
+
+
+
+// ==================== 辅助定义 ====================
+
+// 事件类型映射 - 用于运行时获取事件类型和大类的对应关系
+message EventTypeInfo {
+  NotificationCategory category = 1;
+  EventType event_type = 2;
+  NotificationPriority default_priority = 3;
+  string name = 4;
+  string description = 5;
+  bool enabled = 6;
+}
+
+// 大类配置
+message CategoryConfig {
+  NotificationCategory category = 1;
+  string name = 2;
+  string description = 3;
+  repeated EventType event_types = 4;      // 该大类包含的所有事件类型
+  bool allow_batch = 5;                    // 是否允许批量推送
+  int32 default_batch_size = 6;            // 默认批量大小
+}

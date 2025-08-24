@@ -1,0 +1,364 @@
+syntax = "proto3";
+
+package notifier.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/notifier/v1";
+
+import "google/protobuf/timestamp.proto";
+import "notifier/v1/notifier_types.proto";
+import "notifier/v1/notifier_events.proto";
+import "notifier/v1/notifier_delivery.proto";
+
+
+
+// 统一响应结构
+message NotifyBaseResp {
+  NotifierErrorCode code = 1;               // 业务错误码
+  string message = 2;                       // 错误消息
+}
+
+
+// ==================== 配置管理 ====================
+
+// 商户配置
+message MerchantConfig {
+  string merchant_id = 1;
+  string merchant_name = 2;
+  MerchantStatus status = 3;                // 使用枚举
+
+  // 端点配置
+  repeated EndpointConfig endpoints = 4;
+
+  // 订阅配置
+  repeated SubscriptionConfig subscriptions = 5;
+
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  map<string, string> metadata = 8;
+}
+
+// 端点配置
+message EndpointConfig {
+  string endpoint_id = 1;
+  PushChannel channel = 2;                  // 使用枚举
+  string url = 3;                          // 推送地址
+  AuthType auth_type = 4;                  // 使用枚举
+  string auth_credentials = 5;             // 认证凭据
+  int32 timeout_seconds = 6;               // 超时时间
+  int32 max_retry = 7;                     // 最大重试次数
+  bool enabled = 8;
+}
+
+// 订阅配置
+message SubscriptionConfig {
+  string subscription_id = 1;
+
+  // 订阅范围 - 可以按大类或具体事件类型订阅
+  repeated NotificationCategory categories = 2;  // 订阅的大类
+  repeated EventType event_types = 3;           // 订阅的具体事件类型
+
+  FilterRules filter = 4;
+  AggregationRules aggregation = 5;
+  RateLimits rate_limits = 6;
+  bool enabled = 7;
+
+  SubscriptionMode mode = 8;
+}
+
+// 过滤规则
+message FilterRules {
+  map<string, string> conditions = 1;         // 过滤条件
+  NotificationPriority min_priority = 2;      // 最小优先级
+  repeated string merchant_ids = 3;           // 特定商户过滤
+  repeated string exclude_services = 4;       // 排除的来源服务
+}
+
+// 聚合规则
+message AggregationRules {
+  bool enabled = 1;
+  int32 batch_size = 2;                       // 批量大小
+  int32 window_seconds = 3;                   // 聚合窗口
+  bool group_by_category = 4;                 // 是否按大类分组
+}
+
+// 频率限制
+message RateLimits {
+  int32 max_per_minute = 1;
+  int32 max_per_hour = 2;
+  int32 max_per_day = 3;
+  // 按大类的限制
+  map<string, int32> category_limits_per_hour = 4;
+}
+
+
+
+// ==================== 推送任务 ====================
+
+// 推送任务
+message PushTask {
+  string task_id = 1;
+  string merchant_id = 2;
+  PushChannel channel = 3;                  // 使用枚举
+  NotificationPayload payload = 4;          // 统一的载荷
+  PushStatus status = 5;                    // 使用枚举
+  int32 retry_count = 6;
+  string error_message = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp executed_at = 9;
+}
+
+// ==================== API请求/响应 ====================
+
+// 发送通知请求
+message SendNotificationRequest {
+  EventWrapper event = 1;                   // 使用统一的事件包装器
+
+  // 目标选择
+  oneof target {
+    TargetMerchants merchants = 2;          // 指定商户
+    TargetCategory category = 3;            // 按大类订阅推送
+    TargetAll all = 4;                      // 全部推送
+  }
+
+  bool async = 5;                           // 是否异步
+}
+
+// 指定商户
+message TargetMerchants {
+  repeated string merchant_ids = 1;
+}
+
+// 按大类推送
+message TargetCategory {
+  NotificationCategory category = 1;        // 推送给订阅了该大类的商户
+  repeated string exclude_merchants = 2;    // 排除的商户
+}
+
+// 全部推送
+message TargetAll {
+  repeated string exclude_merchants = 1;    // 排除的商户
+}
+
+// 发送通知响应
+message SendNotificationResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  SendNotificationInfo data = 2;            // 业务数据
+}
+
+message SendNotificationInfo {
+  string request_id = 1;                  // 请求ID
+  int32 target_count = 2;                 // 目标数量
+  repeated string task_ids = 3;           // 任务ID列表
+}
+
+// 批量发送请求
+message BatchSendRequest {
+  repeated EventWrapper events = 1;         // 使用统一的事件包装器
+  repeated string target_merchants = 2;
+  bool deduplicate = 3;
+}
+
+// 批量发送响应
+message BatchSendResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  BatchSendInfo data = 2;                   // 业务数据
+}
+
+message BatchSendInfo {
+  string batch_id = 1;
+  int32 accepted_count = 2;
+  int32 rejected_count = 3;
+  repeated string task_ids = 4;
+}
+
+
+// 配置端点请求
+message ConfigureEndpointRequest {
+  string merchant_id = 1;
+  EndpointConfig config = 2;
+}
+
+// 配置端点响应
+message ConfigureEndpointResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  ConfigureEndpointInfo data = 2;           // 业务数据
+}
+
+message ConfigureEndpointInfo {
+  string endpoint_id = 1;
+}
+
+
+// 测试端点请求
+message TestEndpointRequest {
+  string merchant_id = 1;
+  string endpoint_id = 2;
+  EventWrapper test_event = 3;              // 使用真实事件结构测试
+}
+
+// 测试端点响应
+message TestEndpointResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  TestEndpointInfo data = 2;                // 业务数据
+}
+
+
+message TestEndpointInfo {
+  int32 http_status = 1;
+  string response = 2;
+  int64 latency_ms = 3;
+}
+
+
+
+// 创建订阅请求
+message CreateSubscriptionRequest {
+  string merchant_id = 1;
+
+  // 订阅选项 - 可以选择订阅大类或具体事件
+  repeated NotificationCategory categories = 2;   // 订阅哪些大类
+  repeated EventType event_types = 3;            // 订阅哪些具体事件
+
+  FilterRules filter = 4;
+  AggregationRules aggregation = 5;
+  RateLimits rate_limits = 6;
+}
+
+// 创建订阅响应
+message CreateSubscriptionResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  CreateSubscriptionInfo data = 2;           // 业务数据
+}
+
+message CreateSubscriptionInfo {
+  string subscription_id = 1;
+}
+
+
+
+// 更新订阅请求
+message UpdateSubscriptionRequest {
+  string merchant_id = 1;
+  string subscription_id = 2;
+  SubscriptionConfig config = 3;
+}
+
+// 删除订阅请求
+message DeleteSubscriptionRequest {
+  string merchant_id = 1;
+  string subscription_id = 2;
+}
+
+// 获取配置请求
+message GetMerchantConfigRequest {
+  string merchant_id = 1;
+}
+
+// 获取配置响应
+message GetMerchantConfigResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  MerchantConfig data = 2;                  // 业务数据
+}
+
+// 查询推送记录请求
+message QueryPushRecordsRequest {
+  string merchant_id = 1;
+  NotificationCategory category = 2;        // 按大类查询（可选）
+  EventType event_type = 3;                 // 按具体事件查询（可选）
+  PushStatus status = 4;                    // 按状态查询（可选）
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+  int32 page_size = 7;
+  string page_token = 8;
+}
+
+// 查询推送记录响应
+message QueryPushRecordsResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  QueryPushRecords data = 2;               // 业务数据
+}
+message QueryPushRecords {
+  repeated PushTask records = 1;
+  string next_page_token = 2;
+  int64 total_count = 3;
+}
+
+// 获取推送统计请求
+message GetPushStatisticsRequest {
+  string merchant_id = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
+// 推送统计响应
+message GetPushStatisticsResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  GetPushStatisticsInfo data = 2;               // 业务数据
+}
+
+message GetPushStatisticsInfo {
+  message Statistics {
+    int64 total_count = 1;
+    int64 success_count = 2;
+    int64 failed_count = 3;
+    double success_rate = 4;
+    double avg_latency_ms = 5;
+    map<string, int64> by_category = 6;     // 按大类统计
+    map<string, int64> by_event_type = 7;   // 按事件类型统计
+    map<string, int64> by_channel = 8;      // 按通道统计
+  }
+  Statistics stats = 1;
+}
+
+
+// 获取事件类型列表请求
+message GetEventTypesRequest {
+  bool include_disabled = 1;
+  repeated NotificationCategory categories = 2;  // 筛选特定大类
+}
+
+// 获取事件类型列表响应
+message GetEventTypesResponse {
+  NotifyBaseResp base = 1;                    // 基础响应
+  GetEventTypesInfo data = 2;               // 业务数据
+}
+message GetEventTypesInfo {
+  repeated CategoryConfig categories = 1;        // 大类配置
+  repeated EventTypeInfo event_types = 2;        // 事件类型详情
+}
+
+// ==================== 服务定义 ====================
+
+// 通知服务 - 内部系统调用
+service NotifierInnerService {
+  // 推送管理
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+  rpc BatchSend(BatchSendRequest) returns (BatchSendResponse);
+
+  // 查询统计
+  rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
+  rpc GetPushStatistics(GetPushStatisticsRequest) returns (GetPushStatisticsResponse);
+
+  // 流式推送（双向流）
+  rpc StreamNotifications(stream StreamNotificationRequest) returns (stream StreamNotificationResponse);
+}
+
+// 通知服务 - 商户配置管理
+service NotifierMerchantService {
+  // 配置管理
+  rpc GetMerchantConfig(GetMerchantConfigRequest) returns (GetMerchantConfigResponse);
+
+  // 端点管理
+  rpc ConfigureEndpoint(ConfigureEndpointRequest) returns (ConfigureEndpointResponse);
+  rpc TestEndpoint(TestEndpointRequest) returns (TestEndpointResponse);
+
+  // 订阅管理
+  rpc CreateSubscription(CreateSubscriptionRequest) returns (CreateSubscriptionResponse);
+  rpc UpdateSubscription(UpdateSubscriptionRequest) returns (NotifyBaseResp);
+  rpc DeleteSubscription(DeleteSubscriptionRequest) returns (NotifyBaseResp);
+
+  // 事件类型查询
+  rpc GetEventTypes(GetEventTypesRequest) returns (GetEventTypesResponse);
+
+  // 查询
+  rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
+}

@@ -1,0 +1,217 @@
+syntax = "proto3";
+
+package notifier.v1;
+option go_package = "github.com/og-game/game-proto/proto-gen-go/notifier/v1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+import "notifier/v1/notifier_types.proto";
+
+
+// ==================== 系统相关事件 ====================
+
+// 系统维护事件
+message SystemMaintenanceEvent {
+  string maintenance_id = 1;
+  MaintenanceType type = 2;                 // 使用枚举
+  repeated string affected_services = 3;
+  google.protobuf.Timestamp start_time = 4;
+  google.protobuf.Timestamp end_time = 5;
+  string description = 6;
+  RiskLevel impact_level = 7;               // 使用枚举
+  map<string, string> metadata = 8;
+}
+
+// 系统公告事件
+message SystemAnnouncementEvent {
+  string announcement_id = 1;
+  AnnouncementType announcement_type = 2;
+  string title = 3;
+  string content = 4;
+  repeated string target_merchants = 5;  // 空则为全部
+  google.protobuf.Timestamp publish_at = 6;
+  google.protobuf.Timestamp expire_at = 7;
+  map<string, string> metadata = 8;
+}
+
+// ==================== 风控相关事件 ====================
+
+// 风险告警事件
+message RiskAlertEvent {
+  string alert_id = 1;
+  string user_id = 2;
+  string merchant_id = 3;
+  RiskType risk_type = 4;                   // 使用枚举
+  RiskLevel risk_level = 5;                 // 使用枚举
+  double risk_score = 6;
+  string risk_reason = 7;
+  repeated string indicators = 8;
+  google.protobuf.Timestamp detected_at = 9;
+  map<string, string> metadata = 10;
+}
+
+// 坏账事件
+message BadDebtEvent {
+  string debt_id = 1;
+  string user_id = 2;
+  string merchant_id = 3;
+  double amount = 4;
+  string currency = 5;
+  string reason = 6;
+  google.protobuf.Timestamp due_date = 9;
+  google.protobuf.Timestamp occurred_at = 10;
+  map<string, string> metadata = 11;
+}
+
+// ==================== 游戏相关事件 ====================
+
+// 游戏结果事件（实时）
+message GameResultEvent {
+  // 基础信息
+  string result_id = 1;                     // 记录ID
+  string round_id = 2;                      // 牌局ID
+  int64 user_id = 3;                        // 用户ID
+  int64 merchant_id = 4;                    // 商户ID
+  string merchant_user_id = 5;              // 商户用户ID
+
+  // 游戏平台信息
+  int64 platform_id = 6;                    // 游戏厂商ID
+  int64 game_id = 7;                        // 游戏ID
+
+  // 游戏分类和状态
+  string currency_code = 8;                 // 币种code
+  string category_code = 9;                 // 游戏分类code
+
+  // 投注信息相关
+  GameRecordStatus status = 10;               // 游戏记录状态
+  BetStatistics bet_stats = 11;             // 投注统计
+  SettleStatistics settle_stats = 12;       // 结算统计
+  AdjustmentStatistics adjustment_stats = 13; // 调整统计
+  DepositStatistics deposit_stats = 14;     // 押金统计
+
+  // 时间信息
+  int64 bet_at = 15;                        // 下注时间（时间戳-毫秒）
+  int64 settled_at = 16;                    // 结算时间（时间戳-毫秒）
+  int64 updated_at = 17;                    // 更新时间（时间戳-毫秒）
+
+  // 扩展信息
+  map<string, string> game_detail = 18;     // 游戏特定数据
+  map<string, string> metadata = 19;        // 元数据
+}
+
+// 投注统计
+message BetStatistics {
+  int64 bet_count = 1;                      // 投注笔数（不含取消）
+  string bet_amount = 2;                    // 投注金额
+  int64 cancel_count = 3;                   // 取消投注笔数
+  string cancel_amount = 4;                 // 取消投注金额
+}
+
+// 结算统计
+message SettleStatistics {
+  int64 settle_count = 1;                   // 结算笔数
+  string settle_amount = 2;                 // 结算金额
+  int64 cancel_count = 3;                   // 撤销结算笔数
+  string cancel_amount = 4;                 // 撤销结算金额
+}
+
+// 调整统计
+message AdjustmentStatistics {
+  int64 count = 1;                          // 调整次数
+  string amount = 2;                        // 调整金额
+}
+
+// 押金统计
+message DepositStatistics {
+  int64 deposit_count = 1;                  // 押金次数
+  string deposit_amount = 2;                // 押金金额
+  int64 return_count = 3;                   // 返还押金次数
+  string return_amount = 4;                 // 返还押金金额
+}
+
+// ==================== 统计报表事件 ====================
+
+// 日报事件
+message DailyReportEvent {
+  string report_id = 1;
+  string merchant_id = 2;
+  string report_date = 3;        // YYYY-MM-DD
+  DailyStatistics statistics = 4;
+  google.protobuf.Timestamp generated_at = 5;
+}
+
+// 日报统计数据
+message DailyStatistics {
+  int64 total_users = 1;
+  int64 active_users = 2;
+  int64 new_users = 3;
+  double total_bet_amount = 4;
+  double total_win_amount = 5;
+  double total_revenue = 6;
+  int64 total_games = 7;
+  map<string, double> game_revenues = 8;  // 各游戏收入
+  map<string, int64> game_rounds = 9;     // 各游戏局数
+}
+
+// 异常报告事件
+message AnomalyReportEvent {
+  string report_id = 1;
+  string merchant_id = 2;
+  AnomalyType anomaly_type = 3;
+  RiskLevel severity = 4;
+  string description = 5;
+  repeated AnomalyDetail details = 6;
+  google.protobuf.Timestamp detected_at = 7;
+}
+
+// 异常详情
+message AnomalyDetail {
+  string metric_name = 1;
+  double expected_value = 2;
+  double actual_value = 3;
+  double deviation_percentage = 4;
+}
+
+// ==================== 统一事件包装器 ====================
+
+// 事件包装器 - 所有事件的统一容器
+message EventWrapper {
+  // 事件标识
+  string event_id = 1;                      // 事件唯一ID
+  NotificationCategory category = 2;        // 通知大类
+  EventType event_type = 3;                 // 事件小类（具体类型）
+
+  // 目标信息
+  string merchant_id = 4;                   // 商户ID
+  optional string source_service = 5;                // 来源服务
+
+  // 优先级和级别
+  NotificationPriority priority = 6;        // 通知优先级
+
+  // 时间信息
+  google.protobuf.Timestamp timestamp = 7;   // 事件发生时间
+
+  // 幂等和追踪
+  string idempotency_key = 8;               // 幂等键
+  string trace_id = 9;                      // 链路追踪ID
+
+  // 事件数据 - 使用one of确保类型安全
+  oneof data {
+    // 系统事件 - CATEGORY_SYSTEM
+    SystemMaintenanceEvent system_maintenance = 20;
+    SystemAnnouncementEvent system_announcement = 21;
+    // 风控事件 - CATEGORY_RISK
+    RiskAlertEvent risk_alert = 30;
+    BadDebtEvent bad_debt = 31;
+    // 游戏事件 - CATEGORY_GAME
+    GameResultEvent game_result = 40;
+    // 报表事件 - CATEGORY_REPORT
+    DailyReportEvent daily_report = 50;
+    AnomalyReportEvent anomaly_report = 51;
+    // 扩展事件（使用Any类型以支持未来扩展）
+    google.protobuf.Any custom_event = 100;    // 扩展支持
+  }
+
+  // 元数据
+  map<string, string> metadata = 101;
+}

@@ -26,7 +26,7 @@ LOCAL_PROTOBUF_DIR="${MODEL_ROOT}/.protobuf-deps"
 if [ -n "$SERVICES_LIST" ]; then
     IFS=' ' read -ra SERVICES <<< "$SERVICES_LIST"
 else
-    SERVICES=("fund" "game" "manage" "platform" "temporal" "workflow")
+    SERVICES=("fund" "notifier" "manage" "platform" "temporal" "workflow")
 fi
 
 # 检查依赖
