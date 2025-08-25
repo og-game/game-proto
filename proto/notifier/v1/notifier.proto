@@ -21,7 +21,7 @@ message NotifyBaseResp {
 
 // 商户配置
 message MerchantConfig {
-  string merchant_id = 1;
+  int64 merchant_id = 1;
   string merchant_name = 2;
   MerchantStatus status = 3;                // 使用枚举
 
@@ -68,7 +68,7 @@ message SubscriptionConfig {
 message FilterRules {
   map<string, string> conditions = 1;         // 过滤条件
   NotificationPriority min_priority = 2;      // 最小优先级
-  repeated string merchant_ids = 3;           // 特定商户过滤
+  repeated int64 merchant_ids = 3;           // 特定商户过滤
   repeated string exclude_services = 4;       // 排除的来源服务
 }
 
@@ -96,7 +96,7 @@ message RateLimits {
 // 推送任务
 message PushTask {
   string task_id = 1;
-  string merchant_id = 2;
+  int64 merchant_id = 2;
   PushChannel channel = 3;                  // 使用枚举
   NotificationPayload payload = 4;          // 统一的载荷
   PushStatus status = 5;                    // 使用枚举
@@ -124,7 +124,7 @@ message SendNotificationRequest {
 
 // 指定商户
 message TargetMerchants {
-  repeated string merchant_ids = 1;
+  repeated int64 merchant_ids = 1;
 }
 
 // 按大类推送
@@ -173,7 +173,7 @@ message BatchSendInfo {
 
 // 配置端点请求
 message ConfigureEndpointRequest {
-  string merchant_id = 1;
+  int64 merchant_id = 1;
   EndpointConfig config = 2;
 }
 
@@ -190,8 +190,8 @@ message ConfigureEndpointInfo {
 
 // 测试端点请求
 message TestEndpointRequest {
-  string merchant_id = 1;
-  string endpoint_id = 2;
+  int64 merchant_id = 1;
+  int64 endpoint_id = 2;
   EventWrapper test_event = 3;              // 使用真实事件结构测试
 }
 
@@ -212,7 +212,7 @@ message TestEndpointInfo {
 
 // 创建订阅请求
 message CreateSubscriptionRequest {
-  string merchant_id = 1;
+  int64 merchant_id = 1;
 
   // 订阅选项 - 可以选择订阅大类或具体事件
   repeated NotificationCategory categories = 2;   // 订阅哪些大类
@@ -237,20 +237,20 @@ message CreateSubscriptionInfo {
 
 // 更新订阅请求
 message UpdateSubscriptionRequest {
-  string merchant_id = 1;
-  string subscription_id = 2;
+  int64 merchant_id = 1;
+  int64 subscription_id = 2;
   SubscriptionConfig config = 3;
 }
 
 // 删除订阅请求
 message DeleteSubscriptionRequest {
-  string merchant_id = 1;
-  string subscription_id = 2;
+  int64 merchant_id = 1;
+  int64 subscription_id = 2;
 }
 
 // 获取配置请求
 message GetMerchantConfigRequest {
-  string merchant_id = 1;
+  int64 merchant_id = 1;
 }
 
 // 获取配置响应
@@ -261,7 +261,7 @@ message GetMerchantConfigResponse {
 
 // 查询推送记录请求
 message QueryPushRecordsRequest {
-  string merchant_id = 1;
+  int64 merchant_id = 1;
   NotificationCategory category = 2;        // 按大类查询（可选）
   EventType event_type = 3;                 // 按具体事件查询（可选）
   PushStatus status = 4;                    // 按状态查询（可选）
@@ -284,7 +284,7 @@ message QueryPushRecords {
 
 // 获取推送统计请求
 message GetPushStatisticsRequest {
-  string merchant_id = 1;
+  int64 merchant_id = 1;
   google.protobuf.Timestamp start_time = 2;
   google.protobuf.Timestamp end_time = 3;
 }

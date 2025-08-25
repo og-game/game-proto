@@ -78,7 +78,7 @@ func (x *NotifyBaseResp) GetMessage() string {
 // 商户配置
 type MerchantConfig struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId   string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId   int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	MerchantName string                 `protobuf:"bytes,2,opt,name=merchant_name,json=merchantName,proto3" json:"merchant_name,omitempty"`
 	Status       MerchantStatus         `protobuf:"varint,3,opt,name=status,proto3,enum=notifier.v1.MerchantStatus" json:"status,omitempty"` // 使用枚举
 	// 端点配置
@@ -122,11 +122,11 @@ func (*MerchantConfig) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *MerchantConfig) GetMerchantId() string {
+func (x *MerchantConfig) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *MerchantConfig) GetMerchantName() string {
@@ -386,7 +386,7 @@ type FilterRules struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Conditions      map[string]string      `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // 过滤条件
 	MinPriority     NotificationPriority   `protobuf:"varint,2,opt,name=min_priority,json=minPriority,proto3,enum=notifier.v1.NotificationPriority" json:"min_priority,omitempty"`               // 最小优先级
-	MerchantIds     []string               `protobuf:"bytes,3,rep,name=merchant_ids,json=merchantIds,proto3" json:"merchant_ids,omitempty"`                                                      // 特定商户过滤
+	MerchantIds     []int64                `protobuf:"varint,3,rep,packed,name=merchant_ids,json=merchantIds,proto3" json:"merchant_ids,omitempty"`                                              // 特定商户过滤
 	ExcludeServices []string               `protobuf:"bytes,4,rep,name=exclude_services,json=excludeServices,proto3" json:"exclude_services,omitempty"`                                          // 排除的来源服务
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -436,7 +436,7 @@ func (x *FilterRules) GetMinPriority() NotificationPriority {
 	return NotificationPriority_PRIORITY_UNSPECIFIED
 }
 
-func (x *FilterRules) GetMerchantIds() []string {
+func (x *FilterRules) GetMerchantIds() []int64 {
 	if x != nil {
 		return x.MerchantIds
 	}
@@ -593,7 +593,7 @@ func (x *RateLimits) GetCategoryLimitsPerHour() map[string]int32 {
 type PushTask struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	MerchantId    string                 `protobuf:"bytes,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	Channel       PushChannel            `protobuf:"varint,3,opt,name=channel,proto3,enum=notifier.v1.PushChannel" json:"channel,omitempty"` // 使用枚举
 	Payload       *NotificationPayload   `protobuf:"bytes,4,opt,name=payload,proto3" json:"payload,omitempty"`                               // 统一的载荷
 	Status        PushStatus             `protobuf:"varint,5,opt,name=status,proto3,enum=notifier.v1.PushStatus" json:"status,omitempty"`    // 使用枚举
@@ -642,11 +642,11 @@ func (x *PushTask) GetTaskId() string {
 	return ""
 }
 
-func (x *PushTask) GetMerchantId() string {
+func (x *PushTask) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *PushTask) GetChannel() PushChannel {
@@ -818,7 +818,7 @@ func (*SendNotificationRequest_All) isSendNotificationRequest_Target() {}
 // 指定商户
 type TargetMerchants struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantIds   []string               `protobuf:"bytes,1,rep,name=merchant_ids,json=merchantIds,proto3" json:"merchant_ids,omitempty"`
+	MerchantIds   []int64                `protobuf:"varint,1,rep,packed,name=merchant_ids,json=merchantIds,proto3" json:"merchant_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -853,7 +853,7 @@ func (*TargetMerchants) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *TargetMerchants) GetMerchantIds() []string {
+func (x *TargetMerchants) GetMerchantIds() []int64 {
 	if x != nil {
 		return x.MerchantIds
 	}
@@ -1256,7 +1256,7 @@ func (x *BatchSendInfo) GetTaskIds() []string {
 // 配置端点请求
 type ConfigureEndpointRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	Config        *EndpointConfig        `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1292,11 +1292,11 @@ func (*ConfigureEndpointRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *ConfigureEndpointRequest) GetMerchantId() string {
+func (x *ConfigureEndpointRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *ConfigureEndpointRequest) GetConfig() *EndpointConfig {
@@ -1406,8 +1406,8 @@ func (x *ConfigureEndpointInfo) GetEndpointId() string {
 // 测试端点请求
 type TestEndpointRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	EndpointId    string                 `protobuf:"bytes,2,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	EndpointId    int64                  `protobuf:"varint,2,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 	TestEvent     *EventWrapper          `protobuf:"bytes,3,opt,name=test_event,json=testEvent,proto3" json:"test_event,omitempty"` // 使用真实事件结构测试
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1443,18 +1443,18 @@ func (*TestEndpointRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *TestEndpointRequest) GetMerchantId() string {
+func (x *TestEndpointRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
-func (x *TestEndpointRequest) GetEndpointId() string {
+func (x *TestEndpointRequest) GetEndpointId() int64 {
 	if x != nil {
 		return x.EndpointId
 	}
-	return ""
+	return 0
 }
 
 func (x *TestEndpointRequest) GetTestEvent() *EventWrapper {
@@ -1580,7 +1580,7 @@ func (x *TestEndpointInfo) GetLatencyMs() int64 {
 // 创建订阅请求
 type CreateSubscriptionRequest struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	// 订阅选项 - 可以选择订阅大类或具体事件
 	Categories    []NotificationCategory `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=notifier.v1.NotificationCategory" json:"categories,omitempty"`        // 订阅哪些大类
 	EventTypes    []EventType            `protobuf:"varint,3,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 订阅哪些具体事件
@@ -1621,11 +1621,11 @@ func (*CreateSubscriptionRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{23}
 }
 
-func (x *CreateSubscriptionRequest) GetMerchantId() string {
+func (x *CreateSubscriptionRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *CreateSubscriptionRequest) GetCategories() []NotificationCategory {
@@ -1763,8 +1763,8 @@ func (x *CreateSubscriptionInfo) GetSubscriptionId() string {
 // 更新订阅请求
 type UpdateSubscriptionRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId     string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	SubscriptionId string                 `protobuf:"bytes,2,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	MerchantId     int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	SubscriptionId int64                  `protobuf:"varint,2,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
 	Config         *SubscriptionConfig    `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -1800,18 +1800,18 @@ func (*UpdateSubscriptionRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{26}
 }
 
-func (x *UpdateSubscriptionRequest) GetMerchantId() string {
+func (x *UpdateSubscriptionRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
-func (x *UpdateSubscriptionRequest) GetSubscriptionId() string {
+func (x *UpdateSubscriptionRequest) GetSubscriptionId() int64 {
 	if x != nil {
 		return x.SubscriptionId
 	}
-	return ""
+	return 0
 }
 
 func (x *UpdateSubscriptionRequest) GetConfig() *SubscriptionConfig {
@@ -1824,8 +1824,8 @@ func (x *UpdateSubscriptionRequest) GetConfig() *SubscriptionConfig {
 // 删除订阅请求
 type DeleteSubscriptionRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId     string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	SubscriptionId string                 `protobuf:"bytes,2,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	MerchantId     int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	SubscriptionId int64                  `protobuf:"varint,2,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1860,24 +1860,24 @@ func (*DeleteSubscriptionRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{27}
 }
 
-func (x *DeleteSubscriptionRequest) GetMerchantId() string {
+func (x *DeleteSubscriptionRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
-func (x *DeleteSubscriptionRequest) GetSubscriptionId() string {
+func (x *DeleteSubscriptionRequest) GetSubscriptionId() int64 {
 	if x != nil {
 		return x.SubscriptionId
 	}
-	return ""
+	return 0
 }
 
 // 获取配置请求
 type GetMerchantConfigRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1912,11 +1912,11 @@ func (*GetMerchantConfigRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{28}
 }
 
-func (x *GetMerchantConfigRequest) GetMerchantId() string {
+func (x *GetMerchantConfigRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 // 获取配置响应
@@ -1975,7 +1975,7 @@ func (x *GetMerchantConfigResponse) GetData() *MerchantConfig {
 // 查询推送记录请求
 type QueryPushRecordsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	Category      NotificationCategory   `protobuf:"varint,2,opt,name=category,proto3,enum=notifier.v1.NotificationCategory" json:"category,omitempty"`         // 按大类查询（可选）
 	EventType     EventType              `protobuf:"varint,3,opt,name=event_type,json=eventType,proto3,enum=notifier.v1.EventType" json:"event_type,omitempty"` // 按具体事件查询（可选）
 	Status        PushStatus             `protobuf:"varint,4,opt,name=status,proto3,enum=notifier.v1.PushStatus" json:"status,omitempty"`                       // 按状态查询（可选）
@@ -2017,11 +2017,11 @@ func (*QueryPushRecordsRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{30}
 }
 
-func (x *QueryPushRecordsRequest) GetMerchantId() string {
+func (x *QueryPushRecordsRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *QueryPushRecordsRequest) GetCategory() NotificationCategory {
@@ -2189,7 +2189,7 @@ func (x *QueryPushRecords) GetTotalCount() int64 {
 // 获取推送统计请求
 type GetPushStatisticsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	StartTime     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	EndTime       *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -2226,11 +2226,11 @@ func (*GetPushStatisticsRequest) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{33}
 }
 
-func (x *GetPushStatisticsRequest) GetMerchantId() string {
+func (x *GetPushStatisticsRequest) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *GetPushStatisticsRequest) GetStartTime() *timestamppb.Timestamp {
@@ -2611,7 +2611,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x04code\x18\x01 \x01(\x0e2\x1e.notifier.v1.NotifierErrorCodeR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"\x87\x04\n" +
 	"\x0eMerchantConfig\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12#\n" +
 	"\rmerchant_name\x18\x02 \x01(\tR\fmerchantName\x123\n" +
 	"\x06status\x18\x03 \x01(\x0e2\x1b.notifier.v1.MerchantStatusR\x06status\x129\n" +
@@ -2653,7 +2653,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"conditions\x18\x01 \x03(\v2(.notifier.v1.FilterRules.ConditionsEntryR\n" +
 	"conditions\x12D\n" +
 	"\fmin_priority\x18\x02 \x01(\x0e2!.notifier.v1.NotificationPriorityR\vminPriority\x12!\n" +
-	"\fmerchant_ids\x18\x03 \x03(\tR\vmerchantIds\x12)\n" +
+	"\fmerchant_ids\x18\x03 \x03(\x03R\vmerchantIds\x12)\n" +
 	"\x10exclude_services\x18\x04 \x03(\tR\x0fexcludeServices\x1a=\n" +
 	"\x0fConditionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -2676,7 +2676,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\xa3\x03\n" +
 	"\bPushTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1f\n" +
-	"\vmerchant_id\x18\x02 \x01(\tR\n" +
+	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
 	"merchantId\x122\n" +
 	"\achannel\x18\x03 \x01(\x0e2\x18.notifier.v1.PushChannelR\achannel\x12:\n" +
 	"\apayload\x18\x04 \x01(\v2 .notifier.v1.NotificationPayloadR\apayload\x12/\n" +
@@ -2696,7 +2696,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x05async\x18\x05 \x01(\bR\x05asyncB\b\n" +
 	"\x06target\"4\n" +
 	"\x0fTargetMerchants\x12!\n" +
-	"\fmerchant_ids\x18\x01 \x03(\tR\vmerchantIds\"|\n" +
+	"\fmerchant_ids\x18\x01 \x03(\x03R\vmerchantIds\"|\n" +
 	"\x0eTargetCategory\x12=\n" +
 	"\bcategory\x18\x01 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x12+\n" +
 	"\x11exclude_merchants\x18\x02 \x03(\tR\x10excludeMerchants\"8\n" +
@@ -2723,7 +2723,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x0erejected_count\x18\x03 \x01(\x05R\rrejectedCount\x12\x19\n" +
 	"\btask_ids\x18\x04 \x03(\tR\ataskIds\"p\n" +
 	"\x18ConfigureEndpointRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x123\n" +
 	"\x06config\x18\x02 \x01(\v2\x1b.notifier.v1.EndpointConfigR\x06config\"\x84\x01\n" +
 	"\x19ConfigureEndpointResponse\x12/\n" +
@@ -2733,9 +2733,9 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\vendpoint_id\x18\x01 \x01(\tR\n" +
 	"endpointId\"\x91\x01\n" +
 	"\x13TestEndpointRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x1f\n" +
-	"\vendpoint_id\x18\x02 \x01(\tR\n" +
+	"\vendpoint_id\x18\x02 \x01(\x03R\n" +
 	"endpointId\x128\n" +
 	"\n" +
 	"test_event\x18\x03 \x01(\v2\x19.notifier.v1.EventWrapperR\ttestEvent\"z\n" +
@@ -2749,7 +2749,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\n" +
 	"latency_ms\x18\x03 \x01(\x03R\tlatencyMs\"\xe5\x02\n" +
 	"\x19CreateSubscriptionRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12A\n" +
 	"\n" +
 	"categories\x18\x02 \x03(\x0e2!.notifier.v1.NotificationCategoryR\n" +
@@ -2766,22 +2766,22 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x16CreateSubscriptionInfo\x12'\n" +
 	"\x0fsubscription_id\x18\x01 \x01(\tR\x0esubscriptionId\"\x9e\x01\n" +
 	"\x19UpdateSubscriptionRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12'\n" +
-	"\x0fsubscription_id\x18\x02 \x01(\tR\x0esubscriptionId\x127\n" +
+	"\x0fsubscription_id\x18\x02 \x01(\x03R\x0esubscriptionId\x127\n" +
 	"\x06config\x18\x03 \x01(\v2\x1f.notifier.v1.SubscriptionConfigR\x06config\"e\n" +
 	"\x19DeleteSubscriptionRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12'\n" +
-	"\x0fsubscription_id\x18\x02 \x01(\tR\x0esubscriptionId\";\n" +
+	"\x0fsubscription_id\x18\x02 \x01(\x03R\x0esubscriptionId\";\n" +
 	"\x18GetMerchantConfigRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\"}\n" +
 	"\x19GetMerchantConfigResponse\x12/\n" +
 	"\x04base\x18\x01 \x01(\v2\x1b.notifier.v1.NotifyBaseRespR\x04base\x12/\n" +
 	"\x04data\x18\x02 \x01(\v2\x1b.notifier.v1.MerchantConfigR\x04data\"\x8f\x03\n" +
 	"\x17QueryPushRecordsRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12=\n" +
 	"\bcategory\x18\x02 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x125\n" +
 	"\n" +
@@ -2802,7 +2802,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\vtotal_count\x18\x03 \x01(\x03R\n" +
 	"totalCount\"\xad\x01\n" +
 	"\x18GetPushStatisticsRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x129\n" +
 	"\n" +
 	"start_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
