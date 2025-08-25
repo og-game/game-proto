@@ -2351,6 +2351,7 @@ type ListWorkflowsRequest struct {
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken string                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Options       *ListOptions           `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
+	Namespace     string                 `protobuf:"bytes,5,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2411,6 +2412,13 @@ func (x *ListWorkflowsRequest) GetOptions() *ListOptions {
 		return x.Options
 	}
 	return nil
+}
+
+func (x *ListWorkflowsRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
 }
 
 // 列表选项
@@ -6569,12 +6577,13 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12\x1f\n" +
 	"\vline_number\x18\x03 \x01(\x05R\n" +
 	"lineNumber\x12(\n" +
-	"\x10is_workflow_code\x18\x04 \x01(\bR\x0eisWorkflowCode\"\xa5\x01\n" +
+	"\x10is_workflow_code\x18\x04 \x01(\bR\x0eisWorkflowCode\"\xc3\x01\n" +
 	"\x14ListWorkflowsRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
 	"\x0fnext_page_token\x18\x03 \x01(\tR\rnextPageToken\x122\n" +
-	"\aoptions\x18\x04 \x01(\v2\x18.temporal.v1.ListOptionsR\aoptions\"\xfb\x02\n" +
+	"\aoptions\x18\x04 \x01(\v2\x18.temporal.v1.ListOptionsR\aoptions\x12\x1c\n" +
+	"\tnamespace\x18\x05 \x01(\tR\tnamespace\"\xfb\x02\n" +
 	"\vListOptions\x122\n" +
 	"\x06states\x18\x01 \x03(\x0e2\x1a.temporal.v1.WorkflowStateR\x06states\x12%\n" +
 	"\x0eworkflow_types\x18\x02 \x03(\tR\rworkflowTypes\x12*\n" +

@@ -400,6 +400,7 @@ message ListWorkflowsRequest {
   int32 page_size = 2;
   string next_page_token = 3;
   ListOptions options = 4;
+  string namespace = 5;
 }
 
 // 列表选项
