@@ -40,7 +40,7 @@ message SystemAnnouncementEvent {
 message RiskAlertEvent {
   string alert_id = 1;
   string user_id = 2;
-  string merchant_id = 3;
+  int64 merchant_id = 3;
   RiskType risk_type = 4;                   // 使用枚举
   RiskLevel risk_level = 5;                 // 使用枚举
   double risk_score = 6;
@@ -54,7 +54,7 @@ message RiskAlertEvent {
 message BadDebtEvent {
   string debt_id = 1;
   string user_id = 2;
-  string merchant_id = 3;
+  int64 merchant_id = 3;
   double amount = 4;
   string currency = 5;
   string reason = 6;
@@ -134,7 +134,7 @@ message DepositStatistics {
 // 日报事件
 message DailyReportEvent {
   string report_id = 1;
-  string merchant_id = 2;
+  int64 merchant_id = 2;
   string report_date = 3;        // YYYY-MM-DD
   DailyStatistics statistics = 4;
   google.protobuf.Timestamp generated_at = 5;
@@ -156,7 +156,7 @@ message DailyStatistics {
 // 异常报告事件
 message AnomalyReportEvent {
   string report_id = 1;
-  string merchant_id = 2;
+  int64 merchant_id = 2;
   AnomalyType anomaly_type = 3;
   RiskLevel severity = 4;
   string description = 5;
@@ -182,7 +182,7 @@ message EventWrapper {
   EventType event_type = 3;                 // 事件小类（具体类型）
 
   // 目标信息
-  string merchant_id = 4;                   // 商户ID
+  int64 merchant_id = 4;                   // 商户ID
   optional string source_service = 5;                // 来源服务
 
   // 优先级和级别

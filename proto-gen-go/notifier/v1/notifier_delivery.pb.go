@@ -105,7 +105,7 @@ func (x *NotificationPayload) GetNonce() int64 {
 type Header struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	NotificationId string                 `protobuf:"bytes,1,opt,name=notification_id,json=notificationId,proto3" json:"notification_id,omitempty"` // 推送唯一ID
-	MerchantId     string                 `protobuf:"bytes,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`             // 商户ID
+	MerchantId     int64                  `protobuf:"varint,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`            // 商户ID
 	Channel        PushChannel            `protobuf:"varint,3,opt,name=channel,proto3,enum=notifier.v1.PushChannel" json:"channel,omitempty"`       // 推送通道
 	RetryCount     int32                  `protobuf:"varint,4,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`            // 重试次数
 	PushedAt       *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=pushed_at,json=pushedAt,proto3" json:"pushed_at,omitempty"`                   // 推送时间
@@ -151,11 +151,11 @@ func (x *Header) GetNotificationId() string {
 	return ""
 }
 
-func (x *Header) GetMerchantId() string {
+func (x *Header) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *Header) GetChannel() PushChannel {
@@ -950,7 +950,7 @@ func (*StreamNotificationRequest_Footer) isStreamNotificationRequest_Content() {
 type StreamHeader struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StreamId      string                 `protobuf:"bytes,1,opt,name=stream_id,json=streamId,proto3" json:"stream_id,omitempty"`
-	MerchantId    string                 `protobuf:"bytes,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	StartTime     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	Metadata      map[string]string      `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
@@ -994,11 +994,11 @@ func (x *StreamHeader) GetStreamId() string {
 	return ""
 }
 
-func (x *StreamHeader) GetMerchantId() string {
+func (x *StreamHeader) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *StreamHeader) GetStartTime() *timestamppb.Timestamp {
@@ -1837,7 +1837,7 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\x05nonce\x18\x05 \x01(\x03R\x05nonce\"\xfa\x01\n" +
 	"\x06Header\x12'\n" +
 	"\x0fnotification_id\x18\x01 \x01(\tR\x0enotificationId\x12\x1f\n" +
-	"\vmerchant_id\x18\x02 \x01(\tR\n" +
+	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
 	"merchantId\x122\n" +
 	"\achannel\x18\x03 \x01(\x0e2\x18.notifier.v1.PushChannelR\achannel\x12\x1f\n" +
 	"\vretry_count\x18\x04 \x01(\x05R\n" +
@@ -1903,7 +1903,7 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\acontent\"\x89\x02\n" +
 	"\fStreamHeader\x12\x1b\n" +
 	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x1f\n" +
-	"\vmerchant_id\x18\x02 \x01(\tR\n" +
+	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
 	"merchantId\x129\n" +
 	"\n" +
 	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x12C\n" +

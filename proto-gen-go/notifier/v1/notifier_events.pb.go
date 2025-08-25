@@ -230,7 +230,7 @@ type RiskAlertEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AlertId       string                 `protobuf:"bytes,1,opt,name=alert_id,json=alertId,proto3" json:"alert_id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	MerchantId    string                 `protobuf:"bytes,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	RiskType      RiskType               `protobuf:"varint,4,opt,name=risk_type,json=riskType,proto3,enum=notifier.v1.RiskType" json:"risk_type,omitempty"`     // 使用枚举
 	RiskLevel     RiskLevel              `protobuf:"varint,5,opt,name=risk_level,json=riskLevel,proto3,enum=notifier.v1.RiskLevel" json:"risk_level,omitempty"` // 使用枚举
 	RiskScore     float64                `protobuf:"fixed64,6,opt,name=risk_score,json=riskScore,proto3" json:"risk_score,omitempty"`
@@ -286,11 +286,11 @@ func (x *RiskAlertEvent) GetUserId() string {
 	return ""
 }
 
-func (x *RiskAlertEvent) GetMerchantId() string {
+func (x *RiskAlertEvent) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *RiskAlertEvent) GetRiskType() RiskType {
@@ -347,7 +347,7 @@ type BadDebtEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DebtId        string                 `protobuf:"bytes,1,opt,name=debt_id,json=debtId,proto3" json:"debt_id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	MerchantId    string                 `protobuf:"bytes,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	Amount        float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`
 	Currency      string                 `protobuf:"bytes,5,opt,name=currency,proto3" json:"currency,omitempty"`
 	Reason        string                 `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
@@ -402,11 +402,11 @@ func (x *BadDebtEvent) GetUserId() string {
 	return ""
 }
 
-func (x *BadDebtEvent) GetMerchantId() string {
+func (x *BadDebtEvent) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *BadDebtEvent) GetAmount() float64 {
@@ -910,7 +910,7 @@ func (x *DepositStatistics) GetReturnAmount() string {
 type DailyReportEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ReportId      string                 `protobuf:"bytes,1,opt,name=report_id,json=reportId,proto3" json:"report_id,omitempty"`
-	MerchantId    string                 `protobuf:"bytes,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	ReportDate    string                 `protobuf:"bytes,3,opt,name=report_date,json=reportDate,proto3" json:"report_date,omitempty"` // YYYY-MM-DD
 	Statistics    *DailyStatistics       `protobuf:"bytes,4,opt,name=statistics,proto3" json:"statistics,omitempty"`
 	GeneratedAt   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=generated_at,json=generatedAt,proto3" json:"generated_at,omitempty"`
@@ -955,11 +955,11 @@ func (x *DailyReportEvent) GetReportId() string {
 	return ""
 }
 
-func (x *DailyReportEvent) GetMerchantId() string {
+func (x *DailyReportEvent) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *DailyReportEvent) GetReportDate() string {
@@ -1096,7 +1096,7 @@ func (x *DailyStatistics) GetGameRounds() map[string]int64 {
 type AnomalyReportEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ReportId      string                 `protobuf:"bytes,1,opt,name=report_id,json=reportId,proto3" json:"report_id,omitempty"`
-	MerchantId    string                 `protobuf:"bytes,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	AnomalyType   AnomalyType            `protobuf:"varint,3,opt,name=anomaly_type,json=anomalyType,proto3,enum=notifier.v1.AnomalyType" json:"anomaly_type,omitempty"`
 	Severity      RiskLevel              `protobuf:"varint,4,opt,name=severity,proto3,enum=notifier.v1.RiskLevel" json:"severity,omitempty"`
 	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
@@ -1143,11 +1143,11 @@ func (x *AnomalyReportEvent) GetReportId() string {
 	return ""
 }
 
-func (x *AnomalyReportEvent) GetMerchantId() string {
+func (x *AnomalyReportEvent) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *AnomalyReportEvent) GetAnomalyType() AnomalyType {
@@ -1262,7 +1262,7 @@ type EventWrapper struct {
 	Category  NotificationCategory `protobuf:"varint,2,opt,name=category,proto3,enum=notifier.v1.NotificationCategory" json:"category,omitempty"`         // 通知大类
 	EventType EventType            `protobuf:"varint,3,opt,name=event_type,json=eventType,proto3,enum=notifier.v1.EventType" json:"event_type,omitempty"` // 事件小类（具体类型）
 	// 目标信息
-	MerchantId    string  `protobuf:"bytes,4,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`                // 商户ID
+	MerchantId    int64   `protobuf:"varint,4,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`               // 商户ID
 	SourceService *string `protobuf:"bytes,5,opt,name=source_service,json=sourceService,proto3,oneof" json:"source_service,omitempty"` // 来源服务
 	// 优先级和级别
 	Priority NotificationPriority `protobuf:"varint,6,opt,name=priority,proto3,enum=notifier.v1.NotificationPriority" json:"priority,omitempty"` // 通知优先级
@@ -1341,11 +1341,11 @@ func (x *EventWrapper) GetEventType() EventType {
 	return EventType_EVENT_TYPE_UNSPECIFIED
 }
 
-func (x *EventWrapper) GetMerchantId() string {
+func (x *EventWrapper) GetMerchantId() int64 {
 	if x != nil {
 		return x.MerchantId
 	}
-	return ""
+	return 0
 }
 
 func (x *EventWrapper) GetSourceService() string {
@@ -1560,7 +1560,7 @@ const file_notifier_v1_notifier_events_proto_rawDesc = "" +
 	"\x0eRiskAlertEvent\x12\x19\n" +
 	"\balert_id\x18\x01 \x01(\tR\aalertId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vmerchant_id\x18\x03 \x01(\tR\n" +
+	"\vmerchant_id\x18\x03 \x01(\x03R\n" +
 	"merchantId\x122\n" +
 	"\trisk_type\x18\x04 \x01(\x0e2\x15.notifier.v1.RiskTypeR\briskType\x125\n" +
 	"\n" +
@@ -1582,7 +1582,7 @@ const file_notifier_v1_notifier_events_proto_rawDesc = "" +
 	"\fBadDebtEvent\x12\x17\n" +
 	"\adebt_id\x18\x01 \x01(\tR\x06debtId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vmerchant_id\x18\x03 \x01(\tR\n" +
+	"\vmerchant_id\x18\x03 \x01(\x03R\n" +
 	"merchantId\x12\x16\n" +
 	"\x06amount\x18\x04 \x01(\x01R\x06amount\x12\x1a\n" +
 	"\bcurrency\x18\x05 \x01(\tR\bcurrency\x12\x16\n" +
@@ -1648,7 +1648,7 @@ const file_notifier_v1_notifier_events_proto_rawDesc = "" +
 	"\rreturn_amount\x18\x04 \x01(\tR\freturnAmount\"\xee\x01\n" +
 	"\x10DailyReportEvent\x12\x1b\n" +
 	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x1f\n" +
-	"\vmerchant_id\x18\x02 \x01(\tR\n" +
+	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
 	"merchantId\x12\x1f\n" +
 	"\vreport_date\x18\x03 \x01(\tR\n" +
 	"reportDate\x12<\n" +
@@ -1677,7 +1677,7 @@ const file_notifier_v1_notifier_events_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\x03R\x05value:\x028\x01\"\xd8\x02\n" +
 	"\x12AnomalyReportEvent\x12\x1b\n" +
 	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x1f\n" +
-	"\vmerchant_id\x18\x02 \x01(\tR\n" +
+	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
 	"merchantId\x12;\n" +
 	"\fanomaly_type\x18\x03 \x01(\x0e2\x18.notifier.v1.AnomalyTypeR\vanomalyType\x122\n" +
 	"\bseverity\x18\x04 \x01(\x0e2\x16.notifier.v1.RiskLevelR\bseverity\x12 \n" +
@@ -1696,7 +1696,7 @@ const file_notifier_v1_notifier_events_proto_rawDesc = "" +
 	"\bcategory\x18\x02 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x125\n" +
 	"\n" +
 	"event_type\x18\x03 \x01(\x0e2\x16.notifier.v1.EventTypeR\teventType\x12\x1f\n" +
-	"\vmerchant_id\x18\x04 \x01(\tR\n" +
+	"\vmerchant_id\x18\x04 \x01(\x03R\n" +
 	"merchantId\x12*\n" +
 	"\x0esource_service\x18\x05 \x01(\tH\x01R\rsourceService\x88\x01\x01\x12=\n" +
 	"\bpriority\x18\x06 \x01(\x0e2!.notifier.v1.NotificationPriorityR\bpriority\x128\n" +
