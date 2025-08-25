@@ -16,6 +16,8 @@ import (
 type (
 	BatchConfig                       = v1.BatchConfig
 	BatchControlResult                = v1.BatchControlResult
+	BatchDeleteResult                 = v1.BatchDeleteResult
+	BatchDeleteTarget                 = v1.BatchDeleteTarget
 	BatchResult                       = v1.BatchResult
 	BatchTarget                       = v1.BatchTarget
 	ControlOperationInfo              = v1.ControlOperationInfo
@@ -24,6 +26,11 @@ type (
 	ControlWorkflowRequest            = v1.ControlWorkflowRequest
 	ControlWorkflowResponse           = v1.ControlWorkflowResponse
 	DelayOptions                      = v1.DelayOptions
+	DeleteOptions                     = v1.DeleteOptions
+	DeleteStatistics                  = v1.DeleteStatistics
+	DeleteWorkflowData                = v1.DeleteWorkflowData
+	DeleteWorkflowRequest             = v1.DeleteWorkflowRequest
+	DeleteWorkflowResponse            = v1.DeleteWorkflowResponse
 	ExecutionConfig                   = v1.ExecutionConfig
 	ExecutionInfo                     = v1.ExecutionInfo
 	ListOptions                       = v1.ListOptions
@@ -43,6 +50,8 @@ type (
 	QueryControlOperationData         = v1.QueryControlOperationData
 	QueryControlOperationRequest      = v1.QueryControlOperationRequest
 	QueryControlOperationResponse     = v1.QueryControlOperationResponse
+	QueryDeleteResult                 = v1.QueryDeleteResult
+	QueryDeleteTarget                 = v1.QueryDeleteTarget
 	QueryOptions                      = v1.QueryOptions
 	QueryScheduleRequest              = v1.QueryScheduleRequest
 	QueryScheduleResponse             = v1.QueryScheduleResponse
@@ -64,6 +73,7 @@ type (
 	ReplaceWorkflowData               = v1.ReplaceWorkflowData
 	ReplaceWorkflowRequest            = v1.ReplaceWorkflowRequest
 	ReplaceWorkflowResponse           = v1.ReplaceWorkflowResponse
+	RetentionPolicy                   = v1.RetentionPolicy
 	ScheduleInfo                      = v1.ScheduleInfo
 	SchedulePolicy                    = v1.SchedulePolicy
 	ScheduleResult                    = v1.ScheduleResult
@@ -81,6 +91,8 @@ type (
 	SignalWorkflowData                = v1.SignalWorkflowData
 	SignalWorkflowRequest             = v1.SignalWorkflowRequest
 	SignalWorkflowResponse            = v1.SignalWorkflowResponse
+	SingleDeleteResult                = v1.SingleDeleteResult
+	SingleDeleteTarget                = v1.SingleDeleteTarget
 	SingleResult                      = v1.SingleResult
 	StackFrame                        = v1.StackFrame
 	StartWorkflowData                 = v1.StartWorkflowData

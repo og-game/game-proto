@@ -2925,6 +2925,940 @@ func (x *ReplaceWorkflowData) GetStartResult() *StartWorkflowData {
 	return nil
 }
 
+// 删除工作流请求
+type DeleteWorkflowRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 删除目标
+	//
+	// Types that are valid to be assigned to Target:
+	//
+	//	*DeleteWorkflowRequest_Single
+	//	*DeleteWorkflowRequest_Batch
+	//	*DeleteWorkflowRequest_Query
+	Target isDeleteWorkflowRequest_Target `protobuf_oneof:"target"`
+	// 删除选项
+	Options       *DeleteOptions `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
+	Namespace     string         `protobuf:"bytes,5,opt,name=namespace,proto3" json:"namespace,omitempty"` // 可选
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteWorkflowRequest) Reset() {
+	*x = DeleteWorkflowRequest{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteWorkflowRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteWorkflowRequest) ProtoMessage() {}
+
+func (x *DeleteWorkflowRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteWorkflowRequest.ProtoReflect.Descriptor instead.
+func (*DeleteWorkflowRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *DeleteWorkflowRequest) GetTarget() isDeleteWorkflowRequest_Target {
+	if x != nil {
+		return x.Target
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowRequest) GetSingle() *SingleDeleteTarget {
+	if x != nil {
+		if x, ok := x.Target.(*DeleteWorkflowRequest_Single); ok {
+			return x.Single
+		}
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowRequest) GetBatch() *BatchDeleteTarget {
+	if x != nil {
+		if x, ok := x.Target.(*DeleteWorkflowRequest_Batch); ok {
+			return x.Batch
+		}
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowRequest) GetQuery() *QueryDeleteTarget {
+	if x != nil {
+		if x, ok := x.Target.(*DeleteWorkflowRequest_Query); ok {
+			return x.Query
+		}
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowRequest) GetOptions() *DeleteOptions {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+type isDeleteWorkflowRequest_Target interface {
+	isDeleteWorkflowRequest_Target()
+}
+
+type DeleteWorkflowRequest_Single struct {
+	Single *SingleDeleteTarget `protobuf:"bytes,1,opt,name=single,proto3,oneof"` // 单个删除
+}
+
+type DeleteWorkflowRequest_Batch struct {
+	Batch *BatchDeleteTarget `protobuf:"bytes,2,opt,name=batch,proto3,oneof"` // 批量删除
+}
+
+type DeleteWorkflowRequest_Query struct {
+	Query *QueryDeleteTarget `protobuf:"bytes,3,opt,name=query,proto3,oneof"` // 基于查询删除
+}
+
+func (*DeleteWorkflowRequest_Single) isDeleteWorkflowRequest_Target() {}
+
+func (*DeleteWorkflowRequest_Batch) isDeleteWorkflowRequest_Target() {}
+
+func (*DeleteWorkflowRequest_Query) isDeleteWorkflowRequest_Target() {}
+
+// 单个删除目标
+type SingleDeleteTarget struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"` // 可选，不指定则删除所有运行
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SingleDeleteTarget) Reset() {
+	*x = SingleDeleteTarget{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SingleDeleteTarget) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SingleDeleteTarget) ProtoMessage() {}
+
+func (x *SingleDeleteTarget) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SingleDeleteTarget.ProtoReflect.Descriptor instead.
+func (*SingleDeleteTarget) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *SingleDeleteTarget) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *SingleDeleteTarget) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+// 批量删除目标
+type BatchDeleteTarget struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowIds   []string               `protobuf:"bytes,1,rep,name=workflow_ids,json=workflowIds,proto3" json:"workflow_ids,omitempty"`          // 工作流ID列表
+	DeleteAllRuns bool                   `protobuf:"varint,2,opt,name=delete_all_runs,json=deleteAllRuns,proto3" json:"delete_all_runs,omitempty"` // 是否删除所有运行记录
+	BatchSize     int32                  `protobuf:"varint,3,opt,name=batch_size,json=batchSize,proto3" json:"batch_size,omitempty"`               // 批处理大小
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BatchDeleteTarget) Reset() {
+	*x = BatchDeleteTarget{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchDeleteTarget) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchDeleteTarget) ProtoMessage() {}
+
+func (x *BatchDeleteTarget) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchDeleteTarget.ProtoReflect.Descriptor instead.
+func (*BatchDeleteTarget) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *BatchDeleteTarget) GetWorkflowIds() []string {
+	if x != nil {
+		return x.WorkflowIds
+	}
+	return nil
+}
+
+func (x *BatchDeleteTarget) GetDeleteAllRuns() bool {
+	if x != nil {
+		return x.DeleteAllRuns
+	}
+	return false
+}
+
+func (x *BatchDeleteTarget) GetBatchSize() int32 {
+	if x != nil {
+		return x.BatchSize
+	}
+	return 0
+}
+
+// 基于查询删除
+type QueryDeleteTarget struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`                           // 查询条件，如: "ExecutionStatus='Completed' AND StartTime < '2025-08-20T00:00:00Z'"
+	MaxDelete     int32                  `protobuf:"varint,2,opt,name=max_delete,json=maxDelete,proto3" json:"max_delete,omitempty"` // 最大删除数量（防止误删太多）
+	DryRun        bool                   `protobuf:"varint,3,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`          // 预演模式，只返回将要删除的数量
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *QueryDeleteTarget) Reset() {
+	*x = QueryDeleteTarget{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QueryDeleteTarget) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryDeleteTarget) ProtoMessage() {}
+
+func (x *QueryDeleteTarget) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryDeleteTarget.ProtoReflect.Descriptor instead.
+func (*QueryDeleteTarget) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *QueryDeleteTarget) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+func (x *QueryDeleteTarget) GetMaxDelete() int32 {
+	if x != nil {
+		return x.MaxDelete
+	}
+	return 0
+}
+
+func (x *QueryDeleteTarget) GetDryRun() bool {
+	if x != nil {
+		return x.DryRun
+	}
+	return false
+}
+
+// 删除选项
+type DeleteOptions struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Reason         string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`                                        // 删除原因
+	HardDelete     bool                   `protobuf:"varint,2,opt,name=hard_delete,json=hardDelete,proto3" json:"hard_delete,omitempty"`             // 硬删除（彻底删除）vs 软删除（标记删除）
+	Cascade        bool                   `protobuf:"varint,3,opt,name=cascade,proto3" json:"cascade,omitempty"`                                     // 是否级联删除子工作流
+	SkipArchival   bool                   `protobuf:"varint,4,opt,name=skip_archival,json=skipArchival,proto3" json:"skip_archival,omitempty"`       // 跳过归档
+	TimeoutSeconds int32                  `protobuf:"varint,5,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"` // 删除操作超时
+	// 安全选项
+	RequireConfirmation bool   `protobuf:"varint,6,opt,name=require_confirmation,json=requireConfirmation,proto3" json:"require_confirmation,omitempty"` // 需要二次确认
+	ConfirmationToken   string `protobuf:"bytes,7,opt,name=confirmation_token,json=confirmationToken,proto3" json:"confirmation_token,omitempty"`        // 确认令牌
+	// 保留策略
+	Retention     *RetentionPolicy `protobuf:"bytes,8,opt,name=retention,proto3" json:"retention,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteOptions) Reset() {
+	*x = DeleteOptions{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteOptions) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteOptions) ProtoMessage() {}
+
+func (x *DeleteOptions) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteOptions.ProtoReflect.Descriptor instead.
+func (*DeleteOptions) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *DeleteOptions) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *DeleteOptions) GetHardDelete() bool {
+	if x != nil {
+		return x.HardDelete
+	}
+	return false
+}
+
+func (x *DeleteOptions) GetCascade() bool {
+	if x != nil {
+		return x.Cascade
+	}
+	return false
+}
+
+func (x *DeleteOptions) GetSkipArchival() bool {
+	if x != nil {
+		return x.SkipArchival
+	}
+	return false
+}
+
+func (x *DeleteOptions) GetTimeoutSeconds() int32 {
+	if x != nil {
+		return x.TimeoutSeconds
+	}
+	return 0
+}
+
+func (x *DeleteOptions) GetRequireConfirmation() bool {
+	if x != nil {
+		return x.RequireConfirmation
+	}
+	return false
+}
+
+func (x *DeleteOptions) GetConfirmationToken() string {
+	if x != nil {
+		return x.ConfirmationToken
+	}
+	return ""
+}
+
+func (x *DeleteOptions) GetRetention() *RetentionPolicy {
+	if x != nil {
+		return x.Retention
+	}
+	return nil
+}
+
+// 保留策略
+type RetentionPolicy struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	ArchiveBeforeDelete bool                   `protobuf:"varint,1,opt,name=archive_before_delete,json=archiveBeforeDelete,proto3" json:"archive_before_delete,omitempty"` // 删除前归档
+	ArchiveLocation     string                 `protobuf:"bytes,2,opt,name=archive_location,json=archiveLocation,proto3" json:"archive_location,omitempty"`                // 归档位置
+	RetainDays          int32                  `protobuf:"varint,3,opt,name=retain_days,json=retainDays,proto3" json:"retain_days,omitempty"`                              // 软删除保留天数
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *RetentionPolicy) Reset() {
+	*x = RetentionPolicy{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RetentionPolicy) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RetentionPolicy) ProtoMessage() {}
+
+func (x *RetentionPolicy) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RetentionPolicy.ProtoReflect.Descriptor instead.
+func (*RetentionPolicy) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *RetentionPolicy) GetArchiveBeforeDelete() bool {
+	if x != nil {
+		return x.ArchiveBeforeDelete
+	}
+	return false
+}
+
+func (x *RetentionPolicy) GetArchiveLocation() string {
+	if x != nil {
+		return x.ArchiveLocation
+	}
+	return ""
+}
+
+func (x *RetentionPolicy) GetRetainDays() int32 {
+	if x != nil {
+		return x.RetainDays
+	}
+	return 0
+}
+
+// 删除工作流响应
+type DeleteWorkflowResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Base          *v1.BaseResponse       `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
+	Data          *DeleteWorkflowData    `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteWorkflowResponse) Reset() {
+	*x = DeleteWorkflowResponse{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteWorkflowResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteWorkflowResponse) ProtoMessage() {}
+
+func (x *DeleteWorkflowResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteWorkflowResponse.ProtoReflect.Descriptor instead.
+func (*DeleteWorkflowResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *DeleteWorkflowResponse) GetBase() *v1.BaseResponse {
+	if x != nil {
+		return x.Base
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowResponse) GetData() *DeleteWorkflowData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// 删除工作流数据
+type DeleteWorkflowData struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Result:
+	//
+	//	*DeleteWorkflowData_SingleResult
+	//	*DeleteWorkflowData_BatchResult
+	//	*DeleteWorkflowData_QueryResult
+	Result isDeleteWorkflowData_Result `protobuf_oneof:"result"`
+	// 删除统计
+	Statistics    *DeleteStatistics `protobuf:"bytes,4,opt,name=statistics,proto3" json:"statistics,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteWorkflowData) Reset() {
+	*x = DeleteWorkflowData{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteWorkflowData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteWorkflowData) ProtoMessage() {}
+
+func (x *DeleteWorkflowData) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteWorkflowData.ProtoReflect.Descriptor instead.
+func (*DeleteWorkflowData) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *DeleteWorkflowData) GetResult() isDeleteWorkflowData_Result {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowData) GetSingleResult() *SingleDeleteResult {
+	if x != nil {
+		if x, ok := x.Result.(*DeleteWorkflowData_SingleResult); ok {
+			return x.SingleResult
+		}
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowData) GetBatchResult() *BatchDeleteResult {
+	if x != nil {
+		if x, ok := x.Result.(*DeleteWorkflowData_BatchResult); ok {
+			return x.BatchResult
+		}
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowData) GetQueryResult() *QueryDeleteResult {
+	if x != nil {
+		if x, ok := x.Result.(*DeleteWorkflowData_QueryResult); ok {
+			return x.QueryResult
+		}
+	}
+	return nil
+}
+
+func (x *DeleteWorkflowData) GetStatistics() *DeleteStatistics {
+	if x != nil {
+		return x.Statistics
+	}
+	return nil
+}
+
+type isDeleteWorkflowData_Result interface {
+	isDeleteWorkflowData_Result()
+}
+
+type DeleteWorkflowData_SingleResult struct {
+	SingleResult *SingleDeleteResult `protobuf:"bytes,1,opt,name=single_result,json=singleResult,proto3,oneof"`
+}
+
+type DeleteWorkflowData_BatchResult struct {
+	BatchResult *BatchDeleteResult `protobuf:"bytes,2,opt,name=batch_result,json=batchResult,proto3,oneof"`
+}
+
+type DeleteWorkflowData_QueryResult struct {
+	QueryResult *QueryDeleteResult `protobuf:"bytes,3,opt,name=query_result,json=queryResult,proto3,oneof"`
+}
+
+func (*DeleteWorkflowData_SingleResult) isDeleteWorkflowData_Result() {}
+
+func (*DeleteWorkflowData_BatchResult) isDeleteWorkflowData_Result() {}
+
+func (*DeleteWorkflowData_QueryResult) isDeleteWorkflowData_Result() {}
+
+// 单个删除结果
+type SingleDeleteResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Deleted       bool                   `protobuf:"varint,3,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,4,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	DeletedAt     int64                  `protobuf:"varint,5,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SingleDeleteResult) Reset() {
+	*x = SingleDeleteResult{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SingleDeleteResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SingleDeleteResult) ProtoMessage() {}
+
+func (x *SingleDeleteResult) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SingleDeleteResult.ProtoReflect.Descriptor instead.
+func (*SingleDeleteResult) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *SingleDeleteResult) GetWorkflowId() string {
+	if x != nil {
+		return x.WorkflowId
+	}
+	return ""
+}
+
+func (x *SingleDeleteResult) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *SingleDeleteResult) GetDeleted() bool {
+	if x != nil {
+		return x.Deleted
+	}
+	return false
+}
+
+func (x *SingleDeleteResult) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *SingleDeleteResult) GetDeletedAt() int64 {
+	if x != nil {
+		return x.DeletedAt
+	}
+	return 0
+}
+
+// 批量删除结果
+type BatchDeleteResult struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	TotalRequested      int32                  `protobuf:"varint,1,opt,name=total_requested,json=totalRequested,proto3" json:"total_requested,omitempty"`
+	SuccessfullyDeleted int32                  `protobuf:"varint,2,opt,name=successfully_deleted,json=successfullyDeleted,proto3" json:"successfully_deleted,omitempty"`
+	Failed              int32                  `protobuf:"varint,3,opt,name=failed,proto3" json:"failed,omitempty"`
+	Results             []*SingleDeleteResult  `protobuf:"bytes,4,rep,name=results,proto3" json:"results,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *BatchDeleteResult) Reset() {
+	*x = BatchDeleteResult{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchDeleteResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchDeleteResult) ProtoMessage() {}
+
+func (x *BatchDeleteResult) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchDeleteResult.ProtoReflect.Descriptor instead.
+func (*BatchDeleteResult) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *BatchDeleteResult) GetTotalRequested() int32 {
+	if x != nil {
+		return x.TotalRequested
+	}
+	return 0
+}
+
+func (x *BatchDeleteResult) GetSuccessfullyDeleted() int32 {
+	if x != nil {
+		return x.SuccessfullyDeleted
+	}
+	return 0
+}
+
+func (x *BatchDeleteResult) GetFailed() int32 {
+	if x != nil {
+		return x.Failed
+	}
+	return 0
+}
+
+func (x *BatchDeleteResult) GetResults() []*SingleDeleteResult {
+	if x != nil {
+		return x.Results
+	}
+	return nil
+}
+
+// 查询删除结果
+type QueryDeleteResult struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Query              string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	MatchedCount       int32                  `protobuf:"varint,2,opt,name=matched_count,json=matchedCount,proto3" json:"matched_count,omitempty"`                    // 匹配的数量
+	DeletedCount       int32                  `protobuf:"varint,3,opt,name=deleted_count,json=deletedCount,proto3" json:"deleted_count,omitempty"`                    // 实际删除的数量
+	DryRun             bool                   `protobuf:"varint,4,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`                                      // 是否为预演
+	DeletedWorkflowIds []string               `protobuf:"bytes,5,rep,name=deleted_workflow_ids,json=deletedWorkflowIds,proto3" json:"deleted_workflow_ids,omitempty"` // 已删除的工作流ID（限制返回前100个）
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *QueryDeleteResult) Reset() {
+	*x = QueryDeleteResult{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QueryDeleteResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryDeleteResult) ProtoMessage() {}
+
+func (x *QueryDeleteResult) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryDeleteResult.ProtoReflect.Descriptor instead.
+func (*QueryDeleteResult) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *QueryDeleteResult) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+func (x *QueryDeleteResult) GetMatchedCount() int32 {
+	if x != nil {
+		return x.MatchedCount
+	}
+	return 0
+}
+
+func (x *QueryDeleteResult) GetDeletedCount() int32 {
+	if x != nil {
+		return x.DeletedCount
+	}
+	return 0
+}
+
+func (x *QueryDeleteResult) GetDryRun() bool {
+	if x != nil {
+		return x.DryRun
+	}
+	return false
+}
+
+func (x *QueryDeleteResult) GetDeletedWorkflowIds() []string {
+	if x != nil {
+		return x.DeletedWorkflowIds
+	}
+	return nil
+}
+
+// 删除统计
+type DeleteStatistics struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	StartTime       int64                  `protobuf:"varint,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime         int64                  `protobuf:"varint,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	DurationMs      int64                  `protobuf:"varint,3,opt,name=duration_ms,json=durationMs,proto3" json:"duration_ms,omitempty"`
+	TotalDeleted    int32                  `protobuf:"varint,4,opt,name=total_deleted,json=totalDeleted,proto3" json:"total_deleted,omitempty"`
+	ArchivedCount   int32                  `protobuf:"varint,5,opt,name=archived_count,json=archivedCount,proto3" json:"archived_count,omitempty"`                                                                                   // 归档数量
+	DeletedByType   map[string]int32       `protobuf:"bytes,6,rep,name=deleted_by_type,json=deletedByType,proto3" json:"deleted_by_type,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`       // 按工作流类型统计
+	DeletedByStatus map[string]int32       `protobuf:"bytes,7,rep,name=deleted_by_status,json=deletedByStatus,proto3" json:"deleted_by_status,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"` // 按状态统计
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *DeleteStatistics) Reset() {
+	*x = DeleteStatistics{}
+	mi := &file_temporal_v1_temporal_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteStatistics) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteStatistics) ProtoMessage() {}
+
+func (x *DeleteStatistics) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_v1_temporal_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteStatistics.ProtoReflect.Descriptor instead.
+func (*DeleteStatistics) Descriptor() ([]byte, []int) {
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *DeleteStatistics) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *DeleteStatistics) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+func (x *DeleteStatistics) GetDurationMs() int64 {
+	if x != nil {
+		return x.DurationMs
+	}
+	return 0
+}
+
+func (x *DeleteStatistics) GetTotalDeleted() int32 {
+	if x != nil {
+		return x.TotalDeleted
+	}
+	return 0
+}
+
+func (x *DeleteStatistics) GetArchivedCount() int32 {
+	if x != nil {
+		return x.ArchivedCount
+	}
+	return 0
+}
+
+func (x *DeleteStatistics) GetDeletedByType() map[string]int32 {
+	if x != nil {
+		return x.DeletedByType
+	}
+	return nil
+}
+
+func (x *DeleteStatistics) GetDeletedByStatus() map[string]int32 {
+	if x != nil {
+		return x.DeletedByStatus
+	}
+	return nil
+}
+
 // 发送信号请求
 type SignalWorkflowRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -2938,7 +3872,7 @@ type SignalWorkflowRequest struct {
 
 func (x *SignalWorkflowRequest) Reset() {
 	*x = SignalWorkflowRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2950,7 +3884,7 @@ func (x *SignalWorkflowRequest) String() string {
 func (*SignalWorkflowRequest) ProtoMessage() {}
 
 func (x *SignalWorkflowRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[39]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2963,7 +3897,7 @@ func (x *SignalWorkflowRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWorkflowRequest.ProtoReflect.Descriptor instead.
 func (*SignalWorkflowRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{39}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *SignalWorkflowRequest) GetWorkflowId() string {
@@ -3005,7 +3939,7 @@ type SignalWorkflowResponse struct {
 
 func (x *SignalWorkflowResponse) Reset() {
 	*x = SignalWorkflowResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3017,7 +3951,7 @@ func (x *SignalWorkflowResponse) String() string {
 func (*SignalWorkflowResponse) ProtoMessage() {}
 
 func (x *SignalWorkflowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[40]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3030,7 +3964,7 @@ func (x *SignalWorkflowResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWorkflowResponse.ProtoReflect.Descriptor instead.
 func (*SignalWorkflowResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{40}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *SignalWorkflowResponse) GetBase() *v1.BaseResponse {
@@ -3059,7 +3993,7 @@ type SignalWorkflowData struct {
 
 func (x *SignalWorkflowData) Reset() {
 	*x = SignalWorkflowData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3071,7 +4005,7 @@ func (x *SignalWorkflowData) String() string {
 func (*SignalWorkflowData) ProtoMessage() {}
 
 func (x *SignalWorkflowData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[41]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3084,7 +4018,7 @@ func (x *SignalWorkflowData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWorkflowData.ProtoReflect.Descriptor instead.
 func (*SignalWorkflowData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{41}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *SignalWorkflowData) GetWorkflowId() string {
@@ -3128,7 +4062,7 @@ type SignalWithStartRequest struct {
 
 func (x *SignalWithStartRequest) Reset() {
 	*x = SignalWithStartRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3140,7 +4074,7 @@ func (x *SignalWithStartRequest) String() string {
 func (*SignalWithStartRequest) ProtoMessage() {}
 
 func (x *SignalWithStartRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[42]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3153,7 +4087,7 @@ func (x *SignalWithStartRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWithStartRequest.ProtoReflect.Descriptor instead.
 func (*SignalWithStartRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{42}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *SignalWithStartRequest) GetWorkflowId() string {
@@ -3223,7 +4157,7 @@ type SignalWithStartResponse struct {
 
 func (x *SignalWithStartResponse) Reset() {
 	*x = SignalWithStartResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3235,7 +4169,7 @@ func (x *SignalWithStartResponse) String() string {
 func (*SignalWithStartResponse) ProtoMessage() {}
 
 func (x *SignalWithStartResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[43]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3248,7 +4182,7 @@ func (x *SignalWithStartResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWithStartResponse.ProtoReflect.Descriptor instead.
 func (*SignalWithStartResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{43}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *SignalWithStartResponse) GetBase() *v1.BaseResponse {
@@ -3277,7 +4211,7 @@ type SignalWithStartData struct {
 
 func (x *SignalWithStartData) Reset() {
 	*x = SignalWithStartData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3289,7 +4223,7 @@ func (x *SignalWithStartData) String() string {
 func (*SignalWithStartData) ProtoMessage() {}
 
 func (x *SignalWithStartData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[44]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3302,7 +4236,7 @@ func (x *SignalWithStartData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignalWithStartData.ProtoReflect.Descriptor instead.
 func (*SignalWithStartData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{44}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *SignalWithStartData) GetWorkflowId() string {
@@ -3339,7 +4273,7 @@ type QueryWorkflowStateRequest struct {
 
 func (x *QueryWorkflowStateRequest) Reset() {
 	*x = QueryWorkflowStateRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[45]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3351,7 +4285,7 @@ func (x *QueryWorkflowStateRequest) String() string {
 func (*QueryWorkflowStateRequest) ProtoMessage() {}
 
 func (x *QueryWorkflowStateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[45]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3364,7 +4298,7 @@ func (x *QueryWorkflowStateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryWorkflowStateRequest.ProtoReflect.Descriptor instead.
 func (*QueryWorkflowStateRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{45}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *QueryWorkflowStateRequest) GetWorkflowId() string {
@@ -3406,7 +4340,7 @@ type QueryWorkflowStateResponse struct {
 
 func (x *QueryWorkflowStateResponse) Reset() {
 	*x = QueryWorkflowStateResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[46]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3418,7 +4352,7 @@ func (x *QueryWorkflowStateResponse) String() string {
 func (*QueryWorkflowStateResponse) ProtoMessage() {}
 
 func (x *QueryWorkflowStateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[46]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3431,7 +4365,7 @@ func (x *QueryWorkflowStateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryWorkflowStateResponse.ProtoReflect.Descriptor instead.
 func (*QueryWorkflowStateResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{46}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *QueryWorkflowStateResponse) GetBase() *v1.BaseResponse {
@@ -3459,7 +4393,7 @@ type QueryWorkflowStateData struct {
 
 func (x *QueryWorkflowStateData) Reset() {
 	*x = QueryWorkflowStateData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[47]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3471,7 +4405,7 @@ func (x *QueryWorkflowStateData) String() string {
 func (*QueryWorkflowStateData) ProtoMessage() {}
 
 func (x *QueryWorkflowStateData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[47]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3484,7 +4418,7 @@ func (x *QueryWorkflowStateData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryWorkflowStateData.ProtoReflect.Descriptor instead.
 func (*QueryWorkflowStateData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{47}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *QueryWorkflowStateData) GetQueryType() string {
@@ -3514,7 +4448,7 @@ type ManageScheduleRequest struct {
 
 func (x *ManageScheduleRequest) Reset() {
 	*x = ManageScheduleRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[48]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3526,7 +4460,7 @@ func (x *ManageScheduleRequest) String() string {
 func (*ManageScheduleRequest) ProtoMessage() {}
 
 func (x *ManageScheduleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[48]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3539,7 +4473,7 @@ func (x *ManageScheduleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManageScheduleRequest.ProtoReflect.Descriptor instead.
 func (*ManageScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{48}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *ManageScheduleRequest) GetScheduleId() string {
@@ -3591,7 +4525,7 @@ type ScheduleSpec struct {
 
 func (x *ScheduleSpec) Reset() {
 	*x = ScheduleSpec{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[49]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3603,7 +4537,7 @@ func (x *ScheduleSpec) String() string {
 func (*ScheduleSpec) ProtoMessage() {}
 
 func (x *ScheduleSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[49]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3616,7 +4550,7 @@ func (x *ScheduleSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScheduleSpec.ProtoReflect.Descriptor instead.
 func (*ScheduleSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{49}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *ScheduleSpec) GetCronExpressions() []string {
@@ -3696,7 +4630,7 @@ type WorkflowAction struct {
 
 func (x *WorkflowAction) Reset() {
 	*x = WorkflowAction{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[50]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3708,7 +4642,7 @@ func (x *WorkflowAction) String() string {
 func (*WorkflowAction) ProtoMessage() {}
 
 func (x *WorkflowAction) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[50]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3721,7 +4655,7 @@ func (x *WorkflowAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowAction.ProtoReflect.Descriptor instead.
 func (*WorkflowAction) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{50}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *WorkflowAction) GetWorkflowType() string {
@@ -3771,7 +4705,7 @@ type SchedulePolicy struct {
 
 func (x *SchedulePolicy) Reset() {
 	*x = SchedulePolicy{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[51]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3783,7 +4717,7 @@ func (x *SchedulePolicy) String() string {
 func (*SchedulePolicy) ProtoMessage() {}
 
 func (x *SchedulePolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[51]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3796,7 +4730,7 @@ func (x *SchedulePolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SchedulePolicy.ProtoReflect.Descriptor instead.
 func (*SchedulePolicy) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{51}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *SchedulePolicy) GetOverlapPolicy() OverlapPolicy {
@@ -3831,7 +4765,7 @@ type ManageScheduleResponse struct {
 
 func (x *ManageScheduleResponse) Reset() {
 	*x = ManageScheduleResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[52]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3843,7 +4777,7 @@ func (x *ManageScheduleResponse) String() string {
 func (*ManageScheduleResponse) ProtoMessage() {}
 
 func (x *ManageScheduleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[52]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3856,7 +4790,7 @@ func (x *ManageScheduleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManageScheduleResponse.ProtoReflect.Descriptor instead.
 func (*ManageScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{52}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *ManageScheduleResponse) GetBase() *v1.BaseResponse {
@@ -3885,7 +4819,7 @@ type ManageScheduleData struct {
 
 func (x *ManageScheduleData) Reset() {
 	*x = ManageScheduleData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[53]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3897,7 +4831,7 @@ func (x *ManageScheduleData) String() string {
 func (*ManageScheduleData) ProtoMessage() {}
 
 func (x *ManageScheduleData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[53]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3910,7 +4844,7 @@ func (x *ManageScheduleData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManageScheduleData.ProtoReflect.Descriptor instead.
 func (*ManageScheduleData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{53}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *ManageScheduleData) GetScheduleId() string {
@@ -3944,7 +4878,7 @@ type QueryScheduleRequest struct {
 
 func (x *QueryScheduleRequest) Reset() {
 	*x = QueryScheduleRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[54]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3956,7 +4890,7 @@ func (x *QueryScheduleRequest) String() string {
 func (*QueryScheduleRequest) ProtoMessage() {}
 
 func (x *QueryScheduleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[54]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3969,7 +4903,7 @@ func (x *QueryScheduleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryScheduleRequest.ProtoReflect.Descriptor instead.
 func (*QueryScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{54}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *QueryScheduleRequest) GetScheduleId() string {
@@ -3990,7 +4924,7 @@ type QueryScheduleResponse struct {
 
 func (x *QueryScheduleResponse) Reset() {
 	*x = QueryScheduleResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[55]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4002,7 +4936,7 @@ func (x *QueryScheduleResponse) String() string {
 func (*QueryScheduleResponse) ProtoMessage() {}
 
 func (x *QueryScheduleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[55]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4015,7 +4949,7 @@ func (x *QueryScheduleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryScheduleResponse.ProtoReflect.Descriptor instead.
 func (*QueryScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{55}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *QueryScheduleResponse) GetBase() *v1.BaseResponse {
@@ -4049,7 +4983,7 @@ type ScheduleInfo struct {
 
 func (x *ScheduleInfo) Reset() {
 	*x = ScheduleInfo{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[56]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4061,7 +4995,7 @@ func (x *ScheduleInfo) String() string {
 func (*ScheduleInfo) ProtoMessage() {}
 
 func (x *ScheduleInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[56]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4074,7 +5008,7 @@ func (x *ScheduleInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScheduleInfo.ProtoReflect.Descriptor instead.
 func (*ScheduleInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{56}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *ScheduleInfo) GetScheduleId() string {
@@ -4146,7 +5080,7 @@ type ListSchedulesRequest struct {
 
 func (x *ListSchedulesRequest) Reset() {
 	*x = ListSchedulesRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[57]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4158,7 +5092,7 @@ func (x *ListSchedulesRequest) String() string {
 func (*ListSchedulesRequest) ProtoMessage() {}
 
 func (x *ListSchedulesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[57]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4171,7 +5105,7 @@ func (x *ListSchedulesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSchedulesRequest.ProtoReflect.Descriptor instead.
 func (*ListSchedulesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{57}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *ListSchedulesRequest) GetPageSize() int32 {
@@ -4214,7 +5148,7 @@ type ListScheduleOptions struct {
 
 func (x *ListScheduleOptions) Reset() {
 	*x = ListScheduleOptions{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[58]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4226,7 +5160,7 @@ func (x *ListScheduleOptions) String() string {
 func (*ListScheduleOptions) ProtoMessage() {}
 
 func (x *ListScheduleOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[58]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4239,7 +5173,7 @@ func (x *ListScheduleOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListScheduleOptions.ProtoReflect.Descriptor instead.
 func (*ListScheduleOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{58}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *ListScheduleOptions) GetStates() []ScheduleState {
@@ -4274,7 +5208,7 @@ type ListSchedulesResponse struct {
 
 func (x *ListSchedulesResponse) Reset() {
 	*x = ListSchedulesResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[59]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4286,7 +5220,7 @@ func (x *ListSchedulesResponse) String() string {
 func (*ListSchedulesResponse) ProtoMessage() {}
 
 func (x *ListSchedulesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[59]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4299,7 +5233,7 @@ func (x *ListSchedulesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSchedulesResponse.ProtoReflect.Descriptor instead.
 func (*ListSchedulesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{59}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *ListSchedulesResponse) GetBase() *v1.BaseResponse {
@@ -4329,7 +5263,7 @@ type ListSchedulesData struct {
 
 func (x *ListSchedulesData) Reset() {
 	*x = ListSchedulesData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[60]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4341,7 +5275,7 @@ func (x *ListSchedulesData) String() string {
 func (*ListSchedulesData) ProtoMessage() {}
 
 func (x *ListSchedulesData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[60]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4354,7 +5288,7 @@ func (x *ListSchedulesData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSchedulesData.ProtoReflect.Descriptor instead.
 func (*ListSchedulesData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{60}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{72}
 }
 
 func (x *ListSchedulesData) GetSchedules() []*ScheduleInfo {
@@ -4398,7 +5332,7 @@ type RegisterSearchAttributesRequest struct {
 
 func (x *RegisterSearchAttributesRequest) Reset() {
 	*x = RegisterSearchAttributesRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[61]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4410,7 +5344,7 @@ func (x *RegisterSearchAttributesRequest) String() string {
 func (*RegisterSearchAttributesRequest) ProtoMessage() {}
 
 func (x *RegisterSearchAttributesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[61]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4423,7 +5357,7 @@ func (x *RegisterSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterSearchAttributesRequest.ProtoReflect.Descriptor instead.
 func (*RegisterSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{61}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *RegisterSearchAttributesRequest) GetNamespace() string {
@@ -4465,7 +5399,7 @@ type RegisterSearchAttributesResponse struct {
 
 func (x *RegisterSearchAttributesResponse) Reset() {
 	*x = RegisterSearchAttributesResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[62]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4477,7 +5411,7 @@ func (x *RegisterSearchAttributesResponse) String() string {
 func (*RegisterSearchAttributesResponse) ProtoMessage() {}
 
 func (x *RegisterSearchAttributesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[62]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4490,7 +5424,7 @@ func (x *RegisterSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterSearchAttributesResponse.ProtoReflect.Descriptor instead.
 func (*RegisterSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{62}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *RegisterSearchAttributesResponse) GetBase() *v1.BaseResponse {
@@ -4521,7 +5455,7 @@ type RegisterSearchAttributesData struct {
 
 func (x *RegisterSearchAttributesData) Reset() {
 	*x = RegisterSearchAttributesData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[63]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4533,7 +5467,7 @@ func (x *RegisterSearchAttributesData) String() string {
 func (*RegisterSearchAttributesData) ProtoMessage() {}
 
 func (x *RegisterSearchAttributesData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[63]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4546,7 +5480,7 @@ func (x *RegisterSearchAttributesData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterSearchAttributesData.ProtoReflect.Descriptor instead.
 func (*RegisterSearchAttributesData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{63}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *RegisterSearchAttributesData) GetTotalRequested() int32 {
@@ -4598,7 +5532,7 @@ type SearchAttributeRegistrationResult struct {
 
 func (x *SearchAttributeRegistrationResult) Reset() {
 	*x = SearchAttributeRegistrationResult{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[64]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4610,7 +5544,7 @@ func (x *SearchAttributeRegistrationResult) String() string {
 func (*SearchAttributeRegistrationResult) ProtoMessage() {}
 
 func (x *SearchAttributeRegistrationResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[64]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4623,7 +5557,7 @@ func (x *SearchAttributeRegistrationResult) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use SearchAttributeRegistrationResult.ProtoReflect.Descriptor instead.
 func (*SearchAttributeRegistrationResult) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{64}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *SearchAttributeRegistrationResult) GetAttributeName() string {
@@ -4674,7 +5608,7 @@ type ListSearchAttributesRequest struct {
 
 func (x *ListSearchAttributesRequest) Reset() {
 	*x = ListSearchAttributesRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[65]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4686,7 +5620,7 @@ func (x *ListSearchAttributesRequest) String() string {
 func (*ListSearchAttributesRequest) ProtoMessage() {}
 
 func (x *ListSearchAttributesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[65]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4699,7 +5633,7 @@ func (x *ListSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSearchAttributesRequest.ProtoReflect.Descriptor instead.
 func (*ListSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{65}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *ListSearchAttributesRequest) GetNamespace() string {
@@ -4743,7 +5677,7 @@ type SearchAttributeFilter struct {
 
 func (x *SearchAttributeFilter) Reset() {
 	*x = SearchAttributeFilter{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[66]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4755,7 +5689,7 @@ func (x *SearchAttributeFilter) String() string {
 func (*SearchAttributeFilter) ProtoMessage() {}
 
 func (x *SearchAttributeFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[66]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4768,7 +5702,7 @@ func (x *SearchAttributeFilter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAttributeFilter.ProtoReflect.Descriptor instead.
 func (*SearchAttributeFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{66}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *SearchAttributeFilter) GetTypes() []SearchAttributeType {
@@ -4810,7 +5744,7 @@ type ListSearchAttributesResponse struct {
 
 func (x *ListSearchAttributesResponse) Reset() {
 	*x = ListSearchAttributesResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[67]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4822,7 +5756,7 @@ func (x *ListSearchAttributesResponse) String() string {
 func (*ListSearchAttributesResponse) ProtoMessage() {}
 
 func (x *ListSearchAttributesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[67]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4835,7 +5769,7 @@ func (x *ListSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSearchAttributesResponse.ProtoReflect.Descriptor instead.
 func (*ListSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{67}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *ListSearchAttributesResponse) GetBase() *v1.BaseResponse {
@@ -4866,7 +5800,7 @@ type ListSearchAttributesData struct {
 
 func (x *ListSearchAttributesData) Reset() {
 	*x = ListSearchAttributesData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[68]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4878,7 +5812,7 @@ func (x *ListSearchAttributesData) String() string {
 func (*ListSearchAttributesData) ProtoMessage() {}
 
 func (x *ListSearchAttributesData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[68]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4891,7 +5825,7 @@ func (x *ListSearchAttributesData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSearchAttributesData.ProtoReflect.Descriptor instead.
 func (*ListSearchAttributesData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{68}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *ListSearchAttributesData) GetAttributes() []*SearchAttributeInfo {
@@ -4948,7 +5882,7 @@ type SearchAttributeInfo struct {
 
 func (x *SearchAttributeInfo) Reset() {
 	*x = SearchAttributeInfo{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[69]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4960,7 +5894,7 @@ func (x *SearchAttributeInfo) String() string {
 func (*SearchAttributeInfo) ProtoMessage() {}
 
 func (x *SearchAttributeInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[69]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4973,7 +5907,7 @@ func (x *SearchAttributeInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAttributeInfo.ProtoReflect.Descriptor instead.
 func (*SearchAttributeInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{69}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *SearchAttributeInfo) GetName() string {
@@ -5060,7 +5994,7 @@ type SearchAttributeStats struct {
 
 func (x *SearchAttributeStats) Reset() {
 	*x = SearchAttributeStats{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[70]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5072,7 +6006,7 @@ func (x *SearchAttributeStats) String() string {
 func (*SearchAttributeStats) ProtoMessage() {}
 
 func (x *SearchAttributeStats) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[70]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5085,7 +6019,7 @@ func (x *SearchAttributeStats) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAttributeStats.ProtoReflect.Descriptor instead.
 func (*SearchAttributeStats) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{70}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{82}
 }
 
 func (x *SearchAttributeStats) GetTotalSystemAttributes() int32 {
@@ -5136,7 +6070,7 @@ type RemoveSearchAttributesRequest struct {
 
 func (x *RemoveSearchAttributesRequest) Reset() {
 	*x = RemoveSearchAttributesRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[71]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5148,7 +6082,7 @@ func (x *RemoveSearchAttributesRequest) String() string {
 func (*RemoveSearchAttributesRequest) ProtoMessage() {}
 
 func (x *RemoveSearchAttributesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[71]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5161,7 +6095,7 @@ func (x *RemoveSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveSearchAttributesRequest.ProtoReflect.Descriptor instead.
 func (*RemoveSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{71}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{83}
 }
 
 func (x *RemoveSearchAttributesRequest) GetNamespace() string {
@@ -5203,7 +6137,7 @@ type RemoveSearchAttributesResponse struct {
 
 func (x *RemoveSearchAttributesResponse) Reset() {
 	*x = RemoveSearchAttributesResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[72]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5215,7 +6149,7 @@ func (x *RemoveSearchAttributesResponse) String() string {
 func (*RemoveSearchAttributesResponse) ProtoMessage() {}
 
 func (x *RemoveSearchAttributesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[72]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5228,7 +6162,7 @@ func (x *RemoveSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveSearchAttributesResponse.ProtoReflect.Descriptor instead.
 func (*RemoveSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{72}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{84}
 }
 
 func (x *RemoveSearchAttributesResponse) GetBase() *v1.BaseResponse {
@@ -5259,7 +6193,7 @@ type RemoveSearchAttributesData struct {
 
 func (x *RemoveSearchAttributesData) Reset() {
 	*x = RemoveSearchAttributesData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[73]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5271,7 +6205,7 @@ func (x *RemoveSearchAttributesData) String() string {
 func (*RemoveSearchAttributesData) ProtoMessage() {}
 
 func (x *RemoveSearchAttributesData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[73]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5284,7 +6218,7 @@ func (x *RemoveSearchAttributesData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveSearchAttributesData.ProtoReflect.Descriptor instead.
 func (*RemoveSearchAttributesData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{73}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *RemoveSearchAttributesData) GetTotalRequested() int32 {
@@ -5336,7 +6270,7 @@ type SearchAttributeRemovalResult struct {
 
 func (x *SearchAttributeRemovalResult) Reset() {
 	*x = SearchAttributeRemovalResult{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[74]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[86]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5348,7 +6282,7 @@ func (x *SearchAttributeRemovalResult) String() string {
 func (*SearchAttributeRemovalResult) ProtoMessage() {}
 
 func (x *SearchAttributeRemovalResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[74]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[86]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5361,7 +6295,7 @@ func (x *SearchAttributeRemovalResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAttributeRemovalResult.ProtoReflect.Descriptor instead.
 func (*SearchAttributeRemovalResult) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{74}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{86}
 }
 
 func (x *SearchAttributeRemovalResult) GetAttributeName() string {
@@ -5411,7 +6345,7 @@ type QuerySearchAttributeUsageRequest struct {
 
 func (x *QuerySearchAttributeUsageRequest) Reset() {
 	*x = QuerySearchAttributeUsageRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[75]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[87]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5423,7 +6357,7 @@ func (x *QuerySearchAttributeUsageRequest) String() string {
 func (*QuerySearchAttributeUsageRequest) ProtoMessage() {}
 
 func (x *QuerySearchAttributeUsageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[75]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[87]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5436,7 +6370,7 @@ func (x *QuerySearchAttributeUsageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QuerySearchAttributeUsageRequest.ProtoReflect.Descriptor instead.
 func (*QuerySearchAttributeUsageRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{75}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{87}
 }
 
 func (x *QuerySearchAttributeUsageRequest) GetNamespace() string {
@@ -5475,7 +6409,7 @@ type UsageQueryOptions struct {
 
 func (x *UsageQueryOptions) Reset() {
 	*x = UsageQueryOptions{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[76]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[88]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5487,7 +6421,7 @@ func (x *UsageQueryOptions) String() string {
 func (*UsageQueryOptions) ProtoMessage() {}
 
 func (x *UsageQueryOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[76]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[88]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5500,7 +6434,7 @@ func (x *UsageQueryOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsageQueryOptions.ProtoReflect.Descriptor instead.
 func (*UsageQueryOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{76}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{88}
 }
 
 func (x *UsageQueryOptions) GetIncludeWorkflowCounts() bool {
@@ -5556,7 +6490,7 @@ type QuerySearchAttributeUsageResponse struct {
 
 func (x *QuerySearchAttributeUsageResponse) Reset() {
 	*x = QuerySearchAttributeUsageResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[77]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[89]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5568,7 +6502,7 @@ func (x *QuerySearchAttributeUsageResponse) String() string {
 func (*QuerySearchAttributeUsageResponse) ProtoMessage() {}
 
 func (x *QuerySearchAttributeUsageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[77]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[89]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5581,7 +6515,7 @@ func (x *QuerySearchAttributeUsageResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use QuerySearchAttributeUsageResponse.ProtoReflect.Descriptor instead.
 func (*QuerySearchAttributeUsageResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{77}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{89}
 }
 
 func (x *QuerySearchAttributeUsageResponse) GetBase() *v1.BaseResponse {
@@ -5609,7 +6543,7 @@ type QuerySearchAttributeUsageData struct {
 
 func (x *QuerySearchAttributeUsageData) Reset() {
 	*x = QuerySearchAttributeUsageData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[78]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[90]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5621,7 +6555,7 @@ func (x *QuerySearchAttributeUsageData) String() string {
 func (*QuerySearchAttributeUsageData) ProtoMessage() {}
 
 func (x *QuerySearchAttributeUsageData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[78]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[90]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5634,7 +6568,7 @@ func (x *QuerySearchAttributeUsageData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QuerySearchAttributeUsageData.ProtoReflect.Descriptor instead.
 func (*QuerySearchAttributeUsageData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{78}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{90}
 }
 
 func (x *QuerySearchAttributeUsageData) GetUsages() []*SearchAttributeUsage {
@@ -5669,7 +6603,7 @@ type SearchAttributeUsage struct {
 
 func (x *SearchAttributeUsage) Reset() {
 	*x = SearchAttributeUsage{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[79]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[91]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5681,7 +6615,7 @@ func (x *SearchAttributeUsage) String() string {
 func (*SearchAttributeUsage) ProtoMessage() {}
 
 func (x *SearchAttributeUsage) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[79]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[91]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5694,7 +6628,7 @@ func (x *SearchAttributeUsage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAttributeUsage.ProtoReflect.Descriptor instead.
 func (*SearchAttributeUsage) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{79}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{91}
 }
 
 func (x *SearchAttributeUsage) GetAttributeName() string {
@@ -5772,7 +6706,7 @@ type ValueDistribution struct {
 
 func (x *ValueDistribution) Reset() {
 	*x = ValueDistribution{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[80]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[92]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5784,7 +6718,7 @@ func (x *ValueDistribution) String() string {
 func (*ValueDistribution) ProtoMessage() {}
 
 func (x *ValueDistribution) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[80]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[92]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5797,7 +6731,7 @@ func (x *ValueDistribution) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValueDistribution.ProtoReflect.Descriptor instead.
 func (*ValueDistribution) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{80}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{92}
 }
 
 func (x *ValueDistribution) GetValue() string {
@@ -5834,7 +6768,7 @@ type UsageStats struct {
 
 func (x *UsageStats) Reset() {
 	*x = UsageStats{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[81]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[93]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5846,7 +6780,7 @@ func (x *UsageStats) String() string {
 func (*UsageStats) ProtoMessage() {}
 
 func (x *UsageStats) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[81]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[93]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5859,7 +6793,7 @@ func (x *UsageStats) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsageStats.ProtoReflect.Descriptor instead.
 func (*UsageStats) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{81}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{93}
 }
 
 func (x *UsageStats) GetQueriesPerDay() int64 {
@@ -5901,7 +6835,7 @@ type ValidateSearchAttributesRequest struct {
 
 func (x *ValidateSearchAttributesRequest) Reset() {
 	*x = ValidateSearchAttributesRequest{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[82]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[94]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5913,7 +6847,7 @@ func (x *ValidateSearchAttributesRequest) String() string {
 func (*ValidateSearchAttributesRequest) ProtoMessage() {}
 
 func (x *ValidateSearchAttributesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[82]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[94]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5926,7 +6860,7 @@ func (x *ValidateSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateSearchAttributesRequest.ProtoReflect.Descriptor instead.
 func (*ValidateSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{82}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{94}
 }
 
 func (x *ValidateSearchAttributesRequest) GetNamespace() string {
@@ -5963,7 +6897,7 @@ type SearchAttributeValidation struct {
 
 func (x *SearchAttributeValidation) Reset() {
 	*x = SearchAttributeValidation{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[83]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[95]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5975,7 +6909,7 @@ func (x *SearchAttributeValidation) String() string {
 func (*SearchAttributeValidation) ProtoMessage() {}
 
 func (x *SearchAttributeValidation) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[83]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[95]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5988,7 +6922,7 @@ func (x *SearchAttributeValidation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAttributeValidation.ProtoReflect.Descriptor instead.
 func (*SearchAttributeValidation) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{83}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{95}
 }
 
 func (x *SearchAttributeValidation) GetAttributeName() string {
@@ -6116,7 +7050,7 @@ type StringList struct {
 
 func (x *StringList) Reset() {
 	*x = StringList{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[84]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[96]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6128,7 +7062,7 @@ func (x *StringList) String() string {
 func (*StringList) ProtoMessage() {}
 
 func (x *StringList) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[84]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[96]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6141,7 +7075,7 @@ func (x *StringList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StringList.ProtoReflect.Descriptor instead.
 func (*StringList) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{84}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{96}
 }
 
 func (x *StringList) GetValues() []string {
@@ -6162,7 +7096,7 @@ type ValidateSearchAttributesResponse struct {
 
 func (x *ValidateSearchAttributesResponse) Reset() {
 	*x = ValidateSearchAttributesResponse{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[85]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[97]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6174,7 +7108,7 @@ func (x *ValidateSearchAttributesResponse) String() string {
 func (*ValidateSearchAttributesResponse) ProtoMessage() {}
 
 func (x *ValidateSearchAttributesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[85]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[97]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6187,7 +7121,7 @@ func (x *ValidateSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateSearchAttributesResponse.ProtoReflect.Descriptor instead.
 func (*ValidateSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{85}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{97}
 }
 
 func (x *ValidateSearchAttributesResponse) GetBase() *v1.BaseResponse {
@@ -6215,7 +7149,7 @@ type ValidateSearchAttributesData struct {
 
 func (x *ValidateSearchAttributesData) Reset() {
 	*x = ValidateSearchAttributesData{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[86]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[98]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6227,7 +7161,7 @@ func (x *ValidateSearchAttributesData) String() string {
 func (*ValidateSearchAttributesData) ProtoMessage() {}
 
 func (x *ValidateSearchAttributesData) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[86]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[98]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6240,7 +7174,7 @@ func (x *ValidateSearchAttributesData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateSearchAttributesData.ProtoReflect.Descriptor instead.
 func (*ValidateSearchAttributesData) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{86}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{98}
 }
 
 func (x *ValidateSearchAttributesData) GetAllValid() bool {
@@ -6275,7 +7209,7 @@ type ValidationResult struct {
 
 func (x *ValidationResult) Reset() {
 	*x = ValidationResult{}
-	mi := &file_temporal_v1_temporal_proto_msgTypes[87]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[99]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6287,7 +7221,7 @@ func (x *ValidationResult) String() string {
 func (*ValidationResult) ProtoMessage() {}
 
 func (x *ValidationResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_v1_temporal_proto_msgTypes[87]
+	mi := &file_temporal_v1_temporal_proto_msgTypes[99]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6300,7 +7234,7 @@ func (x *ValidationResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidationResult.ProtoReflect.Descriptor instead.
 func (*ValidationResult) Descriptor() ([]byte, []int) {
-	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{87}
+	return file_temporal_v1_temporal_proto_rawDescGZIP(), []int{99}
 }
 
 func (x *ValidationResult) GetAttributeName() string {
@@ -6631,7 +7565,89 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\x13ReplaceWorkflowData\x12F\n" +
 	"\rcancel_result\x18\x01 \x01(\v2!.temporal.v1.ControlOperationInfoR\fcancelResult\x122\n" +
 	"\x15cancelled_workflow_id\x18\x02 \x01(\tR\x13cancelledWorkflowId\x12A\n" +
-	"\fstart_result\x18\x03 \x01(\v2\x1e.temporal.v1.StartWorkflowDataR\vstartResult\"\x86\x01\n" +
+	"\fstart_result\x18\x03 \x01(\v2\x1e.temporal.v1.StartWorkflowDataR\vstartResult\"\xa0\x02\n" +
+	"\x15DeleteWorkflowRequest\x129\n" +
+	"\x06single\x18\x01 \x01(\v2\x1f.temporal.v1.SingleDeleteTargetH\x00R\x06single\x126\n" +
+	"\x05batch\x18\x02 \x01(\v2\x1e.temporal.v1.BatchDeleteTargetH\x00R\x05batch\x126\n" +
+	"\x05query\x18\x03 \x01(\v2\x1e.temporal.v1.QueryDeleteTargetH\x00R\x05query\x124\n" +
+	"\aoptions\x18\x04 \x01(\v2\x1a.temporal.v1.DeleteOptionsR\aoptions\x12\x1c\n" +
+	"\tnamespace\x18\x05 \x01(\tR\tnamespaceB\b\n" +
+	"\x06target\"L\n" +
+	"\x12SingleDeleteTarget\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"}\n" +
+	"\x11BatchDeleteTarget\x12!\n" +
+	"\fworkflow_ids\x18\x01 \x03(\tR\vworkflowIds\x12&\n" +
+	"\x0fdelete_all_runs\x18\x02 \x01(\bR\rdeleteAllRuns\x12\x1d\n" +
+	"\n" +
+	"batch_size\x18\x03 \x01(\x05R\tbatchSize\"a\n" +
+	"\x11QueryDeleteTarget\x12\x14\n" +
+	"\x05query\x18\x01 \x01(\tR\x05query\x12\x1d\n" +
+	"\n" +
+	"max_delete\x18\x02 \x01(\x05R\tmaxDelete\x12\x17\n" +
+	"\adry_run\x18\x03 \x01(\bR\x06dryRun\"\xce\x02\n" +
+	"\rDeleteOptions\x12\x16\n" +
+	"\x06reason\x18\x01 \x01(\tR\x06reason\x12\x1f\n" +
+	"\vhard_delete\x18\x02 \x01(\bR\n" +
+	"hardDelete\x12\x18\n" +
+	"\acascade\x18\x03 \x01(\bR\acascade\x12#\n" +
+	"\rskip_archival\x18\x04 \x01(\bR\fskipArchival\x12'\n" +
+	"\x0ftimeout_seconds\x18\x05 \x01(\x05R\x0etimeoutSeconds\x121\n" +
+	"\x14require_confirmation\x18\x06 \x01(\bR\x13requireConfirmation\x12-\n" +
+	"\x12confirmation_token\x18\a \x01(\tR\x11confirmationToken\x12:\n" +
+	"\tretention\x18\b \x01(\v2\x1c.temporal.v1.RetentionPolicyR\tretention\"\x91\x01\n" +
+	"\x0fRetentionPolicy\x122\n" +
+	"\x15archive_before_delete\x18\x01 \x01(\bR\x13archiveBeforeDelete\x12)\n" +
+	"\x10archive_location\x18\x02 \x01(\tR\x0farchiveLocation\x12\x1f\n" +
+	"\vretain_days\x18\x03 \x01(\x05R\n" +
+	"retainDays\"z\n" +
+	"\x16DeleteWorkflowResponse\x12+\n" +
+	"\x04base\x18\x01 \x01(\v2\x17.common.v1.BaseResponseR\x04base\x123\n" +
+	"\x04data\x18\x02 \x01(\v2\x1f.temporal.v1.DeleteWorkflowDataR\x04data\"\xaf\x02\n" +
+	"\x12DeleteWorkflowData\x12F\n" +
+	"\rsingle_result\x18\x01 \x01(\v2\x1f.temporal.v1.SingleDeleteResultH\x00R\fsingleResult\x12C\n" +
+	"\fbatch_result\x18\x02 \x01(\v2\x1e.temporal.v1.BatchDeleteResultH\x00R\vbatchResult\x12C\n" +
+	"\fquery_result\x18\x03 \x01(\v2\x1e.temporal.v1.QueryDeleteResultH\x00R\vqueryResult\x12=\n" +
+	"\n" +
+	"statistics\x18\x04 \x01(\v2\x1d.temporal.v1.DeleteStatisticsR\n" +
+	"statisticsB\b\n" +
+	"\x06result\"\xaa\x01\n" +
+	"\x12SingleDeleteResult\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x18\n" +
+	"\adeleted\x18\x03 \x01(\bR\adeleted\x12#\n" +
+	"\rerror_message\x18\x04 \x01(\tR\ferrorMessage\x12\x1d\n" +
+	"\n" +
+	"deleted_at\x18\x05 \x01(\x03R\tdeletedAt\"\xc2\x01\n" +
+	"\x11BatchDeleteResult\x12'\n" +
+	"\x0ftotal_requested\x18\x01 \x01(\x05R\x0etotalRequested\x121\n" +
+	"\x14successfully_deleted\x18\x02 \x01(\x05R\x13successfullyDeleted\x12\x16\n" +
+	"\x06failed\x18\x03 \x01(\x05R\x06failed\x129\n" +
+	"\aresults\x18\x04 \x03(\v2\x1f.temporal.v1.SingleDeleteResultR\aresults\"\xbe\x01\n" +
+	"\x11QueryDeleteResult\x12\x14\n" +
+	"\x05query\x18\x01 \x01(\tR\x05query\x12#\n" +
+	"\rmatched_count\x18\x02 \x01(\x05R\fmatchedCount\x12#\n" +
+	"\rdeleted_count\x18\x03 \x01(\x05R\fdeletedCount\x12\x17\n" +
+	"\adry_run\x18\x04 \x01(\bR\x06dryRun\x120\n" +
+	"\x14deleted_workflow_ids\x18\x05 \x03(\tR\x12deletedWorkflowIds\"\xf9\x03\n" +
+	"\x10DeleteStatistics\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x01 \x01(\x03R\tstartTime\x12\x19\n" +
+	"\bend_time\x18\x02 \x01(\x03R\aendTime\x12\x1f\n" +
+	"\vduration_ms\x18\x03 \x01(\x03R\n" +
+	"durationMs\x12#\n" +
+	"\rtotal_deleted\x18\x04 \x01(\x05R\ftotalDeleted\x12%\n" +
+	"\x0earchived_count\x18\x05 \x01(\x05R\rarchivedCount\x12X\n" +
+	"\x0fdeleted_by_type\x18\x06 \x03(\v20.temporal.v1.DeleteStatistics.DeletedByTypeEntryR\rdeletedByType\x12^\n" +
+	"\x11deleted_by_status\x18\a \x03(\v22.temporal.v1.DeleteStatistics.DeletedByStatusEntryR\x0fdeletedByStatus\x1a@\n" +
+	"\x12DeletedByTypeEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\x1aB\n" +
+	"\x14DeletedByStatusEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\x86\x01\n" +
 	"\x15SignalWorkflowRequest\x12\x1f\n" +
 	"\vworkflow_id\x18\x01 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
@@ -6930,14 +7946,15 @@ const file_temporal_v1_temporal_proto_rawDesc = "" +
 	"\rerror_message\x18\x06 \x01(\tR\ferrorMessage\x12I\n" +
 	"\x0fregistered_type\x18\a \x01(\x0e2 .temporal.v1.SearchAttributeTypeR\x0eregisteredType\x12E\n" +
 	"\rprovided_type\x18\b \x01(\x0e2 .temporal.v1.SearchAttributeTypeR\fprovidedType\x12 \n" +
-	"\vsuggestions\x18\t \x03(\tR\vsuggestions2\xc5\x04\n" +
+	"\vsuggestions\x18\t \x03(\tR\vsuggestions2\xa0\x05\n" +
 	"\x0fWorkflowService\x12V\n" +
 	"\rStartWorkflow\x12!.temporal.v1.StartWorkflowRequest\x1a\".temporal.v1.StartWorkflowResponse\x12\\\n" +
 	"\x0fControlWorkflow\x12#.temporal.v1.ControlWorkflowRequest\x1a$.temporal.v1.ControlWorkflowResponse\x12n\n" +
 	"\x15QueryControlOperation\x12).temporal.v1.QueryControlOperationRequest\x1a*.temporal.v1.QueryControlOperationResponse\x12V\n" +
 	"\rQueryWorkflow\x12!.temporal.v1.QueryWorkflowRequest\x1a\".temporal.v1.QueryWorkflowResponse\x12V\n" +
 	"\rListWorkflows\x12!.temporal.v1.ListWorkflowsRequest\x1a\".temporal.v1.ListWorkflowsResponse\x12\\\n" +
-	"\x0fReplaceWorkflow\x12#.temporal.v1.ReplaceWorkflowRequest\x1a$.temporal.v1.ReplaceWorkflowResponse2\xbc\x02\n" +
+	"\x0fReplaceWorkflow\x12#.temporal.v1.ReplaceWorkflowRequest\x1a$.temporal.v1.ReplaceWorkflowResponse\x12Y\n" +
+	"\x0eDeleteWorkflow\x12\".temporal.v1.DeleteWorkflowRequest\x1a#.temporal.v1.DeleteWorkflowResponse2\xbc\x02\n" +
 	"\x1aWorkflowInteractionService\x12Y\n" +
 	"\x0eSignalWorkflow\x12\".temporal.v1.SignalWorkflowRequest\x1a#.temporal.v1.SignalWorkflowResponse\x12\\\n" +
 	"\x0fSignalWithStart\x12#.temporal.v1.SignalWithStartRequest\x1a$.temporal.v1.SignalWithStartResponse\x12e\n" +
@@ -6965,7 +7982,7 @@ func file_temporal_v1_temporal_proto_rawDescGZIP() []byte {
 	return file_temporal_v1_temporal_proto_rawDescData
 }
 
-var file_temporal_v1_temporal_proto_msgTypes = make([]protoimpl.MessageInfo, 102)
+var file_temporal_v1_temporal_proto_msgTypes = make([]protoimpl.MessageInfo, 116)
 var file_temporal_v1_temporal_proto_goTypes = []any{
 	(*StartWorkflowRequest)(nil),              // 0: temporal.v1.StartWorkflowRequest
 	(*ExecutionConfig)(nil),                   // 1: temporal.v1.ExecutionConfig
@@ -7006,243 +8023,273 @@ var file_temporal_v1_temporal_proto_goTypes = []any{
 	(*ReplaceWorkflowRequest)(nil),            // 36: temporal.v1.ReplaceWorkflowRequest
 	(*ReplaceWorkflowResponse)(nil),           // 37: temporal.v1.ReplaceWorkflowResponse
 	(*ReplaceWorkflowData)(nil),               // 38: temporal.v1.ReplaceWorkflowData
-	(*SignalWorkflowRequest)(nil),             // 39: temporal.v1.SignalWorkflowRequest
-	(*SignalWorkflowResponse)(nil),            // 40: temporal.v1.SignalWorkflowResponse
-	(*SignalWorkflowData)(nil),                // 41: temporal.v1.SignalWorkflowData
-	(*SignalWithStartRequest)(nil),            // 42: temporal.v1.SignalWithStartRequest
-	(*SignalWithStartResponse)(nil),           // 43: temporal.v1.SignalWithStartResponse
-	(*SignalWithStartData)(nil),               // 44: temporal.v1.SignalWithStartData
-	(*QueryWorkflowStateRequest)(nil),         // 45: temporal.v1.QueryWorkflowStateRequest
-	(*QueryWorkflowStateResponse)(nil),        // 46: temporal.v1.QueryWorkflowStateResponse
-	(*QueryWorkflowStateData)(nil),            // 47: temporal.v1.QueryWorkflowStateData
-	(*ManageScheduleRequest)(nil),             // 48: temporal.v1.ManageScheduleRequest
-	(*ScheduleSpec)(nil),                      // 49: temporal.v1.ScheduleSpec
-	(*WorkflowAction)(nil),                    // 50: temporal.v1.WorkflowAction
-	(*SchedulePolicy)(nil),                    // 51: temporal.v1.SchedulePolicy
-	(*ManageScheduleResponse)(nil),            // 52: temporal.v1.ManageScheduleResponse
-	(*ManageScheduleData)(nil),                // 53: temporal.v1.ManageScheduleData
-	(*QueryScheduleRequest)(nil),              // 54: temporal.v1.QueryScheduleRequest
-	(*QueryScheduleResponse)(nil),             // 55: temporal.v1.QueryScheduleResponse
-	(*ScheduleInfo)(nil),                      // 56: temporal.v1.ScheduleInfo
-	(*ListSchedulesRequest)(nil),              // 57: temporal.v1.ListSchedulesRequest
-	(*ListScheduleOptions)(nil),               // 58: temporal.v1.ListScheduleOptions
-	(*ListSchedulesResponse)(nil),             // 59: temporal.v1.ListSchedulesResponse
-	(*ListSchedulesData)(nil),                 // 60: temporal.v1.ListSchedulesData
-	(*RegisterSearchAttributesRequest)(nil),   // 61: temporal.v1.RegisterSearchAttributesRequest
-	(*RegisterSearchAttributesResponse)(nil),  // 62: temporal.v1.RegisterSearchAttributesResponse
-	(*RegisterSearchAttributesData)(nil),      // 63: temporal.v1.RegisterSearchAttributesData
-	(*SearchAttributeRegistrationResult)(nil), // 64: temporal.v1.SearchAttributeRegistrationResult
-	(*ListSearchAttributesRequest)(nil),       // 65: temporal.v1.ListSearchAttributesRequest
-	(*SearchAttributeFilter)(nil),             // 66: temporal.v1.SearchAttributeFilter
-	(*ListSearchAttributesResponse)(nil),      // 67: temporal.v1.ListSearchAttributesResponse
-	(*ListSearchAttributesData)(nil),          // 68: temporal.v1.ListSearchAttributesData
-	(*SearchAttributeInfo)(nil),               // 69: temporal.v1.SearchAttributeInfo
-	(*SearchAttributeStats)(nil),              // 70: temporal.v1.SearchAttributeStats
-	(*RemoveSearchAttributesRequest)(nil),     // 71: temporal.v1.RemoveSearchAttributesRequest
-	(*RemoveSearchAttributesResponse)(nil),    // 72: temporal.v1.RemoveSearchAttributesResponse
-	(*RemoveSearchAttributesData)(nil),        // 73: temporal.v1.RemoveSearchAttributesData
-	(*SearchAttributeRemovalResult)(nil),      // 74: temporal.v1.SearchAttributeRemovalResult
-	(*QuerySearchAttributeUsageRequest)(nil),  // 75: temporal.v1.QuerySearchAttributeUsageRequest
-	(*UsageQueryOptions)(nil),                 // 76: temporal.v1.UsageQueryOptions
-	(*QuerySearchAttributeUsageResponse)(nil), // 77: temporal.v1.QuerySearchAttributeUsageResponse
-	(*QuerySearchAttributeUsageData)(nil),     // 78: temporal.v1.QuerySearchAttributeUsageData
-	(*SearchAttributeUsage)(nil),              // 79: temporal.v1.SearchAttributeUsage
-	(*ValueDistribution)(nil),                 // 80: temporal.v1.ValueDistribution
-	(*UsageStats)(nil),                        // 81: temporal.v1.UsageStats
-	(*ValidateSearchAttributesRequest)(nil),   // 82: temporal.v1.ValidateSearchAttributesRequest
-	(*SearchAttributeValidation)(nil),         // 83: temporal.v1.SearchAttributeValidation
-	(*StringList)(nil),                        // 84: temporal.v1.StringList
-	(*ValidateSearchAttributesResponse)(nil),  // 85: temporal.v1.ValidateSearchAttributesResponse
-	(*ValidateSearchAttributesData)(nil),      // 86: temporal.v1.ValidateSearchAttributesData
-	(*ValidationResult)(nil),                  // 87: temporal.v1.ValidationResult
-	nil,                                       // 88: temporal.v1.StartWorkflowRequest.SearchAttributesEntry
-	nil,                                       // 89: temporal.v1.StartWorkflowRequest.MemoEntry
-	nil,                                       // 90: temporal.v1.ControlOperationInfo.MetadataEntry
-	nil,                                       // 91: temporal.v1.WorkflowStatus.SearchAttributesEntry
-	nil,                                       // 92: temporal.v1.WorkflowStatus.MemoEntry
-	nil,                                       // 93: temporal.v1.ListOptions.SearchAttributesFilterEntry
-	nil,                                       // 94: temporal.v1.WorkflowInfo.SearchAttributesEntry
-	nil,                                       // 95: temporal.v1.SignalWithStartRequest.SearchAttributesEntry
-	nil,                                       // 96: temporal.v1.ScheduleSpec.MemoEntry
-	nil,                                       // 97: temporal.v1.WorkflowAction.SearchAttributesEntry
-	nil,                                       // 98: temporal.v1.RegisterSearchAttributesRequest.AttributesEntry
-	nil,                                       // 99: temporal.v1.SearchAttributeInfo.MetadataEntry
-	nil,                                       // 100: temporal.v1.SearchAttributeStats.TypeDistributionEntry
-	nil,                                       // 101: temporal.v1.ValidateSearchAttributesRequest.ValidationsEntry
-	(ExecutionMode)(0),                        // 102: temporal.v1.ExecutionMode
-	(*WorkflowOptions)(nil),                   // 103: temporal.v1.WorkflowOptions
-	(*v1.BaseResponse)(nil),                   // 104: common.v1.BaseResponse
-	(ControlOperation)(0),                     // 105: temporal.v1.ControlOperation
-	(ControlOperationResult)(0),               // 106: temporal.v1.ControlOperationResult
-	(QueryType)(0),                            // 107: temporal.v1.QueryType
-	(WorkflowState)(0),                        // 108: temporal.v1.WorkflowState
-	(ScheduleOperation)(0),                    // 109: temporal.v1.ScheduleOperation
-	(OverlapPolicy)(0),                        // 110: temporal.v1.OverlapPolicy
-	(ScheduleState)(0),                        // 111: temporal.v1.ScheduleState
-	(SearchAttributeType)(0),                  // 112: temporal.v1.SearchAttributeType
-	(SearchAttributeCategory)(0),              // 113: temporal.v1.SearchAttributeCategory
+	(*DeleteWorkflowRequest)(nil),             // 39: temporal.v1.DeleteWorkflowRequest
+	(*SingleDeleteTarget)(nil),                // 40: temporal.v1.SingleDeleteTarget
+	(*BatchDeleteTarget)(nil),                 // 41: temporal.v1.BatchDeleteTarget
+	(*QueryDeleteTarget)(nil),                 // 42: temporal.v1.QueryDeleteTarget
+	(*DeleteOptions)(nil),                     // 43: temporal.v1.DeleteOptions
+	(*RetentionPolicy)(nil),                   // 44: temporal.v1.RetentionPolicy
+	(*DeleteWorkflowResponse)(nil),            // 45: temporal.v1.DeleteWorkflowResponse
+	(*DeleteWorkflowData)(nil),                // 46: temporal.v1.DeleteWorkflowData
+	(*SingleDeleteResult)(nil),                // 47: temporal.v1.SingleDeleteResult
+	(*BatchDeleteResult)(nil),                 // 48: temporal.v1.BatchDeleteResult
+	(*QueryDeleteResult)(nil),                 // 49: temporal.v1.QueryDeleteResult
+	(*DeleteStatistics)(nil),                  // 50: temporal.v1.DeleteStatistics
+	(*SignalWorkflowRequest)(nil),             // 51: temporal.v1.SignalWorkflowRequest
+	(*SignalWorkflowResponse)(nil),            // 52: temporal.v1.SignalWorkflowResponse
+	(*SignalWorkflowData)(nil),                // 53: temporal.v1.SignalWorkflowData
+	(*SignalWithStartRequest)(nil),            // 54: temporal.v1.SignalWithStartRequest
+	(*SignalWithStartResponse)(nil),           // 55: temporal.v1.SignalWithStartResponse
+	(*SignalWithStartData)(nil),               // 56: temporal.v1.SignalWithStartData
+	(*QueryWorkflowStateRequest)(nil),         // 57: temporal.v1.QueryWorkflowStateRequest
+	(*QueryWorkflowStateResponse)(nil),        // 58: temporal.v1.QueryWorkflowStateResponse
+	(*QueryWorkflowStateData)(nil),            // 59: temporal.v1.QueryWorkflowStateData
+	(*ManageScheduleRequest)(nil),             // 60: temporal.v1.ManageScheduleRequest
+	(*ScheduleSpec)(nil),                      // 61: temporal.v1.ScheduleSpec
+	(*WorkflowAction)(nil),                    // 62: temporal.v1.WorkflowAction
+	(*SchedulePolicy)(nil),                    // 63: temporal.v1.SchedulePolicy
+	(*ManageScheduleResponse)(nil),            // 64: temporal.v1.ManageScheduleResponse
+	(*ManageScheduleData)(nil),                // 65: temporal.v1.ManageScheduleData
+	(*QueryScheduleRequest)(nil),              // 66: temporal.v1.QueryScheduleRequest
+	(*QueryScheduleResponse)(nil),             // 67: temporal.v1.QueryScheduleResponse
+	(*ScheduleInfo)(nil),                      // 68: temporal.v1.ScheduleInfo
+	(*ListSchedulesRequest)(nil),              // 69: temporal.v1.ListSchedulesRequest
+	(*ListScheduleOptions)(nil),               // 70: temporal.v1.ListScheduleOptions
+	(*ListSchedulesResponse)(nil),             // 71: temporal.v1.ListSchedulesResponse
+	(*ListSchedulesData)(nil),                 // 72: temporal.v1.ListSchedulesData
+	(*RegisterSearchAttributesRequest)(nil),   // 73: temporal.v1.RegisterSearchAttributesRequest
+	(*RegisterSearchAttributesResponse)(nil),  // 74: temporal.v1.RegisterSearchAttributesResponse
+	(*RegisterSearchAttributesData)(nil),      // 75: temporal.v1.RegisterSearchAttributesData
+	(*SearchAttributeRegistrationResult)(nil), // 76: temporal.v1.SearchAttributeRegistrationResult
+	(*ListSearchAttributesRequest)(nil),       // 77: temporal.v1.ListSearchAttributesRequest
+	(*SearchAttributeFilter)(nil),             // 78: temporal.v1.SearchAttributeFilter
+	(*ListSearchAttributesResponse)(nil),      // 79: temporal.v1.ListSearchAttributesResponse
+	(*ListSearchAttributesData)(nil),          // 80: temporal.v1.ListSearchAttributesData
+	(*SearchAttributeInfo)(nil),               // 81: temporal.v1.SearchAttributeInfo
+	(*SearchAttributeStats)(nil),              // 82: temporal.v1.SearchAttributeStats
+	(*RemoveSearchAttributesRequest)(nil),     // 83: temporal.v1.RemoveSearchAttributesRequest
+	(*RemoveSearchAttributesResponse)(nil),    // 84: temporal.v1.RemoveSearchAttributesResponse
+	(*RemoveSearchAttributesData)(nil),        // 85: temporal.v1.RemoveSearchAttributesData
+	(*SearchAttributeRemovalResult)(nil),      // 86: temporal.v1.SearchAttributeRemovalResult
+	(*QuerySearchAttributeUsageRequest)(nil),  // 87: temporal.v1.QuerySearchAttributeUsageRequest
+	(*UsageQueryOptions)(nil),                 // 88: temporal.v1.UsageQueryOptions
+	(*QuerySearchAttributeUsageResponse)(nil), // 89: temporal.v1.QuerySearchAttributeUsageResponse
+	(*QuerySearchAttributeUsageData)(nil),     // 90: temporal.v1.QuerySearchAttributeUsageData
+	(*SearchAttributeUsage)(nil),              // 91: temporal.v1.SearchAttributeUsage
+	(*ValueDistribution)(nil),                 // 92: temporal.v1.ValueDistribution
+	(*UsageStats)(nil),                        // 93: temporal.v1.UsageStats
+	(*ValidateSearchAttributesRequest)(nil),   // 94: temporal.v1.ValidateSearchAttributesRequest
+	(*SearchAttributeValidation)(nil),         // 95: temporal.v1.SearchAttributeValidation
+	(*StringList)(nil),                        // 96: temporal.v1.StringList
+	(*ValidateSearchAttributesResponse)(nil),  // 97: temporal.v1.ValidateSearchAttributesResponse
+	(*ValidateSearchAttributesData)(nil),      // 98: temporal.v1.ValidateSearchAttributesData
+	(*ValidationResult)(nil),                  // 99: temporal.v1.ValidationResult
+	nil,                                       // 100: temporal.v1.StartWorkflowRequest.SearchAttributesEntry
+	nil,                                       // 101: temporal.v1.StartWorkflowRequest.MemoEntry
+	nil,                                       // 102: temporal.v1.ControlOperationInfo.MetadataEntry
+	nil,                                       // 103: temporal.v1.WorkflowStatus.SearchAttributesEntry
+	nil,                                       // 104: temporal.v1.WorkflowStatus.MemoEntry
+	nil,                                       // 105: temporal.v1.ListOptions.SearchAttributesFilterEntry
+	nil,                                       // 106: temporal.v1.WorkflowInfo.SearchAttributesEntry
+	nil,                                       // 107: temporal.v1.DeleteStatistics.DeletedByTypeEntry
+	nil,                                       // 108: temporal.v1.DeleteStatistics.DeletedByStatusEntry
+	nil,                                       // 109: temporal.v1.SignalWithStartRequest.SearchAttributesEntry
+	nil,                                       // 110: temporal.v1.ScheduleSpec.MemoEntry
+	nil,                                       // 111: temporal.v1.WorkflowAction.SearchAttributesEntry
+	nil,                                       // 112: temporal.v1.RegisterSearchAttributesRequest.AttributesEntry
+	nil,                                       // 113: temporal.v1.SearchAttributeInfo.MetadataEntry
+	nil,                                       // 114: temporal.v1.SearchAttributeStats.TypeDistributionEntry
+	nil,                                       // 115: temporal.v1.ValidateSearchAttributesRequest.ValidationsEntry
+	(ExecutionMode)(0),                        // 116: temporal.v1.ExecutionMode
+	(*WorkflowOptions)(nil),                   // 117: temporal.v1.WorkflowOptions
+	(*v1.BaseResponse)(nil),                   // 118: common.v1.BaseResponse
+	(ControlOperation)(0),                     // 119: temporal.v1.ControlOperation
+	(ControlOperationResult)(0),               // 120: temporal.v1.ControlOperationResult
+	(QueryType)(0),                            // 121: temporal.v1.QueryType
+	(WorkflowState)(0),                        // 122: temporal.v1.WorkflowState
+	(ScheduleOperation)(0),                    // 123: temporal.v1.ScheduleOperation
+	(OverlapPolicy)(0),                        // 124: temporal.v1.OverlapPolicy
+	(ScheduleState)(0),                        // 125: temporal.v1.ScheduleState
+	(SearchAttributeType)(0),                  // 126: temporal.v1.SearchAttributeType
+	(SearchAttributeCategory)(0),              // 127: temporal.v1.SearchAttributeCategory
 }
 var file_temporal_v1_temporal_proto_depIdxs = []int32{
-	102, // 0: temporal.v1.StartWorkflowRequest.execution_mode:type_name -> temporal.v1.ExecutionMode
+	116, // 0: temporal.v1.StartWorkflowRequest.execution_mode:type_name -> temporal.v1.ExecutionMode
 	1,   // 1: temporal.v1.StartWorkflowRequest.execution_config:type_name -> temporal.v1.ExecutionConfig
 	3,   // 2: temporal.v1.StartWorkflowRequest.batch_config:type_name -> temporal.v1.BatchConfig
-	103, // 3: temporal.v1.StartWorkflowRequest.options:type_name -> temporal.v1.WorkflowOptions
-	88,  // 4: temporal.v1.StartWorkflowRequest.search_attributes:type_name -> temporal.v1.StartWorkflowRequest.SearchAttributesEntry
-	89,  // 5: temporal.v1.StartWorkflowRequest.memo:type_name -> temporal.v1.StartWorkflowRequest.MemoEntry
+	117, // 3: temporal.v1.StartWorkflowRequest.options:type_name -> temporal.v1.WorkflowOptions
+	100, // 4: temporal.v1.StartWorkflowRequest.search_attributes:type_name -> temporal.v1.StartWorkflowRequest.SearchAttributesEntry
+	101, // 5: temporal.v1.StartWorkflowRequest.memo:type_name -> temporal.v1.StartWorkflowRequest.MemoEntry
 	2,   // 6: temporal.v1.ExecutionConfig.delay_options:type_name -> temporal.v1.DelayOptions
 	4,   // 7: temporal.v1.BatchConfig.workflows:type_name -> temporal.v1.WorkflowItem
-	103, // 8: temporal.v1.WorkflowItem.options:type_name -> temporal.v1.WorkflowOptions
-	104, // 9: temporal.v1.StartWorkflowResponse.base:type_name -> common.v1.BaseResponse
+	117, // 8: temporal.v1.WorkflowItem.options:type_name -> temporal.v1.WorkflowOptions
+	118, // 9: temporal.v1.StartWorkflowResponse.base:type_name -> common.v1.BaseResponse
 	6,   // 10: temporal.v1.StartWorkflowResponse.data:type_name -> temporal.v1.StartWorkflowData
 	7,   // 11: temporal.v1.StartWorkflowData.single_result:type_name -> temporal.v1.SingleResult
 	8,   // 12: temporal.v1.StartWorkflowData.batch_result:type_name -> temporal.v1.BatchResult
 	9,   // 13: temporal.v1.StartWorkflowData.schedule_result:type_name -> temporal.v1.ScheduleResult
 	10,  // 14: temporal.v1.SingleResult.execution_info:type_name -> temporal.v1.ExecutionInfo
 	7,   // 15: temporal.v1.BatchResult.results:type_name -> temporal.v1.SingleResult
-	102, // 16: temporal.v1.ExecutionInfo.mode:type_name -> temporal.v1.ExecutionMode
+	116, // 16: temporal.v1.ExecutionInfo.mode:type_name -> temporal.v1.ExecutionMode
 	12,  // 17: temporal.v1.ControlWorkflowRequest.single_target:type_name -> temporal.v1.WorkflowTarget
 	13,  // 18: temporal.v1.ControlWorkflowRequest.batch_target:type_name -> temporal.v1.BatchTarget
-	105, // 19: temporal.v1.ControlWorkflowRequest.operation:type_name -> temporal.v1.ControlOperation
+	119, // 19: temporal.v1.ControlWorkflowRequest.operation:type_name -> temporal.v1.ControlOperation
 	14,  // 20: temporal.v1.ControlWorkflowRequest.options:type_name -> temporal.v1.ControlOptions
-	104, // 21: temporal.v1.ControlWorkflowResponse.base:type_name -> common.v1.BaseResponse
+	118, // 21: temporal.v1.ControlWorkflowResponse.base:type_name -> common.v1.BaseResponse
 	16,  // 22: temporal.v1.ControlWorkflowResponse.data:type_name -> temporal.v1.ControlWorkflowData
 	18,  // 23: temporal.v1.ControlWorkflowData.single_result:type_name -> temporal.v1.ControlOperationInfo
 	17,  // 24: temporal.v1.ControlWorkflowData.batch_result:type_name -> temporal.v1.BatchControlResult
 	18,  // 25: temporal.v1.BatchControlResult.results:type_name -> temporal.v1.ControlOperationInfo
-	105, // 26: temporal.v1.ControlOperationInfo.operation:type_name -> temporal.v1.ControlOperation
-	106, // 27: temporal.v1.ControlOperationInfo.result:type_name -> temporal.v1.ControlOperationResult
-	90,  // 28: temporal.v1.ControlOperationInfo.metadata:type_name -> temporal.v1.ControlOperationInfo.MetadataEntry
-	104, // 29: temporal.v1.QueryControlOperationResponse.base:type_name -> common.v1.BaseResponse
+	119, // 26: temporal.v1.ControlOperationInfo.operation:type_name -> temporal.v1.ControlOperation
+	120, // 27: temporal.v1.ControlOperationInfo.result:type_name -> temporal.v1.ControlOperationResult
+	102, // 28: temporal.v1.ControlOperationInfo.metadata:type_name -> temporal.v1.ControlOperationInfo.MetadataEntry
+	118, // 29: temporal.v1.QueryControlOperationResponse.base:type_name -> common.v1.BaseResponse
 	21,  // 30: temporal.v1.QueryControlOperationResponse.data:type_name -> temporal.v1.QueryControlOperationData
 	18,  // 31: temporal.v1.QueryControlOperationData.operation_info:type_name -> temporal.v1.ControlOperationInfo
-	107, // 32: temporal.v1.QueryWorkflowRequest.query_type:type_name -> temporal.v1.QueryType
+	121, // 32: temporal.v1.QueryWorkflowRequest.query_type:type_name -> temporal.v1.QueryType
 	23,  // 33: temporal.v1.QueryWorkflowRequest.query_options:type_name -> temporal.v1.QueryOptions
-	104, // 34: temporal.v1.QueryWorkflowResponse.base:type_name -> common.v1.BaseResponse
+	118, // 34: temporal.v1.QueryWorkflowResponse.base:type_name -> common.v1.BaseResponse
 	25,  // 35: temporal.v1.QueryWorkflowResponse.data:type_name -> temporal.v1.QueryWorkflowData
 	26,  // 36: temporal.v1.QueryWorkflowData.status:type_name -> temporal.v1.WorkflowStatus
 	27,  // 37: temporal.v1.QueryWorkflowData.history:type_name -> temporal.v1.WorkflowHistory
 	29,  // 38: temporal.v1.QueryWorkflowData.stack_trace:type_name -> temporal.v1.WorkflowStackTrace
-	108, // 39: temporal.v1.WorkflowStatus.state:type_name -> temporal.v1.WorkflowState
-	91,  // 40: temporal.v1.WorkflowStatus.search_attributes:type_name -> temporal.v1.WorkflowStatus.SearchAttributesEntry
-	92,  // 41: temporal.v1.WorkflowStatus.memo:type_name -> temporal.v1.WorkflowStatus.MemoEntry
+	122, // 39: temporal.v1.WorkflowStatus.state:type_name -> temporal.v1.WorkflowState
+	103, // 40: temporal.v1.WorkflowStatus.search_attributes:type_name -> temporal.v1.WorkflowStatus.SearchAttributesEntry
+	104, // 41: temporal.v1.WorkflowStatus.memo:type_name -> temporal.v1.WorkflowStatus.MemoEntry
 	28,  // 42: temporal.v1.WorkflowHistory.events:type_name -> temporal.v1.WorkflowEvent
 	30,  // 43: temporal.v1.WorkflowStackTrace.frames:type_name -> temporal.v1.StackFrame
 	32,  // 44: temporal.v1.ListWorkflowsRequest.options:type_name -> temporal.v1.ListOptions
-	108, // 45: temporal.v1.ListOptions.states:type_name -> temporal.v1.WorkflowState
-	93,  // 46: temporal.v1.ListOptions.search_attributes_filter:type_name -> temporal.v1.ListOptions.SearchAttributesFilterEntry
-	104, // 47: temporal.v1.ListWorkflowsResponse.base:type_name -> common.v1.BaseResponse
+	122, // 45: temporal.v1.ListOptions.states:type_name -> temporal.v1.WorkflowState
+	105, // 46: temporal.v1.ListOptions.search_attributes_filter:type_name -> temporal.v1.ListOptions.SearchAttributesFilterEntry
+	118, // 47: temporal.v1.ListWorkflowsResponse.base:type_name -> common.v1.BaseResponse
 	34,  // 48: temporal.v1.ListWorkflowsResponse.data:type_name -> temporal.v1.ListWorkflowsData
 	35,  // 49: temporal.v1.ListWorkflowsData.workflows:type_name -> temporal.v1.WorkflowInfo
-	108, // 50: temporal.v1.WorkflowInfo.state:type_name -> temporal.v1.WorkflowState
-	94,  // 51: temporal.v1.WorkflowInfo.search_attributes:type_name -> temporal.v1.WorkflowInfo.SearchAttributesEntry
+	122, // 50: temporal.v1.WorkflowInfo.state:type_name -> temporal.v1.WorkflowState
+	106, // 51: temporal.v1.WorkflowInfo.search_attributes:type_name -> temporal.v1.WorkflowInfo.SearchAttributesEntry
 	0,   // 52: temporal.v1.ReplaceWorkflowRequest.new_workflow:type_name -> temporal.v1.StartWorkflowRequest
-	104, // 53: temporal.v1.ReplaceWorkflowResponse.base:type_name -> common.v1.BaseResponse
+	118, // 53: temporal.v1.ReplaceWorkflowResponse.base:type_name -> common.v1.BaseResponse
 	38,  // 54: temporal.v1.ReplaceWorkflowResponse.data:type_name -> temporal.v1.ReplaceWorkflowData
 	18,  // 55: temporal.v1.ReplaceWorkflowData.cancel_result:type_name -> temporal.v1.ControlOperationInfo
 	6,   // 56: temporal.v1.ReplaceWorkflowData.start_result:type_name -> temporal.v1.StartWorkflowData
-	104, // 57: temporal.v1.SignalWorkflowResponse.base:type_name -> common.v1.BaseResponse
-	41,  // 58: temporal.v1.SignalWorkflowResponse.data:type_name -> temporal.v1.SignalWorkflowData
-	103, // 59: temporal.v1.SignalWithStartRequest.options:type_name -> temporal.v1.WorkflowOptions
-	95,  // 60: temporal.v1.SignalWithStartRequest.search_attributes:type_name -> temporal.v1.SignalWithStartRequest.SearchAttributesEntry
-	104, // 61: temporal.v1.SignalWithStartResponse.base:type_name -> common.v1.BaseResponse
-	44,  // 62: temporal.v1.SignalWithStartResponse.data:type_name -> temporal.v1.SignalWithStartData
-	104, // 63: temporal.v1.QueryWorkflowStateResponse.base:type_name -> common.v1.BaseResponse
-	47,  // 64: temporal.v1.QueryWorkflowStateResponse.data:type_name -> temporal.v1.QueryWorkflowStateData
-	109, // 65: temporal.v1.ManageScheduleRequest.operation:type_name -> temporal.v1.ScheduleOperation
-	49,  // 66: temporal.v1.ManageScheduleRequest.spec:type_name -> temporal.v1.ScheduleSpec
-	50,  // 67: temporal.v1.ScheduleSpec.action:type_name -> temporal.v1.WorkflowAction
-	51,  // 68: temporal.v1.ScheduleSpec.policy:type_name -> temporal.v1.SchedulePolicy
-	96,  // 69: temporal.v1.ScheduleSpec.memo:type_name -> temporal.v1.ScheduleSpec.MemoEntry
-	103, // 70: temporal.v1.WorkflowAction.options:type_name -> temporal.v1.WorkflowOptions
-	97,  // 71: temporal.v1.WorkflowAction.search_attributes:type_name -> temporal.v1.WorkflowAction.SearchAttributesEntry
-	110, // 72: temporal.v1.SchedulePolicy.overlap_policy:type_name -> temporal.v1.OverlapPolicy
-	104, // 73: temporal.v1.ManageScheduleResponse.base:type_name -> common.v1.BaseResponse
-	53,  // 74: temporal.v1.ManageScheduleResponse.data:type_name -> temporal.v1.ManageScheduleData
-	109, // 75: temporal.v1.ManageScheduleData.operation:type_name -> temporal.v1.ScheduleOperation
-	104, // 76: temporal.v1.QueryScheduleResponse.base:type_name -> common.v1.BaseResponse
-	56,  // 77: temporal.v1.QueryScheduleResponse.data:type_name -> temporal.v1.ScheduleInfo
-	49,  // 78: temporal.v1.ScheduleInfo.spec:type_name -> temporal.v1.ScheduleSpec
-	111, // 79: temporal.v1.ScheduleInfo.state:type_name -> temporal.v1.ScheduleState
-	58,  // 80: temporal.v1.ListSchedulesRequest.options:type_name -> temporal.v1.ListScheduleOptions
-	111, // 81: temporal.v1.ListScheduleOptions.states:type_name -> temporal.v1.ScheduleState
-	104, // 82: temporal.v1.ListSchedulesResponse.base:type_name -> common.v1.BaseResponse
-	60,  // 83: temporal.v1.ListSchedulesResponse.data:type_name -> temporal.v1.ListSchedulesData
-	56,  // 84: temporal.v1.ListSchedulesData.schedules:type_name -> temporal.v1.ScheduleInfo
-	98,  // 85: temporal.v1.RegisterSearchAttributesRequest.attributes:type_name -> temporal.v1.RegisterSearchAttributesRequest.AttributesEntry
-	104, // 86: temporal.v1.RegisterSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
-	63,  // 87: temporal.v1.RegisterSearchAttributesResponse.data:type_name -> temporal.v1.RegisterSearchAttributesData
-	64,  // 88: temporal.v1.RegisterSearchAttributesData.results:type_name -> temporal.v1.SearchAttributeRegistrationResult
-	112, // 89: temporal.v1.SearchAttributeRegistrationResult.attribute_type:type_name -> temporal.v1.SearchAttributeType
-	66,  // 90: temporal.v1.ListSearchAttributesRequest.filter:type_name -> temporal.v1.SearchAttributeFilter
-	112, // 91: temporal.v1.SearchAttributeFilter.types:type_name -> temporal.v1.SearchAttributeType
-	113, // 92: temporal.v1.SearchAttributeFilter.category:type_name -> temporal.v1.SearchAttributeCategory
-	104, // 93: temporal.v1.ListSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
-	68,  // 94: temporal.v1.ListSearchAttributesResponse.data:type_name -> temporal.v1.ListSearchAttributesData
-	69,  // 95: temporal.v1.ListSearchAttributesData.attributes:type_name -> temporal.v1.SearchAttributeInfo
-	70,  // 96: temporal.v1.ListSearchAttributesData.stats:type_name -> temporal.v1.SearchAttributeStats
-	112, // 97: temporal.v1.SearchAttributeInfo.type:type_name -> temporal.v1.SearchAttributeType
-	113, // 98: temporal.v1.SearchAttributeInfo.category:type_name -> temporal.v1.SearchAttributeCategory
-	99,  // 99: temporal.v1.SearchAttributeInfo.metadata:type_name -> temporal.v1.SearchAttributeInfo.MetadataEntry
-	100, // 100: temporal.v1.SearchAttributeStats.type_distribution:type_name -> temporal.v1.SearchAttributeStats.TypeDistributionEntry
-	104, // 101: temporal.v1.RemoveSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
-	73,  // 102: temporal.v1.RemoveSearchAttributesResponse.data:type_name -> temporal.v1.RemoveSearchAttributesData
-	74,  // 103: temporal.v1.RemoveSearchAttributesData.results:type_name -> temporal.v1.SearchAttributeRemovalResult
-	76,  // 104: temporal.v1.QuerySearchAttributeUsageRequest.options:type_name -> temporal.v1.UsageQueryOptions
-	104, // 105: temporal.v1.QuerySearchAttributeUsageResponse.base:type_name -> common.v1.BaseResponse
-	78,  // 106: temporal.v1.QuerySearchAttributeUsageResponse.data:type_name -> temporal.v1.QuerySearchAttributeUsageData
-	79,  // 107: temporal.v1.QuerySearchAttributeUsageData.usages:type_name -> temporal.v1.SearchAttributeUsage
-	112, // 108: temporal.v1.SearchAttributeUsage.attribute_type:type_name -> temporal.v1.SearchAttributeType
-	80,  // 109: temporal.v1.SearchAttributeUsage.value_distribution:type_name -> temporal.v1.ValueDistribution
-	81,  // 110: temporal.v1.SearchAttributeUsage.stats:type_name -> temporal.v1.UsageStats
-	101, // 111: temporal.v1.ValidateSearchAttributesRequest.validations:type_name -> temporal.v1.ValidateSearchAttributesRequest.ValidationsEntry
-	112, // 112: temporal.v1.SearchAttributeValidation.expected_type:type_name -> temporal.v1.SearchAttributeType
-	84,  // 113: temporal.v1.SearchAttributeValidation.keyword_list_value:type_name -> temporal.v1.StringList
-	104, // 114: temporal.v1.ValidateSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
-	86,  // 115: temporal.v1.ValidateSearchAttributesResponse.data:type_name -> temporal.v1.ValidateSearchAttributesData
-	87,  // 116: temporal.v1.ValidateSearchAttributesData.results:type_name -> temporal.v1.ValidationResult
-	112, // 117: temporal.v1.ValidationResult.registered_type:type_name -> temporal.v1.SearchAttributeType
-	112, // 118: temporal.v1.ValidationResult.provided_type:type_name -> temporal.v1.SearchAttributeType
-	112, // 119: temporal.v1.RegisterSearchAttributesRequest.AttributesEntry.value:type_name -> temporal.v1.SearchAttributeType
-	83,  // 120: temporal.v1.ValidateSearchAttributesRequest.ValidationsEntry.value:type_name -> temporal.v1.SearchAttributeValidation
-	0,   // 121: temporal.v1.WorkflowService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
-	11,  // 122: temporal.v1.WorkflowService.ControlWorkflow:input_type -> temporal.v1.ControlWorkflowRequest
-	19,  // 123: temporal.v1.WorkflowService.QueryControlOperation:input_type -> temporal.v1.QueryControlOperationRequest
-	22,  // 124: temporal.v1.WorkflowService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
-	31,  // 125: temporal.v1.WorkflowService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
-	36,  // 126: temporal.v1.WorkflowService.ReplaceWorkflow:input_type -> temporal.v1.ReplaceWorkflowRequest
-	39,  // 127: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
-	42,  // 128: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
-	45,  // 129: temporal.v1.WorkflowInteractionService.QueryWorkflowState:input_type -> temporal.v1.QueryWorkflowStateRequest
-	48,  // 130: temporal.v1.ScheduleService.ManageSchedule:input_type -> temporal.v1.ManageScheduleRequest
-	54,  // 131: temporal.v1.ScheduleService.QuerySchedule:input_type -> temporal.v1.QueryScheduleRequest
-	57,  // 132: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
-	61,  // 133: temporal.v1.SearchAttributeService.RegisterSearchAttributes:input_type -> temporal.v1.RegisterSearchAttributesRequest
-	65,  // 134: temporal.v1.SearchAttributeService.ListSearchAttributes:input_type -> temporal.v1.ListSearchAttributesRequest
-	71,  // 135: temporal.v1.SearchAttributeService.RemoveSearchAttributes:input_type -> temporal.v1.RemoveSearchAttributesRequest
-	75,  // 136: temporal.v1.SearchAttributeService.QuerySearchAttributeUsage:input_type -> temporal.v1.QuerySearchAttributeUsageRequest
-	82,  // 137: temporal.v1.SearchAttributeService.ValidateSearchAttributes:input_type -> temporal.v1.ValidateSearchAttributesRequest
-	5,   // 138: temporal.v1.WorkflowService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
-	15,  // 139: temporal.v1.WorkflowService.ControlWorkflow:output_type -> temporal.v1.ControlWorkflowResponse
-	20,  // 140: temporal.v1.WorkflowService.QueryControlOperation:output_type -> temporal.v1.QueryControlOperationResponse
-	24,  // 141: temporal.v1.WorkflowService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
-	33,  // 142: temporal.v1.WorkflowService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
-	37,  // 143: temporal.v1.WorkflowService.ReplaceWorkflow:output_type -> temporal.v1.ReplaceWorkflowResponse
-	40,  // 144: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
-	43,  // 145: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
-	46,  // 146: temporal.v1.WorkflowInteractionService.QueryWorkflowState:output_type -> temporal.v1.QueryWorkflowStateResponse
-	52,  // 147: temporal.v1.ScheduleService.ManageSchedule:output_type -> temporal.v1.ManageScheduleResponse
-	55,  // 148: temporal.v1.ScheduleService.QuerySchedule:output_type -> temporal.v1.QueryScheduleResponse
-	59,  // 149: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
-	62,  // 150: temporal.v1.SearchAttributeService.RegisterSearchAttributes:output_type -> temporal.v1.RegisterSearchAttributesResponse
-	67,  // 151: temporal.v1.SearchAttributeService.ListSearchAttributes:output_type -> temporal.v1.ListSearchAttributesResponse
-	72,  // 152: temporal.v1.SearchAttributeService.RemoveSearchAttributes:output_type -> temporal.v1.RemoveSearchAttributesResponse
-	77,  // 153: temporal.v1.SearchAttributeService.QuerySearchAttributeUsage:output_type -> temporal.v1.QuerySearchAttributeUsageResponse
-	85,  // 154: temporal.v1.SearchAttributeService.ValidateSearchAttributes:output_type -> temporal.v1.ValidateSearchAttributesResponse
-	138, // [138:155] is the sub-list for method output_type
-	121, // [121:138] is the sub-list for method input_type
-	121, // [121:121] is the sub-list for extension type_name
-	121, // [121:121] is the sub-list for extension extendee
-	0,   // [0:121] is the sub-list for field type_name
+	40,  // 57: temporal.v1.DeleteWorkflowRequest.single:type_name -> temporal.v1.SingleDeleteTarget
+	41,  // 58: temporal.v1.DeleteWorkflowRequest.batch:type_name -> temporal.v1.BatchDeleteTarget
+	42,  // 59: temporal.v1.DeleteWorkflowRequest.query:type_name -> temporal.v1.QueryDeleteTarget
+	43,  // 60: temporal.v1.DeleteWorkflowRequest.options:type_name -> temporal.v1.DeleteOptions
+	44,  // 61: temporal.v1.DeleteOptions.retention:type_name -> temporal.v1.RetentionPolicy
+	118, // 62: temporal.v1.DeleteWorkflowResponse.base:type_name -> common.v1.BaseResponse
+	46,  // 63: temporal.v1.DeleteWorkflowResponse.data:type_name -> temporal.v1.DeleteWorkflowData
+	47,  // 64: temporal.v1.DeleteWorkflowData.single_result:type_name -> temporal.v1.SingleDeleteResult
+	48,  // 65: temporal.v1.DeleteWorkflowData.batch_result:type_name -> temporal.v1.BatchDeleteResult
+	49,  // 66: temporal.v1.DeleteWorkflowData.query_result:type_name -> temporal.v1.QueryDeleteResult
+	50,  // 67: temporal.v1.DeleteWorkflowData.statistics:type_name -> temporal.v1.DeleteStatistics
+	47,  // 68: temporal.v1.BatchDeleteResult.results:type_name -> temporal.v1.SingleDeleteResult
+	107, // 69: temporal.v1.DeleteStatistics.deleted_by_type:type_name -> temporal.v1.DeleteStatistics.DeletedByTypeEntry
+	108, // 70: temporal.v1.DeleteStatistics.deleted_by_status:type_name -> temporal.v1.DeleteStatistics.DeletedByStatusEntry
+	118, // 71: temporal.v1.SignalWorkflowResponse.base:type_name -> common.v1.BaseResponse
+	53,  // 72: temporal.v1.SignalWorkflowResponse.data:type_name -> temporal.v1.SignalWorkflowData
+	117, // 73: temporal.v1.SignalWithStartRequest.options:type_name -> temporal.v1.WorkflowOptions
+	109, // 74: temporal.v1.SignalWithStartRequest.search_attributes:type_name -> temporal.v1.SignalWithStartRequest.SearchAttributesEntry
+	118, // 75: temporal.v1.SignalWithStartResponse.base:type_name -> common.v1.BaseResponse
+	56,  // 76: temporal.v1.SignalWithStartResponse.data:type_name -> temporal.v1.SignalWithStartData
+	118, // 77: temporal.v1.QueryWorkflowStateResponse.base:type_name -> common.v1.BaseResponse
+	59,  // 78: temporal.v1.QueryWorkflowStateResponse.data:type_name -> temporal.v1.QueryWorkflowStateData
+	123, // 79: temporal.v1.ManageScheduleRequest.operation:type_name -> temporal.v1.ScheduleOperation
+	61,  // 80: temporal.v1.ManageScheduleRequest.spec:type_name -> temporal.v1.ScheduleSpec
+	62,  // 81: temporal.v1.ScheduleSpec.action:type_name -> temporal.v1.WorkflowAction
+	63,  // 82: temporal.v1.ScheduleSpec.policy:type_name -> temporal.v1.SchedulePolicy
+	110, // 83: temporal.v1.ScheduleSpec.memo:type_name -> temporal.v1.ScheduleSpec.MemoEntry
+	117, // 84: temporal.v1.WorkflowAction.options:type_name -> temporal.v1.WorkflowOptions
+	111, // 85: temporal.v1.WorkflowAction.search_attributes:type_name -> temporal.v1.WorkflowAction.SearchAttributesEntry
+	124, // 86: temporal.v1.SchedulePolicy.overlap_policy:type_name -> temporal.v1.OverlapPolicy
+	118, // 87: temporal.v1.ManageScheduleResponse.base:type_name -> common.v1.BaseResponse
+	65,  // 88: temporal.v1.ManageScheduleResponse.data:type_name -> temporal.v1.ManageScheduleData
+	123, // 89: temporal.v1.ManageScheduleData.operation:type_name -> temporal.v1.ScheduleOperation
+	118, // 90: temporal.v1.QueryScheduleResponse.base:type_name -> common.v1.BaseResponse
+	68,  // 91: temporal.v1.QueryScheduleResponse.data:type_name -> temporal.v1.ScheduleInfo
+	61,  // 92: temporal.v1.ScheduleInfo.spec:type_name -> temporal.v1.ScheduleSpec
+	125, // 93: temporal.v1.ScheduleInfo.state:type_name -> temporal.v1.ScheduleState
+	70,  // 94: temporal.v1.ListSchedulesRequest.options:type_name -> temporal.v1.ListScheduleOptions
+	125, // 95: temporal.v1.ListScheduleOptions.states:type_name -> temporal.v1.ScheduleState
+	118, // 96: temporal.v1.ListSchedulesResponse.base:type_name -> common.v1.BaseResponse
+	72,  // 97: temporal.v1.ListSchedulesResponse.data:type_name -> temporal.v1.ListSchedulesData
+	68,  // 98: temporal.v1.ListSchedulesData.schedules:type_name -> temporal.v1.ScheduleInfo
+	112, // 99: temporal.v1.RegisterSearchAttributesRequest.attributes:type_name -> temporal.v1.RegisterSearchAttributesRequest.AttributesEntry
+	118, // 100: temporal.v1.RegisterSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
+	75,  // 101: temporal.v1.RegisterSearchAttributesResponse.data:type_name -> temporal.v1.RegisterSearchAttributesData
+	76,  // 102: temporal.v1.RegisterSearchAttributesData.results:type_name -> temporal.v1.SearchAttributeRegistrationResult
+	126, // 103: temporal.v1.SearchAttributeRegistrationResult.attribute_type:type_name -> temporal.v1.SearchAttributeType
+	78,  // 104: temporal.v1.ListSearchAttributesRequest.filter:type_name -> temporal.v1.SearchAttributeFilter
+	126, // 105: temporal.v1.SearchAttributeFilter.types:type_name -> temporal.v1.SearchAttributeType
+	127, // 106: temporal.v1.SearchAttributeFilter.category:type_name -> temporal.v1.SearchAttributeCategory
+	118, // 107: temporal.v1.ListSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
+	80,  // 108: temporal.v1.ListSearchAttributesResponse.data:type_name -> temporal.v1.ListSearchAttributesData
+	81,  // 109: temporal.v1.ListSearchAttributesData.attributes:type_name -> temporal.v1.SearchAttributeInfo
+	82,  // 110: temporal.v1.ListSearchAttributesData.stats:type_name -> temporal.v1.SearchAttributeStats
+	126, // 111: temporal.v1.SearchAttributeInfo.type:type_name -> temporal.v1.SearchAttributeType
+	127, // 112: temporal.v1.SearchAttributeInfo.category:type_name -> temporal.v1.SearchAttributeCategory
+	113, // 113: temporal.v1.SearchAttributeInfo.metadata:type_name -> temporal.v1.SearchAttributeInfo.MetadataEntry
+	114, // 114: temporal.v1.SearchAttributeStats.type_distribution:type_name -> temporal.v1.SearchAttributeStats.TypeDistributionEntry
+	118, // 115: temporal.v1.RemoveSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
+	85,  // 116: temporal.v1.RemoveSearchAttributesResponse.data:type_name -> temporal.v1.RemoveSearchAttributesData
+	86,  // 117: temporal.v1.RemoveSearchAttributesData.results:type_name -> temporal.v1.SearchAttributeRemovalResult
+	88,  // 118: temporal.v1.QuerySearchAttributeUsageRequest.options:type_name -> temporal.v1.UsageQueryOptions
+	118, // 119: temporal.v1.QuerySearchAttributeUsageResponse.base:type_name -> common.v1.BaseResponse
+	90,  // 120: temporal.v1.QuerySearchAttributeUsageResponse.data:type_name -> temporal.v1.QuerySearchAttributeUsageData
+	91,  // 121: temporal.v1.QuerySearchAttributeUsageData.usages:type_name -> temporal.v1.SearchAttributeUsage
+	126, // 122: temporal.v1.SearchAttributeUsage.attribute_type:type_name -> temporal.v1.SearchAttributeType
+	92,  // 123: temporal.v1.SearchAttributeUsage.value_distribution:type_name -> temporal.v1.ValueDistribution
+	93,  // 124: temporal.v1.SearchAttributeUsage.stats:type_name -> temporal.v1.UsageStats
+	115, // 125: temporal.v1.ValidateSearchAttributesRequest.validations:type_name -> temporal.v1.ValidateSearchAttributesRequest.ValidationsEntry
+	126, // 126: temporal.v1.SearchAttributeValidation.expected_type:type_name -> temporal.v1.SearchAttributeType
+	96,  // 127: temporal.v1.SearchAttributeValidation.keyword_list_value:type_name -> temporal.v1.StringList
+	118, // 128: temporal.v1.ValidateSearchAttributesResponse.base:type_name -> common.v1.BaseResponse
+	98,  // 129: temporal.v1.ValidateSearchAttributesResponse.data:type_name -> temporal.v1.ValidateSearchAttributesData
+	99,  // 130: temporal.v1.ValidateSearchAttributesData.results:type_name -> temporal.v1.ValidationResult
+	126, // 131: temporal.v1.ValidationResult.registered_type:type_name -> temporal.v1.SearchAttributeType
+	126, // 132: temporal.v1.ValidationResult.provided_type:type_name -> temporal.v1.SearchAttributeType
+	126, // 133: temporal.v1.RegisterSearchAttributesRequest.AttributesEntry.value:type_name -> temporal.v1.SearchAttributeType
+	95,  // 134: temporal.v1.ValidateSearchAttributesRequest.ValidationsEntry.value:type_name -> temporal.v1.SearchAttributeValidation
+	0,   // 135: temporal.v1.WorkflowService.StartWorkflow:input_type -> temporal.v1.StartWorkflowRequest
+	11,  // 136: temporal.v1.WorkflowService.ControlWorkflow:input_type -> temporal.v1.ControlWorkflowRequest
+	19,  // 137: temporal.v1.WorkflowService.QueryControlOperation:input_type -> temporal.v1.QueryControlOperationRequest
+	22,  // 138: temporal.v1.WorkflowService.QueryWorkflow:input_type -> temporal.v1.QueryWorkflowRequest
+	31,  // 139: temporal.v1.WorkflowService.ListWorkflows:input_type -> temporal.v1.ListWorkflowsRequest
+	36,  // 140: temporal.v1.WorkflowService.ReplaceWorkflow:input_type -> temporal.v1.ReplaceWorkflowRequest
+	39,  // 141: temporal.v1.WorkflowService.DeleteWorkflow:input_type -> temporal.v1.DeleteWorkflowRequest
+	51,  // 142: temporal.v1.WorkflowInteractionService.SignalWorkflow:input_type -> temporal.v1.SignalWorkflowRequest
+	54,  // 143: temporal.v1.WorkflowInteractionService.SignalWithStart:input_type -> temporal.v1.SignalWithStartRequest
+	57,  // 144: temporal.v1.WorkflowInteractionService.QueryWorkflowState:input_type -> temporal.v1.QueryWorkflowStateRequest
+	60,  // 145: temporal.v1.ScheduleService.ManageSchedule:input_type -> temporal.v1.ManageScheduleRequest
+	66,  // 146: temporal.v1.ScheduleService.QuerySchedule:input_type -> temporal.v1.QueryScheduleRequest
+	69,  // 147: temporal.v1.ScheduleService.ListSchedules:input_type -> temporal.v1.ListSchedulesRequest
+	73,  // 148: temporal.v1.SearchAttributeService.RegisterSearchAttributes:input_type -> temporal.v1.RegisterSearchAttributesRequest
+	77,  // 149: temporal.v1.SearchAttributeService.ListSearchAttributes:input_type -> temporal.v1.ListSearchAttributesRequest
+	83,  // 150: temporal.v1.SearchAttributeService.RemoveSearchAttributes:input_type -> temporal.v1.RemoveSearchAttributesRequest
+	87,  // 151: temporal.v1.SearchAttributeService.QuerySearchAttributeUsage:input_type -> temporal.v1.QuerySearchAttributeUsageRequest
+	94,  // 152: temporal.v1.SearchAttributeService.ValidateSearchAttributes:input_type -> temporal.v1.ValidateSearchAttributesRequest
+	5,   // 153: temporal.v1.WorkflowService.StartWorkflow:output_type -> temporal.v1.StartWorkflowResponse
+	15,  // 154: temporal.v1.WorkflowService.ControlWorkflow:output_type -> temporal.v1.ControlWorkflowResponse
+	20,  // 155: temporal.v1.WorkflowService.QueryControlOperation:output_type -> temporal.v1.QueryControlOperationResponse
+	24,  // 156: temporal.v1.WorkflowService.QueryWorkflow:output_type -> temporal.v1.QueryWorkflowResponse
+	33,  // 157: temporal.v1.WorkflowService.ListWorkflows:output_type -> temporal.v1.ListWorkflowsResponse
+	37,  // 158: temporal.v1.WorkflowService.ReplaceWorkflow:output_type -> temporal.v1.ReplaceWorkflowResponse
+	45,  // 159: temporal.v1.WorkflowService.DeleteWorkflow:output_type -> temporal.v1.DeleteWorkflowResponse
+	52,  // 160: temporal.v1.WorkflowInteractionService.SignalWorkflow:output_type -> temporal.v1.SignalWorkflowResponse
+	55,  // 161: temporal.v1.WorkflowInteractionService.SignalWithStart:output_type -> temporal.v1.SignalWithStartResponse
+	58,  // 162: temporal.v1.WorkflowInteractionService.QueryWorkflowState:output_type -> temporal.v1.QueryWorkflowStateResponse
+	64,  // 163: temporal.v1.ScheduleService.ManageSchedule:output_type -> temporal.v1.ManageScheduleResponse
+	67,  // 164: temporal.v1.ScheduleService.QuerySchedule:output_type -> temporal.v1.QueryScheduleResponse
+	71,  // 165: temporal.v1.ScheduleService.ListSchedules:output_type -> temporal.v1.ListSchedulesResponse
+	74,  // 166: temporal.v1.SearchAttributeService.RegisterSearchAttributes:output_type -> temporal.v1.RegisterSearchAttributesResponse
+	79,  // 167: temporal.v1.SearchAttributeService.ListSearchAttributes:output_type -> temporal.v1.ListSearchAttributesResponse
+	84,  // 168: temporal.v1.SearchAttributeService.RemoveSearchAttributes:output_type -> temporal.v1.RemoveSearchAttributesResponse
+	89,  // 169: temporal.v1.SearchAttributeService.QuerySearchAttributeUsage:output_type -> temporal.v1.QuerySearchAttributeUsageResponse
+	97,  // 170: temporal.v1.SearchAttributeService.ValidateSearchAttributes:output_type -> temporal.v1.ValidateSearchAttributesResponse
+	153, // [153:171] is the sub-list for method output_type
+	135, // [135:153] is the sub-list for method input_type
+	135, // [135:135] is the sub-list for extension type_name
+	135, // [135:135] is the sub-list for extension extendee
+	0,   // [0:135] is the sub-list for field type_name
 }
 
 func init() { file_temporal_v1_temporal_proto_init() }
@@ -7269,7 +8316,17 @@ func file_temporal_v1_temporal_proto_init() {
 		(*QueryWorkflowData_History)(nil),
 		(*QueryWorkflowData_StackTrace)(nil),
 	}
-	file_temporal_v1_temporal_proto_msgTypes[83].OneofWrappers = []any{
+	file_temporal_v1_temporal_proto_msgTypes[39].OneofWrappers = []any{
+		(*DeleteWorkflowRequest_Single)(nil),
+		(*DeleteWorkflowRequest_Batch)(nil),
+		(*DeleteWorkflowRequest_Query)(nil),
+	}
+	file_temporal_v1_temporal_proto_msgTypes[46].OneofWrappers = []any{
+		(*DeleteWorkflowData_SingleResult)(nil),
+		(*DeleteWorkflowData_BatchResult)(nil),
+		(*DeleteWorkflowData_QueryResult)(nil),
+	}
+	file_temporal_v1_temporal_proto_msgTypes[95].OneofWrappers = []any{
 		(*SearchAttributeValidation_StringValue)(nil),
 		(*SearchAttributeValidation_IntValue)(nil),
 		(*SearchAttributeValidation_DoubleValue)(nil),
@@ -7283,7 +8340,7 @@ func file_temporal_v1_temporal_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_v1_temporal_proto_rawDesc), len(file_temporal_v1_temporal_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   102,
+			NumMessages:   116,
 			NumExtensions: 0,
 			NumServices:   4,
 		},
