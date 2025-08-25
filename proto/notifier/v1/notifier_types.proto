@@ -201,7 +201,6 @@ enum RobotType {
   ROBOT_TYPE_LARK = 2;
   ROBOT_TYPE_TEAMS = 3;
   ROBOT_TYPE_TELEGRAM = 4;
-  ROBOT_TYPE_WEBHOOK = 5;      // 通用Webhook
 }
 
 // 附件类型

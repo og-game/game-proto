@@ -940,7 +940,6 @@ const (
 	RobotType_ROBOT_TYPE_LARK        RobotType = 2
 	RobotType_ROBOT_TYPE_TEAMS       RobotType = 3
 	RobotType_ROBOT_TYPE_TELEGRAM    RobotType = 4
-	RobotType_ROBOT_TYPE_WEBHOOK     RobotType = 5 // 通用Webhook
 )
 
 // Enum value maps for RobotType.
@@ -951,7 +950,6 @@ var (
 		2: "ROBOT_TYPE_LARK",
 		3: "ROBOT_TYPE_TEAMS",
 		4: "ROBOT_TYPE_TELEGRAM",
-		5: "ROBOT_TYPE_WEBHOOK",
 	}
 	RobotType_value = map[string]int32{
 		"ROBOT_TYPE_UNSPECIFIED": 0,
@@ -959,7 +957,6 @@ var (
 		"ROBOT_TYPE_LARK":        2,
 		"ROBOT_TYPE_TEAMS":       3,
 		"ROBOT_TYPE_TELEGRAM":    4,
-		"ROBOT_TYPE_WEBHOOK":     5,
 	}
 )
 
@@ -1629,14 +1626,13 @@ const file_notifier_v1_notifier_types_proto_rawDesc = "" +
 	"\x1aANOMALY_TYPE_USER_BEHAVIOR\x10\x03\x12\x17\n" +
 	"\x13ANOMALY_TYPE_SYSTEM\x10\x04\x12\x18\n" +
 	"\x14ANOMALY_TYPE_PAYMENT\x10\x05\x12\x15\n" +
-	"\x11ANOMALY_TYPE_GAME\x10\x06*\x99\x01\n" +
+	"\x11ANOMALY_TYPE_GAME\x10\x06*\x81\x01\n" +
 	"\tRobotType\x12\x1a\n" +
 	"\x16ROBOT_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10ROBOT_TYPE_SLACK\x10\x01\x12\x13\n" +
 	"\x0fROBOT_TYPE_LARK\x10\x02\x12\x14\n" +
 	"\x10ROBOT_TYPE_TEAMS\x10\x03\x12\x17\n" +
-	"\x13ROBOT_TYPE_TELEGRAM\x10\x04\x12\x16\n" +
-	"\x12ROBOT_TYPE_WEBHOOK\x10\x05*\x80\x01\n" +
+	"\x13ROBOT_TYPE_TELEGRAM\x10\x04*\x80\x01\n" +
 	"\x0eAttachmentType\x12\x1f\n" +
 	"\x1bATTACHMENT_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15ATTACHMENT_TYPE_IMAGE\x10\x01\x12\x18\n" +
