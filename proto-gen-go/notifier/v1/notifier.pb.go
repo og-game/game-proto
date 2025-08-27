@@ -181,7 +181,7 @@ func (x *MerchantConfig) GetMetadata() map[string]string {
 // 端点配置
 type EndpointConfig struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	EndpointId      string                 `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
+	EndpointId      int64                  `protobuf:"varint,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 	Channel         PushChannel            `protobuf:"varint,2,opt,name=channel,proto3,enum=notifier.v1.PushChannel" json:"channel,omitempty"`                // 使用枚举
 	Url             string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                                      // 推送地址
 	AuthType        AuthType               `protobuf:"varint,4,opt,name=auth_type,json=authType,proto3,enum=notifier.v1.AuthType" json:"auth_type,omitempty"` // 使用枚举
@@ -223,11 +223,11 @@ func (*EndpointConfig) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *EndpointConfig) GetEndpointId() string {
+func (x *EndpointConfig) GetEndpointId() int64 {
 	if x != nil {
 		return x.EndpointId
 	}
-	return ""
+	return 0
 }
 
 func (x *EndpointConfig) GetChannel() PushChannel {
@@ -282,7 +282,7 @@ func (x *EndpointConfig) GetEnabled() bool {
 // 订阅配置
 type SubscriptionConfig struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	SubscriptionId string                 `protobuf:"bytes,1,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	SubscriptionId int64                  `protobuf:"varint,1,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
 	// 订阅范围 - 可以按大类或具体事件类型订阅
 	Categories    []NotificationCategory `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=notifier.v1.NotificationCategory" json:"categories,omitempty"`        // 订阅的大类
 	EventTypes    []EventType            `protobuf:"varint,3,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 订阅的具体事件类型
@@ -325,11 +325,11 @@ func (*SubscriptionConfig) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *SubscriptionConfig) GetSubscriptionId() string {
+func (x *SubscriptionConfig) GetSubscriptionId() int64 {
 	if x != nil {
 		return x.SubscriptionId
 	}
-	return ""
+	return 0
 }
 
 func (x *SubscriptionConfig) GetCategories() []NotificationCategory {
@@ -1361,7 +1361,7 @@ func (x *ConfigureEndpointResponse) GetData() *ConfigureEndpointInfo {
 
 type ConfigureEndpointInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EndpointId    string                 `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
+	EndpointId    int64                  `protobuf:"varint,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1396,11 +1396,11 @@ func (*ConfigureEndpointInfo) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *ConfigureEndpointInfo) GetEndpointId() string {
+func (x *ConfigureEndpointInfo) GetEndpointId() int64 {
 	if x != nil {
 		return x.EndpointId
 	}
-	return ""
+	return 0
 }
 
 // 测试端点请求
@@ -1718,7 +1718,7 @@ func (x *CreateSubscriptionResponse) GetData() *CreateSubscriptionInfo {
 
 type CreateSubscriptionInfo struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	SubscriptionId string                 `protobuf:"bytes,1,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	SubscriptionId int64                  `protobuf:"varint,1,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1753,11 +1753,11 @@ func (*CreateSubscriptionInfo) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{25}
 }
 
-func (x *CreateSubscriptionInfo) GetSubscriptionId() string {
+func (x *CreateSubscriptionInfo) GetSubscriptionId() int64 {
 	if x != nil {
 		return x.SubscriptionId
 	}
-	return ""
+	return 0
 }
 
 // 更新订阅请求
@@ -2626,7 +2626,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb6\x02\n" +
 	"\x0eEndpointConfig\x12\x1f\n" +
-	"\vendpoint_id\x18\x01 \x01(\tR\n" +
+	"\vendpoint_id\x18\x01 \x01(\x03R\n" +
 	"endpointId\x122\n" +
 	"\achannel\x18\x02 \x01(\x0e2\x18.notifier.v1.PushChannelR\achannel\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x122\n" +
@@ -2636,7 +2636,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\tmax_retry\x18\a \x01(\x05R\bmaxRetry\x12\x18\n" +
 	"\aenabled\x18\b \x01(\bR\aenabled\"\xb3\x03\n" +
 	"\x12SubscriptionConfig\x12'\n" +
-	"\x0fsubscription_id\x18\x01 \x01(\tR\x0esubscriptionId\x12A\n" +
+	"\x0fsubscription_id\x18\x01 \x01(\x03R\x0esubscriptionId\x12A\n" +
 	"\n" +
 	"categories\x18\x02 \x03(\x0e2!.notifier.v1.NotificationCategoryR\n" +
 	"categories\x127\n" +
@@ -2730,7 +2730,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x04base\x18\x01 \x01(\v2\x1b.notifier.v1.NotifyBaseRespR\x04base\x126\n" +
 	"\x04data\x18\x02 \x01(\v2\".notifier.v1.ConfigureEndpointInfoR\x04data\"8\n" +
 	"\x15ConfigureEndpointInfo\x12\x1f\n" +
-	"\vendpoint_id\x18\x01 \x01(\tR\n" +
+	"\vendpoint_id\x18\x01 \x01(\x03R\n" +
 	"endpointId\"\x91\x01\n" +
 	"\x13TestEndpointRequest\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
@@ -2764,7 +2764,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x04base\x18\x01 \x01(\v2\x1b.notifier.v1.NotifyBaseRespR\x04base\x127\n" +
 	"\x04data\x18\x02 \x01(\v2#.notifier.v1.CreateSubscriptionInfoR\x04data\"A\n" +
 	"\x16CreateSubscriptionInfo\x12'\n" +
-	"\x0fsubscription_id\x18\x01 \x01(\tR\x0esubscriptionId\"\x9e\x01\n" +
+	"\x0fsubscription_id\x18\x01 \x01(\x03R\x0esubscriptionId\"\x9e\x01\n" +
 	"\x19UpdateSubscriptionRequest\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12'\n" +
