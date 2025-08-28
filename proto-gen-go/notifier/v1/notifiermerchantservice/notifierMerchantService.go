@@ -15,7 +15,6 @@ import (
 
 type (
 	AggregationRules                 = v1.AggregationRules
-	BatchSendInfo                    = v1.BatchSendInfo
 	BatchSendRequest                 = v1.BatchSendRequest
 	BatchSendResponse                = v1.BatchSendResponse
 	ConfigureEndpointInfo            = v1.ConfigureEndpointInfo
@@ -43,7 +42,6 @@ type (
 	QueryPushRecordsRequest          = v1.QueryPushRecordsRequest
 	QueryPushRecordsResponse         = v1.QueryPushRecordsResponse
 	RateLimits                       = v1.RateLimits
-	SendNotificationInfo             = v1.SendNotificationInfo
 	SendNotificationRequest          = v1.SendNotificationRequest
 	SendNotificationResponse         = v1.SendNotificationResponse
 	SubscriptionConfig               = v1.SubscriptionConfig
