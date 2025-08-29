@@ -32,6 +32,7 @@ type (
 	GetMerchantConfigRequest       = v1.GetMerchantConfigRequest
 	GetMerchantConfigResponse      = v1.GetMerchantConfigResponse
 	MerchantConfig                 = v1.MerchantConfig
+	NotificationMsgHandlerInfo     = v1.NotificationMsgHandlerInfo
 	NotificationMsgHandlerRequest  = v1.NotificationMsgHandlerRequest
 	NotificationMsgHandlerResponse = v1.NotificationMsgHandlerResponse
 	NotifyBaseResp                 = v1.NotifyBaseResp

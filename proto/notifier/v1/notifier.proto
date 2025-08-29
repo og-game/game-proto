@@ -273,6 +273,11 @@ message QueryPushRecords {
 
 
 message NotificationMsgHandlerRequest {
+  repeated NotificationMsgHandlerInfo records = 1; // 记录列表，限制1-1000条
+  string batch_id = 2;                     // 批次ID，用于幂等性控制
+}
+
+message NotificationMsgHandlerInfo {
   string msg_id = 1;
   string event_id = 2;
   int64 merchant_id = 3;
@@ -280,6 +285,7 @@ message NotificationMsgHandlerRequest {
   uint32 priority = 5;
   int64 timestamp = 6;
 }
+
 
 message NotificationMsgHandlerResponse {
   NotifyBaseResp base = 1;
