@@ -22,7 +22,6 @@ const (
 	NotifierInnerService_SendNotification_FullMethodName    = "/notifier.v1.NotifierInnerService/SendNotification"
 	NotifierInnerService_BatchSend_FullMethodName           = "/notifier.v1.NotifierInnerService/BatchSend"
 	NotifierInnerService_QueryPushRecords_FullMethodName    = "/notifier.v1.NotifierInnerService/QueryPushRecords"
-	NotifierInnerService_GetPushStatistics_FullMethodName   = "/notifier.v1.NotifierInnerService/GetPushStatistics"
 	NotifierInnerService_StreamNotifications_FullMethodName = "/notifier.v1.NotifierInnerService/StreamNotifications"
 )
 
@@ -37,7 +36,6 @@ type NotifierInnerServiceClient interface {
 	BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
 	// 查询统计
 	QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
-	GetPushStatistics(ctx context.Context, in *GetPushStatisticsRequest, opts ...grpc.CallOption) (*GetPushStatisticsResponse, error)
 	// 流式推送（双向流）
 	StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse], error)
 }
@@ -80,16 +78,6 @@ func (c *notifierInnerServiceClient) QueryPushRecords(ctx context.Context, in *Q
 	return out, nil
 }
 
-func (c *notifierInnerServiceClient) GetPushStatistics(ctx context.Context, in *GetPushStatisticsRequest, opts ...grpc.CallOption) (*GetPushStatisticsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetPushStatisticsResponse)
-	err := c.cc.Invoke(ctx, NotifierInnerService_GetPushStatistics_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *notifierInnerServiceClient) StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &NotifierInnerService_ServiceDesc.Streams[0], NotifierInnerService_StreamNotifications_FullMethodName, cOpts...)
@@ -114,7 +102,6 @@ type NotifierInnerServiceServer interface {
 	BatchSend(context.Context, *BatchSendRequest) (*BatchSendResponse, error)
 	// 查询统计
 	QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error)
-	GetPushStatistics(context.Context, *GetPushStatisticsRequest) (*GetPushStatisticsResponse, error)
 	// 流式推送（双向流）
 	StreamNotifications(grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]) error
 	mustEmbedUnimplementedNotifierInnerServiceServer()
@@ -135,9 +122,6 @@ func (UnimplementedNotifierInnerServiceServer) BatchSend(context.Context, *Batch
 }
 func (UnimplementedNotifierInnerServiceServer) QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryPushRecords not implemented")
-}
-func (UnimplementedNotifierInnerServiceServer) GetPushStatistics(context.Context, *GetPushStatisticsRequest) (*GetPushStatisticsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPushStatistics not implemented")
 }
 func (UnimplementedNotifierInnerServiceServer) StreamNotifications(grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamNotifications not implemented")
@@ -217,24 +201,6 @@ func _NotifierInnerService_QueryPushRecords_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotifierInnerService_GetPushStatistics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPushStatisticsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotifierInnerServiceServer).GetPushStatistics(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotifierInnerService_GetPushStatistics_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotifierInnerServiceServer).GetPushStatistics(ctx, req.(*GetPushStatisticsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _NotifierInnerService_StreamNotifications_Handler(srv interface{}, stream grpc.ServerStream) error {
 	return srv.(NotifierInnerServiceServer).StreamNotifications(&grpc.GenericServerStream[StreamNotificationRequest, StreamNotificationResponse]{ServerStream: stream})
 }
@@ -260,10 +226,6 @@ var NotifierInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryPushRecords",
 			Handler:    _NotifierInnerService_QueryPushRecords_Handler,
-		},
-		{
-			MethodName: "GetPushStatistics",
-			Handler:    _NotifierInnerService_GetPushStatistics_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

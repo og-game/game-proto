@@ -14,44 +14,40 @@ import (
 )
 
 type (
-	AggregationRules                 = v1.AggregationRules
-	BatchSendRequest                 = v1.BatchSendRequest
-	BatchSendResponse                = v1.BatchSendResponse
-	ConfigureEndpointInfo            = v1.ConfigureEndpointInfo
-	ConfigureEndpointRequest         = v1.ConfigureEndpointRequest
-	ConfigureEndpointResponse        = v1.ConfigureEndpointResponse
-	CreateSubscriptionInfo           = v1.CreateSubscriptionInfo
-	CreateSubscriptionRequest        = v1.CreateSubscriptionRequest
-	CreateSubscriptionResponse       = v1.CreateSubscriptionResponse
-	DeleteSubscriptionRequest        = v1.DeleteSubscriptionRequest
-	EndpointConfig                   = v1.EndpointConfig
-	FilterRules                      = v1.FilterRules
-	GetEventTypesInfo                = v1.GetEventTypesInfo
-	GetEventTypesRequest             = v1.GetEventTypesRequest
-	GetEventTypesResponse            = v1.GetEventTypesResponse
-	GetMerchantConfigRequest         = v1.GetMerchantConfigRequest
-	GetMerchantConfigResponse        = v1.GetMerchantConfigResponse
-	GetPushStatisticsInfo            = v1.GetPushStatisticsInfo
-	GetPushStatisticsInfo_Statistics = v1.GetPushStatisticsInfo_Statistics
-	GetPushStatisticsRequest         = v1.GetPushStatisticsRequest
-	GetPushStatisticsResponse        = v1.GetPushStatisticsResponse
-	MerchantConfig                   = v1.MerchantConfig
-	NotifyBaseResp                   = v1.NotifyBaseResp
-	PushTask                         = v1.PushTask
-	QueryPushRecords                 = v1.QueryPushRecords
-	QueryPushRecordsRequest          = v1.QueryPushRecordsRequest
-	QueryPushRecordsResponse         = v1.QueryPushRecordsResponse
-	RateLimits                       = v1.RateLimits
-	SendNotificationRequest          = v1.SendNotificationRequest
-	SendNotificationResponse         = v1.SendNotificationResponse
-	SubscriptionConfig               = v1.SubscriptionConfig
-	TargetAll                        = v1.TargetAll
-	TargetCategory                   = v1.TargetCategory
-	TargetMerchants                  = v1.TargetMerchants
-	TestEndpointInfo                 = v1.TestEndpointInfo
-	TestEndpointRequest              = v1.TestEndpointRequest
-	TestEndpointResponse             = v1.TestEndpointResponse
-	UpdateSubscriptionRequest        = v1.UpdateSubscriptionRequest
+	AggregationRules           = v1.AggregationRules
+	BatchSendRequest           = v1.BatchSendRequest
+	BatchSendResponse          = v1.BatchSendResponse
+	ConfigureEndpointInfo      = v1.ConfigureEndpointInfo
+	ConfigureEndpointRequest   = v1.ConfigureEndpointRequest
+	ConfigureEndpointResponse  = v1.ConfigureEndpointResponse
+	CreateSubscriptionInfo     = v1.CreateSubscriptionInfo
+	CreateSubscriptionRequest  = v1.CreateSubscriptionRequest
+	CreateSubscriptionResponse = v1.CreateSubscriptionResponse
+	DeleteSubscriptionRequest  = v1.DeleteSubscriptionRequest
+	EndpointConfig             = v1.EndpointConfig
+	FilterRules                = v1.FilterRules
+	GetEventTypesInfo          = v1.GetEventTypesInfo
+	GetEventTypesRequest       = v1.GetEventTypesRequest
+	GetEventTypesResponse      = v1.GetEventTypesResponse
+	GetMerchantConfigRequest   = v1.GetMerchantConfigRequest
+	GetMerchantConfigResponse  = v1.GetMerchantConfigResponse
+	MerchantConfig             = v1.MerchantConfig
+	NotifyBaseResp             = v1.NotifyBaseResp
+	PushTask                   = v1.PushTask
+	QueryPushRecords           = v1.QueryPushRecords
+	QueryPushRecordsRequest    = v1.QueryPushRecordsRequest
+	QueryPushRecordsResponse   = v1.QueryPushRecordsResponse
+	RateLimits                 = v1.RateLimits
+	SendNotificationRequest    = v1.SendNotificationRequest
+	SendNotificationResponse   = v1.SendNotificationResponse
+	SubscriptionConfig         = v1.SubscriptionConfig
+	TargetAll                  = v1.TargetAll
+	TargetCategory             = v1.TargetCategory
+	TargetMerchants            = v1.TargetMerchants
+	TestEndpointInfo           = v1.TestEndpointInfo
+	TestEndpointRequest        = v1.TestEndpointRequest
+	TestEndpointResponse       = v1.TestEndpointResponse
+	UpdateSubscriptionRequest  = v1.UpdateSubscriptionRequest
 
 	NotifierInnerService interface {
 		// 推送管理
@@ -59,7 +55,6 @@ type (
 		BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
 		// 查询统计
 		QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
-		GetPushStatistics(ctx context.Context, in *GetPushStatisticsRequest, opts ...grpc.CallOption) (*GetPushStatisticsResponse, error)
 		// 流式推送（双向流）
 		StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (v1.NotifierInnerService_StreamNotificationsClient, error)
 	}
@@ -90,11 +85,6 @@ func (m *defaultNotifierInnerService) BatchSend(ctx context.Context, in *BatchSe
 func (m *defaultNotifierInnerService) QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error) {
 	client := v1.NewNotifierInnerServiceClient(m.cli.Conn())
 	return client.QueryPushRecords(ctx, in, opts...)
-}
-
-func (m *defaultNotifierInnerService) GetPushStatistics(ctx context.Context, in *GetPushStatisticsRequest, opts ...grpc.CallOption) (*GetPushStatisticsResponse, error) {
-	client := v1.NewNotifierInnerServiceClient(m.cli.Conn())
-	return client.GetPushStatistics(ctx, in, opts...)
 }
 
 // 流式推送（双向流）

@@ -2082,164 +2082,6 @@ func (x *QueryPushRecords) GetTotalCount() int64 {
 	return 0
 }
 
-// 获取推送统计请求
-type GetPushStatisticsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	StartTime     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
-	EndTime       *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetPushStatisticsRequest) Reset() {
-	*x = GetPushStatisticsRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetPushStatisticsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetPushStatisticsRequest) ProtoMessage() {}
-
-func (x *GetPushStatisticsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetPushStatisticsRequest.ProtoReflect.Descriptor instead.
-func (*GetPushStatisticsRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{31}
-}
-
-func (x *GetPushStatisticsRequest) GetMerchantId() int64 {
-	if x != nil {
-		return x.MerchantId
-	}
-	return 0
-}
-
-func (x *GetPushStatisticsRequest) GetStartTime() *timestamppb.Timestamp {
-	if x != nil {
-		return x.StartTime
-	}
-	return nil
-}
-
-func (x *GetPushStatisticsRequest) GetEndTime() *timestamppb.Timestamp {
-	if x != nil {
-		return x.EndTime
-	}
-	return nil
-}
-
-// 推送统计响应
-type GetPushStatisticsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Base          *NotifyBaseResp        `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"` // 基础响应
-	Data          *GetPushStatisticsInfo `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"` // 业务数据
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetPushStatisticsResponse) Reset() {
-	*x = GetPushStatisticsResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetPushStatisticsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetPushStatisticsResponse) ProtoMessage() {}
-
-func (x *GetPushStatisticsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetPushStatisticsResponse.ProtoReflect.Descriptor instead.
-func (*GetPushStatisticsResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{32}
-}
-
-func (x *GetPushStatisticsResponse) GetBase() *NotifyBaseResp {
-	if x != nil {
-		return x.Base
-	}
-	return nil
-}
-
-func (x *GetPushStatisticsResponse) GetData() *GetPushStatisticsInfo {
-	if x != nil {
-		return x.Data
-	}
-	return nil
-}
-
-type GetPushStatisticsInfo struct {
-	state         protoimpl.MessageState            `protogen:"open.v1"`
-	Stats         *GetPushStatisticsInfo_Statistics `protobuf:"bytes,1,opt,name=stats,proto3" json:"stats,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetPushStatisticsInfo) Reset() {
-	*x = GetPushStatisticsInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetPushStatisticsInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetPushStatisticsInfo) ProtoMessage() {}
-
-func (x *GetPushStatisticsInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetPushStatisticsInfo.ProtoReflect.Descriptor instead.
-func (*GetPushStatisticsInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{33}
-}
-
-func (x *GetPushStatisticsInfo) GetStats() *GetPushStatisticsInfo_Statistics {
-	if x != nil {
-		return x.Stats
-	}
-	return nil
-}
-
 // 获取事件类型列表请求
 type GetEventTypesRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
@@ -2251,7 +2093,7 @@ type GetEventTypesRequest struct {
 
 func (x *GetEventTypesRequest) Reset() {
 	*x = GetEventTypesRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[34]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2263,7 +2105,7 @@ func (x *GetEventTypesRequest) String() string {
 func (*GetEventTypesRequest) ProtoMessage() {}
 
 func (x *GetEventTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[34]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2276,7 +2118,7 @@ func (x *GetEventTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEventTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetEventTypesRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{34}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *GetEventTypesRequest) GetIncludeDisabled() bool {
@@ -2304,7 +2146,7 @@ type GetEventTypesResponse struct {
 
 func (x *GetEventTypesResponse) Reset() {
 	*x = GetEventTypesResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[35]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2316,7 +2158,7 @@ func (x *GetEventTypesResponse) String() string {
 func (*GetEventTypesResponse) ProtoMessage() {}
 
 func (x *GetEventTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[35]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2329,7 +2171,7 @@ func (x *GetEventTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEventTypesResponse.ProtoReflect.Descriptor instead.
 func (*GetEventTypesResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{35}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *GetEventTypesResponse) GetBase() *NotifyBaseResp {
@@ -2356,7 +2198,7 @@ type GetEventTypesInfo struct {
 
 func (x *GetEventTypesInfo) Reset() {
 	*x = GetEventTypesInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[36]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2368,7 +2210,7 @@ func (x *GetEventTypesInfo) String() string {
 func (*GetEventTypesInfo) ProtoMessage() {}
 
 func (x *GetEventTypesInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[36]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2381,7 +2223,7 @@ func (x *GetEventTypesInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEventTypesInfo.ProtoReflect.Descriptor instead.
 func (*GetEventTypesInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{36}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetEventTypesInfo) GetCategories() []*CategoryConfig {
@@ -2394,106 +2236,6 @@ func (x *GetEventTypesInfo) GetCategories() []*CategoryConfig {
 func (x *GetEventTypesInfo) GetEventTypes() []*EventTypeInfo {
 	if x != nil {
 		return x.EventTypes
-	}
-	return nil
-}
-
-type GetPushStatisticsInfo_Statistics struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TotalCount    int64                  `protobuf:"varint,1,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
-	SuccessCount  int64                  `protobuf:"varint,2,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
-	FailedCount   int64                  `protobuf:"varint,3,opt,name=failed_count,json=failedCount,proto3" json:"failed_count,omitempty"`
-	SuccessRate   float64                `protobuf:"fixed64,4,opt,name=success_rate,json=successRate,proto3" json:"success_rate,omitempty"`
-	AvgLatencyMs  float64                `protobuf:"fixed64,5,opt,name=avg_latency_ms,json=avgLatencyMs,proto3" json:"avg_latency_ms,omitempty"`
-	ByCategory    map[string]int64       `protobuf:"bytes,6,rep,name=by_category,json=byCategory,proto3" json:"by_category,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`      // 按大类统计
-	ByEventType   map[string]int64       `protobuf:"bytes,7,rep,name=by_event_type,json=byEventType,proto3" json:"by_event_type,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"` // 按事件类型统计
-	ByChannel     map[string]int64       `protobuf:"bytes,8,rep,name=by_channel,json=byChannel,proto3" json:"by_channel,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`         // 按通道统计
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetPushStatisticsInfo_Statistics) Reset() {
-	*x = GetPushStatisticsInfo_Statistics{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[40]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetPushStatisticsInfo_Statistics) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetPushStatisticsInfo_Statistics) ProtoMessage() {}
-
-func (x *GetPushStatisticsInfo_Statistics) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[40]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetPushStatisticsInfo_Statistics.ProtoReflect.Descriptor instead.
-func (*GetPushStatisticsInfo_Statistics) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{33, 0}
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetTotalCount() int64 {
-	if x != nil {
-		return x.TotalCount
-	}
-	return 0
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetFailedCount() int64 {
-	if x != nil {
-		return x.FailedCount
-	}
-	return 0
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetSuccessRate() float64 {
-	if x != nil {
-		return x.SuccessRate
-	}
-	return 0
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetAvgLatencyMs() float64 {
-	if x != nil {
-		return x.AvgLatencyMs
-	}
-	return 0
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetByCategory() map[string]int64 {
-	if x != nil {
-		return x.ByCategory
-	}
-	return nil
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetByEventType() map[string]int64 {
-	if x != nil {
-		return x.ByEventType
-	}
-	return nil
-}
-
-func (x *GetPushStatisticsInfo_Statistics) GetByChannel() map[string]int64 {
-	if x != nil {
-		return x.ByChannel
 	}
 	return nil
 }
@@ -2685,40 +2427,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\arecords\x18\x01 \x03(\v2\x15.notifier.v1.PushTaskR\arecords\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\x03R\n" +
-	"totalCount\"\xad\x01\n" +
-	"\x18GetPushStatisticsRequest\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
-	"merchantId\x129\n" +
-	"\n" +
-	"start_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
-	"\bend_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\"\x84\x01\n" +
-	"\x19GetPushStatisticsResponse\x12/\n" +
-	"\x04base\x18\x01 \x01(\v2\x1b.notifier.v1.NotifyBaseRespR\x04base\x126\n" +
-	"\x04data\x18\x02 \x01(\v2\".notifier.v1.GetPushStatisticsInfoR\x04data\"\xfb\x05\n" +
-	"\x15GetPushStatisticsInfo\x12C\n" +
-	"\x05stats\x18\x01 \x01(\v2-.notifier.v1.GetPushStatisticsInfo.StatisticsR\x05stats\x1a\x9c\x05\n" +
-	"\n" +
-	"Statistics\x12\x1f\n" +
-	"\vtotal_count\x18\x01 \x01(\x03R\n" +
-	"totalCount\x12#\n" +
-	"\rsuccess_count\x18\x02 \x01(\x03R\fsuccessCount\x12!\n" +
-	"\ffailed_count\x18\x03 \x01(\x03R\vfailedCount\x12!\n" +
-	"\fsuccess_rate\x18\x04 \x01(\x01R\vsuccessRate\x12$\n" +
-	"\x0eavg_latency_ms\x18\x05 \x01(\x01R\favgLatencyMs\x12^\n" +
-	"\vby_category\x18\x06 \x03(\v2=.notifier.v1.GetPushStatisticsInfo.Statistics.ByCategoryEntryR\n" +
-	"byCategory\x12b\n" +
-	"\rby_event_type\x18\a \x03(\v2>.notifier.v1.GetPushStatisticsInfo.Statistics.ByEventTypeEntryR\vbyEventType\x12[\n" +
-	"\n" +
-	"by_channel\x18\b \x03(\v2<.notifier.v1.GetPushStatisticsInfo.Statistics.ByChannelEntryR\tbyChannel\x1a=\n" +
-	"\x0fByCategoryEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x03R\x05value:\x028\x01\x1a>\n" +
-	"\x10ByEventTypeEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x03R\x05value:\x028\x01\x1a<\n" +
-	"\x0eByChannelEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x03R\x05value:\x028\x01\"\x84\x01\n" +
+	"totalCount\"\x84\x01\n" +
 	"\x14GetEventTypesRequest\x12)\n" +
 	"\x10include_disabled\x18\x01 \x01(\bR\x0fincludeDisabled\x12A\n" +
 	"\n" +
@@ -2732,12 +2441,11 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"categories\x18\x01 \x03(\v2\x1b.notifier.v1.CategoryConfigR\n" +
 	"categories\x12;\n" +
 	"\vevent_types\x18\x02 \x03(\v2\x1a.notifier.v1.EventTypeInfoR\n" +
-	"eventTypes2\xf4\x03\n" +
+	"eventTypes2\x90\x03\n" +
 	"\x14NotifierInnerService\x12_\n" +
 	"\x10SendNotification\x12$.notifier.v1.SendNotificationRequest\x1a%.notifier.v1.SendNotificationResponse\x12J\n" +
 	"\tBatchSend\x12\x1d.notifier.v1.BatchSendRequest\x1a\x1e.notifier.v1.BatchSendResponse\x12_\n" +
-	"\x10QueryPushRecords\x12$.notifier.v1.QueryPushRecordsRequest\x1a%.notifier.v1.QueryPushRecordsResponse\x12b\n" +
-	"\x11GetPushStatistics\x12%.notifier.v1.GetPushStatisticsRequest\x1a&.notifier.v1.GetPushStatisticsResponse\x12j\n" +
+	"\x10QueryPushRecords\x12$.notifier.v1.QueryPushRecordsRequest\x1a%.notifier.v1.QueryPushRecordsResponse\x12j\n" +
 	"\x13StreamNotifications\x12&.notifier.v1.StreamNotificationRequest\x1a'.notifier.v1.StreamNotificationResponse(\x010\x012\x8c\x06\n" +
 	"\x17NotifierMerchantService\x12b\n" +
 	"\x11GetMerchantConfig\x12%.notifier.v1.GetMerchantConfigRequest\x1a&.notifier.v1.GetMerchantConfigResponse\x12b\n" +
@@ -2761,100 +2469,93 @@ func file_notifier_v1_notifier_proto_rawDescGZIP() []byte {
 	return file_notifier_v1_notifier_proto_rawDescData
 }
 
-var file_notifier_v1_notifier_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
+var file_notifier_v1_notifier_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
 var file_notifier_v1_notifier_proto_goTypes = []any{
-	(*NotifyBaseResp)(nil),                   // 0: notifier.v1.NotifyBaseResp
-	(*MerchantConfig)(nil),                   // 1: notifier.v1.MerchantConfig
-	(*EndpointConfig)(nil),                   // 2: notifier.v1.EndpointConfig
-	(*SubscriptionConfig)(nil),               // 3: notifier.v1.SubscriptionConfig
-	(*FilterRules)(nil),                      // 4: notifier.v1.FilterRules
-	(*AggregationRules)(nil),                 // 5: notifier.v1.AggregationRules
-	(*RateLimits)(nil),                       // 6: notifier.v1.RateLimits
-	(*PushTask)(nil),                         // 7: notifier.v1.PushTask
-	(*SendNotificationRequest)(nil),          // 8: notifier.v1.SendNotificationRequest
-	(*TargetMerchants)(nil),                  // 9: notifier.v1.TargetMerchants
-	(*TargetCategory)(nil),                   // 10: notifier.v1.TargetCategory
-	(*TargetAll)(nil),                        // 11: notifier.v1.TargetAll
-	(*SendNotificationResponse)(nil),         // 12: notifier.v1.SendNotificationResponse
-	(*BatchSendRequest)(nil),                 // 13: notifier.v1.BatchSendRequest
-	(*BatchSendResponse)(nil),                // 14: notifier.v1.BatchSendResponse
-	(*ConfigureEndpointRequest)(nil),         // 15: notifier.v1.ConfigureEndpointRequest
-	(*ConfigureEndpointResponse)(nil),        // 16: notifier.v1.ConfigureEndpointResponse
-	(*ConfigureEndpointInfo)(nil),            // 17: notifier.v1.ConfigureEndpointInfo
-	(*TestEndpointRequest)(nil),              // 18: notifier.v1.TestEndpointRequest
-	(*TestEndpointResponse)(nil),             // 19: notifier.v1.TestEndpointResponse
-	(*TestEndpointInfo)(nil),                 // 20: notifier.v1.TestEndpointInfo
-	(*CreateSubscriptionRequest)(nil),        // 21: notifier.v1.CreateSubscriptionRequest
-	(*CreateSubscriptionResponse)(nil),       // 22: notifier.v1.CreateSubscriptionResponse
-	(*CreateSubscriptionInfo)(nil),           // 23: notifier.v1.CreateSubscriptionInfo
-	(*UpdateSubscriptionRequest)(nil),        // 24: notifier.v1.UpdateSubscriptionRequest
-	(*DeleteSubscriptionRequest)(nil),        // 25: notifier.v1.DeleteSubscriptionRequest
-	(*GetMerchantConfigRequest)(nil),         // 26: notifier.v1.GetMerchantConfigRequest
-	(*GetMerchantConfigResponse)(nil),        // 27: notifier.v1.GetMerchantConfigResponse
-	(*QueryPushRecordsRequest)(nil),          // 28: notifier.v1.QueryPushRecordsRequest
-	(*QueryPushRecordsResponse)(nil),         // 29: notifier.v1.QueryPushRecordsResponse
-	(*QueryPushRecords)(nil),                 // 30: notifier.v1.QueryPushRecords
-	(*GetPushStatisticsRequest)(nil),         // 31: notifier.v1.GetPushStatisticsRequest
-	(*GetPushStatisticsResponse)(nil),        // 32: notifier.v1.GetPushStatisticsResponse
-	(*GetPushStatisticsInfo)(nil),            // 33: notifier.v1.GetPushStatisticsInfo
-	(*GetEventTypesRequest)(nil),             // 34: notifier.v1.GetEventTypesRequest
-	(*GetEventTypesResponse)(nil),            // 35: notifier.v1.GetEventTypesResponse
-	(*GetEventTypesInfo)(nil),                // 36: notifier.v1.GetEventTypesInfo
-	nil,                                      // 37: notifier.v1.MerchantConfig.MetadataEntry
-	nil,                                      // 38: notifier.v1.FilterRules.ConditionsEntry
-	nil,                                      // 39: notifier.v1.RateLimits.CategoryLimitsPerHourEntry
-	(*GetPushStatisticsInfo_Statistics)(nil), // 40: notifier.v1.GetPushStatisticsInfo.Statistics
-	nil,                                      // 41: notifier.v1.GetPushStatisticsInfo.Statistics.ByCategoryEntry
-	nil,                                      // 42: notifier.v1.GetPushStatisticsInfo.Statistics.ByEventTypeEntry
-	nil,                                      // 43: notifier.v1.GetPushStatisticsInfo.Statistics.ByChannelEntry
-	(NotifierErrorCode)(0),                   // 44: notifier.v1.NotifierErrorCode
-	(MerchantStatus)(0),                      // 45: notifier.v1.MerchantStatus
-	(*timestamppb.Timestamp)(nil),            // 46: google.protobuf.Timestamp
-	(PushChannel)(0),                         // 47: notifier.v1.PushChannel
-	(AuthType)(0),                            // 48: notifier.v1.AuthType
-	(NotificationCategory)(0),                // 49: notifier.v1.NotificationCategory
-	(EventType)(0),                           // 50: notifier.v1.EventType
-	(SubscriptionMode)(0),                    // 51: notifier.v1.SubscriptionMode
-	(NotificationPriority)(0),                // 52: notifier.v1.NotificationPriority
-	(*NotificationPayload)(nil),              // 53: notifier.v1.NotificationPayload
-	(PushStatus)(0),                          // 54: notifier.v1.PushStatus
-	(*EventWrapper)(nil),                     // 55: notifier.v1.EventWrapper
-	(*CategoryConfig)(nil),                   // 56: notifier.v1.CategoryConfig
-	(*EventTypeInfo)(nil),                    // 57: notifier.v1.EventTypeInfo
-	(*StreamNotificationRequest)(nil),        // 58: notifier.v1.StreamNotificationRequest
-	(*StreamNotificationResponse)(nil),       // 59: notifier.v1.StreamNotificationResponse
+	(*NotifyBaseResp)(nil),             // 0: notifier.v1.NotifyBaseResp
+	(*MerchantConfig)(nil),             // 1: notifier.v1.MerchantConfig
+	(*EndpointConfig)(nil),             // 2: notifier.v1.EndpointConfig
+	(*SubscriptionConfig)(nil),         // 3: notifier.v1.SubscriptionConfig
+	(*FilterRules)(nil),                // 4: notifier.v1.FilterRules
+	(*AggregationRules)(nil),           // 5: notifier.v1.AggregationRules
+	(*RateLimits)(nil),                 // 6: notifier.v1.RateLimits
+	(*PushTask)(nil),                   // 7: notifier.v1.PushTask
+	(*SendNotificationRequest)(nil),    // 8: notifier.v1.SendNotificationRequest
+	(*TargetMerchants)(nil),            // 9: notifier.v1.TargetMerchants
+	(*TargetCategory)(nil),             // 10: notifier.v1.TargetCategory
+	(*TargetAll)(nil),                  // 11: notifier.v1.TargetAll
+	(*SendNotificationResponse)(nil),   // 12: notifier.v1.SendNotificationResponse
+	(*BatchSendRequest)(nil),           // 13: notifier.v1.BatchSendRequest
+	(*BatchSendResponse)(nil),          // 14: notifier.v1.BatchSendResponse
+	(*ConfigureEndpointRequest)(nil),   // 15: notifier.v1.ConfigureEndpointRequest
+	(*ConfigureEndpointResponse)(nil),  // 16: notifier.v1.ConfigureEndpointResponse
+	(*ConfigureEndpointInfo)(nil),      // 17: notifier.v1.ConfigureEndpointInfo
+	(*TestEndpointRequest)(nil),        // 18: notifier.v1.TestEndpointRequest
+	(*TestEndpointResponse)(nil),       // 19: notifier.v1.TestEndpointResponse
+	(*TestEndpointInfo)(nil),           // 20: notifier.v1.TestEndpointInfo
+	(*CreateSubscriptionRequest)(nil),  // 21: notifier.v1.CreateSubscriptionRequest
+	(*CreateSubscriptionResponse)(nil), // 22: notifier.v1.CreateSubscriptionResponse
+	(*CreateSubscriptionInfo)(nil),     // 23: notifier.v1.CreateSubscriptionInfo
+	(*UpdateSubscriptionRequest)(nil),  // 24: notifier.v1.UpdateSubscriptionRequest
+	(*DeleteSubscriptionRequest)(nil),  // 25: notifier.v1.DeleteSubscriptionRequest
+	(*GetMerchantConfigRequest)(nil),   // 26: notifier.v1.GetMerchantConfigRequest
+	(*GetMerchantConfigResponse)(nil),  // 27: notifier.v1.GetMerchantConfigResponse
+	(*QueryPushRecordsRequest)(nil),    // 28: notifier.v1.QueryPushRecordsRequest
+	(*QueryPushRecordsResponse)(nil),   // 29: notifier.v1.QueryPushRecordsResponse
+	(*QueryPushRecords)(nil),           // 30: notifier.v1.QueryPushRecords
+	(*GetEventTypesRequest)(nil),       // 31: notifier.v1.GetEventTypesRequest
+	(*GetEventTypesResponse)(nil),      // 32: notifier.v1.GetEventTypesResponse
+	(*GetEventTypesInfo)(nil),          // 33: notifier.v1.GetEventTypesInfo
+	nil,                                // 34: notifier.v1.MerchantConfig.MetadataEntry
+	nil,                                // 35: notifier.v1.FilterRules.ConditionsEntry
+	nil,                                // 36: notifier.v1.RateLimits.CategoryLimitsPerHourEntry
+	(NotifierErrorCode)(0),             // 37: notifier.v1.NotifierErrorCode
+	(MerchantStatus)(0),                // 38: notifier.v1.MerchantStatus
+	(*timestamppb.Timestamp)(nil),      // 39: google.protobuf.Timestamp
+	(PushChannel)(0),                   // 40: notifier.v1.PushChannel
+	(AuthType)(0),                      // 41: notifier.v1.AuthType
+	(NotificationCategory)(0),          // 42: notifier.v1.NotificationCategory
+	(EventType)(0),                     // 43: notifier.v1.EventType
+	(SubscriptionMode)(0),              // 44: notifier.v1.SubscriptionMode
+	(NotificationPriority)(0),          // 45: notifier.v1.NotificationPriority
+	(*NotificationPayload)(nil),        // 46: notifier.v1.NotificationPayload
+	(PushStatus)(0),                    // 47: notifier.v1.PushStatus
+	(*EventWrapper)(nil),               // 48: notifier.v1.EventWrapper
+	(*CategoryConfig)(nil),             // 49: notifier.v1.CategoryConfig
+	(*EventTypeInfo)(nil),              // 50: notifier.v1.EventTypeInfo
+	(*StreamNotificationRequest)(nil),  // 51: notifier.v1.StreamNotificationRequest
+	(*StreamNotificationResponse)(nil), // 52: notifier.v1.StreamNotificationResponse
 }
 var file_notifier_v1_notifier_proto_depIdxs = []int32{
-	44, // 0: notifier.v1.NotifyBaseResp.code:type_name -> notifier.v1.NotifierErrorCode
-	45, // 1: notifier.v1.MerchantConfig.status:type_name -> notifier.v1.MerchantStatus
+	37, // 0: notifier.v1.NotifyBaseResp.code:type_name -> notifier.v1.NotifierErrorCode
+	38, // 1: notifier.v1.MerchantConfig.status:type_name -> notifier.v1.MerchantStatus
 	2,  // 2: notifier.v1.MerchantConfig.endpoints:type_name -> notifier.v1.EndpointConfig
 	3,  // 3: notifier.v1.MerchantConfig.subscriptions:type_name -> notifier.v1.SubscriptionConfig
-	46, // 4: notifier.v1.MerchantConfig.created_at:type_name -> google.protobuf.Timestamp
-	46, // 5: notifier.v1.MerchantConfig.updated_at:type_name -> google.protobuf.Timestamp
-	37, // 6: notifier.v1.MerchantConfig.metadata:type_name -> notifier.v1.MerchantConfig.MetadataEntry
-	47, // 7: notifier.v1.EndpointConfig.channel:type_name -> notifier.v1.PushChannel
-	48, // 8: notifier.v1.EndpointConfig.auth_type:type_name -> notifier.v1.AuthType
-	49, // 9: notifier.v1.SubscriptionConfig.categories:type_name -> notifier.v1.NotificationCategory
-	50, // 10: notifier.v1.SubscriptionConfig.event_types:type_name -> notifier.v1.EventType
+	39, // 4: notifier.v1.MerchantConfig.created_at:type_name -> google.protobuf.Timestamp
+	39, // 5: notifier.v1.MerchantConfig.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 6: notifier.v1.MerchantConfig.metadata:type_name -> notifier.v1.MerchantConfig.MetadataEntry
+	40, // 7: notifier.v1.EndpointConfig.channel:type_name -> notifier.v1.PushChannel
+	41, // 8: notifier.v1.EndpointConfig.auth_type:type_name -> notifier.v1.AuthType
+	42, // 9: notifier.v1.SubscriptionConfig.categories:type_name -> notifier.v1.NotificationCategory
+	43, // 10: notifier.v1.SubscriptionConfig.event_types:type_name -> notifier.v1.EventType
 	4,  // 11: notifier.v1.SubscriptionConfig.filter:type_name -> notifier.v1.FilterRules
 	5,  // 12: notifier.v1.SubscriptionConfig.aggregation:type_name -> notifier.v1.AggregationRules
 	6,  // 13: notifier.v1.SubscriptionConfig.rate_limits:type_name -> notifier.v1.RateLimits
-	51, // 14: notifier.v1.SubscriptionConfig.mode:type_name -> notifier.v1.SubscriptionMode
-	38, // 15: notifier.v1.FilterRules.conditions:type_name -> notifier.v1.FilterRules.ConditionsEntry
-	52, // 16: notifier.v1.FilterRules.min_priority:type_name -> notifier.v1.NotificationPriority
-	39, // 17: notifier.v1.RateLimits.category_limits_per_hour:type_name -> notifier.v1.RateLimits.CategoryLimitsPerHourEntry
-	47, // 18: notifier.v1.PushTask.channel:type_name -> notifier.v1.PushChannel
-	53, // 19: notifier.v1.PushTask.payload:type_name -> notifier.v1.NotificationPayload
-	54, // 20: notifier.v1.PushTask.status:type_name -> notifier.v1.PushStatus
-	46, // 21: notifier.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
-	46, // 22: notifier.v1.PushTask.executed_at:type_name -> google.protobuf.Timestamp
-	55, // 23: notifier.v1.SendNotificationRequest.event:type_name -> notifier.v1.EventWrapper
+	44, // 14: notifier.v1.SubscriptionConfig.mode:type_name -> notifier.v1.SubscriptionMode
+	35, // 15: notifier.v1.FilterRules.conditions:type_name -> notifier.v1.FilterRules.ConditionsEntry
+	45, // 16: notifier.v1.FilterRules.min_priority:type_name -> notifier.v1.NotificationPriority
+	36, // 17: notifier.v1.RateLimits.category_limits_per_hour:type_name -> notifier.v1.RateLimits.CategoryLimitsPerHourEntry
+	40, // 18: notifier.v1.PushTask.channel:type_name -> notifier.v1.PushChannel
+	46, // 19: notifier.v1.PushTask.payload:type_name -> notifier.v1.NotificationPayload
+	47, // 20: notifier.v1.PushTask.status:type_name -> notifier.v1.PushStatus
+	39, // 21: notifier.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
+	39, // 22: notifier.v1.PushTask.executed_at:type_name -> google.protobuf.Timestamp
+	48, // 23: notifier.v1.SendNotificationRequest.event:type_name -> notifier.v1.EventWrapper
 	9,  // 24: notifier.v1.SendNotificationRequest.merchants:type_name -> notifier.v1.TargetMerchants
 	10, // 25: notifier.v1.SendNotificationRequest.category:type_name -> notifier.v1.TargetCategory
 	11, // 26: notifier.v1.SendNotificationRequest.all:type_name -> notifier.v1.TargetAll
-	49, // 27: notifier.v1.TargetCategory.category:type_name -> notifier.v1.NotificationCategory
+	42, // 27: notifier.v1.TargetCategory.category:type_name -> notifier.v1.NotificationCategory
 	0,  // 28: notifier.v1.SendNotificationResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	55, // 29: notifier.v1.BatchSendRequest.events:type_name -> notifier.v1.EventWrapper
+	48, // 29: notifier.v1.BatchSendRequest.events:type_name -> notifier.v1.EventWrapper
 	9,  // 30: notifier.v1.BatchSendRequest.merchants:type_name -> notifier.v1.TargetMerchants
 	10, // 31: notifier.v1.BatchSendRequest.category:type_name -> notifier.v1.TargetCategory
 	11, // 32: notifier.v1.BatchSendRequest.all:type_name -> notifier.v1.TargetAll
@@ -2862,11 +2563,11 @@ var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	2,  // 34: notifier.v1.ConfigureEndpointRequest.config:type_name -> notifier.v1.EndpointConfig
 	0,  // 35: notifier.v1.ConfigureEndpointResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	17, // 36: notifier.v1.ConfigureEndpointResponse.data:type_name -> notifier.v1.ConfigureEndpointInfo
-	55, // 37: notifier.v1.TestEndpointRequest.test_event:type_name -> notifier.v1.EventWrapper
+	48, // 37: notifier.v1.TestEndpointRequest.test_event:type_name -> notifier.v1.EventWrapper
 	0,  // 38: notifier.v1.TestEndpointResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	20, // 39: notifier.v1.TestEndpointResponse.data:type_name -> notifier.v1.TestEndpointInfo
-	49, // 40: notifier.v1.CreateSubscriptionRequest.categories:type_name -> notifier.v1.NotificationCategory
-	50, // 41: notifier.v1.CreateSubscriptionRequest.event_types:type_name -> notifier.v1.EventType
+	42, // 40: notifier.v1.CreateSubscriptionRequest.categories:type_name -> notifier.v1.NotificationCategory
+	43, // 41: notifier.v1.CreateSubscriptionRequest.event_types:type_name -> notifier.v1.EventType
 	4,  // 42: notifier.v1.CreateSubscriptionRequest.filter:type_name -> notifier.v1.FilterRules
 	5,  // 43: notifier.v1.CreateSubscriptionRequest.aggregation:type_name -> notifier.v1.AggregationRules
 	6,  // 44: notifier.v1.CreateSubscriptionRequest.rate_limits:type_name -> notifier.v1.RateLimits
@@ -2875,58 +2576,48 @@ var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	3,  // 47: notifier.v1.UpdateSubscriptionRequest.config:type_name -> notifier.v1.SubscriptionConfig
 	0,  // 48: notifier.v1.GetMerchantConfigResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	1,  // 49: notifier.v1.GetMerchantConfigResponse.data:type_name -> notifier.v1.MerchantConfig
-	49, // 50: notifier.v1.QueryPushRecordsRequest.category:type_name -> notifier.v1.NotificationCategory
-	50, // 51: notifier.v1.QueryPushRecordsRequest.event_type:type_name -> notifier.v1.EventType
-	54, // 52: notifier.v1.QueryPushRecordsRequest.status:type_name -> notifier.v1.PushStatus
-	46, // 53: notifier.v1.QueryPushRecordsRequest.start_time:type_name -> google.protobuf.Timestamp
-	46, // 54: notifier.v1.QueryPushRecordsRequest.end_time:type_name -> google.protobuf.Timestamp
+	42, // 50: notifier.v1.QueryPushRecordsRequest.category:type_name -> notifier.v1.NotificationCategory
+	43, // 51: notifier.v1.QueryPushRecordsRequest.event_type:type_name -> notifier.v1.EventType
+	47, // 52: notifier.v1.QueryPushRecordsRequest.status:type_name -> notifier.v1.PushStatus
+	39, // 53: notifier.v1.QueryPushRecordsRequest.start_time:type_name -> google.protobuf.Timestamp
+	39, // 54: notifier.v1.QueryPushRecordsRequest.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 55: notifier.v1.QueryPushRecordsResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	30, // 56: notifier.v1.QueryPushRecordsResponse.data:type_name -> notifier.v1.QueryPushRecords
 	7,  // 57: notifier.v1.QueryPushRecords.records:type_name -> notifier.v1.PushTask
-	46, // 58: notifier.v1.GetPushStatisticsRequest.start_time:type_name -> google.protobuf.Timestamp
-	46, // 59: notifier.v1.GetPushStatisticsRequest.end_time:type_name -> google.protobuf.Timestamp
-	0,  // 60: notifier.v1.GetPushStatisticsResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	33, // 61: notifier.v1.GetPushStatisticsResponse.data:type_name -> notifier.v1.GetPushStatisticsInfo
-	40, // 62: notifier.v1.GetPushStatisticsInfo.stats:type_name -> notifier.v1.GetPushStatisticsInfo.Statistics
-	49, // 63: notifier.v1.GetEventTypesRequest.categories:type_name -> notifier.v1.NotificationCategory
-	0,  // 64: notifier.v1.GetEventTypesResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	36, // 65: notifier.v1.GetEventTypesResponse.data:type_name -> notifier.v1.GetEventTypesInfo
-	56, // 66: notifier.v1.GetEventTypesInfo.categories:type_name -> notifier.v1.CategoryConfig
-	57, // 67: notifier.v1.GetEventTypesInfo.event_types:type_name -> notifier.v1.EventTypeInfo
-	41, // 68: notifier.v1.GetPushStatisticsInfo.Statistics.by_category:type_name -> notifier.v1.GetPushStatisticsInfo.Statistics.ByCategoryEntry
-	42, // 69: notifier.v1.GetPushStatisticsInfo.Statistics.by_event_type:type_name -> notifier.v1.GetPushStatisticsInfo.Statistics.ByEventTypeEntry
-	43, // 70: notifier.v1.GetPushStatisticsInfo.Statistics.by_channel:type_name -> notifier.v1.GetPushStatisticsInfo.Statistics.ByChannelEntry
-	8,  // 71: notifier.v1.NotifierInnerService.SendNotification:input_type -> notifier.v1.SendNotificationRequest
-	13, // 72: notifier.v1.NotifierInnerService.BatchSend:input_type -> notifier.v1.BatchSendRequest
-	28, // 73: notifier.v1.NotifierInnerService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
-	31, // 74: notifier.v1.NotifierInnerService.GetPushStatistics:input_type -> notifier.v1.GetPushStatisticsRequest
-	58, // 75: notifier.v1.NotifierInnerService.StreamNotifications:input_type -> notifier.v1.StreamNotificationRequest
-	26, // 76: notifier.v1.NotifierMerchantService.GetMerchantConfig:input_type -> notifier.v1.GetMerchantConfigRequest
-	15, // 77: notifier.v1.NotifierMerchantService.ConfigureEndpoint:input_type -> notifier.v1.ConfigureEndpointRequest
-	18, // 78: notifier.v1.NotifierMerchantService.TestEndpoint:input_type -> notifier.v1.TestEndpointRequest
-	21, // 79: notifier.v1.NotifierMerchantService.CreateSubscription:input_type -> notifier.v1.CreateSubscriptionRequest
-	24, // 80: notifier.v1.NotifierMerchantService.UpdateSubscription:input_type -> notifier.v1.UpdateSubscriptionRequest
-	25, // 81: notifier.v1.NotifierMerchantService.DeleteSubscription:input_type -> notifier.v1.DeleteSubscriptionRequest
-	34, // 82: notifier.v1.NotifierMerchantService.GetEventTypes:input_type -> notifier.v1.GetEventTypesRequest
-	28, // 83: notifier.v1.NotifierMerchantService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
-	12, // 84: notifier.v1.NotifierInnerService.SendNotification:output_type -> notifier.v1.SendNotificationResponse
-	14, // 85: notifier.v1.NotifierInnerService.BatchSend:output_type -> notifier.v1.BatchSendResponse
-	29, // 86: notifier.v1.NotifierInnerService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
-	32, // 87: notifier.v1.NotifierInnerService.GetPushStatistics:output_type -> notifier.v1.GetPushStatisticsResponse
-	59, // 88: notifier.v1.NotifierInnerService.StreamNotifications:output_type -> notifier.v1.StreamNotificationResponse
-	27, // 89: notifier.v1.NotifierMerchantService.GetMerchantConfig:output_type -> notifier.v1.GetMerchantConfigResponse
-	16, // 90: notifier.v1.NotifierMerchantService.ConfigureEndpoint:output_type -> notifier.v1.ConfigureEndpointResponse
-	19, // 91: notifier.v1.NotifierMerchantService.TestEndpoint:output_type -> notifier.v1.TestEndpointResponse
-	22, // 92: notifier.v1.NotifierMerchantService.CreateSubscription:output_type -> notifier.v1.CreateSubscriptionResponse
-	0,  // 93: notifier.v1.NotifierMerchantService.UpdateSubscription:output_type -> notifier.v1.NotifyBaseResp
-	0,  // 94: notifier.v1.NotifierMerchantService.DeleteSubscription:output_type -> notifier.v1.NotifyBaseResp
-	35, // 95: notifier.v1.NotifierMerchantService.GetEventTypes:output_type -> notifier.v1.GetEventTypesResponse
-	29, // 96: notifier.v1.NotifierMerchantService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
-	84, // [84:97] is the sub-list for method output_type
-	71, // [71:84] is the sub-list for method input_type
-	71, // [71:71] is the sub-list for extension type_name
-	71, // [71:71] is the sub-list for extension extendee
-	0,  // [0:71] is the sub-list for field type_name
+	42, // 58: notifier.v1.GetEventTypesRequest.categories:type_name -> notifier.v1.NotificationCategory
+	0,  // 59: notifier.v1.GetEventTypesResponse.base:type_name -> notifier.v1.NotifyBaseResp
+	33, // 60: notifier.v1.GetEventTypesResponse.data:type_name -> notifier.v1.GetEventTypesInfo
+	49, // 61: notifier.v1.GetEventTypesInfo.categories:type_name -> notifier.v1.CategoryConfig
+	50, // 62: notifier.v1.GetEventTypesInfo.event_types:type_name -> notifier.v1.EventTypeInfo
+	8,  // 63: notifier.v1.NotifierInnerService.SendNotification:input_type -> notifier.v1.SendNotificationRequest
+	13, // 64: notifier.v1.NotifierInnerService.BatchSend:input_type -> notifier.v1.BatchSendRequest
+	28, // 65: notifier.v1.NotifierInnerService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
+	51, // 66: notifier.v1.NotifierInnerService.StreamNotifications:input_type -> notifier.v1.StreamNotificationRequest
+	26, // 67: notifier.v1.NotifierMerchantService.GetMerchantConfig:input_type -> notifier.v1.GetMerchantConfigRequest
+	15, // 68: notifier.v1.NotifierMerchantService.ConfigureEndpoint:input_type -> notifier.v1.ConfigureEndpointRequest
+	18, // 69: notifier.v1.NotifierMerchantService.TestEndpoint:input_type -> notifier.v1.TestEndpointRequest
+	21, // 70: notifier.v1.NotifierMerchantService.CreateSubscription:input_type -> notifier.v1.CreateSubscriptionRequest
+	24, // 71: notifier.v1.NotifierMerchantService.UpdateSubscription:input_type -> notifier.v1.UpdateSubscriptionRequest
+	25, // 72: notifier.v1.NotifierMerchantService.DeleteSubscription:input_type -> notifier.v1.DeleteSubscriptionRequest
+	31, // 73: notifier.v1.NotifierMerchantService.GetEventTypes:input_type -> notifier.v1.GetEventTypesRequest
+	28, // 74: notifier.v1.NotifierMerchantService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
+	12, // 75: notifier.v1.NotifierInnerService.SendNotification:output_type -> notifier.v1.SendNotificationResponse
+	14, // 76: notifier.v1.NotifierInnerService.BatchSend:output_type -> notifier.v1.BatchSendResponse
+	29, // 77: notifier.v1.NotifierInnerService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
+	52, // 78: notifier.v1.NotifierInnerService.StreamNotifications:output_type -> notifier.v1.StreamNotificationResponse
+	27, // 79: notifier.v1.NotifierMerchantService.GetMerchantConfig:output_type -> notifier.v1.GetMerchantConfigResponse
+	16, // 80: notifier.v1.NotifierMerchantService.ConfigureEndpoint:output_type -> notifier.v1.ConfigureEndpointResponse
+	19, // 81: notifier.v1.NotifierMerchantService.TestEndpoint:output_type -> notifier.v1.TestEndpointResponse
+	22, // 82: notifier.v1.NotifierMerchantService.CreateSubscription:output_type -> notifier.v1.CreateSubscriptionResponse
+	0,  // 83: notifier.v1.NotifierMerchantService.UpdateSubscription:output_type -> notifier.v1.NotifyBaseResp
+	0,  // 84: notifier.v1.NotifierMerchantService.DeleteSubscription:output_type -> notifier.v1.NotifyBaseResp
+	32, // 85: notifier.v1.NotifierMerchantService.GetEventTypes:output_type -> notifier.v1.GetEventTypesResponse
+	29, // 86: notifier.v1.NotifierMerchantService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
+	75, // [75:87] is the sub-list for method output_type
+	63, // [63:75] is the sub-list for method input_type
+	63, // [63:63] is the sub-list for extension type_name
+	63, // [63:63] is the sub-list for extension extendee
+	0,  // [0:63] is the sub-list for field type_name
 }
 
 func init() { file_notifier_v1_notifier_proto_init() }
@@ -2953,7 +2644,7 @@ func file_notifier_v1_notifier_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notifier_v1_notifier_proto_rawDesc), len(file_notifier_v1_notifier_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   44,
+			NumMessages:   37,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

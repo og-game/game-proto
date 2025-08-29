@@ -271,32 +271,8 @@ message QueryPushRecords {
   int64 total_count = 3;
 }
 
-// 获取推送统计请求
-message GetPushStatisticsRequest {
-  int64 merchant_id = 1;
-  google.protobuf.Timestamp start_time = 2;
-  google.protobuf.Timestamp end_time = 3;
-}
 
-// 推送统计响应
-message GetPushStatisticsResponse {
-  NotifyBaseResp base = 1;                    // 基础响应
-  GetPushStatisticsInfo data = 2;               // 业务数据
-}
 
-message GetPushStatisticsInfo {
-  message Statistics {
-    int64 total_count = 1;
-    int64 success_count = 2;
-    int64 failed_count = 3;
-    double success_rate = 4;
-    double avg_latency_ms = 5;
-    map<string, int64> by_category = 6;     // 按大类统计
-    map<string, int64> by_event_type = 7;   // 按事件类型统计
-    map<string, int64> by_channel = 8;      // 按通道统计
-  }
-  Statistics stats = 1;
-}
 
 
 // 获取事件类型列表请求
@@ -325,7 +301,6 @@ service NotifierInnerService {
 
   // 查询统计
   rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
-  rpc GetPushStatistics(GetPushStatisticsRequest) returns (GetPushStatisticsResponse);
 
   // 流式推送（双向流）
   rpc StreamNotifications(stream StreamNotificationRequest) returns (stream StreamNotificationResponse);
