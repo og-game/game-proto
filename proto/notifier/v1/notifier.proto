@@ -301,9 +301,6 @@ service NotifierInnerService {
 
   // 查询统计
   rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
-
-  // 流式推送（双向流）
-  rpc StreamNotifications(stream StreamNotificationRequest) returns (stream StreamNotificationResponse);
 }
 
 // 通知服务 - 商户配置管理

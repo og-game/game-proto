@@ -19,10 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotifierInnerService_SendNotification_FullMethodName    = "/notifier.v1.NotifierInnerService/SendNotification"
-	NotifierInnerService_BatchSend_FullMethodName           = "/notifier.v1.NotifierInnerService/BatchSend"
-	NotifierInnerService_QueryPushRecords_FullMethodName    = "/notifier.v1.NotifierInnerService/QueryPushRecords"
-	NotifierInnerService_StreamNotifications_FullMethodName = "/notifier.v1.NotifierInnerService/StreamNotifications"
+	NotifierInnerService_SendNotification_FullMethodName = "/notifier.v1.NotifierInnerService/SendNotification"
+	NotifierInnerService_BatchSend_FullMethodName        = "/notifier.v1.NotifierInnerService/BatchSend"
+	NotifierInnerService_QueryPushRecords_FullMethodName = "/notifier.v1.NotifierInnerService/QueryPushRecords"
 )
 
 // NotifierInnerServiceClient is the client API for NotifierInnerService service.
@@ -36,8 +35,6 @@ type NotifierInnerServiceClient interface {
 	BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
 	// 查询统计
 	QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
-	// 流式推送（双向流）
-	StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse], error)
 }
 
 type notifierInnerServiceClient struct {
@@ -78,19 +75,6 @@ func (c *notifierInnerServiceClient) QueryPushRecords(ctx context.Context, in *Q
 	return out, nil
 }
 
-func (c *notifierInnerServiceClient) StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse], error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &NotifierInnerService_ServiceDesc.Streams[0], NotifierInnerService_StreamNotifications_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[StreamNotificationRequest, StreamNotificationResponse]{ClientStream: stream}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type NotifierInnerService_StreamNotificationsClient = grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse]
-
 // NotifierInnerServiceServer is the server API for NotifierInnerService service.
 // All implementations must embed UnimplementedNotifierInnerServiceServer
 // for forward compatibility.
@@ -102,8 +86,6 @@ type NotifierInnerServiceServer interface {
 	BatchSend(context.Context, *BatchSendRequest) (*BatchSendResponse, error)
 	// 查询统计
 	QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error)
-	// 流式推送（双向流）
-	StreamNotifications(grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]) error
 	mustEmbedUnimplementedNotifierInnerServiceServer()
 }
 
@@ -122,9 +104,6 @@ func (UnimplementedNotifierInnerServiceServer) BatchSend(context.Context, *Batch
 }
 func (UnimplementedNotifierInnerServiceServer) QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryPushRecords not implemented")
-}
-func (UnimplementedNotifierInnerServiceServer) StreamNotifications(grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method StreamNotifications not implemented")
 }
 func (UnimplementedNotifierInnerServiceServer) mustEmbedUnimplementedNotifierInnerServiceServer() {}
 func (UnimplementedNotifierInnerServiceServer) testEmbeddedByValue()                              {}
@@ -201,13 +180,6 @@ func _NotifierInnerService_QueryPushRecords_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotifierInnerService_StreamNotifications_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(NotifierInnerServiceServer).StreamNotifications(&grpc.GenericServerStream[StreamNotificationRequest, StreamNotificationResponse]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type NotifierInnerService_StreamNotificationsServer = grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]
-
 // NotifierInnerService_ServiceDesc is the grpc.ServiceDesc for NotifierInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,14 +200,7 @@ var NotifierInnerService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NotifierInnerService_QueryPushRecords_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "StreamNotifications",
-			Handler:       _NotifierInnerService_StreamNotifications_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "notifier/v1/notifier.proto",
 }
 

@@ -55,8 +55,6 @@ type (
 		BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
 		// 查询统计
 		QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
-		// 流式推送（双向流）
-		StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (v1.NotifierInnerService_StreamNotificationsClient, error)
 	}
 
 	defaultNotifierInnerService struct {
@@ -85,10 +83,4 @@ func (m *defaultNotifierInnerService) BatchSend(ctx context.Context, in *BatchSe
 func (m *defaultNotifierInnerService) QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error) {
 	client := v1.NewNotifierInnerServiceClient(m.cli.Conn())
 	return client.QueryPushRecords(ctx, in, opts...)
-}
-
-// 流式推送（双向流）
-func (m *defaultNotifierInnerService) StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (v1.NotifierInnerService_StreamNotificationsClient, error) {
-	client := v1.NewNotifierInnerServiceClient(m.cli.Conn())
-	return client.StreamNotifications(ctx, opts...)
 }
