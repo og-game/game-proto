@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotifierInnerService_SendNotification_FullMethodName = "/notifier.v1.NotifierInnerService/SendNotification"
-	NotifierInnerService_BatchSend_FullMethodName        = "/notifier.v1.NotifierInnerService/BatchSend"
-	NotifierInnerService_QueryPushRecords_FullMethodName = "/notifier.v1.NotifierInnerService/QueryPushRecords"
+	NotifierInnerService_SendNotification_FullMethodName       = "/notifier.v1.NotifierInnerService/SendNotification"
+	NotifierInnerService_BatchSend_FullMethodName              = "/notifier.v1.NotifierInnerService/BatchSend"
+	NotifierInnerService_QueryPushRecords_FullMethodName       = "/notifier.v1.NotifierInnerService/QueryPushRecords"
+	NotifierInnerService_NotificationMsgHandler_FullMethodName = "/notifier.v1.NotifierInnerService/NotificationMsgHandler"
 )
 
 // NotifierInnerServiceClient is the client API for NotifierInnerService service.
@@ -35,6 +36,8 @@ type NotifierInnerServiceClient interface {
 	BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
 	// 查询统计
 	QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
+	// 消费通知数据
+	NotificationMsgHandler(ctx context.Context, in *NotificationMsgHandlerRequest, opts ...grpc.CallOption) (*NotificationMsgHandlerResponse, error)
 }
 
 type notifierInnerServiceClient struct {
@@ -75,6 +78,16 @@ func (c *notifierInnerServiceClient) QueryPushRecords(ctx context.Context, in *Q
 	return out, nil
 }
 
+func (c *notifierInnerServiceClient) NotificationMsgHandler(ctx context.Context, in *NotificationMsgHandlerRequest, opts ...grpc.CallOption) (*NotificationMsgHandlerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(NotificationMsgHandlerResponse)
+	err := c.cc.Invoke(ctx, NotifierInnerService_NotificationMsgHandler_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NotifierInnerServiceServer is the server API for NotifierInnerService service.
 // All implementations must embed UnimplementedNotifierInnerServiceServer
 // for forward compatibility.
@@ -86,6 +99,8 @@ type NotifierInnerServiceServer interface {
 	BatchSend(context.Context, *BatchSendRequest) (*BatchSendResponse, error)
 	// 查询统计
 	QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error)
+	// 消费通知数据
+	NotificationMsgHandler(context.Context, *NotificationMsgHandlerRequest) (*NotificationMsgHandlerResponse, error)
 	mustEmbedUnimplementedNotifierInnerServiceServer()
 }
 
@@ -104,6 +119,9 @@ func (UnimplementedNotifierInnerServiceServer) BatchSend(context.Context, *Batch
 }
 func (UnimplementedNotifierInnerServiceServer) QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryPushRecords not implemented")
+}
+func (UnimplementedNotifierInnerServiceServer) NotificationMsgHandler(context.Context, *NotificationMsgHandlerRequest) (*NotificationMsgHandlerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotificationMsgHandler not implemented")
 }
 func (UnimplementedNotifierInnerServiceServer) mustEmbedUnimplementedNotifierInnerServiceServer() {}
 func (UnimplementedNotifierInnerServiceServer) testEmbeddedByValue()                              {}
@@ -180,6 +198,24 @@ func _NotifierInnerService_QueryPushRecords_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NotifierInnerService_NotificationMsgHandler_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NotificationMsgHandlerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotifierInnerServiceServer).NotificationMsgHandler(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotifierInnerService_NotificationMsgHandler_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotifierInnerServiceServer).NotificationMsgHandler(ctx, req.(*NotificationMsgHandlerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NotifierInnerService_ServiceDesc is the grpc.ServiceDesc for NotifierInnerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -198,6 +234,10 @@ var NotifierInnerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryPushRecords",
 			Handler:    _NotifierInnerService_QueryPushRecords_Handler,
+		},
+		{
+			MethodName: "NotificationMsgHandler",
+			Handler:    _NotifierInnerService_NotificationMsgHandler_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

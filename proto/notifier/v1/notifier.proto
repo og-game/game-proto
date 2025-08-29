@@ -272,7 +272,18 @@ message QueryPushRecords {
 }
 
 
+message NotificationMsgHandlerRequest {
+  string msg_id = 1;
+  string event_id = 2;
+  int64 merchant_id = 3;
+  string event_type = 4;
+  uint32 priority = 5;
+  int64 timestamp = 6;
+}
 
+message NotificationMsgHandlerResponse {
+  NotifyBaseResp base = 1;
+}
 
 
 // 获取事件类型列表请求
@@ -301,6 +312,9 @@ service NotifierInnerService {
 
   // 查询统计
   rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
+
+  // 消费通知数据
+  rpc NotificationMsgHandler(NotificationMsgHandlerRequest) returns (NotificationMsgHandlerResponse);
 }
 
 // 通知服务 - 商户配置管理
