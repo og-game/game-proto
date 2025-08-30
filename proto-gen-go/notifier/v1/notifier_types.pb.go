@@ -1493,6 +1493,859 @@ func (x *CategoryConfig) GetDefaultBatchSize() int32 {
 	return 0
 }
 
+// RobotConfig 通用机器人配置
+type RobotConfig struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 目标配置
+	ChannelId string   `protobuf:"bytes,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"` // 频道/群组ID（Slack, Teams需要）
+	ChatId    string   `protobuf:"bytes,2,opt,name=chat_id,json=chatId,proto3" json:"chat_id,omitempty"`          // 聊天ID（Telegram需要）
+	UserIds   []string `protobuf:"bytes,3,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`       // 用户ID列表（私聊或指定接收人）
+	// 消息配置
+	MentionAll   bool     `protobuf:"varint,4,opt,name=mention_all,json=mentionAll,proto3" json:"mention_all,omitempty"`      // @所有人
+	MentionUsers []string `protobuf:"bytes,5,rep,name=mention_users,json=mentionUsers,proto3" json:"mention_users,omitempty"` // @特定用户（用户ID或用户名）
+	// 显示配置
+	DisplayName string `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // 机器人显示名称
+	AvatarUrl   string `protobuf:"bytes,7,opt,name=avatar_url,json=avatarUrl,proto3" json:"avatar_url,omitempty"`       // 机器人头像URL
+	Color       string `protobuf:"bytes,8,opt,name=color,proto3" json:"color,omitempty"`                                // 消息颜色（如 #FF0000）
+	// 格式配置
+	MessageFormat string `protobuf:"bytes,9,opt,name=message_format,json=messageFormat,proto3" json:"message_format,omitempty"` // 消息格式: markdown, html, text
+	EnableCard    bool   `protobuf:"varint,10,opt,name=enable_card,json=enableCard,proto3" json:"enable_card,omitempty"`        // 是否使用卡片消息
+	// 交互配置
+	Buttons []*RobotButton `protobuf:"bytes,11,rep,name=buttons,proto3" json:"buttons,omitempty"` // 按钮配置
+	// 特定平台配置
+	SlackConfig    *SlackConfig    `protobuf:"bytes,20,opt,name=slack_config,json=slackConfig,proto3" json:"slack_config,omitempty"`
+	LarkConfig     *LarkConfig     `protobuf:"bytes,21,opt,name=lark_config,json=larkConfig,proto3" json:"lark_config,omitempty"`
+	TeamsConfig    *TeamsConfig    `protobuf:"bytes,22,opt,name=teams_config,json=teamsConfig,proto3" json:"teams_config,omitempty"`
+	TelegramConfig *TelegramConfig `protobuf:"bytes,23,opt,name=telegram_config,json=telegramConfig,proto3" json:"telegram_config,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *RobotConfig) Reset() {
+	*x = RobotConfig{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RobotConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RobotConfig) ProtoMessage() {}
+
+func (x *RobotConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RobotConfig.ProtoReflect.Descriptor instead.
+func (*RobotConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RobotConfig) GetChannelId() string {
+	if x != nil {
+		return x.ChannelId
+	}
+	return ""
+}
+
+func (x *RobotConfig) GetChatId() string {
+	if x != nil {
+		return x.ChatId
+	}
+	return ""
+}
+
+func (x *RobotConfig) GetUserIds() []string {
+	if x != nil {
+		return x.UserIds
+	}
+	return nil
+}
+
+func (x *RobotConfig) GetMentionAll() bool {
+	if x != nil {
+		return x.MentionAll
+	}
+	return false
+}
+
+func (x *RobotConfig) GetMentionUsers() []string {
+	if x != nil {
+		return x.MentionUsers
+	}
+	return nil
+}
+
+func (x *RobotConfig) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *RobotConfig) GetAvatarUrl() string {
+	if x != nil {
+		return x.AvatarUrl
+	}
+	return ""
+}
+
+func (x *RobotConfig) GetColor() string {
+	if x != nil {
+		return x.Color
+	}
+	return ""
+}
+
+func (x *RobotConfig) GetMessageFormat() string {
+	if x != nil {
+		return x.MessageFormat
+	}
+	return ""
+}
+
+func (x *RobotConfig) GetEnableCard() bool {
+	if x != nil {
+		return x.EnableCard
+	}
+	return false
+}
+
+func (x *RobotConfig) GetButtons() []*RobotButton {
+	if x != nil {
+		return x.Buttons
+	}
+	return nil
+}
+
+func (x *RobotConfig) GetSlackConfig() *SlackConfig {
+	if x != nil {
+		return x.SlackConfig
+	}
+	return nil
+}
+
+func (x *RobotConfig) GetLarkConfig() *LarkConfig {
+	if x != nil {
+		return x.LarkConfig
+	}
+	return nil
+}
+
+func (x *RobotConfig) GetTeamsConfig() *TeamsConfig {
+	if x != nil {
+		return x.TeamsConfig
+	}
+	return nil
+}
+
+func (x *RobotConfig) GetTelegramConfig() *TelegramConfig {
+	if x != nil {
+		return x.TelegramConfig
+	}
+	return nil
+}
+
+// RobotButton 机器人按钮配置
+type RobotButton struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Text          string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                      // 点击跳转URL
+	Action        ButtonAction           `protobuf:"varint,4,opt,name=action,proto3,enum=notifier.v1.ButtonAction" json:"action,omitempty"` // 动作类型: url, callback
+	Style         ButtonStyle            `protobuf:"varint,5,opt,name=style,proto3,enum=notifier.v1.ButtonStyle" json:"style,omitempty"`    // 按钮样式: default, primary, danger
+	Value         string                 `protobuf:"bytes,6,opt,name=value,proto3" json:"value,omitempty"`                                  // 回调值
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RobotButton) Reset() {
+	*x = RobotButton{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RobotButton) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RobotButton) ProtoMessage() {}
+
+func (x *RobotButton) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RobotButton.ProtoReflect.Descriptor instead.
+func (*RobotButton) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *RobotButton) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *RobotButton) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+func (x *RobotButton) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *RobotButton) GetAction() ButtonAction {
+	if x != nil {
+		return x.Action
+	}
+	return ButtonAction_BUTTON_ACTION_UNSPECIFIED
+}
+
+func (x *RobotButton) GetStyle() ButtonStyle {
+	if x != nil {
+		return x.Style
+	}
+	return ButtonStyle_BUTTON_STYLE_UNSPECIFIED
+}
+
+func (x *RobotButton) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+// SlackConfig Slack特定配置
+type SlackConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadTs      string                 `protobuf:"bytes,1,opt,name=thread_ts,json=threadTs,proto3" json:"thread_ts,omitempty"`       // 线程时间戳（用于回复）
+	IconEmoji     string                 `protobuf:"bytes,2,opt,name=icon_emoji,json=iconEmoji,proto3" json:"icon_emoji,omitempty"`    // 图标emoji
+	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`                       // 用户名覆盖
+	Attachments   bool                   `protobuf:"varint,4,opt,name=attachments,proto3" json:"attachments,omitempty"`                // 是否使用附件格式
+	Blocks        bool                   `protobuf:"varint,5,opt,name=blocks,proto3" json:"blocks,omitempty"`                          // 是否使用Block Kit
+	Ephemeral     bool                   `protobuf:"varint,6,opt,name=ephemeral,proto3" json:"ephemeral,omitempty"`                    // 是否为临时消息
+	UserGroups    []string               `protobuf:"bytes,7,rep,name=user_groups,json=userGroups,proto3" json:"user_groups,omitempty"` // 用户组ID列表
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SlackConfig) Reset() {
+	*x = SlackConfig{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SlackConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SlackConfig) ProtoMessage() {}
+
+func (x *SlackConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SlackConfig.ProtoReflect.Descriptor instead.
+func (*SlackConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SlackConfig) GetThreadTs() string {
+	if x != nil {
+		return x.ThreadTs
+	}
+	return ""
+}
+
+func (x *SlackConfig) GetIconEmoji() string {
+	if x != nil {
+		return x.IconEmoji
+	}
+	return ""
+}
+
+func (x *SlackConfig) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *SlackConfig) GetAttachments() bool {
+	if x != nil {
+		return x.Attachments
+	}
+	return false
+}
+
+func (x *SlackConfig) GetBlocks() bool {
+	if x != nil {
+		return x.Blocks
+	}
+	return false
+}
+
+func (x *SlackConfig) GetEphemeral() bool {
+	if x != nil {
+		return x.Ephemeral
+	}
+	return false
+}
+
+func (x *SlackConfig) GetUserGroups() []string {
+	if x != nil {
+		return x.UserGroups
+	}
+	return nil
+}
+
+// LarkConfig 飞书特定配置
+type LarkConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MsgType       string                 `protobuf:"bytes,1,opt,name=msg_type,json=msgType,proto3" json:"msg_type,omitempty"`              // 消息类型: text, post, card, interactive
+	SignType      string                 `protobuf:"bytes,2,opt,name=sign_type,json=signType,proto3" json:"sign_type,omitempty"`           // 签名类型: v1, v2
+	UpdateMulti   bool                   `protobuf:"varint,3,opt,name=update_multi,json=updateMulti,proto3" json:"update_multi,omitempty"` // 是否更新多条消息
+	CardConfig    *LarkCardConfig        `protobuf:"bytes,4,opt,name=card_config,json=cardConfig,proto3" json:"card_config,omitempty"`     // 卡片配置
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LarkConfig) Reset() {
+	*x = LarkConfig{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LarkConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LarkConfig) ProtoMessage() {}
+
+func (x *LarkConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LarkConfig.ProtoReflect.Descriptor instead.
+func (*LarkConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *LarkConfig) GetMsgType() string {
+	if x != nil {
+		return x.MsgType
+	}
+	return ""
+}
+
+func (x *LarkConfig) GetSignType() string {
+	if x != nil {
+		return x.SignType
+	}
+	return ""
+}
+
+func (x *LarkConfig) GetUpdateMulti() bool {
+	if x != nil {
+		return x.UpdateMulti
+	}
+	return false
+}
+
+func (x *LarkConfig) GetCardConfig() *LarkCardConfig {
+	if x != nil {
+		return x.CardConfig
+	}
+	return nil
+}
+
+// LarkCardConfig 飞书卡片配置
+type LarkCardConfig struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	WideScreenMode bool                   `protobuf:"varint,1,opt,name=wide_screen_mode,json=wideScreenMode,proto3" json:"wide_screen_mode,omitempty"` // 宽屏模式
+	EnableForward  bool                   `protobuf:"varint,2,opt,name=enable_forward,json=enableForward,proto3" json:"enable_forward,omitempty"`      // 允许转发
+	UpdateMulti    bool                   `protobuf:"varint,3,opt,name=update_multi,json=updateMulti,proto3" json:"update_multi,omitempty"`            // 更新多条
+	ConfigJson     string                 `protobuf:"bytes,4,opt,name=config_json,json=configJson,proto3" json:"config_json,omitempty"`                // 卡片配置JSON
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *LarkCardConfig) Reset() {
+	*x = LarkCardConfig{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LarkCardConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LarkCardConfig) ProtoMessage() {}
+
+func (x *LarkCardConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LarkCardConfig.ProtoReflect.Descriptor instead.
+func (*LarkCardConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *LarkCardConfig) GetWideScreenMode() bool {
+	if x != nil {
+		return x.WideScreenMode
+	}
+	return false
+}
+
+func (x *LarkCardConfig) GetEnableForward() bool {
+	if x != nil {
+		return x.EnableForward
+	}
+	return false
+}
+
+func (x *LarkCardConfig) GetUpdateMulti() bool {
+	if x != nil {
+		return x.UpdateMulti
+	}
+	return false
+}
+
+func (x *LarkCardConfig) GetConfigJson() string {
+	if x != nil {
+		return x.ConfigJson
+	}
+	return ""
+}
+
+// TeamsConfig Teams特定配置
+type TeamsConfig struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Summary         string                 `protobuf:"bytes,1,opt,name=summary,proto3" json:"summary,omitempty"`                                         // 摘要
+	ThemeColor      string                 `protobuf:"bytes,2,opt,name=theme_color,json=themeColor,proto3" json:"theme_color,omitempty"`                 // 主题颜色
+	Sections        bool                   `protobuf:"varint,3,opt,name=sections,proto3" json:"sections,omitempty"`                                      // 是否使用sections
+	PotentialAction bool                   `protobuf:"varint,4,opt,name=potential_action,json=potentialAction,proto3" json:"potential_action,omitempty"` // 是否包含操作
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *TeamsConfig) Reset() {
+	*x = TeamsConfig{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TeamsConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TeamsConfig) ProtoMessage() {}
+
+func (x *TeamsConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TeamsConfig.ProtoReflect.Descriptor instead.
+func (*TeamsConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *TeamsConfig) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *TeamsConfig) GetThemeColor() string {
+	if x != nil {
+		return x.ThemeColor
+	}
+	return ""
+}
+
+func (x *TeamsConfig) GetSections() bool {
+	if x != nil {
+		return x.Sections
+	}
+	return false
+}
+
+func (x *TeamsConfig) GetPotentialAction() bool {
+	if x != nil {
+		return x.PotentialAction
+	}
+	return false
+}
+
+// TelegramConfig Telegram特定配置
+type TelegramConfig struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	ParseMode             string                 `protobuf:"bytes,1,opt,name=parse_mode,json=parseMode,proto3" json:"parse_mode,omitempty"`                                          // 解析模式: Markdown, HTML
+	DisableNotification   bool                   `protobuf:"varint,2,opt,name=disable_notification,json=disableNotification,proto3" json:"disable_notification,omitempty"`           // 静音通知
+	ReplyToMessageId      int64                  `protobuf:"varint,3,opt,name=reply_to_message_id,json=replyToMessageId,proto3" json:"reply_to_message_id,omitempty"`                // 回复消息ID
+	ReplyMarkup           string                 `protobuf:"bytes,4,opt,name=reply_markup,json=replyMarkup,proto3" json:"reply_markup,omitempty"`                                    // 键盘标记JSON
+	DisableWebPagePreview bool                   `protobuf:"varint,5,opt,name=disable_web_page_preview,json=disableWebPagePreview,proto3" json:"disable_web_page_preview,omitempty"` // 禁用链接预览
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *TelegramConfig) Reset() {
+	*x = TelegramConfig{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TelegramConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TelegramConfig) ProtoMessage() {}
+
+func (x *TelegramConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TelegramConfig.ProtoReflect.Descriptor instead.
+func (*TelegramConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *TelegramConfig) GetParseMode() string {
+	if x != nil {
+		return x.ParseMode
+	}
+	return ""
+}
+
+func (x *TelegramConfig) GetDisableNotification() bool {
+	if x != nil {
+		return x.DisableNotification
+	}
+	return false
+}
+
+func (x *TelegramConfig) GetReplyToMessageId() int64 {
+	if x != nil {
+		return x.ReplyToMessageId
+	}
+	return 0
+}
+
+func (x *TelegramConfig) GetReplyMarkup() string {
+	if x != nil {
+		return x.ReplyMarkup
+	}
+	return ""
+}
+
+func (x *TelegramConfig) GetDisableWebPagePreview() bool {
+	if x != nil {
+		return x.DisableWebPagePreview
+	}
+	return false
+}
+
+// 无认证
+type NoneAuth struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NoneAuth) Reset() {
+	*x = NoneAuth{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NoneAuth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NoneAuth) ProtoMessage() {}
+
+func (x *NoneAuth) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NoneAuth.ProtoReflect.Descriptor instead.
+func (*NoneAuth) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{9}
+}
+
+// Token认证
+type TokenAuth struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`                          // Token值
+	TokenType     string                 `protobuf:"bytes,2,opt,name=token_type,json=tokenType,proto3" json:"token_type,omitempty"` // Token类型: Bearer, Basic
+	Header        string                 `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`                        // Header名称，默认 Authorization
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TokenAuth) Reset() {
+	*x = TokenAuth{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TokenAuth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TokenAuth) ProtoMessage() {}
+
+func (x *TokenAuth) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TokenAuth.ProtoReflect.Descriptor instead.
+func (*TokenAuth) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *TokenAuth) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *TokenAuth) GetTokenType() string {
+	if x != nil {
+		return x.TokenType
+	}
+	return ""
+}
+
+func (x *TokenAuth) GetHeader() string {
+	if x != nil {
+		return x.Header
+	}
+	return ""
+}
+
+// 签名认证
+type SignatureAuth struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Secret        string                 `protobuf:"bytes,1,opt,name=secret,proto3" json:"secret,omitempty"`       // 签名密钥
+	Algorithm     string                 `protobuf:"bytes,2,opt,name=algorithm,proto3" json:"algorithm,omitempty"` // 签名算法: HMAC-SHA256, HMAC-SHA1
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SignatureAuth) Reset() {
+	*x = SignatureAuth{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SignatureAuth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignatureAuth) ProtoMessage() {}
+
+func (x *SignatureAuth) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignatureAuth.ProtoReflect.Descriptor instead.
+func (*SignatureAuth) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *SignatureAuth) GetSecret() string {
+	if x != nil {
+		return x.Secret
+	}
+	return ""
+}
+
+func (x *SignatureAuth) GetAlgorithm() string {
+	if x != nil {
+		return x.Algorithm
+	}
+	return ""
+}
+
+// OAuth认证
+type OAuthAuth struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ClientId      string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`             // 客户端ID
+	ClientSecret  string                 `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"` // 客户端密钥
+	AccessToken   string                 `protobuf:"bytes,3,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`    // 访问令牌
+	RefreshToken  string                 `protobuf:"bytes,4,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"` // 刷新令牌
+	TokenUrl      string                 `protobuf:"bytes,5,opt,name=token_url,json=tokenUrl,proto3" json:"token_url,omitempty"`             // 令牌URL
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OAuthAuth) Reset() {
+	*x = OAuthAuth{}
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OAuthAuth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OAuthAuth) ProtoMessage() {}
+
+func (x *OAuthAuth) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OAuthAuth.ProtoReflect.Descriptor instead.
+func (*OAuthAuth) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *OAuthAuth) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *OAuthAuth) GetClientSecret() string {
+	if x != nil {
+		return x.ClientSecret
+	}
+	return ""
+}
+
+func (x *OAuthAuth) GetAccessToken() string {
+	if x != nil {
+		return x.AccessToken
+	}
+	return ""
+}
+
+func (x *OAuthAuth) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+func (x *OAuthAuth) GetTokenUrl() string {
+	if x != nil {
+		return x.TokenUrl
+	}
+	return ""
+}
+
 var File_notifier_v1_notifier_types_proto protoreflect.FileDescriptor
 
 const file_notifier_v1_notifier_types_proto_rawDesc = "" +
@@ -1514,7 +2367,88 @@ const file_notifier_v1_notifier_types_proto_rawDesc = "" +
 	"eventTypes\x12\x1f\n" +
 	"\vallow_batch\x18\x05 \x01(\bR\n" +
 	"allowBatch\x12,\n" +
-	"\x12default_batch_size\x18\x06 \x01(\x05R\x10defaultBatchSize*\xed\x04\n" +
+	"\x12default_batch_size\x18\x06 \x01(\x05R\x10defaultBatchSize\"\xf4\x04\n" +
+	"\vRobotConfig\x12\x1d\n" +
+	"\n" +
+	"channel_id\x18\x01 \x01(\tR\tchannelId\x12\x17\n" +
+	"\achat_id\x18\x02 \x01(\tR\x06chatId\x12\x19\n" +
+	"\buser_ids\x18\x03 \x03(\tR\auserIds\x12\x1f\n" +
+	"\vmention_all\x18\x04 \x01(\bR\n" +
+	"mentionAll\x12#\n" +
+	"\rmention_users\x18\x05 \x03(\tR\fmentionUsers\x12!\n" +
+	"\fdisplay_name\x18\x06 \x01(\tR\vdisplayName\x12\x1d\n" +
+	"\n" +
+	"avatar_url\x18\a \x01(\tR\tavatarUrl\x12\x14\n" +
+	"\x05color\x18\b \x01(\tR\x05color\x12%\n" +
+	"\x0emessage_format\x18\t \x01(\tR\rmessageFormat\x12\x1f\n" +
+	"\venable_card\x18\n" +
+	" \x01(\bR\n" +
+	"enableCard\x122\n" +
+	"\abuttons\x18\v \x03(\v2\x18.notifier.v1.RobotButtonR\abuttons\x12;\n" +
+	"\fslack_config\x18\x14 \x01(\v2\x18.notifier.v1.SlackConfigR\vslackConfig\x128\n" +
+	"\vlark_config\x18\x15 \x01(\v2\x17.notifier.v1.LarkConfigR\n" +
+	"larkConfig\x12;\n" +
+	"\fteams_config\x18\x16 \x01(\v2\x18.notifier.v1.TeamsConfigR\vteamsConfig\x12D\n" +
+	"\x0ftelegram_config\x18\x17 \x01(\v2\x1b.notifier.v1.TelegramConfigR\x0etelegramConfig\"\xbc\x01\n" +
+	"\vRobotButton\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\x12\x10\n" +
+	"\x03url\x18\x03 \x01(\tR\x03url\x121\n" +
+	"\x06action\x18\x04 \x01(\x0e2\x19.notifier.v1.ButtonActionR\x06action\x12.\n" +
+	"\x05style\x18\x05 \x01(\x0e2\x18.notifier.v1.ButtonStyleR\x05style\x12\x14\n" +
+	"\x05value\x18\x06 \x01(\tR\x05value\"\xde\x01\n" +
+	"\vSlackConfig\x12\x1b\n" +
+	"\tthread_ts\x18\x01 \x01(\tR\bthreadTs\x12\x1d\n" +
+	"\n" +
+	"icon_emoji\x18\x02 \x01(\tR\ticonEmoji\x12\x1a\n" +
+	"\busername\x18\x03 \x01(\tR\busername\x12 \n" +
+	"\vattachments\x18\x04 \x01(\bR\vattachments\x12\x16\n" +
+	"\x06blocks\x18\x05 \x01(\bR\x06blocks\x12\x1c\n" +
+	"\tephemeral\x18\x06 \x01(\bR\tephemeral\x12\x1f\n" +
+	"\vuser_groups\x18\a \x03(\tR\n" +
+	"userGroups\"\xa5\x01\n" +
+	"\n" +
+	"LarkConfig\x12\x19\n" +
+	"\bmsg_type\x18\x01 \x01(\tR\amsgType\x12\x1b\n" +
+	"\tsign_type\x18\x02 \x01(\tR\bsignType\x12!\n" +
+	"\fupdate_multi\x18\x03 \x01(\bR\vupdateMulti\x12<\n" +
+	"\vcard_config\x18\x04 \x01(\v2\x1b.notifier.v1.LarkCardConfigR\n" +
+	"cardConfig\"\xa5\x01\n" +
+	"\x0eLarkCardConfig\x12(\n" +
+	"\x10wide_screen_mode\x18\x01 \x01(\bR\x0ewideScreenMode\x12%\n" +
+	"\x0eenable_forward\x18\x02 \x01(\bR\renableForward\x12!\n" +
+	"\fupdate_multi\x18\x03 \x01(\bR\vupdateMulti\x12\x1f\n" +
+	"\vconfig_json\x18\x04 \x01(\tR\n" +
+	"configJson\"\x8f\x01\n" +
+	"\vTeamsConfig\x12\x18\n" +
+	"\asummary\x18\x01 \x01(\tR\asummary\x12\x1f\n" +
+	"\vtheme_color\x18\x02 \x01(\tR\n" +
+	"themeColor\x12\x1a\n" +
+	"\bsections\x18\x03 \x01(\bR\bsections\x12)\n" +
+	"\x10potential_action\x18\x04 \x01(\bR\x0fpotentialAction\"\xed\x01\n" +
+	"\x0eTelegramConfig\x12\x1d\n" +
+	"\n" +
+	"parse_mode\x18\x01 \x01(\tR\tparseMode\x121\n" +
+	"\x14disable_notification\x18\x02 \x01(\bR\x13disableNotification\x12-\n" +
+	"\x13reply_to_message_id\x18\x03 \x01(\x03R\x10replyToMessageId\x12!\n" +
+	"\freply_markup\x18\x04 \x01(\tR\vreplyMarkup\x127\n" +
+	"\x18disable_web_page_preview\x18\x05 \x01(\bR\x15disableWebPagePreview\"\n" +
+	"\n" +
+	"\bNoneAuth\"X\n" +
+	"\tTokenAuth\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x1d\n" +
+	"\n" +
+	"token_type\x18\x02 \x01(\tR\ttokenType\x12\x16\n" +
+	"\x06header\x18\x03 \x01(\tR\x06header\"E\n" +
+	"\rSignatureAuth\x12\x16\n" +
+	"\x06secret\x18\x01 \x01(\tR\x06secret\x12\x1c\n" +
+	"\talgorithm\x18\x02 \x01(\tR\talgorithm\"\xb2\x01\n" +
+	"\tOAuthAuth\x12\x1b\n" +
+	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12#\n" +
+	"\rclient_secret\x18\x02 \x01(\tR\fclientSecret\x12!\n" +
+	"\faccess_token\x18\x03 \x01(\tR\vaccessToken\x12#\n" +
+	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\x12\x1b\n" +
+	"\ttoken_url\x18\x05 \x01(\tR\btokenUrl*\xed\x04\n" +
 	"\x11NotifierErrorCode\x12#\n" +
 	"\x1fNOTIFIER_ERROR_CODE_UNSPECIFIED\x10\x00\x12 \n" +
 	"\x1bNOTIFIER_ERROR_CODE_SUCCESS\x10\xc8\x01\x12$\n" +
@@ -1683,7 +2617,7 @@ func file_notifier_v1_notifier_types_proto_rawDescGZIP() []byte {
 }
 
 var file_notifier_v1_notifier_types_proto_enumTypes = make([]protoimpl.EnumInfo, 22)
-var file_notifier_v1_notifier_types_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_notifier_v1_notifier_types_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_notifier_v1_notifier_types_proto_goTypes = []any{
 	(NotifierErrorCode)(0),     // 0: notifier.v1.NotifierErrorCode
 	(MerchantStatus)(0),        // 1: notifier.v1.MerchantStatus
@@ -1709,18 +2643,37 @@ var file_notifier_v1_notifier_types_proto_goTypes = []any{
 	(AuthType)(0),              // 21: notifier.v1.AuthType
 	(*EventTypeInfo)(nil),      // 22: notifier.v1.EventTypeInfo
 	(*CategoryConfig)(nil),     // 23: notifier.v1.CategoryConfig
+	(*RobotConfig)(nil),        // 24: notifier.v1.RobotConfig
+	(*RobotButton)(nil),        // 25: notifier.v1.RobotButton
+	(*SlackConfig)(nil),        // 26: notifier.v1.SlackConfig
+	(*LarkConfig)(nil),         // 27: notifier.v1.LarkConfig
+	(*LarkCardConfig)(nil),     // 28: notifier.v1.LarkCardConfig
+	(*TeamsConfig)(nil),        // 29: notifier.v1.TeamsConfig
+	(*TelegramConfig)(nil),     // 30: notifier.v1.TelegramConfig
+	(*NoneAuth)(nil),           // 31: notifier.v1.NoneAuth
+	(*TokenAuth)(nil),          // 32: notifier.v1.TokenAuth
+	(*SignatureAuth)(nil),      // 33: notifier.v1.SignatureAuth
+	(*OAuthAuth)(nil),          // 34: notifier.v1.OAuthAuth
 }
 var file_notifier_v1_notifier_types_proto_depIdxs = []int32{
-	7, // 0: notifier.v1.EventTypeInfo.category:type_name -> notifier.v1.NotificationCategory
-	8, // 1: notifier.v1.EventTypeInfo.event_type:type_name -> notifier.v1.EventType
-	6, // 2: notifier.v1.EventTypeInfo.default_priority:type_name -> notifier.v1.NotificationPriority
-	7, // 3: notifier.v1.CategoryConfig.category:type_name -> notifier.v1.NotificationCategory
-	8, // 4: notifier.v1.CategoryConfig.event_types:type_name -> notifier.v1.EventType
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	7,  // 0: notifier.v1.EventTypeInfo.category:type_name -> notifier.v1.NotificationCategory
+	8,  // 1: notifier.v1.EventTypeInfo.event_type:type_name -> notifier.v1.EventType
+	6,  // 2: notifier.v1.EventTypeInfo.default_priority:type_name -> notifier.v1.NotificationPriority
+	7,  // 3: notifier.v1.CategoryConfig.category:type_name -> notifier.v1.NotificationCategory
+	8,  // 4: notifier.v1.CategoryConfig.event_types:type_name -> notifier.v1.EventType
+	25, // 5: notifier.v1.RobotConfig.buttons:type_name -> notifier.v1.RobotButton
+	26, // 6: notifier.v1.RobotConfig.slack_config:type_name -> notifier.v1.SlackConfig
+	27, // 7: notifier.v1.RobotConfig.lark_config:type_name -> notifier.v1.LarkConfig
+	29, // 8: notifier.v1.RobotConfig.teams_config:type_name -> notifier.v1.TeamsConfig
+	30, // 9: notifier.v1.RobotConfig.telegram_config:type_name -> notifier.v1.TelegramConfig
+	17, // 10: notifier.v1.RobotButton.action:type_name -> notifier.v1.ButtonAction
+	18, // 11: notifier.v1.RobotButton.style:type_name -> notifier.v1.ButtonStyle
+	28, // 12: notifier.v1.LarkConfig.card_config:type_name -> notifier.v1.LarkCardConfig
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_notifier_v1_notifier_types_proto_init() }
@@ -1734,7 +2687,7 @@ func file_notifier_v1_notifier_types_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notifier_v1_notifier_types_proto_rawDesc), len(file_notifier_v1_notifier_types_proto_rawDesc)),
 			NumEnums:      22,
-			NumMessages:   2,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

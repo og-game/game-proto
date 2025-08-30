@@ -31,8 +31,8 @@ type NotificationPayload struct {
 	// 批量支持
 	BatchBody []*Body `protobuf:"bytes,3,rep,name=batch_body,json=batchBody,proto3" json:"batch_body,omitempty"` // 批量事件（可选）
 	// 安全信息
-	Signature     string `protobuf:"bytes,4,opt,name=signature,proto3" json:"signature,omitempty"` // HMAC-SHA256签名
-	Nonce         int64  `protobuf:"varint,5,opt,name=nonce,proto3" json:"nonce,omitempty"`        // 防重放随机数
+	Nonce         int64   `protobuf:"varint,5,opt,name=nonce,proto3" json:"nonce,omitempty"`              // 防重放随机数
+	Signature     *string `protobuf:"bytes,4,opt,name=signature,proto3,oneof" json:"signature,omitempty"` // 签名【可选】
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -88,18 +88,18 @@ func (x *NotificationPayload) GetBatchBody() []*Body {
 	return nil
 }
 
-func (x *NotificationPayload) GetSignature() string {
-	if x != nil {
-		return x.Signature
-	}
-	return ""
-}
-
 func (x *NotificationPayload) GetNonce() int64 {
 	if x != nil {
 		return x.Nonce
 	}
 	return 0
+}
+
+func (x *NotificationPayload) GetSignature() string {
+	if x != nil && x.Signature != nil {
+		return *x.Signature
+	}
+	return ""
 }
 
 // 推送头
@@ -199,19 +199,8 @@ type Body struct {
 	// 幂等和追踪
 	IdempotencyKey string `protobuf:"bytes,8,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"` // 幂等键
 	TraceId        string `protobuf:"bytes,9,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`                      // 链路追踪ID
-	// 事件数据 - 使用one of确保类型安全
-	//
-	// Types that are valid to be assigned to Data:
-	//
-	//	*Body_SystemMaintenance
-	//	*Body_SystemAnnouncement
-	//	*Body_RiskAlert
-	//	*Body_BadDebt
-	//	*Body_GameResult
-	//	*Body_DailyReport
-	//	*Body_AnomalyReport
-	//	*Body_CustomEvent
-	Data isBody_Data `protobuf_oneof:"data"`
+	// 实际的推送数据
+	Data *anypb.Any `protobuf:"bytes,10,opt,name=data,proto3" json:"data,omitempty"` // 推送的具体数据
 	// 元数据
 	Metadata      map[string]string `protobuf:"bytes,101,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
@@ -290,81 +279,9 @@ func (x *Body) GetTraceId() string {
 	return ""
 }
 
-func (x *Body) GetData() isBody_Data {
+func (x *Body) GetData() *anypb.Any {
 	if x != nil {
 		return x.Data
-	}
-	return nil
-}
-
-func (x *Body) GetSystemMaintenance() *SystemMaintenanceEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_SystemMaintenance); ok {
-			return x.SystemMaintenance
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetSystemAnnouncement() *SystemAnnouncementEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_SystemAnnouncement); ok {
-			return x.SystemAnnouncement
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetRiskAlert() *RiskAlertEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_RiskAlert); ok {
-			return x.RiskAlert
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetBadDebt() *BadDebtEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_BadDebt); ok {
-			return x.BadDebt
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetGameResult() *GameResultEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_GameResult); ok {
-			return x.GameResult
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetDailyReport() *DailyReportEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_DailyReport); ok {
-			return x.DailyReport
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetAnomalyReport() *AnomalyReportEvent {
-	if x != nil {
-		if x, ok := x.Data.(*Body_AnomalyReport); ok {
-			return x.AnomalyReport
-		}
-	}
-	return nil
-}
-
-func (x *Body) GetCustomEvent() *anypb.Any {
-	if x != nil {
-		if x, ok := x.Data.(*Body_CustomEvent); ok {
-			return x.CustomEvent
-		}
 	}
 	return nil
 }
@@ -375,63 +292,6 @@ func (x *Body) GetMetadata() map[string]string {
 	}
 	return nil
 }
-
-type isBody_Data interface {
-	isBody_Data()
-}
-
-type Body_SystemMaintenance struct {
-	// 系统事件 - CATEGORY_SYSTEM
-	SystemMaintenance *SystemMaintenanceEvent `protobuf:"bytes,20,opt,name=system_maintenance,json=systemMaintenance,proto3,oneof"`
-}
-
-type Body_SystemAnnouncement struct {
-	SystemAnnouncement *SystemAnnouncementEvent `protobuf:"bytes,21,opt,name=system_announcement,json=systemAnnouncement,proto3,oneof"`
-}
-
-type Body_RiskAlert struct {
-	// 风控事件 - CATEGORY_RISK
-	RiskAlert *RiskAlertEvent `protobuf:"bytes,30,opt,name=risk_alert,json=riskAlert,proto3,oneof"`
-}
-
-type Body_BadDebt struct {
-	BadDebt *BadDebtEvent `protobuf:"bytes,31,opt,name=bad_debt,json=badDebt,proto3,oneof"`
-}
-
-type Body_GameResult struct {
-	// 游戏事件 - CATEGORY_GAME
-	GameResult *GameResultEvent `protobuf:"bytes,40,opt,name=game_result,json=gameResult,proto3,oneof"`
-}
-
-type Body_DailyReport struct {
-	// 报表事件 - CATEGORY_REPORT
-	DailyReport *DailyReportEvent `protobuf:"bytes,50,opt,name=daily_report,json=dailyReport,proto3,oneof"`
-}
-
-type Body_AnomalyReport struct {
-	AnomalyReport *AnomalyReportEvent `protobuf:"bytes,51,opt,name=anomaly_report,json=anomalyReport,proto3,oneof"`
-}
-
-type Body_CustomEvent struct {
-	// 扩展事件（使用Any类型以支持未来扩展）
-	CustomEvent *anypb.Any `protobuf:"bytes,100,opt,name=custom_event,json=customEvent,proto3,oneof"` // 扩展支持
-}
-
-func (*Body_SystemMaintenance) isBody_Data() {}
-
-func (*Body_SystemAnnouncement) isBody_Data() {}
-
-func (*Body_RiskAlert) isBody_Data() {}
-
-func (*Body_BadDebt) isBody_Data() {}
-
-func (*Body_GameResult) isBody_Data() {}
-
-func (*Body_DailyReport) isBody_Data() {}
-
-func (*Body_AnomalyReport) isBody_Data() {}
-
-func (*Body_CustomEvent) isBody_Data() {}
 
 // 通用推送响应
 type NotificationResponse struct {
@@ -583,8 +443,7 @@ func (x *BatchResult) GetReferenceId() string {
 type HttpNotificationRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Payload        *NotificationPayload   `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`                                            // 核心载荷
-	CallbackUrl    *string                `protobuf:"bytes,2,opt,name=callback_url,json=callbackUrl,proto3,oneof" json:"callback_url,omitempty"`           // 回调URL（可选-选择异步推送的时使用）
-	TimeoutSeconds *int32                 `protobuf:"varint,3,opt,name=timeout_seconds,json=timeoutSeconds,proto3,oneof" json:"timeout_seconds,omitempty"` // 超时时间
+	TimeoutSeconds *int32                 `protobuf:"varint,2,opt,name=timeout_seconds,json=timeoutSeconds,proto3,oneof" json:"timeout_seconds,omitempty"` // 超时时间
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -624,13 +483,6 @@ func (x *HttpNotificationRequest) GetPayload() *NotificationPayload {
 		return x.Payload
 	}
 	return nil
-}
-
-func (x *HttpNotificationRequest) GetCallbackUrl() string {
-	if x != nil && x.CallbackUrl != nil {
-		return *x.CallbackUrl
-	}
-	return ""
 }
 
 func (x *HttpNotificationRequest) GetTimeoutSeconds() int32 {
@@ -1840,83 +1692,6 @@ func (x *RobotMessage) GetMentionUsers() []string {
 	return nil
 }
 
-// 机器人按钮
-type RobotButton struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Text          string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
-	Action        ButtonAction           `protobuf:"varint,3,opt,name=action,proto3,enum=notifier.v1.ButtonAction" json:"action,omitempty"` // 使用枚举
-	Value         string                 `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`                                  // URL或回调值
-	Style         ButtonStyle            `protobuf:"varint,5,opt,name=style,proto3,enum=notifier.v1.ButtonStyle" json:"style,omitempty"`    // 使用枚举
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RobotButton) Reset() {
-	*x = RobotButton{}
-	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RobotButton) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RobotButton) ProtoMessage() {}
-
-func (x *RobotButton) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RobotButton.ProtoReflect.Descriptor instead.
-func (*RobotButton) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_delivery_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *RobotButton) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *RobotButton) GetText() string {
-	if x != nil {
-		return x.Text
-	}
-	return ""
-}
-
-func (x *RobotButton) GetAction() ButtonAction {
-	if x != nil {
-		return x.Action
-	}
-	return ButtonAction_BUTTON_ACTION_UNSPECIFIED
-}
-
-func (x *RobotButton) GetValue() string {
-	if x != nil {
-		return x.Value
-	}
-	return ""
-}
-
-func (x *RobotButton) GetStyle() ButtonStyle {
-	if x != nil {
-		return x.Style
-	}
-	return ButtonStyle_BUTTON_STYLE_UNSPECIFIED
-}
-
 // 机器人附件
 type RobotAttachment struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1930,7 +1705,7 @@ type RobotAttachment struct {
 
 func (x *RobotAttachment) Reset() {
 	*x = RobotAttachment{}
-	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[23]
+	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1942,7 +1717,7 @@ func (x *RobotAttachment) String() string {
 func (*RobotAttachment) ProtoMessage() {}
 
 func (x *RobotAttachment) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[23]
+	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1955,7 +1730,7 @@ func (x *RobotAttachment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RobotAttachment.ProtoReflect.Descriptor instead.
 func (*RobotAttachment) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_delivery_proto_rawDescGZIP(), []int{23}
+	return file_notifier_v1_notifier_delivery_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *RobotAttachment) GetType() AttachmentType {
@@ -2001,7 +1776,7 @@ type RobotCallback struct {
 
 func (x *RobotCallback) Reset() {
 	*x = RobotCallback{}
-	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[24]
+	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2013,7 +1788,7 @@ func (x *RobotCallback) String() string {
 func (*RobotCallback) ProtoMessage() {}
 
 func (x *RobotCallback) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[24]
+	mi := &file_notifier_v1_notifier_delivery_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2026,7 +1801,7 @@ func (x *RobotCallback) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RobotCallback.ProtoReflect.Descriptor instead.
 func (*RobotCallback) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_delivery_proto_rawDescGZIP(), []int{24}
+	return file_notifier_v1_notifier_delivery_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *RobotCallback) GetNotificationId() string {
@@ -2075,14 +1850,16 @@ var File_notifier_v1_notifier_delivery_proto protoreflect.FileDescriptor
 
 const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\n" +
-	"#notifier/v1/notifier_delivery.proto\x12\vnotifier.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a notifier/v1/notifier_types.proto\x1a!notifier/v1/notifier_events.proto\"\xcf\x01\n" +
+	"#notifier/v1/notifier_delivery.proto\x12\vnotifier.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a notifier/v1/notifier_types.proto\x1a!notifier/v1/notifier_events.proto\"\xe2\x01\n" +
 	"\x13NotificationPayload\x12+\n" +
 	"\x06header\x18\x01 \x01(\v2\x13.notifier.v1.HeaderR\x06header\x12%\n" +
 	"\x04body\x18\x02 \x01(\v2\x11.notifier.v1.BodyR\x04body\x120\n" +
 	"\n" +
-	"batch_body\x18\x03 \x03(\v2\x11.notifier.v1.BodyR\tbatchBody\x12\x1c\n" +
-	"\tsignature\x18\x04 \x01(\tR\tsignature\x12\x14\n" +
-	"\x05nonce\x18\x05 \x01(\x03R\x05nonce\"\xfa\x01\n" +
+	"batch_body\x18\x03 \x03(\v2\x11.notifier.v1.BodyR\tbatchBody\x12\x14\n" +
+	"\x05nonce\x18\x05 \x01(\x03R\x05nonce\x12!\n" +
+	"\tsignature\x18\x04 \x01(\tH\x00R\tsignature\x88\x01\x01B\f\n" +
+	"\n" +
+	"_signature\"\xfa\x01\n" +
 	"\x06Header\x12'\n" +
 	"\x0fnotification_id\x18\x01 \x01(\tR\x0enotificationId\x12\x1f\n" +
 	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
@@ -2091,7 +1868,7 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\vretry_count\x18\x04 \x01(\x05R\n" +
 	"retryCount\x127\n" +
 	"\tpushed_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bpushedAt\x12\x18\n" +
-	"\aversion\x18\x06 \x01(\tR\aversion\"\xc6\a\n" +
+	"\aversion\x18\x06 \x01(\tR\aversion\"\xb9\x03\n" +
 	"\x04Body\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\tR\aeventId\x12=\n" +
 	"\bcategory\x18\x02 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x125\n" +
@@ -2099,22 +1876,13 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"event_type\x18\x03 \x01(\x0e2\x16.notifier.v1.EventTypeR\teventType\x128\n" +
 	"\ttimestamp\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12'\n" +
 	"\x0fidempotency_key\x18\b \x01(\tR\x0eidempotencyKey\x12\x19\n" +
-	"\btrace_id\x18\t \x01(\tR\atraceId\x12T\n" +
-	"\x12system_maintenance\x18\x14 \x01(\v2#.notifier.v1.SystemMaintenanceEventH\x00R\x11systemMaintenance\x12W\n" +
-	"\x13system_announcement\x18\x15 \x01(\v2$.notifier.v1.SystemAnnouncementEventH\x00R\x12systemAnnouncement\x12<\n" +
-	"\n" +
-	"risk_alert\x18\x1e \x01(\v2\x1b.notifier.v1.RiskAlertEventH\x00R\triskAlert\x126\n" +
-	"\bbad_debt\x18\x1f \x01(\v2\x19.notifier.v1.BadDebtEventH\x00R\abadDebt\x12?\n" +
-	"\vgame_result\x18( \x01(\v2\x1c.notifier.v1.GameResultEventH\x00R\n" +
-	"gameResult\x12B\n" +
-	"\fdaily_report\x182 \x01(\v2\x1d.notifier.v1.DailyReportEventH\x00R\vdailyReport\x12H\n" +
-	"\x0eanomaly_report\x183 \x01(\v2\x1f.notifier.v1.AnomalyReportEventH\x00R\ranomalyReport\x129\n" +
-	"\fcustom_event\x18d \x01(\v2\x14.google.protobuf.AnyH\x00R\vcustomEvent\x12;\n" +
+	"\btrace_id\x18\t \x01(\tR\atraceId\x12(\n" +
+	"\x04data\x18\n" +
+	" \x01(\v2\x14.google.protobuf.AnyR\x04data\x12;\n" +
 	"\bmetadata\x18e \x03(\v2\x1f.notifier.v1.Body.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x06\n" +
-	"\x04data\"\xec\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xec\x01\n" +
 	"\x14NotificationResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x1b\n" +
 	"\terror_msg\x18\x02 \x01(\tR\berrorMsg\x12!\n" +
@@ -2126,12 +1894,10 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\bevent_id\x18\x01 \x01(\tR\aeventId\x12\x18\n" +
 	"\asuccess\x18\x02 \x01(\bR\asuccess\x12\x1b\n" +
 	"\terror_msg\x18\x03 \x01(\tR\berrorMsg\x12!\n" +
-	"\freference_id\x18\x04 \x01(\tR\vreferenceId\"\xd0\x01\n" +
+	"\freference_id\x18\x04 \x01(\tR\vreferenceId\"\x97\x01\n" +
 	"\x17HttpNotificationRequest\x12:\n" +
-	"\apayload\x18\x01 \x01(\v2 .notifier.v1.NotificationPayloadR\apayload\x12&\n" +
-	"\fcallback_url\x18\x02 \x01(\tH\x00R\vcallbackUrl\x88\x01\x01\x12,\n" +
-	"\x0ftimeout_seconds\x18\x03 \x01(\x05H\x01R\x0etimeoutSeconds\x88\x01\x01B\x0f\n" +
-	"\r_callback_urlB\x12\n" +
+	"\apayload\x18\x01 \x01(\v2 .notifier.v1.NotificationPayloadR\apayload\x12,\n" +
+	"\x0ftimeout_seconds\x18\x02 \x01(\x05H\x00R\x0etimeoutSeconds\x88\x01\x01B\x12\n" +
 	"\x10_timeout_seconds\"Y\n" +
 	"\x18HttpNotificationResponse\x12=\n" +
 	"\bresponse\x18\x01 \x01(\v2!.notifier.v1.NotificationResponseR\bresponse\"\xe9\x03\n" +
@@ -2229,13 +1995,7 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\vattachments\x18\x05 \x03(\v2\x1c.notifier.v1.RobotAttachmentR\vattachments\x12\x1f\n" +
 	"\vmention_all\x18\x06 \x01(\bR\n" +
 	"mentionAll\x12#\n" +
-	"\rmention_users\x18\a \x03(\tR\fmentionUsers\"\xaa\x01\n" +
-	"\vRobotButton\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04text\x18\x02 \x01(\tR\x04text\x121\n" +
-	"\x06action\x18\x03 \x01(\x0e2\x19.notifier.v1.ButtonActionR\x06action\x12\x14\n" +
-	"\x05value\x18\x04 \x01(\tR\x05value\x12.\n" +
-	"\x05style\x18\x05 \x01(\x0e2\x18.notifier.v1.ButtonStyleR\x05style\"\x8c\x01\n" +
+	"\rmention_users\x18\a \x03(\tR\fmentionUsers\"\x8c\x01\n" +
 	"\x0fRobotAttachment\x12/\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1b.notifier.v1.AttachmentTypeR\x04type\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x14\n" +
@@ -2261,7 +2021,7 @@ func file_notifier_v1_notifier_delivery_proto_rawDescGZIP() []byte {
 	return file_notifier_v1_notifier_delivery_proto_rawDescData
 }
 
-var file_notifier_v1_notifier_delivery_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_notifier_v1_notifier_delivery_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_notifier_v1_notifier_delivery_proto_goTypes = []any{
 	(*NotificationPayload)(nil),        // 0: notifier.v1.NotificationPayload
 	(*Header)(nil),                     // 1: notifier.v1.Header
@@ -2285,92 +2045,75 @@ var file_notifier_v1_notifier_delivery_proto_goTypes = []any{
 	(*StreamStatus)(nil),               // 19: notifier.v1.StreamStatus
 	(*RobotNotification)(nil),          // 20: notifier.v1.RobotNotification
 	(*RobotMessage)(nil),               // 21: notifier.v1.RobotMessage
-	(*RobotButton)(nil),                // 22: notifier.v1.RobotButton
-	(*RobotAttachment)(nil),            // 23: notifier.v1.RobotAttachment
-	(*RobotCallback)(nil),              // 24: notifier.v1.RobotCallback
-	nil,                                // 25: notifier.v1.Body.MetadataEntry
-	nil,                                // 26: notifier.v1.WebSocketControl.ParametersEntry
-	nil,                                // 27: notifier.v1.StreamHeader.MetadataEntry
-	nil,                                // 28: notifier.v1.StreamControl.ParametersEntry
-	(PushChannel)(0),                   // 29: notifier.v1.PushChannel
-	(*timestamppb.Timestamp)(nil),      // 30: google.protobuf.Timestamp
-	(NotificationCategory)(0),          // 31: notifier.v1.NotificationCategory
-	(EventType)(0),                     // 32: notifier.v1.EventType
-	(*SystemMaintenanceEvent)(nil),     // 33: notifier.v1.SystemMaintenanceEvent
-	(*SystemAnnouncementEvent)(nil),    // 34: notifier.v1.SystemAnnouncementEvent
-	(*RiskAlertEvent)(nil),             // 35: notifier.v1.RiskAlertEvent
-	(*BadDebtEvent)(nil),               // 36: notifier.v1.BadDebtEvent
-	(*GameResultEvent)(nil),            // 37: notifier.v1.GameResultEvent
-	(*DailyReportEvent)(nil),           // 38: notifier.v1.DailyReportEvent
-	(*AnomalyReportEvent)(nil),         // 39: notifier.v1.AnomalyReportEvent
-	(*anypb.Any)(nil),                  // 40: google.protobuf.Any
-	(WebSocketFrameType)(0),            // 41: notifier.v1.WebSocketFrameType
-	(StreamAction)(0),                  // 42: notifier.v1.StreamAction
-	(RobotType)(0),                     // 43: notifier.v1.RobotType
-	(NotificationPriority)(0),          // 44: notifier.v1.NotificationPriority
-	(ButtonAction)(0),                  // 45: notifier.v1.ButtonAction
-	(ButtonStyle)(0),                   // 46: notifier.v1.ButtonStyle
-	(AttachmentType)(0),                // 47: notifier.v1.AttachmentType
+	(*RobotAttachment)(nil),            // 22: notifier.v1.RobotAttachment
+	(*RobotCallback)(nil),              // 23: notifier.v1.RobotCallback
+	nil,                                // 24: notifier.v1.Body.MetadataEntry
+	nil,                                // 25: notifier.v1.WebSocketControl.ParametersEntry
+	nil,                                // 26: notifier.v1.StreamHeader.MetadataEntry
+	nil,                                // 27: notifier.v1.StreamControl.ParametersEntry
+	(PushChannel)(0),                   // 28: notifier.v1.PushChannel
+	(*timestamppb.Timestamp)(nil),      // 29: google.protobuf.Timestamp
+	(NotificationCategory)(0),          // 30: notifier.v1.NotificationCategory
+	(EventType)(0),                     // 31: notifier.v1.EventType
+	(*anypb.Any)(nil),                  // 32: google.protobuf.Any
+	(WebSocketFrameType)(0),            // 33: notifier.v1.WebSocketFrameType
+	(StreamAction)(0),                  // 34: notifier.v1.StreamAction
+	(RobotType)(0),                     // 35: notifier.v1.RobotType
+	(NotificationPriority)(0),          // 36: notifier.v1.NotificationPriority
+	(*RobotButton)(nil),                // 37: notifier.v1.RobotButton
+	(AttachmentType)(0),                // 38: notifier.v1.AttachmentType
+	(ButtonAction)(0),                  // 39: notifier.v1.ButtonAction
 }
 var file_notifier_v1_notifier_delivery_proto_depIdxs = []int32{
 	1,  // 0: notifier.v1.NotificationPayload.header:type_name -> notifier.v1.Header
 	2,  // 1: notifier.v1.NotificationPayload.body:type_name -> notifier.v1.Body
 	2,  // 2: notifier.v1.NotificationPayload.batch_body:type_name -> notifier.v1.Body
-	29, // 3: notifier.v1.Header.channel:type_name -> notifier.v1.PushChannel
-	30, // 4: notifier.v1.Header.pushed_at:type_name -> google.protobuf.Timestamp
-	31, // 5: notifier.v1.Body.category:type_name -> notifier.v1.NotificationCategory
-	32, // 6: notifier.v1.Body.event_type:type_name -> notifier.v1.EventType
-	30, // 7: notifier.v1.Body.timestamp:type_name -> google.protobuf.Timestamp
-	33, // 8: notifier.v1.Body.system_maintenance:type_name -> notifier.v1.SystemMaintenanceEvent
-	34, // 9: notifier.v1.Body.system_announcement:type_name -> notifier.v1.SystemAnnouncementEvent
-	35, // 10: notifier.v1.Body.risk_alert:type_name -> notifier.v1.RiskAlertEvent
-	36, // 11: notifier.v1.Body.bad_debt:type_name -> notifier.v1.BadDebtEvent
-	37, // 12: notifier.v1.Body.game_result:type_name -> notifier.v1.GameResultEvent
-	38, // 13: notifier.v1.Body.daily_report:type_name -> notifier.v1.DailyReportEvent
-	39, // 14: notifier.v1.Body.anomaly_report:type_name -> notifier.v1.AnomalyReportEvent
-	40, // 15: notifier.v1.Body.custom_event:type_name -> google.protobuf.Any
-	25, // 16: notifier.v1.Body.metadata:type_name -> notifier.v1.Body.MetadataEntry
-	30, // 17: notifier.v1.NotificationResponse.received_at:type_name -> google.protobuf.Timestamp
-	4,  // 18: notifier.v1.NotificationResponse.batch_results:type_name -> notifier.v1.BatchResult
-	0,  // 19: notifier.v1.HttpNotificationRequest.payload:type_name -> notifier.v1.NotificationPayload
-	3,  // 20: notifier.v1.HttpNotificationResponse.response:type_name -> notifier.v1.NotificationResponse
-	41, // 21: notifier.v1.WebSocketFrame.type:type_name -> notifier.v1.WebSocketFrameType
-	0,  // 22: notifier.v1.WebSocketFrame.notification:type_name -> notifier.v1.NotificationPayload
-	8,  // 23: notifier.v1.WebSocketFrame.heartbeat:type_name -> notifier.v1.WebSocketHeartbeat
-	9,  // 24: notifier.v1.WebSocketFrame.ack:type_name -> notifier.v1.WebSocketAck
-	10, // 25: notifier.v1.WebSocketFrame.error:type_name -> notifier.v1.WebSocketError
-	11, // 26: notifier.v1.WebSocketFrame.control:type_name -> notifier.v1.WebSocketControl
-	30, // 27: notifier.v1.WebSocketFrame.timestamp:type_name -> google.protobuf.Timestamp
-	42, // 28: notifier.v1.WebSocketControl.action:type_name -> notifier.v1.StreamAction
-	26, // 29: notifier.v1.WebSocketControl.parameters:type_name -> notifier.v1.WebSocketControl.ParametersEntry
-	13, // 30: notifier.v1.StreamNotificationRequest.header:type_name -> notifier.v1.StreamHeader
-	0,  // 31: notifier.v1.StreamNotificationRequest.notification:type_name -> notifier.v1.NotificationPayload
-	14, // 32: notifier.v1.StreamNotificationRequest.control:type_name -> notifier.v1.StreamControl
-	15, // 33: notifier.v1.StreamNotificationRequest.footer:type_name -> notifier.v1.StreamFooter
-	30, // 34: notifier.v1.StreamHeader.start_time:type_name -> google.protobuf.Timestamp
-	27, // 35: notifier.v1.StreamHeader.metadata:type_name -> notifier.v1.StreamHeader.MetadataEntry
-	42, // 36: notifier.v1.StreamControl.action:type_name -> notifier.v1.StreamAction
-	28, // 37: notifier.v1.StreamControl.parameters:type_name -> notifier.v1.StreamControl.ParametersEntry
-	30, // 38: notifier.v1.StreamFooter.end_time:type_name -> google.protobuf.Timestamp
-	17, // 39: notifier.v1.StreamNotificationResponse.ack:type_name -> notifier.v1.StreamAck
-	18, // 40: notifier.v1.StreamNotificationResponse.error:type_name -> notifier.v1.StreamError
-	19, // 41: notifier.v1.StreamNotificationResponse.status:type_name -> notifier.v1.StreamStatus
-	0,  // 42: notifier.v1.RobotNotification.payload:type_name -> notifier.v1.NotificationPayload
-	43, // 43: notifier.v1.RobotNotification.robot_type:type_name -> notifier.v1.RobotType
-	21, // 44: notifier.v1.RobotNotification.message:type_name -> notifier.v1.RobotMessage
-	44, // 45: notifier.v1.RobotMessage.priority:type_name -> notifier.v1.NotificationPriority
-	22, // 46: notifier.v1.RobotMessage.buttons:type_name -> notifier.v1.RobotButton
-	23, // 47: notifier.v1.RobotMessage.attachments:type_name -> notifier.v1.RobotAttachment
-	45, // 48: notifier.v1.RobotButton.action:type_name -> notifier.v1.ButtonAction
-	46, // 49: notifier.v1.RobotButton.style:type_name -> notifier.v1.ButtonStyle
-	47, // 50: notifier.v1.RobotAttachment.type:type_name -> notifier.v1.AttachmentType
-	45, // 51: notifier.v1.RobotCallback.action:type_name -> notifier.v1.ButtonAction
-	30, // 52: notifier.v1.RobotCallback.triggered_at:type_name -> google.protobuf.Timestamp
-	53, // [53:53] is the sub-list for method output_type
-	53, // [53:53] is the sub-list for method input_type
-	53, // [53:53] is the sub-list for extension type_name
-	53, // [53:53] is the sub-list for extension extendee
-	0,  // [0:53] is the sub-list for field type_name
+	28, // 3: notifier.v1.Header.channel:type_name -> notifier.v1.PushChannel
+	29, // 4: notifier.v1.Header.pushed_at:type_name -> google.protobuf.Timestamp
+	30, // 5: notifier.v1.Body.category:type_name -> notifier.v1.NotificationCategory
+	31, // 6: notifier.v1.Body.event_type:type_name -> notifier.v1.EventType
+	29, // 7: notifier.v1.Body.timestamp:type_name -> google.protobuf.Timestamp
+	32, // 8: notifier.v1.Body.data:type_name -> google.protobuf.Any
+	24, // 9: notifier.v1.Body.metadata:type_name -> notifier.v1.Body.MetadataEntry
+	29, // 10: notifier.v1.NotificationResponse.received_at:type_name -> google.protobuf.Timestamp
+	4,  // 11: notifier.v1.NotificationResponse.batch_results:type_name -> notifier.v1.BatchResult
+	0,  // 12: notifier.v1.HttpNotificationRequest.payload:type_name -> notifier.v1.NotificationPayload
+	3,  // 13: notifier.v1.HttpNotificationResponse.response:type_name -> notifier.v1.NotificationResponse
+	33, // 14: notifier.v1.WebSocketFrame.type:type_name -> notifier.v1.WebSocketFrameType
+	0,  // 15: notifier.v1.WebSocketFrame.notification:type_name -> notifier.v1.NotificationPayload
+	8,  // 16: notifier.v1.WebSocketFrame.heartbeat:type_name -> notifier.v1.WebSocketHeartbeat
+	9,  // 17: notifier.v1.WebSocketFrame.ack:type_name -> notifier.v1.WebSocketAck
+	10, // 18: notifier.v1.WebSocketFrame.error:type_name -> notifier.v1.WebSocketError
+	11, // 19: notifier.v1.WebSocketFrame.control:type_name -> notifier.v1.WebSocketControl
+	29, // 20: notifier.v1.WebSocketFrame.timestamp:type_name -> google.protobuf.Timestamp
+	34, // 21: notifier.v1.WebSocketControl.action:type_name -> notifier.v1.StreamAction
+	25, // 22: notifier.v1.WebSocketControl.parameters:type_name -> notifier.v1.WebSocketControl.ParametersEntry
+	13, // 23: notifier.v1.StreamNotificationRequest.header:type_name -> notifier.v1.StreamHeader
+	0,  // 24: notifier.v1.StreamNotificationRequest.notification:type_name -> notifier.v1.NotificationPayload
+	14, // 25: notifier.v1.StreamNotificationRequest.control:type_name -> notifier.v1.StreamControl
+	15, // 26: notifier.v1.StreamNotificationRequest.footer:type_name -> notifier.v1.StreamFooter
+	29, // 27: notifier.v1.StreamHeader.start_time:type_name -> google.protobuf.Timestamp
+	26, // 28: notifier.v1.StreamHeader.metadata:type_name -> notifier.v1.StreamHeader.MetadataEntry
+	34, // 29: notifier.v1.StreamControl.action:type_name -> notifier.v1.StreamAction
+	27, // 30: notifier.v1.StreamControl.parameters:type_name -> notifier.v1.StreamControl.ParametersEntry
+	29, // 31: notifier.v1.StreamFooter.end_time:type_name -> google.protobuf.Timestamp
+	17, // 32: notifier.v1.StreamNotificationResponse.ack:type_name -> notifier.v1.StreamAck
+	18, // 33: notifier.v1.StreamNotificationResponse.error:type_name -> notifier.v1.StreamError
+	19, // 34: notifier.v1.StreamNotificationResponse.status:type_name -> notifier.v1.StreamStatus
+	0,  // 35: notifier.v1.RobotNotification.payload:type_name -> notifier.v1.NotificationPayload
+	35, // 36: notifier.v1.RobotNotification.robot_type:type_name -> notifier.v1.RobotType
+	21, // 37: notifier.v1.RobotNotification.message:type_name -> notifier.v1.RobotMessage
+	36, // 38: notifier.v1.RobotMessage.priority:type_name -> notifier.v1.NotificationPriority
+	37, // 39: notifier.v1.RobotMessage.buttons:type_name -> notifier.v1.RobotButton
+	22, // 40: notifier.v1.RobotMessage.attachments:type_name -> notifier.v1.RobotAttachment
+	38, // 41: notifier.v1.RobotAttachment.type:type_name -> notifier.v1.AttachmentType
+	39, // 42: notifier.v1.RobotCallback.action:type_name -> notifier.v1.ButtonAction
+	29, // 43: notifier.v1.RobotCallback.triggered_at:type_name -> google.protobuf.Timestamp
+	44, // [44:44] is the sub-list for method output_type
+	44, // [44:44] is the sub-list for method input_type
+	44, // [44:44] is the sub-list for extension type_name
+	44, // [44:44] is the sub-list for extension extendee
+	0,  // [0:44] is the sub-list for field type_name
 }
 
 func init() { file_notifier_v1_notifier_delivery_proto_init() }
@@ -2380,16 +2123,7 @@ func file_notifier_v1_notifier_delivery_proto_init() {
 	}
 	file_notifier_v1_notifier_types_proto_init()
 	file_notifier_v1_notifier_events_proto_init()
-	file_notifier_v1_notifier_delivery_proto_msgTypes[2].OneofWrappers = []any{
-		(*Body_SystemMaintenance)(nil),
-		(*Body_SystemAnnouncement)(nil),
-		(*Body_RiskAlert)(nil),
-		(*Body_BadDebt)(nil),
-		(*Body_GameResult)(nil),
-		(*Body_DailyReport)(nil),
-		(*Body_AnomalyReport)(nil),
-		(*Body_CustomEvent)(nil),
-	}
+	file_notifier_v1_notifier_delivery_proto_msgTypes[0].OneofWrappers = []any{}
 	file_notifier_v1_notifier_delivery_proto_msgTypes[5].OneofWrappers = []any{}
 	file_notifier_v1_notifier_delivery_proto_msgTypes[7].OneofWrappers = []any{
 		(*WebSocketFrame_Notification)(nil),
@@ -2415,7 +2149,7 @@ func file_notifier_v1_notifier_delivery_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notifier_v1_notifier_delivery_proto_rawDesc), len(file_notifier_v1_notifier_delivery_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

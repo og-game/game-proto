@@ -17,8 +17,8 @@ message NotificationPayload {
   // 批量支持
   repeated Body batch_body = 3;   // 批量事件（可选）
   // 安全信息
-  string signature = 4;                     // HMAC-SHA256签名
   int64 nonce = 5;                         // 防重放随机数
+  optional string signature = 4;           // 签名【可选】
 }
 
 // 推送头
@@ -45,24 +45,8 @@ message Body {
   // 幂等和追踪
   string idempotency_key = 8;               // 幂等键
   string trace_id = 9;                      // 链路追踪ID
-
-  // 事件数据 - 使用one of确保类型安全
-  oneof data {
-    // 系统事件 - CATEGORY_SYSTEM
-    SystemMaintenanceEvent system_maintenance = 20;
-    SystemAnnouncementEvent system_announcement = 21;
-    // 风控事件 - CATEGORY_RISK
-    RiskAlertEvent risk_alert = 30;
-    BadDebtEvent bad_debt = 31;
-    // 游戏事件 - CATEGORY_GAME
-    GameResultEvent game_result = 40;
-    // 报表事件 - CATEGORY_REPORT
-    DailyReportEvent daily_report = 50;
-    AnomalyReportEvent anomaly_report = 51;
-    // 扩展事件（使用Any类型以支持未来扩展）
-    google.protobuf.Any custom_event = 100;    // 扩展支持
-  }
-
+  // 实际的推送数据
+  google.protobuf.Any data = 10;           // 推送的具体数据
   // 元数据
   map<string, string> metadata = 101;
 }
@@ -90,8 +74,7 @@ message BatchResult {
 // HTTP推送请求（将序列化为JSON）
 message HttpNotificationRequest {
   NotificationPayload payload = 1;          // 核心载荷
-  optional string callback_url = 2;                  // 回调URL（可选-选择异步推送的时使用）
-  optional int32 timeout_seconds = 3;                // 超时时间
+  optional int32 timeout_seconds = 2;                // 超时时间
 }
 
 // HTTP推送响应（商户返回）
@@ -237,15 +220,6 @@ message RobotMessage {
   // 显示选项
   bool mention_all = 6;                     // @所有人
   repeated string mention_users = 7;        // @特定用户
-}
-
-// 机器人按钮
-message RobotButton {
-  string id = 1;
-  string text = 2;
-  ButtonAction action = 3;                  // 使用枚举
-  string value = 4;                         // URL或回调值
-  ButtonStyle style = 5;                    // 使用枚举
 }
 
 // 机器人附件

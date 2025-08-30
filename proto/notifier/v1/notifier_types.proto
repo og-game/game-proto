@@ -280,3 +280,119 @@ message CategoryConfig {
   bool allow_batch = 5;                    // 是否允许批量推送
   int32 default_batch_size = 6;            // 默认批量大小
 }
+
+
+
+
+// ==================== 机器人配置 ====================
+
+// RobotConfig 通用机器人配置
+message RobotConfig {
+  // 目标配置
+  string channel_id = 1;           // 频道/群组ID（Slack, Teams需要）
+  string chat_id = 2;              // 聊天ID（Telegram需要）
+  repeated string user_ids = 3;    // 用户ID列表（私聊或指定接收人）
+
+  // 消息配置
+  bool mention_all = 4;            // @所有人
+  repeated string mention_users = 5; // @特定用户（用户ID或用户名）
+
+  // 显示配置
+  string display_name = 6;         // 机器人显示名称
+  string avatar_url = 7;           // 机器人头像URL
+  string color = 8;                // 消息颜色（如 #FF0000）
+
+  // 格式配置
+  string message_format = 9;       // 消息格式: markdown, html, text
+  bool enable_card = 10;           // 是否使用卡片消息
+
+  // 交互配置
+  repeated RobotButton buttons = 11; // 按钮配置
+
+  // 特定平台配置
+  SlackConfig slack_config = 20;
+  LarkConfig lark_config = 21;
+  TeamsConfig teams_config = 22;
+  TelegramConfig telegram_config = 23;
+}
+
+// RobotButton 机器人按钮配置
+message RobotButton {
+  string id = 1;
+  string text = 2;
+  string url = 3;                  // 点击跳转URL
+  ButtonAction action = 4;               // 动作类型: url, callback
+  ButtonStyle style = 5;                // 按钮样式: default, primary, danger
+  string value = 6;                // 回调值
+}
+
+// SlackConfig Slack特定配置
+message SlackConfig {
+  string thread_ts = 1;            // 线程时间戳（用于回复）
+  string icon_emoji = 2;           // 图标emoji
+  string username = 3;             // 用户名覆盖
+  bool attachments = 4;            // 是否使用附件格式
+  bool blocks = 5;                 // 是否使用Block Kit
+  bool ephemeral = 6;              // 是否为临时消息
+  repeated string user_groups = 7; // 用户组ID列表
+}
+
+// LarkConfig 飞书特定配置
+message LarkConfig {
+  string msg_type = 1;             // 消息类型: text, post, card, interactive
+  string sign_type = 2;            // 签名类型: v1, v2
+  bool update_multi = 3;           // 是否更新多条消息
+  LarkCardConfig card_config = 4;  // 卡片配置
+}
+
+// LarkCardConfig 飞书卡片配置
+message LarkCardConfig {
+  bool wide_screen_mode = 1;       // 宽屏模式
+  bool enable_forward = 2;         // 允许转发
+  bool update_multi = 3;           // 更新多条
+  string config_json = 4;          // 卡片配置JSON
+}
+
+// TeamsConfig Teams特定配置
+message TeamsConfig {
+  string summary = 1;              // 摘要
+  string theme_color = 2;          // 主题颜色
+  bool sections = 3;               // 是否使用sections
+  bool potential_action = 4;       // 是否包含操作
+}
+
+// TelegramConfig Telegram特定配置
+message TelegramConfig {
+  string parse_mode = 1;           // 解析模式: Markdown, HTML
+  bool disable_notification = 2;   // 静音通知
+  int64 reply_to_message_id = 3;   // 回复消息ID
+  string reply_markup = 4;         // 键盘标记JSON
+  bool disable_web_page_preview = 5; // 禁用链接预览
+}
+
+// ==================== 认证凭据配置 ====================
+
+// 无认证
+message NoneAuth {}
+
+// Token认证
+message TokenAuth {
+  string token = 1;         // Token值
+  string token_type = 2;    // Token类型: Bearer, Basic
+  string header = 3;        // Header名称，默认 Authorization
+}
+
+// 签名认证
+message SignatureAuth {
+  string secret = 1;        // 签名密钥
+  string algorithm = 2;     // 签名算法: HMAC-SHA256, HMAC-SHA1
+}
+
+// OAuth认证
+message OAuthAuth {
+  string client_id = 1;     // 客户端ID
+  string client_secret = 2; // 客户端密钥
+  string access_token = 3;  // 访问令牌
+  string refresh_token = 4; // 刷新令牌
+  string token_url = 5;     // 令牌URL
+}
