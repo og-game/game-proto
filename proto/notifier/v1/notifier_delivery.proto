@@ -3,6 +3,7 @@ syntax = "proto3";
 package notifier.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/notifier/v1";
 
+import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 import "notifier/v1/notifier_types.proto";
 import "notifier/v1/notifier_events.proto";
@@ -11,12 +12,10 @@ import "notifier/v1/notifier_events.proto";
 
 // 推送载荷 - 所有推送的基础结构
 message NotificationPayload {
-  Header header = 1;
-  EventWrapper event = 2;                   // 使用统一的事件包装器
-
+  Header header = 1;    // 推送头
+  Body body = 2;        // 推送内容
   // 批量支持
-  repeated EventWrapper batch_events = 3;   // 批量事件（可选）
-
+  repeated Body batch_body = 3;   // 批量事件（可选）
   // 安全信息
   string signature = 4;                     // HMAC-SHA256签名
   int64 nonce = 5;                         // 防重放随机数
@@ -25,12 +24,49 @@ message NotificationPayload {
 // 推送头
 message Header {
   string notification_id = 1;              // 推送唯一ID
-  int64 merchant_id = 2;                  // 商户ID
+  int64 merchant_id = 2;                   // 商户ID
   PushChannel channel = 3;                 // 推送通道
   int32 retry_count = 4;                   // 重试次数
   google.protobuf.Timestamp pushed_at = 5; // 推送时间
   string version = 6;                      // API版本
 }
+
+
+// 事件包装器 - 所有事件的统一容器
+message Body {
+  // 事件标识
+  string event_id = 1;                      // 事件唯一ID
+  NotificationCategory category = 2;        // 通知大类
+  EventType event_type = 3;                 // 事件小类（具体类型）
+
+  // 时间信息
+  google.protobuf.Timestamp timestamp = 7;   // 事件发生时间
+
+  // 幂等和追踪
+  string idempotency_key = 8;               // 幂等键
+  string trace_id = 9;                      // 链路追踪ID
+
+  // 事件数据 - 使用one of确保类型安全
+  oneof data {
+    // 系统事件 - CATEGORY_SYSTEM
+    SystemMaintenanceEvent system_maintenance = 20;
+    SystemAnnouncementEvent system_announcement = 21;
+    // 风控事件 - CATEGORY_RISK
+    RiskAlertEvent risk_alert = 30;
+    BadDebtEvent bad_debt = 31;
+    // 游戏事件 - CATEGORY_GAME
+    GameResultEvent game_result = 40;
+    // 报表事件 - CATEGORY_REPORT
+    DailyReportEvent daily_report = 50;
+    AnomalyReportEvent anomaly_report = 51;
+    // 扩展事件（使用Any类型以支持未来扩展）
+    google.protobuf.Any custom_event = 100;    // 扩展支持
+  }
+
+  // 元数据
+  map<string, string> metadata = 101;
+}
+
 
 
 // 通用推送响应
