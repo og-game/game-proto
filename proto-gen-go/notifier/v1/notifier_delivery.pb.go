@@ -1841,7 +1841,7 @@ var File_notifier_v1_notifier_delivery_proto protoreflect.FileDescriptor
 
 const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\n" +
-	"#notifier/v1/notifier_delivery.proto\x12\vnotifier.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a notifier/v1/notifier_types.proto\x1a!notifier/v1/notifier_events.proto\"\xb0\x01\n" +
+	"#notifier/v1/notifier_delivery.proto\x12\vnotifier.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a notifier/v1/notifier_types.proto\"\xb0\x01\n" +
 	"\x13NotificationPayload\x12+\n" +
 	"\x06header\x18\x01 \x01(\v2\x13.notifier.v1.HeaderR\x06header\x12%\n" +
 	"\x04body\x18\x02 \x01(\v2\x11.notifier.v1.BodyR\x04body\x12\x14\n" +
@@ -2110,7 +2110,6 @@ func file_notifier_v1_notifier_delivery_proto_init() {
 		return
 	}
 	file_notifier_v1_notifier_types_proto_init()
-	file_notifier_v1_notifier_events_proto_init()
 	file_notifier_v1_notifier_delivery_proto_msgTypes[0].OneofWrappers = []any{}
 	file_notifier_v1_notifier_delivery_proto_msgTypes[5].OneofWrappers = []any{}
 	file_notifier_v1_notifier_delivery_proto_msgTypes[7].OneofWrappers = []any{
