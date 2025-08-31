@@ -28,6 +28,7 @@ message Header {
   int32 retry_count = 4;                   // 重试次数
   google.protobuf.Timestamp pushed_at = 5; // 推送时间
   string version = 6;                      // API版本
+  int32 event_number = 7;                  // 事件数量
 }
 
 

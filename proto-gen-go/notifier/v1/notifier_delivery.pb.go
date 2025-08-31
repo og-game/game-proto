@@ -111,6 +111,7 @@ type Header struct {
 	RetryCount     int32                  `protobuf:"varint,4,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`            // 重试次数
 	PushedAt       *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=pushed_at,json=pushedAt,proto3" json:"pushed_at,omitempty"`                   // 推送时间
 	Version        string                 `protobuf:"bytes,6,opt,name=version,proto3" json:"version,omitempty"`                                     // API版本
+	EventNumber    int32                  `protobuf:"varint,7,opt,name=event_number,json=eventNumber,proto3" json:"event_number,omitempty"`         // 事件数量
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -185,6 +186,13 @@ func (x *Header) GetVersion() string {
 		return x.Version
 	}
 	return ""
+}
+
+func (x *Header) GetEventNumber() int32 {
+	if x != nil {
+		return x.EventNumber
+	}
+	return 0
 }
 
 // 事件包装器 - 所有事件的统一容器
@@ -1859,7 +1867,7 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\x05nonce\x18\x05 \x01(\x03R\x05nonce\x12!\n" +
 	"\tsignature\x18\x04 \x01(\tH\x00R\tsignature\x88\x01\x01B\f\n" +
 	"\n" +
-	"_signature\"\xfa\x01\n" +
+	"_signature\"\x9d\x02\n" +
 	"\x06Header\x12'\n" +
 	"\x0fnotification_id\x18\x01 \x01(\tR\x0enotificationId\x12\x1f\n" +
 	"\vmerchant_id\x18\x02 \x01(\x03R\n" +
@@ -1868,7 +1876,8 @@ const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\vretry_count\x18\x04 \x01(\x05R\n" +
 	"retryCount\x127\n" +
 	"\tpushed_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bpushedAt\x12\x18\n" +
-	"\aversion\x18\x06 \x01(\tR\aversion\"\xb9\x03\n" +
+	"\aversion\x18\x06 \x01(\tR\aversion\x12!\n" +
+	"\fevent_number\x18\a \x01(\x05R\veventNumber\"\xb9\x03\n" +
 	"\x04Body\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\tR\aeventId\x12=\n" +
 	"\bcategory\x18\x02 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x125\n" +
