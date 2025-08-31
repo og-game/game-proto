@@ -13,6 +13,8 @@ import "notifier/v1/notifier_types.proto";
 message NotificationPayload {
   Header header = 1;    // 推送头
   Body body = 2;        // 推送内容
+  // 批量支持
+  repeated Body batch_body = 3;   // 批量事件（可选）
   // 安全信息
   int64 nonce = 5;                         // 防重放随机数
   optional string signature = 4;           // 签名【可选】
