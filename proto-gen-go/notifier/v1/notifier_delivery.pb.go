@@ -28,8 +28,6 @@ type NotificationPayload struct {
 	state  protoimpl.MessageState `protogen:"open.v1"`
 	Header *Header                `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"` // 推送头
 	Body   *Body                  `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`     // 推送内容
-	// 批量支持
-	BatchBody []*Body `protobuf:"bytes,3,rep,name=batch_body,json=batchBody,proto3" json:"batch_body,omitempty"` // 批量事件（可选）
 	// 安全信息
 	Nonce         int64   `protobuf:"varint,5,opt,name=nonce,proto3" json:"nonce,omitempty"`              // 防重放随机数
 	Signature     *string `protobuf:"bytes,4,opt,name=signature,proto3,oneof" json:"signature,omitempty"` // 签名【可选】
@@ -77,13 +75,6 @@ func (x *NotificationPayload) GetHeader() *Header {
 func (x *NotificationPayload) GetBody() *Body {
 	if x != nil {
 		return x.Body
-	}
-	return nil
-}
-
-func (x *NotificationPayload) GetBatchBody() []*Body {
-	if x != nil {
-		return x.BatchBody
 	}
 	return nil
 }
@@ -1850,12 +1841,10 @@ var File_notifier_v1_notifier_delivery_proto protoreflect.FileDescriptor
 
 const file_notifier_v1_notifier_delivery_proto_rawDesc = "" +
 	"\n" +
-	"#notifier/v1/notifier_delivery.proto\x12\vnotifier.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a notifier/v1/notifier_types.proto\x1a!notifier/v1/notifier_events.proto\"\xe2\x01\n" +
+	"#notifier/v1/notifier_delivery.proto\x12\vnotifier.v1\x1a\x19google/protobuf/any.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a notifier/v1/notifier_types.proto\x1a!notifier/v1/notifier_events.proto\"\xb0\x01\n" +
 	"\x13NotificationPayload\x12+\n" +
 	"\x06header\x18\x01 \x01(\v2\x13.notifier.v1.HeaderR\x06header\x12%\n" +
-	"\x04body\x18\x02 \x01(\v2\x11.notifier.v1.BodyR\x04body\x120\n" +
-	"\n" +
-	"batch_body\x18\x03 \x03(\v2\x11.notifier.v1.BodyR\tbatchBody\x12\x14\n" +
+	"\x04body\x18\x02 \x01(\v2\x11.notifier.v1.BodyR\x04body\x12\x14\n" +
 	"\x05nonce\x18\x05 \x01(\x03R\x05nonce\x12!\n" +
 	"\tsignature\x18\x04 \x01(\tH\x00R\tsignature\x88\x01\x01B\f\n" +
 	"\n" +
@@ -2067,53 +2056,52 @@ var file_notifier_v1_notifier_delivery_proto_goTypes = []any{
 var file_notifier_v1_notifier_delivery_proto_depIdxs = []int32{
 	1,  // 0: notifier.v1.NotificationPayload.header:type_name -> notifier.v1.Header
 	2,  // 1: notifier.v1.NotificationPayload.body:type_name -> notifier.v1.Body
-	2,  // 2: notifier.v1.NotificationPayload.batch_body:type_name -> notifier.v1.Body
-	28, // 3: notifier.v1.Header.channel:type_name -> notifier.v1.PushChannel
-	29, // 4: notifier.v1.Header.pushed_at:type_name -> google.protobuf.Timestamp
-	30, // 5: notifier.v1.Body.category:type_name -> notifier.v1.NotificationCategory
-	31, // 6: notifier.v1.Body.event_type:type_name -> notifier.v1.EventType
-	29, // 7: notifier.v1.Body.timestamp:type_name -> google.protobuf.Timestamp
-	32, // 8: notifier.v1.Body.data:type_name -> google.protobuf.Any
-	24, // 9: notifier.v1.Body.metadata:type_name -> notifier.v1.Body.MetadataEntry
-	29, // 10: notifier.v1.NotificationResponse.received_at:type_name -> google.protobuf.Timestamp
-	4,  // 11: notifier.v1.NotificationResponse.batch_results:type_name -> notifier.v1.BatchResult
-	0,  // 12: notifier.v1.HttpNotificationRequest.payload:type_name -> notifier.v1.NotificationPayload
-	3,  // 13: notifier.v1.HttpNotificationResponse.response:type_name -> notifier.v1.NotificationResponse
-	33, // 14: notifier.v1.WebSocketFrame.type:type_name -> notifier.v1.WebSocketFrameType
-	0,  // 15: notifier.v1.WebSocketFrame.notification:type_name -> notifier.v1.NotificationPayload
-	8,  // 16: notifier.v1.WebSocketFrame.heartbeat:type_name -> notifier.v1.WebSocketHeartbeat
-	9,  // 17: notifier.v1.WebSocketFrame.ack:type_name -> notifier.v1.WebSocketAck
-	10, // 18: notifier.v1.WebSocketFrame.error:type_name -> notifier.v1.WebSocketError
-	11, // 19: notifier.v1.WebSocketFrame.control:type_name -> notifier.v1.WebSocketControl
-	29, // 20: notifier.v1.WebSocketFrame.timestamp:type_name -> google.protobuf.Timestamp
-	34, // 21: notifier.v1.WebSocketControl.action:type_name -> notifier.v1.StreamAction
-	25, // 22: notifier.v1.WebSocketControl.parameters:type_name -> notifier.v1.WebSocketControl.ParametersEntry
-	13, // 23: notifier.v1.StreamNotificationRequest.header:type_name -> notifier.v1.StreamHeader
-	0,  // 24: notifier.v1.StreamNotificationRequest.notification:type_name -> notifier.v1.NotificationPayload
-	14, // 25: notifier.v1.StreamNotificationRequest.control:type_name -> notifier.v1.StreamControl
-	15, // 26: notifier.v1.StreamNotificationRequest.footer:type_name -> notifier.v1.StreamFooter
-	29, // 27: notifier.v1.StreamHeader.start_time:type_name -> google.protobuf.Timestamp
-	26, // 28: notifier.v1.StreamHeader.metadata:type_name -> notifier.v1.StreamHeader.MetadataEntry
-	34, // 29: notifier.v1.StreamControl.action:type_name -> notifier.v1.StreamAction
-	27, // 30: notifier.v1.StreamControl.parameters:type_name -> notifier.v1.StreamControl.ParametersEntry
-	29, // 31: notifier.v1.StreamFooter.end_time:type_name -> google.protobuf.Timestamp
-	17, // 32: notifier.v1.StreamNotificationResponse.ack:type_name -> notifier.v1.StreamAck
-	18, // 33: notifier.v1.StreamNotificationResponse.error:type_name -> notifier.v1.StreamError
-	19, // 34: notifier.v1.StreamNotificationResponse.status:type_name -> notifier.v1.StreamStatus
-	0,  // 35: notifier.v1.RobotNotification.payload:type_name -> notifier.v1.NotificationPayload
-	35, // 36: notifier.v1.RobotNotification.robot_type:type_name -> notifier.v1.RobotType
-	21, // 37: notifier.v1.RobotNotification.message:type_name -> notifier.v1.RobotMessage
-	36, // 38: notifier.v1.RobotMessage.priority:type_name -> notifier.v1.NotificationPriority
-	37, // 39: notifier.v1.RobotMessage.buttons:type_name -> notifier.v1.RobotButton
-	22, // 40: notifier.v1.RobotMessage.attachments:type_name -> notifier.v1.RobotAttachment
-	38, // 41: notifier.v1.RobotAttachment.type:type_name -> notifier.v1.AttachmentType
-	39, // 42: notifier.v1.RobotCallback.action:type_name -> notifier.v1.ButtonAction
-	29, // 43: notifier.v1.RobotCallback.triggered_at:type_name -> google.protobuf.Timestamp
-	44, // [44:44] is the sub-list for method output_type
-	44, // [44:44] is the sub-list for method input_type
-	44, // [44:44] is the sub-list for extension type_name
-	44, // [44:44] is the sub-list for extension extendee
-	0,  // [0:44] is the sub-list for field type_name
+	28, // 2: notifier.v1.Header.channel:type_name -> notifier.v1.PushChannel
+	29, // 3: notifier.v1.Header.pushed_at:type_name -> google.protobuf.Timestamp
+	30, // 4: notifier.v1.Body.category:type_name -> notifier.v1.NotificationCategory
+	31, // 5: notifier.v1.Body.event_type:type_name -> notifier.v1.EventType
+	29, // 6: notifier.v1.Body.timestamp:type_name -> google.protobuf.Timestamp
+	32, // 7: notifier.v1.Body.data:type_name -> google.protobuf.Any
+	24, // 8: notifier.v1.Body.metadata:type_name -> notifier.v1.Body.MetadataEntry
+	29, // 9: notifier.v1.NotificationResponse.received_at:type_name -> google.protobuf.Timestamp
+	4,  // 10: notifier.v1.NotificationResponse.batch_results:type_name -> notifier.v1.BatchResult
+	0,  // 11: notifier.v1.HttpNotificationRequest.payload:type_name -> notifier.v1.NotificationPayload
+	3,  // 12: notifier.v1.HttpNotificationResponse.response:type_name -> notifier.v1.NotificationResponse
+	33, // 13: notifier.v1.WebSocketFrame.type:type_name -> notifier.v1.WebSocketFrameType
+	0,  // 14: notifier.v1.WebSocketFrame.notification:type_name -> notifier.v1.NotificationPayload
+	8,  // 15: notifier.v1.WebSocketFrame.heartbeat:type_name -> notifier.v1.WebSocketHeartbeat
+	9,  // 16: notifier.v1.WebSocketFrame.ack:type_name -> notifier.v1.WebSocketAck
+	10, // 17: notifier.v1.WebSocketFrame.error:type_name -> notifier.v1.WebSocketError
+	11, // 18: notifier.v1.WebSocketFrame.control:type_name -> notifier.v1.WebSocketControl
+	29, // 19: notifier.v1.WebSocketFrame.timestamp:type_name -> google.protobuf.Timestamp
+	34, // 20: notifier.v1.WebSocketControl.action:type_name -> notifier.v1.StreamAction
+	25, // 21: notifier.v1.WebSocketControl.parameters:type_name -> notifier.v1.WebSocketControl.ParametersEntry
+	13, // 22: notifier.v1.StreamNotificationRequest.header:type_name -> notifier.v1.StreamHeader
+	0,  // 23: notifier.v1.StreamNotificationRequest.notification:type_name -> notifier.v1.NotificationPayload
+	14, // 24: notifier.v1.StreamNotificationRequest.control:type_name -> notifier.v1.StreamControl
+	15, // 25: notifier.v1.StreamNotificationRequest.footer:type_name -> notifier.v1.StreamFooter
+	29, // 26: notifier.v1.StreamHeader.start_time:type_name -> google.protobuf.Timestamp
+	26, // 27: notifier.v1.StreamHeader.metadata:type_name -> notifier.v1.StreamHeader.MetadataEntry
+	34, // 28: notifier.v1.StreamControl.action:type_name -> notifier.v1.StreamAction
+	27, // 29: notifier.v1.StreamControl.parameters:type_name -> notifier.v1.StreamControl.ParametersEntry
+	29, // 30: notifier.v1.StreamFooter.end_time:type_name -> google.protobuf.Timestamp
+	17, // 31: notifier.v1.StreamNotificationResponse.ack:type_name -> notifier.v1.StreamAck
+	18, // 32: notifier.v1.StreamNotificationResponse.error:type_name -> notifier.v1.StreamError
+	19, // 33: notifier.v1.StreamNotificationResponse.status:type_name -> notifier.v1.StreamStatus
+	0,  // 34: notifier.v1.RobotNotification.payload:type_name -> notifier.v1.NotificationPayload
+	35, // 35: notifier.v1.RobotNotification.robot_type:type_name -> notifier.v1.RobotType
+	21, // 36: notifier.v1.RobotNotification.message:type_name -> notifier.v1.RobotMessage
+	36, // 37: notifier.v1.RobotMessage.priority:type_name -> notifier.v1.NotificationPriority
+	37, // 38: notifier.v1.RobotMessage.buttons:type_name -> notifier.v1.RobotButton
+	22, // 39: notifier.v1.RobotMessage.attachments:type_name -> notifier.v1.RobotAttachment
+	38, // 40: notifier.v1.RobotAttachment.type:type_name -> notifier.v1.AttachmentType
+	39, // 41: notifier.v1.RobotCallback.action:type_name -> notifier.v1.ButtonAction
+	29, // 42: notifier.v1.RobotCallback.triggered_at:type_name -> google.protobuf.Timestamp
+	43, // [43:43] is the sub-list for method output_type
+	43, // [43:43] is the sub-list for method input_type
+	43, // [43:43] is the sub-list for extension type_name
+	43, // [43:43] is the sub-list for extension extendee
+	0,  // [0:43] is the sub-list for field type_name
 }
 
 func init() { file_notifier_v1_notifier_delivery_proto_init() }
