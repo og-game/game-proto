@@ -2139,9 +2139,10 @@ type NotificationMsgHandlerInfo struct {
 	MsgId         string                 `protobuf:"bytes,1,opt,name=msg_id,json=msgId,proto3" json:"msg_id,omitempty"`
 	EventId       string                 `protobuf:"bytes,2,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
 	MerchantId    int64                  `protobuf:"varint,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	EventType     string                 `protobuf:"bytes,4,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
-	Priority      uint32                 `protobuf:"varint,5,opt,name=priority,proto3" json:"priority,omitempty"`
-	Timestamp     int64                  `protobuf:"varint,6,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Category      string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
+	EventType     string                 `protobuf:"bytes,5,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	Priority      uint32                 `protobuf:"varint,6,opt,name=priority,proto3" json:"priority,omitempty"`
+	Timestamp     int64                  `protobuf:"varint,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2195,6 +2196,13 @@ func (x *NotificationMsgHandlerInfo) GetMerchantId() int64 {
 		return x.MerchantId
 	}
 	return 0
+}
+
+func (x *NotificationMsgHandlerInfo) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
 }
 
 func (x *NotificationMsgHandlerInfo) GetEventType() string {
@@ -2610,16 +2618,17 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"totalCount\"}\n" +
 	"\x1dNotificationMsgHandlerRequest\x12A\n" +
 	"\arecords\x18\x01 \x03(\v2'.notifier.v1.NotificationMsgHandlerInfoR\arecords\x12\x19\n" +
-	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xc8\x01\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\"\xe4\x01\n" +
 	"\x1aNotificationMsgHandlerInfo\x12\x15\n" +
 	"\x06msg_id\x18\x01 \x01(\tR\x05msgId\x12\x19\n" +
 	"\bevent_id\x18\x02 \x01(\tR\aeventId\x12\x1f\n" +
 	"\vmerchant_id\x18\x03 \x01(\x03R\n" +
-	"merchantId\x12\x1d\n" +
+	"merchantId\x12\x1a\n" +
+	"\bcategory\x18\x04 \x01(\tR\bcategory\x12\x1d\n" +
 	"\n" +
-	"event_type\x18\x04 \x01(\tR\teventType\x12\x1a\n" +
-	"\bpriority\x18\x05 \x01(\rR\bpriority\x12\x1c\n" +
-	"\ttimestamp\x18\x06 \x01(\x03R\ttimestamp\"Q\n" +
+	"event_type\x18\x05 \x01(\tR\teventType\x12\x1a\n" +
+	"\bpriority\x18\x06 \x01(\rR\bpriority\x12\x1c\n" +
+	"\ttimestamp\x18\a \x01(\x03R\ttimestamp\"Q\n" +
 	"\x1eNotificationMsgHandlerResponse\x12/\n" +
 	"\x04base\x18\x01 \x01(\v2\x1b.notifier.v1.NotifyBaseRespR\x04base\"\x84\x01\n" +
 	"\x14GetEventTypesRequest\x12)\n" +

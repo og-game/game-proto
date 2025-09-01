@@ -281,9 +281,10 @@ message NotificationMsgHandlerInfo {
   string msg_id = 1;
   string event_id = 2;
   int64 merchant_id = 3;
-  string event_type = 4;
-  uint32 priority = 5;
-  int64 timestamp = 6;
+  string category = 4;
+  string event_type = 5;
+  uint32 priority = 6;
+  int64 timestamp = 7;
 }
 
 
