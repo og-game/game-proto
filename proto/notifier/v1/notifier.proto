@@ -344,3 +344,11 @@ service NotifierMerchantService {
   // 查询
   rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
 }
+
+
+
+// NotificationStreamService 通知流式推送服务
+service NotificationStreamService {
+  // 双向流式通知推送
+  rpc StreamNotifications(stream StreamNotificationRequest) returns (stream StreamNotificationResponse);
+}

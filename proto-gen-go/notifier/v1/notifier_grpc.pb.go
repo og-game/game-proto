@@ -626,3 +626,106 @@ var NotifierMerchantService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "notifier/v1/notifier.proto",
 }
+
+const (
+	NotificationStreamService_StreamNotifications_FullMethodName = "/notifier.v1.NotificationStreamService/StreamNotifications"
+)
+
+// NotificationStreamServiceClient is the client API for NotificationStreamService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// NotificationStreamService 通知流式推送服务
+type NotificationStreamServiceClient interface {
+	// 双向流式通知推送
+	StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse], error)
+}
+
+type notificationStreamServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewNotificationStreamServiceClient(cc grpc.ClientConnInterface) NotificationStreamServiceClient {
+	return &notificationStreamServiceClient{cc}
+}
+
+func (c *notificationStreamServiceClient) StreamNotifications(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &NotificationStreamService_ServiceDesc.Streams[0], NotificationStreamService_StreamNotifications_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamNotificationRequest, StreamNotificationResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type NotificationStreamService_StreamNotificationsClient = grpc.BidiStreamingClient[StreamNotificationRequest, StreamNotificationResponse]
+
+// NotificationStreamServiceServer is the server API for NotificationStreamService service.
+// All implementations must embed UnimplementedNotificationStreamServiceServer
+// for forward compatibility.
+//
+// NotificationStreamService 通知流式推送服务
+type NotificationStreamServiceServer interface {
+	// 双向流式通知推送
+	StreamNotifications(grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]) error
+	mustEmbedUnimplementedNotificationStreamServiceServer()
+}
+
+// UnimplementedNotificationStreamServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedNotificationStreamServiceServer struct{}
+
+func (UnimplementedNotificationStreamServiceServer) StreamNotifications(grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamNotifications not implemented")
+}
+func (UnimplementedNotificationStreamServiceServer) mustEmbedUnimplementedNotificationStreamServiceServer() {
+}
+func (UnimplementedNotificationStreamServiceServer) testEmbeddedByValue() {}
+
+// UnsafeNotificationStreamServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to NotificationStreamServiceServer will
+// result in compilation errors.
+type UnsafeNotificationStreamServiceServer interface {
+	mustEmbedUnimplementedNotificationStreamServiceServer()
+}
+
+func RegisterNotificationStreamServiceServer(s grpc.ServiceRegistrar, srv NotificationStreamServiceServer) {
+	// If the following call pancis, it indicates UnimplementedNotificationStreamServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&NotificationStreamService_ServiceDesc, srv)
+}
+
+func _NotificationStreamService_StreamNotifications_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(NotificationStreamServiceServer).StreamNotifications(&grpc.GenericServerStream[StreamNotificationRequest, StreamNotificationResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type NotificationStreamService_StreamNotificationsServer = grpc.BidiStreamingServer[StreamNotificationRequest, StreamNotificationResponse]
+
+// NotificationStreamService_ServiceDesc is the grpc.ServiceDesc for NotificationStreamService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var NotificationStreamService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "notifier.v1.NotificationStreamService",
+	HandlerType: (*NotificationStreamServiceServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamNotifications",
+			Handler:       _NotificationStreamService_StreamNotifications_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
+	Metadata: "notifier/v1/notifier.proto",
+}

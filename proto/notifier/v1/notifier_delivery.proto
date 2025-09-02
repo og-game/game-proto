@@ -130,7 +130,7 @@ message WebSocketControl {
 
 // ==================== gRPC流式推送 ====================
 
-// gRPC流式请求
+// StreamNotificationRequest 流式请求
 message StreamNotificationRequest {
   oneof content {
     StreamHeader header = 1;                // 流开始
@@ -140,7 +140,7 @@ message StreamNotificationRequest {
   }
 }
 
-// 流头信息
+// StreamHeader 流头信息
 message StreamHeader {
   string stream_id = 1;
   int64 merchant_id = 2;
@@ -148,13 +148,13 @@ message StreamHeader {
   map<string, string> metadata = 4;
 }
 
-// 流控制
+// StreamControl 流控制
 message StreamControl {
-  StreamAction action = 1;                  // 使用枚举
+  StreamAction action = 1;                  // 使用已有枚举
   map<string, string> parameters = 2;
 }
 
-// 流尾信息
+// StreamFooter 流尾信息
 message StreamFooter {
   int64 total_count = 1;
   int64 success_count = 2;
@@ -162,7 +162,9 @@ message StreamFooter {
   google.protobuf.Timestamp end_time = 4;
 }
 
-// gRPC流式响应
+// ==================== 响应定义 ====================
+
+// StreamNotificationResponse 流式响应
 message StreamNotificationResponse {
   string stream_id = 1;
   oneof content {
@@ -172,26 +174,27 @@ message StreamNotificationResponse {
   }
 }
 
-// 流确认
+// StreamAck 流确认
 message StreamAck {
-  string notification_id = 1;
+  string notification_id = 1;              // 对应的通知ID
   bool success = 2;
   string message = 3;
 }
 
-// 流错误
+// StreamError 流错误
 message StreamError {
   string code = 1;
   string message = 2;
   bool recoverable = 3;
 }
 
-// 流状态
+// StreamStatus 流状态
 message StreamStatus {
   int64 received_count = 1;
   int64 processed_count = 2;
   int64 failed_count = 3;
 }
+
 
 // ==================== 机器人推送 ====================
 

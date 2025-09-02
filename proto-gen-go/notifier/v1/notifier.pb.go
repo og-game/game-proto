@@ -2658,7 +2658,9 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\x12UpdateSubscription\x12&.notifier.v1.UpdateSubscriptionRequest\x1a\x1b.notifier.v1.NotifyBaseResp\x12Y\n" +
 	"\x12DeleteSubscription\x12&.notifier.v1.DeleteSubscriptionRequest\x1a\x1b.notifier.v1.NotifyBaseResp\x12V\n" +
 	"\rGetEventTypes\x12!.notifier.v1.GetEventTypesRequest\x1a\".notifier.v1.GetEventTypesResponse\x12_\n" +
-	"\x10QueryPushRecords\x12$.notifier.v1.QueryPushRecordsRequest\x1a%.notifier.v1.QueryPushRecordsResponseB8Z6github.com/og-game/game-proto/proto-gen-go/notifier/v1b\x06proto3"
+	"\x10QueryPushRecords\x12$.notifier.v1.QueryPushRecordsRequest\x1a%.notifier.v1.QueryPushRecordsResponse2\x87\x01\n" +
+	"\x19NotificationStreamService\x12j\n" +
+	"\x13StreamNotifications\x12&.notifier.v1.StreamNotificationRequest\x1a'.notifier.v1.StreamNotificationResponse(\x010\x01B8Z6github.com/og-game/game-proto/proto-gen-go/notifier/v1b\x06proto3"
 
 var (
 	file_notifier_v1_notifier_proto_rawDescOnce sync.Once
@@ -2728,6 +2730,8 @@ var file_notifier_v1_notifier_proto_goTypes = []any{
 	(*EventWrapper)(nil),                   // 51: notifier.v1.EventWrapper
 	(*CategoryConfig)(nil),                 // 52: notifier.v1.CategoryConfig
 	(*EventTypeInfo)(nil),                  // 53: notifier.v1.EventTypeInfo
+	(*StreamNotificationRequest)(nil),      // 54: notifier.v1.StreamNotificationRequest
+	(*StreamNotificationResponse)(nil),     // 55: notifier.v1.StreamNotificationResponse
 }
 var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	40, // 0: notifier.v1.NotifyBaseResp.code:type_name -> notifier.v1.NotifierErrorCode
@@ -2807,20 +2811,22 @@ var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	25, // 74: notifier.v1.NotifierMerchantService.DeleteSubscription:input_type -> notifier.v1.DeleteSubscriptionRequest
 	34, // 75: notifier.v1.NotifierMerchantService.GetEventTypes:input_type -> notifier.v1.GetEventTypesRequest
 	28, // 76: notifier.v1.NotifierMerchantService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
-	12, // 77: notifier.v1.NotifierInnerService.SendNotification:output_type -> notifier.v1.SendNotificationResponse
-	14, // 78: notifier.v1.NotifierInnerService.BatchSend:output_type -> notifier.v1.BatchSendResponse
-	29, // 79: notifier.v1.NotifierInnerService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
-	33, // 80: notifier.v1.NotifierInnerService.NotificationMsgHandler:output_type -> notifier.v1.NotificationMsgHandlerResponse
-	27, // 81: notifier.v1.NotifierMerchantService.GetMerchantConfig:output_type -> notifier.v1.GetMerchantConfigResponse
-	16, // 82: notifier.v1.NotifierMerchantService.ConfigureEndpoint:output_type -> notifier.v1.ConfigureEndpointResponse
-	19, // 83: notifier.v1.NotifierMerchantService.TestEndpoint:output_type -> notifier.v1.TestEndpointResponse
-	22, // 84: notifier.v1.NotifierMerchantService.CreateSubscription:output_type -> notifier.v1.CreateSubscriptionResponse
-	0,  // 85: notifier.v1.NotifierMerchantService.UpdateSubscription:output_type -> notifier.v1.NotifyBaseResp
-	0,  // 86: notifier.v1.NotifierMerchantService.DeleteSubscription:output_type -> notifier.v1.NotifyBaseResp
-	35, // 87: notifier.v1.NotifierMerchantService.GetEventTypes:output_type -> notifier.v1.GetEventTypesResponse
-	29, // 88: notifier.v1.NotifierMerchantService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
-	77, // [77:89] is the sub-list for method output_type
-	65, // [65:77] is the sub-list for method input_type
+	54, // 77: notifier.v1.NotificationStreamService.StreamNotifications:input_type -> notifier.v1.StreamNotificationRequest
+	12, // 78: notifier.v1.NotifierInnerService.SendNotification:output_type -> notifier.v1.SendNotificationResponse
+	14, // 79: notifier.v1.NotifierInnerService.BatchSend:output_type -> notifier.v1.BatchSendResponse
+	29, // 80: notifier.v1.NotifierInnerService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
+	33, // 81: notifier.v1.NotifierInnerService.NotificationMsgHandler:output_type -> notifier.v1.NotificationMsgHandlerResponse
+	27, // 82: notifier.v1.NotifierMerchantService.GetMerchantConfig:output_type -> notifier.v1.GetMerchantConfigResponse
+	16, // 83: notifier.v1.NotifierMerchantService.ConfigureEndpoint:output_type -> notifier.v1.ConfigureEndpointResponse
+	19, // 84: notifier.v1.NotifierMerchantService.TestEndpoint:output_type -> notifier.v1.TestEndpointResponse
+	22, // 85: notifier.v1.NotifierMerchantService.CreateSubscription:output_type -> notifier.v1.CreateSubscriptionResponse
+	0,  // 86: notifier.v1.NotifierMerchantService.UpdateSubscription:output_type -> notifier.v1.NotifyBaseResp
+	0,  // 87: notifier.v1.NotifierMerchantService.DeleteSubscription:output_type -> notifier.v1.NotifyBaseResp
+	35, // 88: notifier.v1.NotifierMerchantService.GetEventTypes:output_type -> notifier.v1.GetEventTypesResponse
+	29, // 89: notifier.v1.NotifierMerchantService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
+	55, // 90: notifier.v1.NotificationStreamService.StreamNotifications:output_type -> notifier.v1.StreamNotificationResponse
+	78, // [78:91] is the sub-list for method output_type
+	65, // [65:78] is the sub-list for method input_type
 	65, // [65:65] is the sub-list for extension type_name
 	65, // [65:65] is the sub-list for extension extendee
 	0,  // [0:65] is the sub-list for field type_name
@@ -2852,7 +2858,7 @@ func file_notifier_v1_notifier_proto_init() {
 			NumEnums:      0,
 			NumMessages:   40,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   3,
 		},
 		GoTypes:           file_notifier_v1_notifier_proto_goTypes,
 		DependencyIndexes: file_notifier_v1_notifier_proto_depIdxs,

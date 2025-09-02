@@ -938,7 +938,7 @@ func (x *WebSocketControl) GetParameters() map[string]string {
 	return nil
 }
 
-// gRPC流式请求
+// StreamNotificationRequest 流式请求
 type StreamNotificationRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Content:
@@ -1053,7 +1053,7 @@ func (*StreamNotificationRequest_Control) isStreamNotificationRequest_Content() 
 
 func (*StreamNotificationRequest_Footer) isStreamNotificationRequest_Content() {}
 
-// 流头信息
+// StreamHeader 流头信息
 type StreamHeader struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StreamId      string                 `protobuf:"bytes,1,opt,name=stream_id,json=streamId,proto3" json:"stream_id,omitempty"`
@@ -1122,10 +1122,10 @@ func (x *StreamHeader) GetMetadata() map[string]string {
 	return nil
 }
 
-// 流控制
+// StreamControl 流控制
 type StreamControl struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Action        StreamAction           `protobuf:"varint,1,opt,name=action,proto3,enum=notifier.v1.StreamAction" json:"action,omitempty"` // 使用枚举
+	Action        StreamAction           `protobuf:"varint,1,opt,name=action,proto3,enum=notifier.v1.StreamAction" json:"action,omitempty"` // 使用已有枚举
 	Parameters    map[string]string      `protobuf:"bytes,2,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1175,7 +1175,7 @@ func (x *StreamControl) GetParameters() map[string]string {
 	return nil
 }
 
-// 流尾信息
+// StreamFooter 流尾信息
 type StreamFooter struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TotalCount    int64                  `protobuf:"varint,1,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
@@ -1244,7 +1244,7 @@ func (x *StreamFooter) GetEndTime() *timestamppb.Timestamp {
 	return nil
 }
 
-// gRPC流式响应
+// StreamNotificationResponse 流式响应
 type StreamNotificationResponse struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	StreamId string                 `protobuf:"bytes,1,opt,name=stream_id,json=streamId,proto3" json:"stream_id,omitempty"`
@@ -1351,10 +1351,10 @@ func (*StreamNotificationResponse_Error) isStreamNotificationResponse_Content() 
 
 func (*StreamNotificationResponse_Status) isStreamNotificationResponse_Content() {}
 
-// 流确认
+// StreamAck 流确认
 type StreamAck struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	NotificationId string                 `protobuf:"bytes,1,opt,name=notification_id,json=notificationId,proto3" json:"notification_id,omitempty"`
+	NotificationId string                 `protobuf:"bytes,1,opt,name=notification_id,json=notificationId,proto3" json:"notification_id,omitempty"` // 对应的通知ID
 	Success        bool                   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
 	Message        string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -1412,7 +1412,7 @@ func (x *StreamAck) GetMessage() string {
 	return ""
 }
 
-// 流错误
+// StreamError 流错误
 type StreamError struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
@@ -1473,7 +1473,7 @@ func (x *StreamError) GetRecoverable() bool {
 	return false
 }
 
-// 流状态
+// StreamStatus 流状态
 type StreamStatus struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	ReceivedCount  int64                  `protobuf:"varint,1,opt,name=received_count,json=receivedCount,proto3" json:"received_count,omitempty"`

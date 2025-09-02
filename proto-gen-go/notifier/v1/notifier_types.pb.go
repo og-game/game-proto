@@ -1216,7 +1216,7 @@ type StreamAction int32
 
 const (
 	StreamAction_STREAM_ACTION_UNSPECIFIED StreamAction = 0
-	StreamAction_STREAM_ACTION_START       StreamAction = 1 // 开始
+	StreamAction_STREAM_ACTION_START       StreamAction = 1 // 开始-【心跳】
 	StreamAction_STREAM_ACTION_PAUSE       StreamAction = 2 // 暂停
 	StreamAction_STREAM_ACTION_RESUME      StreamAction = 3 // 恢复
 	StreamAction_STREAM_ACTION_STOP        StreamAction = 4 // 停止

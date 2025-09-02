@@ -242,7 +242,7 @@ enum WebSocketFrameType {
 // 流控制动作
 enum StreamAction {
   STREAM_ACTION_UNSPECIFIED = 0;
-  STREAM_ACTION_START = 1;       // 开始
+  STREAM_ACTION_START = 1;       // 开始-【心跳】
   STREAM_ACTION_PAUSE = 2;       // 暂停
   STREAM_ACTION_RESUME = 3;      // 恢复
   STREAM_ACTION_STOP = 4;        // 停止
