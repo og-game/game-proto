@@ -42,10 +42,15 @@ message EndpointConfig {
   PushChannel channel = 2;                  // 使用枚举
   string url = 3;                          // 推送地址
   AuthType auth_type = 4;                  // 使用枚举
-  string auth_credentials = 5;             // 认证凭据
-  int32 timeout_seconds = 6;               // 超时时间
-  int32 max_retry = 7;                     // 最大重试次数
-  bool enabled = 8;
+  oneof auth_credentials {// 认证凭据
+    NoneAuth  none_auth = 5;                // 无认证
+    TokenAuth token_auth = 6;               // Token认证
+    SignatureAuth signature_auth = 7;       // 签名认证
+    OAuthAuth oauth_auth = 8;               // OAuth认证
+  }
+  int32 timeout_seconds = 9;               // 超时时间
+  int32 max_retry = 10;                     // 最大重试次数
+  bool enabled = 11;
 }
 
 // 订阅配置
