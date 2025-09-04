@@ -51,6 +51,7 @@ message EndpointConfig {
   int32 timeout_seconds = 9;               // 超时时间
   int32 max_retry = 10;                     // 最大重试次数
   bool enabled = 11;
+  optional RobotConfig robot_config = 12;   // 机器人配置
 }
 
 // 订阅配置
