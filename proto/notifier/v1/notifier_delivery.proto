@@ -52,7 +52,6 @@ message Body {
 }
 
 
-
 // 通用推送响应
 message NotificationResponse {
   bool success = 1;                         // 是否成功
