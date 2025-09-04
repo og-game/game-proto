@@ -14,7 +14,7 @@ import (
 )
 
 type (
-	AggregationRules               = v1.AggregationRules
+	BatchConfig                    = v1.BatchConfig
 	BatchSendRequest               = v1.BatchSendRequest
 	BatchSendResponse              = v1.BatchSendResponse
 	ConfigureEndpointInfo          = v1.ConfigureEndpointInfo
@@ -25,6 +25,7 @@ type (
 	CreateSubscriptionResponse     = v1.CreateSubscriptionResponse
 	DeleteSubscriptionRequest      = v1.DeleteSubscriptionRequest
 	EndpointConfig                 = v1.EndpointConfig
+	FilterConfig                   = v1.FilterConfig
 	FilterRules                    = v1.FilterRules
 	GetEventTypesInfo              = v1.GetEventTypesInfo
 	GetEventTypesRequest           = v1.GetEventTypesRequest

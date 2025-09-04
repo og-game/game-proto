@@ -63,27 +63,30 @@ message SubscriptionConfig {
   repeated EventType event_types = 3;           // 订阅的具体事件类型
 
   FilterRules filter = 4;
-  AggregationRules aggregation = 5;
-  RateLimits rate_limits = 6;
-  bool enabled = 7;
+  TargetMerchants target_merchants = 5;
+  bool enabled = 6;
+  SubscriptionMode mode = 7;
 
-  SubscriptionMode mode = 8;
+  optional RateLimits rate_limits = 8;
 }
 
 // 过滤规则
 message FilterRules {
-  map<string, string> conditions = 1;         // 过滤条件
-  NotificationPriority min_priority = 2;      // 最小优先级
-  repeated int64 merchant_ids = 3;           // 特定商户过滤
-  repeated string exclude_services = 4;       // 排除的来源服务
+  FilterConfig filters = 1;         // 过滤条件
+  BatchConfig batch_config = 2;      // 批量配置
 }
 
-// 聚合规则
-message AggregationRules {
-  bool enabled = 1;
-  int32 batch_size = 2;                       // 批量大小
-  int32 window_seconds = 3;                   // 聚合窗口
-  bool group_by_category = 4;                 // 是否按大类分组
+message FilterConfig {
+  repeated int64 merchant_whitelist = 1;
+  repeated int64 merchant_blacklist = 2;
+  repeated string ip_whitelist = 3;
+  repeated string ip_blacklist = 4;
+}
+
+// 批量配置
+message BatchConfig {
+  bool default_enabled = 1;
+  repeated string enabled_event = 2;                       // 事件列表
 }
 
 // 频率限制
@@ -214,8 +217,12 @@ message CreateSubscriptionRequest {
   repeated EventType event_types = 3;            // 订阅哪些具体事件
 
   FilterRules filter = 4;
-  AggregationRules aggregation = 5;
-  RateLimits rate_limits = 6;
+  TargetMerchants target_merchants = 5;
+
+  bool enabled = 6;
+
+  optional RateLimits rate_limits = 7;
+
 }
 
 // 创建订阅响应

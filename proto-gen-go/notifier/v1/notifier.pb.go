@@ -362,15 +362,15 @@ type SubscriptionConfig struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	SubscriptionId int64                  `protobuf:"varint,1,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
 	// 订阅范围 - 可以按大类或具体事件类型订阅
-	Categories    []NotificationCategory `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=notifier.v1.NotificationCategory" json:"categories,omitempty"`        // 订阅的大类
-	EventTypes    []EventType            `protobuf:"varint,3,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 订阅的具体事件类型
-	Filter        *FilterRules           `protobuf:"bytes,4,opt,name=filter,proto3" json:"filter,omitempty"`
-	Aggregation   *AggregationRules      `protobuf:"bytes,5,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
-	RateLimits    *RateLimits            `protobuf:"bytes,6,opt,name=rate_limits,json=rateLimits,proto3" json:"rate_limits,omitempty"`
-	Enabled       bool                   `protobuf:"varint,7,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	Mode          SubscriptionMode       `protobuf:"varint,8,opt,name=mode,proto3,enum=notifier.v1.SubscriptionMode" json:"mode,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Categories      []NotificationCategory `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=notifier.v1.NotificationCategory" json:"categories,omitempty"`        // 订阅的大类
+	EventTypes      []EventType            `protobuf:"varint,3,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 订阅的具体事件类型
+	Filter          *FilterRules           `protobuf:"bytes,4,opt,name=filter,proto3" json:"filter,omitempty"`
+	TargetMerchants *TargetMerchants       `protobuf:"bytes,5,opt,name=target_merchants,json=targetMerchants,proto3" json:"target_merchants,omitempty"`
+	Enabled         bool                   `protobuf:"varint,6,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Mode            SubscriptionMode       `protobuf:"varint,7,opt,name=mode,proto3,enum=notifier.v1.SubscriptionMode" json:"mode,omitempty"`
+	RateLimits      *RateLimits            `protobuf:"bytes,8,opt,name=rate_limits,json=rateLimits,proto3,oneof" json:"rate_limits,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *SubscriptionConfig) Reset() {
@@ -431,16 +431,9 @@ func (x *SubscriptionConfig) GetFilter() *FilterRules {
 	return nil
 }
 
-func (x *SubscriptionConfig) GetAggregation() *AggregationRules {
+func (x *SubscriptionConfig) GetTargetMerchants() *TargetMerchants {
 	if x != nil {
-		return x.Aggregation
-	}
-	return nil
-}
-
-func (x *SubscriptionConfig) GetRateLimits() *RateLimits {
-	if x != nil {
-		return x.RateLimits
+		return x.TargetMerchants
 	}
 	return nil
 }
@@ -459,15 +452,20 @@ func (x *SubscriptionConfig) GetMode() SubscriptionMode {
 	return SubscriptionMode_MODE_UNSPECIFIED
 }
 
+func (x *SubscriptionConfig) GetRateLimits() *RateLimits {
+	if x != nil {
+		return x.RateLimits
+	}
+	return nil
+}
+
 // 过滤规则
 type FilterRules struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Conditions      map[string]string      `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // 过滤条件
-	MinPriority     NotificationPriority   `protobuf:"varint,2,opt,name=min_priority,json=minPriority,proto3,enum=notifier.v1.NotificationPriority" json:"min_priority,omitempty"`               // 最小优先级
-	MerchantIds     []int64                `protobuf:"varint,3,rep,packed,name=merchant_ids,json=merchantIds,proto3" json:"merchant_ids,omitempty"`                                              // 特定商户过滤
-	ExcludeServices []string               `protobuf:"bytes,4,rep,name=exclude_services,json=excludeServices,proto3" json:"exclude_services,omitempty"`                                          // 排除的来源服务
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Filters       *FilterConfig          `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters,omitempty"`                            // 过滤条件
+	BatchConfig   *BatchConfig           `protobuf:"bytes,2,opt,name=batch_config,json=batchConfig,proto3" json:"batch_config,omitempty"` // 批量配置
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *FilterRules) Reset() {
@@ -500,59 +498,44 @@ func (*FilterRules) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *FilterRules) GetConditions() map[string]string {
+func (x *FilterRules) GetFilters() *FilterConfig {
 	if x != nil {
-		return x.Conditions
+		return x.Filters
 	}
 	return nil
 }
 
-func (x *FilterRules) GetMinPriority() NotificationPriority {
+func (x *FilterRules) GetBatchConfig() *BatchConfig {
 	if x != nil {
-		return x.MinPriority
-	}
-	return NotificationPriority_PRIORITY_UNSPECIFIED
-}
-
-func (x *FilterRules) GetMerchantIds() []int64 {
-	if x != nil {
-		return x.MerchantIds
+		return x.BatchConfig
 	}
 	return nil
 }
 
-func (x *FilterRules) GetExcludeServices() []string {
-	if x != nil {
-		return x.ExcludeServices
-	}
-	return nil
+type FilterConfig struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	MerchantWhitelist []int64                `protobuf:"varint,1,rep,packed,name=merchant_whitelist,json=merchantWhitelist,proto3" json:"merchant_whitelist,omitempty"`
+	MerchantBlacklist []int64                `protobuf:"varint,2,rep,packed,name=merchant_blacklist,json=merchantBlacklist,proto3" json:"merchant_blacklist,omitempty"`
+	IpWhitelist       []string               `protobuf:"bytes,3,rep,name=ip_whitelist,json=ipWhitelist,proto3" json:"ip_whitelist,omitempty"`
+	IpBlacklist       []string               `protobuf:"bytes,4,rep,name=ip_blacklist,json=ipBlacklist,proto3" json:"ip_blacklist,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
-// 聚合规则
-type AggregationRules struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Enabled         bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	BatchSize       int32                  `protobuf:"varint,2,opt,name=batch_size,json=batchSize,proto3" json:"batch_size,omitempty"`                     // 批量大小
-	WindowSeconds   int32                  `protobuf:"varint,3,opt,name=window_seconds,json=windowSeconds,proto3" json:"window_seconds,omitempty"`         // 聚合窗口
-	GroupByCategory bool                   `protobuf:"varint,4,opt,name=group_by_category,json=groupByCategory,proto3" json:"group_by_category,omitempty"` // 是否按大类分组
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *AggregationRules) Reset() {
-	*x = AggregationRules{}
+func (x *FilterConfig) Reset() {
+	*x = FilterConfig{}
 	mi := &file_notifier_v1_notifier_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *AggregationRules) String() string {
+func (x *FilterConfig) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AggregationRules) ProtoMessage() {}
+func (*FilterConfig) ProtoMessage() {}
 
-func (x *AggregationRules) ProtoReflect() protoreflect.Message {
+func (x *FilterConfig) ProtoReflect() protoreflect.Message {
 	mi := &file_notifier_v1_notifier_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -564,37 +547,90 @@ func (x *AggregationRules) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AggregationRules.ProtoReflect.Descriptor instead.
-func (*AggregationRules) Descriptor() ([]byte, []int) {
+// Deprecated: Use FilterConfig.ProtoReflect.Descriptor instead.
+func (*FilterConfig) Descriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *AggregationRules) GetEnabled() bool {
+func (x *FilterConfig) GetMerchantWhitelist() []int64 {
 	if x != nil {
-		return x.Enabled
+		return x.MerchantWhitelist
+	}
+	return nil
+}
+
+func (x *FilterConfig) GetMerchantBlacklist() []int64 {
+	if x != nil {
+		return x.MerchantBlacklist
+	}
+	return nil
+}
+
+func (x *FilterConfig) GetIpWhitelist() []string {
+	if x != nil {
+		return x.IpWhitelist
+	}
+	return nil
+}
+
+func (x *FilterConfig) GetIpBlacklist() []string {
+	if x != nil {
+		return x.IpBlacklist
+	}
+	return nil
+}
+
+// 批量配置
+type BatchConfig struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	DefaultEnabled bool                   `protobuf:"varint,1,opt,name=default_enabled,json=defaultEnabled,proto3" json:"default_enabled,omitempty"`
+	EnabledEvent   []string               `protobuf:"bytes,2,rep,name=enabled_event,json=enabledEvent,proto3" json:"enabled_event,omitempty"` // 事件列表
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *BatchConfig) Reset() {
+	*x = BatchConfig{}
+	mi := &file_notifier_v1_notifier_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchConfig) ProtoMessage() {}
+
+func (x *BatchConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_notifier_v1_notifier_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchConfig.ProtoReflect.Descriptor instead.
+func (*BatchConfig) Descriptor() ([]byte, []int) {
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *BatchConfig) GetDefaultEnabled() bool {
+	if x != nil {
+		return x.DefaultEnabled
 	}
 	return false
 }
 
-func (x *AggregationRules) GetBatchSize() int32 {
+func (x *BatchConfig) GetEnabledEvent() []string {
 	if x != nil {
-		return x.BatchSize
+		return x.EnabledEvent
 	}
-	return 0
-}
-
-func (x *AggregationRules) GetWindowSeconds() int32 {
-	if x != nil {
-		return x.WindowSeconds
-	}
-	return 0
-}
-
-func (x *AggregationRules) GetGroupByCategory() bool {
-	if x != nil {
-		return x.GroupByCategory
-	}
-	return false
+	return nil
 }
 
 // 频率限制
@@ -611,7 +647,7 @@ type RateLimits struct {
 
 func (x *RateLimits) Reset() {
 	*x = RateLimits{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[6]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -623,7 +659,7 @@ func (x *RateLimits) String() string {
 func (*RateLimits) ProtoMessage() {}
 
 func (x *RateLimits) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[6]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -636,7 +672,7 @@ func (x *RateLimits) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RateLimits.ProtoReflect.Descriptor instead.
 func (*RateLimits) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{6}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *RateLimits) GetMaxPerMinute() int32 {
@@ -685,7 +721,7 @@ type PushTask struct {
 
 func (x *PushTask) Reset() {
 	*x = PushTask{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[7]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -697,7 +733,7 @@ func (x *PushTask) String() string {
 func (*PushTask) ProtoMessage() {}
 
 func (x *PushTask) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[7]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -710,7 +746,7 @@ func (x *PushTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushTask.ProtoReflect.Descriptor instead.
 func (*PushTask) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{7}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *PushTask) GetTaskId() string {
@@ -794,7 +830,7 @@ type SendNotificationRequest struct {
 
 func (x *SendNotificationRequest) Reset() {
 	*x = SendNotificationRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[8]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -806,7 +842,7 @@ func (x *SendNotificationRequest) String() string {
 func (*SendNotificationRequest) ProtoMessage() {}
 
 func (x *SendNotificationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[8]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -819,7 +855,7 @@ func (x *SendNotificationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendNotificationRequest.ProtoReflect.Descriptor instead.
 func (*SendNotificationRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{8}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SendNotificationRequest) GetEvent() *EventWrapper {
@@ -895,7 +931,7 @@ type TargetMerchants struct {
 
 func (x *TargetMerchants) Reset() {
 	*x = TargetMerchants{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[9]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -907,7 +943,7 @@ func (x *TargetMerchants) String() string {
 func (*TargetMerchants) ProtoMessage() {}
 
 func (x *TargetMerchants) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[9]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -920,7 +956,7 @@ func (x *TargetMerchants) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TargetMerchants.ProtoReflect.Descriptor instead.
 func (*TargetMerchants) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{9}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *TargetMerchants) GetMerchantIds() []int64 {
@@ -941,7 +977,7 @@ type TargetCategory struct {
 
 func (x *TargetCategory) Reset() {
 	*x = TargetCategory{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[10]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -953,7 +989,7 @@ func (x *TargetCategory) String() string {
 func (*TargetCategory) ProtoMessage() {}
 
 func (x *TargetCategory) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[10]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -966,7 +1002,7 @@ func (x *TargetCategory) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TargetCategory.ProtoReflect.Descriptor instead.
 func (*TargetCategory) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{10}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *TargetCategory) GetCategory() NotificationCategory {
@@ -993,7 +1029,7 @@ type TargetAll struct {
 
 func (x *TargetAll) Reset() {
 	*x = TargetAll{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[11]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1005,7 +1041,7 @@ func (x *TargetAll) String() string {
 func (*TargetAll) ProtoMessage() {}
 
 func (x *TargetAll) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[11]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1018,7 +1054,7 @@ func (x *TargetAll) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TargetAll.ProtoReflect.Descriptor instead.
 func (*TargetAll) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{11}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *TargetAll) GetExcludeMerchants() []string {
@@ -1038,7 +1074,7 @@ type SendNotificationResponse struct {
 
 func (x *SendNotificationResponse) Reset() {
 	*x = SendNotificationResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[12]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1050,7 +1086,7 @@ func (x *SendNotificationResponse) String() string {
 func (*SendNotificationResponse) ProtoMessage() {}
 
 func (x *SendNotificationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[12]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1063,7 +1099,7 @@ func (x *SendNotificationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendNotificationResponse.ProtoReflect.Descriptor instead.
 func (*SendNotificationResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{12}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *SendNotificationResponse) GetBase() *NotifyBaseResp {
@@ -1091,7 +1127,7 @@ type BatchSendRequest struct {
 
 func (x *BatchSendRequest) Reset() {
 	*x = BatchSendRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[13]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1103,7 +1139,7 @@ func (x *BatchSendRequest) String() string {
 func (*BatchSendRequest) ProtoMessage() {}
 
 func (x *BatchSendRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[13]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1116,7 +1152,7 @@ func (x *BatchSendRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchSendRequest.ProtoReflect.Descriptor instead.
 func (*BatchSendRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{13}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *BatchSendRequest) GetEvents() []*EventWrapper {
@@ -1192,7 +1228,7 @@ type BatchSendResponse struct {
 
 func (x *BatchSendResponse) Reset() {
 	*x = BatchSendResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[14]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1204,7 +1240,7 @@ func (x *BatchSendResponse) String() string {
 func (*BatchSendResponse) ProtoMessage() {}
 
 func (x *BatchSendResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[14]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1217,7 +1253,7 @@ func (x *BatchSendResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchSendResponse.ProtoReflect.Descriptor instead.
 func (*BatchSendResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{14}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *BatchSendResponse) GetBase() *NotifyBaseResp {
@@ -1238,7 +1274,7 @@ type ConfigureEndpointRequest struct {
 
 func (x *ConfigureEndpointRequest) Reset() {
 	*x = ConfigureEndpointRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[15]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1250,7 +1286,7 @@ func (x *ConfigureEndpointRequest) String() string {
 func (*ConfigureEndpointRequest) ProtoMessage() {}
 
 func (x *ConfigureEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[15]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1263,7 +1299,7 @@ func (x *ConfigureEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfigureEndpointRequest.ProtoReflect.Descriptor instead.
 func (*ConfigureEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{15}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ConfigureEndpointRequest) GetMerchantId() int64 {
@@ -1291,7 +1327,7 @@ type ConfigureEndpointResponse struct {
 
 func (x *ConfigureEndpointResponse) Reset() {
 	*x = ConfigureEndpointResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[16]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1303,7 +1339,7 @@ func (x *ConfigureEndpointResponse) String() string {
 func (*ConfigureEndpointResponse) ProtoMessage() {}
 
 func (x *ConfigureEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[16]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1316,7 +1352,7 @@ func (x *ConfigureEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfigureEndpointResponse.ProtoReflect.Descriptor instead.
 func (*ConfigureEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{16}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ConfigureEndpointResponse) GetBase() *NotifyBaseResp {
@@ -1342,7 +1378,7 @@ type ConfigureEndpointInfo struct {
 
 func (x *ConfigureEndpointInfo) Reset() {
 	*x = ConfigureEndpointInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[17]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1354,7 +1390,7 @@ func (x *ConfigureEndpointInfo) String() string {
 func (*ConfigureEndpointInfo) ProtoMessage() {}
 
 func (x *ConfigureEndpointInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[17]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1367,7 +1403,7 @@ func (x *ConfigureEndpointInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfigureEndpointInfo.ProtoReflect.Descriptor instead.
 func (*ConfigureEndpointInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{17}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ConfigureEndpointInfo) GetEndpointId() int64 {
@@ -1389,7 +1425,7 @@ type TestEndpointRequest struct {
 
 func (x *TestEndpointRequest) Reset() {
 	*x = TestEndpointRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[18]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1401,7 +1437,7 @@ func (x *TestEndpointRequest) String() string {
 func (*TestEndpointRequest) ProtoMessage() {}
 
 func (x *TestEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[18]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1414,7 +1450,7 @@ func (x *TestEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TestEndpointRequest.ProtoReflect.Descriptor instead.
 func (*TestEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{18}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *TestEndpointRequest) GetMerchantId() int64 {
@@ -1449,7 +1485,7 @@ type TestEndpointResponse struct {
 
 func (x *TestEndpointResponse) Reset() {
 	*x = TestEndpointResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[19]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1461,7 +1497,7 @@ func (x *TestEndpointResponse) String() string {
 func (*TestEndpointResponse) ProtoMessage() {}
 
 func (x *TestEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[19]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1474,7 +1510,7 @@ func (x *TestEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TestEndpointResponse.ProtoReflect.Descriptor instead.
 func (*TestEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{19}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *TestEndpointResponse) GetBase() *NotifyBaseResp {
@@ -1502,7 +1538,7 @@ type TestEndpointInfo struct {
 
 func (x *TestEndpointInfo) Reset() {
 	*x = TestEndpointInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[20]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1514,7 +1550,7 @@ func (x *TestEndpointInfo) String() string {
 func (*TestEndpointInfo) ProtoMessage() {}
 
 func (x *TestEndpointInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[20]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1527,7 +1563,7 @@ func (x *TestEndpointInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TestEndpointInfo.ProtoReflect.Descriptor instead.
 func (*TestEndpointInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{20}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *TestEndpointInfo) GetHttpStatus() int32 {
@@ -1556,18 +1592,19 @@ type CreateSubscriptionRequest struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	MerchantId int64                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
 	// 订阅选项 - 可以选择订阅大类或具体事件
-	Categories    []NotificationCategory `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=notifier.v1.NotificationCategory" json:"categories,omitempty"`        // 订阅哪些大类
-	EventTypes    []EventType            `protobuf:"varint,3,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 订阅哪些具体事件
-	Filter        *FilterRules           `protobuf:"bytes,4,opt,name=filter,proto3" json:"filter,omitempty"`
-	Aggregation   *AggregationRules      `protobuf:"bytes,5,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
-	RateLimits    *RateLimits            `protobuf:"bytes,6,opt,name=rate_limits,json=rateLimits,proto3" json:"rate_limits,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Categories      []NotificationCategory `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=notifier.v1.NotificationCategory" json:"categories,omitempty"`        // 订阅哪些大类
+	EventTypes      []EventType            `protobuf:"varint,3,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 订阅哪些具体事件
+	Filter          *FilterRules           `protobuf:"bytes,4,opt,name=filter,proto3" json:"filter,omitempty"`
+	TargetMerchants *TargetMerchants       `protobuf:"bytes,5,opt,name=target_merchants,json=targetMerchants,proto3" json:"target_merchants,omitempty"`
+	Enabled         bool                   `protobuf:"varint,6,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	RateLimits      *RateLimits            `protobuf:"bytes,7,opt,name=rate_limits,json=rateLimits,proto3,oneof" json:"rate_limits,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *CreateSubscriptionRequest) Reset() {
 	*x = CreateSubscriptionRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[21]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1579,7 +1616,7 @@ func (x *CreateSubscriptionRequest) String() string {
 func (*CreateSubscriptionRequest) ProtoMessage() {}
 
 func (x *CreateSubscriptionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[21]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1592,7 +1629,7 @@ func (x *CreateSubscriptionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubscriptionRequest.ProtoReflect.Descriptor instead.
 func (*CreateSubscriptionRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{21}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *CreateSubscriptionRequest) GetMerchantId() int64 {
@@ -1623,11 +1660,18 @@ func (x *CreateSubscriptionRequest) GetFilter() *FilterRules {
 	return nil
 }
 
-func (x *CreateSubscriptionRequest) GetAggregation() *AggregationRules {
+func (x *CreateSubscriptionRequest) GetTargetMerchants() *TargetMerchants {
 	if x != nil {
-		return x.Aggregation
+		return x.TargetMerchants
 	}
 	return nil
+}
+
+func (x *CreateSubscriptionRequest) GetEnabled() bool {
+	if x != nil {
+		return x.Enabled
+	}
+	return false
 }
 
 func (x *CreateSubscriptionRequest) GetRateLimits() *RateLimits {
@@ -1648,7 +1692,7 @@ type CreateSubscriptionResponse struct {
 
 func (x *CreateSubscriptionResponse) Reset() {
 	*x = CreateSubscriptionResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[22]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1660,7 +1704,7 @@ func (x *CreateSubscriptionResponse) String() string {
 func (*CreateSubscriptionResponse) ProtoMessage() {}
 
 func (x *CreateSubscriptionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[22]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1673,7 +1717,7 @@ func (x *CreateSubscriptionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubscriptionResponse.ProtoReflect.Descriptor instead.
 func (*CreateSubscriptionResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{22}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *CreateSubscriptionResponse) GetBase() *NotifyBaseResp {
@@ -1699,7 +1743,7 @@ type CreateSubscriptionInfo struct {
 
 func (x *CreateSubscriptionInfo) Reset() {
 	*x = CreateSubscriptionInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[23]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1711,7 +1755,7 @@ func (x *CreateSubscriptionInfo) String() string {
 func (*CreateSubscriptionInfo) ProtoMessage() {}
 
 func (x *CreateSubscriptionInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[23]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1724,7 +1768,7 @@ func (x *CreateSubscriptionInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubscriptionInfo.ProtoReflect.Descriptor instead.
 func (*CreateSubscriptionInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{23}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CreateSubscriptionInfo) GetSubscriptionId() int64 {
@@ -1746,7 +1790,7 @@ type UpdateSubscriptionRequest struct {
 
 func (x *UpdateSubscriptionRequest) Reset() {
 	*x = UpdateSubscriptionRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[24]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1758,7 +1802,7 @@ func (x *UpdateSubscriptionRequest) String() string {
 func (*UpdateSubscriptionRequest) ProtoMessage() {}
 
 func (x *UpdateSubscriptionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[24]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1771,7 +1815,7 @@ func (x *UpdateSubscriptionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSubscriptionRequest.ProtoReflect.Descriptor instead.
 func (*UpdateSubscriptionRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{24}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *UpdateSubscriptionRequest) GetMerchantId() int64 {
@@ -1806,7 +1850,7 @@ type DeleteSubscriptionRequest struct {
 
 func (x *DeleteSubscriptionRequest) Reset() {
 	*x = DeleteSubscriptionRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[25]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1818,7 +1862,7 @@ func (x *DeleteSubscriptionRequest) String() string {
 func (*DeleteSubscriptionRequest) ProtoMessage() {}
 
 func (x *DeleteSubscriptionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[25]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1831,7 +1875,7 @@ func (x *DeleteSubscriptionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSubscriptionRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSubscriptionRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{25}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *DeleteSubscriptionRequest) GetMerchantId() int64 {
@@ -1858,7 +1902,7 @@ type GetMerchantConfigRequest struct {
 
 func (x *GetMerchantConfigRequest) Reset() {
 	*x = GetMerchantConfigRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[26]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1870,7 +1914,7 @@ func (x *GetMerchantConfigRequest) String() string {
 func (*GetMerchantConfigRequest) ProtoMessage() {}
 
 func (x *GetMerchantConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[26]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1883,7 +1927,7 @@ func (x *GetMerchantConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMerchantConfigRequest.ProtoReflect.Descriptor instead.
 func (*GetMerchantConfigRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{26}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GetMerchantConfigRequest) GetMerchantId() int64 {
@@ -1904,7 +1948,7 @@ type GetMerchantConfigResponse struct {
 
 func (x *GetMerchantConfigResponse) Reset() {
 	*x = GetMerchantConfigResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[27]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1916,7 +1960,7 @@ func (x *GetMerchantConfigResponse) String() string {
 func (*GetMerchantConfigResponse) ProtoMessage() {}
 
 func (x *GetMerchantConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[27]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1929,7 +1973,7 @@ func (x *GetMerchantConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMerchantConfigResponse.ProtoReflect.Descriptor instead.
 func (*GetMerchantConfigResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{27}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *GetMerchantConfigResponse) GetBase() *NotifyBaseResp {
@@ -1963,7 +2007,7 @@ type QueryPushRecordsRequest struct {
 
 func (x *QueryPushRecordsRequest) Reset() {
 	*x = QueryPushRecordsRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[28]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1975,7 +2019,7 @@ func (x *QueryPushRecordsRequest) String() string {
 func (*QueryPushRecordsRequest) ProtoMessage() {}
 
 func (x *QueryPushRecordsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[28]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1988,7 +2032,7 @@ func (x *QueryPushRecordsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryPushRecordsRequest.ProtoReflect.Descriptor instead.
 func (*QueryPushRecordsRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{28}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *QueryPushRecordsRequest) GetMerchantId() int64 {
@@ -2058,7 +2102,7 @@ type QueryPushRecordsResponse struct {
 
 func (x *QueryPushRecordsResponse) Reset() {
 	*x = QueryPushRecordsResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[29]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2070,7 +2114,7 @@ func (x *QueryPushRecordsResponse) String() string {
 func (*QueryPushRecordsResponse) ProtoMessage() {}
 
 func (x *QueryPushRecordsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[29]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2083,7 +2127,7 @@ func (x *QueryPushRecordsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryPushRecordsResponse.ProtoReflect.Descriptor instead.
 func (*QueryPushRecordsResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{29}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *QueryPushRecordsResponse) GetBase() *NotifyBaseResp {
@@ -2111,7 +2155,7 @@ type QueryPushRecords struct {
 
 func (x *QueryPushRecords) Reset() {
 	*x = QueryPushRecords{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[30]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2123,7 +2167,7 @@ func (x *QueryPushRecords) String() string {
 func (*QueryPushRecords) ProtoMessage() {}
 
 func (x *QueryPushRecords) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[30]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2136,7 +2180,7 @@ func (x *QueryPushRecords) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryPushRecords.ProtoReflect.Descriptor instead.
 func (*QueryPushRecords) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{30}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *QueryPushRecords) GetRecords() []*PushTask {
@@ -2170,7 +2214,7 @@ type NotificationMsgHandlerRequest struct {
 
 func (x *NotificationMsgHandlerRequest) Reset() {
 	*x = NotificationMsgHandlerRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2182,7 +2226,7 @@ func (x *NotificationMsgHandlerRequest) String() string {
 func (*NotificationMsgHandlerRequest) ProtoMessage() {}
 
 func (x *NotificationMsgHandlerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[31]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2195,7 +2239,7 @@ func (x *NotificationMsgHandlerRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NotificationMsgHandlerRequest.ProtoReflect.Descriptor instead.
 func (*NotificationMsgHandlerRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{31}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *NotificationMsgHandlerRequest) GetRecords() []*NotificationMsgHandlerInfo {
@@ -2227,7 +2271,7 @@ type NotificationMsgHandlerInfo struct {
 
 func (x *NotificationMsgHandlerInfo) Reset() {
 	*x = NotificationMsgHandlerInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2239,7 +2283,7 @@ func (x *NotificationMsgHandlerInfo) String() string {
 func (*NotificationMsgHandlerInfo) ProtoMessage() {}
 
 func (x *NotificationMsgHandlerInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[32]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2252,7 +2296,7 @@ func (x *NotificationMsgHandlerInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NotificationMsgHandlerInfo.ProtoReflect.Descriptor instead.
 func (*NotificationMsgHandlerInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{32}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *NotificationMsgHandlerInfo) GetMsgId() string {
@@ -2313,7 +2357,7 @@ type NotificationMsgHandlerResponse struct {
 
 func (x *NotificationMsgHandlerResponse) Reset() {
 	*x = NotificationMsgHandlerResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2325,7 +2369,7 @@ func (x *NotificationMsgHandlerResponse) String() string {
 func (*NotificationMsgHandlerResponse) ProtoMessage() {}
 
 func (x *NotificationMsgHandlerResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[33]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2338,7 +2382,7 @@ func (x *NotificationMsgHandlerResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NotificationMsgHandlerResponse.ProtoReflect.Descriptor instead.
 func (*NotificationMsgHandlerResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{33}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *NotificationMsgHandlerResponse) GetBase() *NotifyBaseResp {
@@ -2359,7 +2403,7 @@ type GetEventTypesRequest struct {
 
 func (x *GetEventTypesRequest) Reset() {
 	*x = GetEventTypesRequest{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[34]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2371,7 +2415,7 @@ func (x *GetEventTypesRequest) String() string {
 func (*GetEventTypesRequest) ProtoMessage() {}
 
 func (x *GetEventTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[34]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2384,7 +2428,7 @@ func (x *GetEventTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEventTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetEventTypesRequest) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{34}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *GetEventTypesRequest) GetIncludeDisabled() bool {
@@ -2412,7 +2456,7 @@ type GetEventTypesResponse struct {
 
 func (x *GetEventTypesResponse) Reset() {
 	*x = GetEventTypesResponse{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[35]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2424,7 +2468,7 @@ func (x *GetEventTypesResponse) String() string {
 func (*GetEventTypesResponse) ProtoMessage() {}
 
 func (x *GetEventTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[35]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2437,7 +2481,7 @@ func (x *GetEventTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEventTypesResponse.ProtoReflect.Descriptor instead.
 func (*GetEventTypesResponse) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{35}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *GetEventTypesResponse) GetBase() *NotifyBaseResp {
@@ -2464,7 +2508,7 @@ type GetEventTypesInfo struct {
 
 func (x *GetEventTypesInfo) Reset() {
 	*x = GetEventTypesInfo{}
-	mi := &file_notifier_v1_notifier_proto_msgTypes[36]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2476,7 +2520,7 @@ func (x *GetEventTypesInfo) String() string {
 func (*GetEventTypesInfo) ProtoMessage() {}
 
 func (x *GetEventTypesInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_proto_msgTypes[36]
+	mi := &file_notifier_v1_notifier_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2489,7 +2533,7 @@ func (x *GetEventTypesInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEventTypesInfo.ProtoReflect.Descriptor instead.
 func (*GetEventTypesInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{36}
+	return file_notifier_v1_notifier_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *GetEventTypesInfo) GetCategories() []*CategoryConfig {
@@ -2547,7 +2591,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"\aenabled\x18\v \x01(\bR\aenabled\x12@\n" +
 	"\frobot_config\x18\f \x01(\v2\x18.notifier.v1.RobotConfigH\x01R\vrobotConfig\x88\x01\x01B\x12\n" +
 	"\x10auth_credentialsB\x0f\n" +
-	"\r_robot_config\"\xb3\x03\n" +
+	"\r_robot_config\"\xd0\x03\n" +
 	"\x12SubscriptionConfig\x12'\n" +
 	"\x0fsubscription_id\x18\x01 \x01(\x03R\x0esubscriptionId\x12A\n" +
 	"\n" +
@@ -2555,28 +2599,24 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"categories\x127\n" +
 	"\vevent_types\x18\x03 \x03(\x0e2\x16.notifier.v1.EventTypeR\n" +
 	"eventTypes\x120\n" +
-	"\x06filter\x18\x04 \x01(\v2\x18.notifier.v1.FilterRulesR\x06filter\x12?\n" +
-	"\vaggregation\x18\x05 \x01(\v2\x1d.notifier.v1.AggregationRulesR\vaggregation\x128\n" +
-	"\vrate_limits\x18\x06 \x01(\v2\x17.notifier.v1.RateLimitsR\n" +
-	"rateLimits\x12\x18\n" +
-	"\aenabled\x18\a \x01(\bR\aenabled\x121\n" +
-	"\x04mode\x18\b \x01(\x0e2\x1d.notifier.v1.SubscriptionModeR\x04mode\"\xaa\x02\n" +
-	"\vFilterRules\x12H\n" +
-	"\n" +
-	"conditions\x18\x01 \x03(\v2(.notifier.v1.FilterRules.ConditionsEntryR\n" +
-	"conditions\x12D\n" +
-	"\fmin_priority\x18\x02 \x01(\x0e2!.notifier.v1.NotificationPriorityR\vminPriority\x12!\n" +
-	"\fmerchant_ids\x18\x03 \x03(\x03R\vmerchantIds\x12)\n" +
-	"\x10exclude_services\x18\x04 \x03(\tR\x0fexcludeServices\x1a=\n" +
-	"\x0fConditionsEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9e\x01\n" +
-	"\x10AggregationRules\x12\x18\n" +
-	"\aenabled\x18\x01 \x01(\bR\aenabled\x12\x1d\n" +
-	"\n" +
-	"batch_size\x18\x02 \x01(\x05R\tbatchSize\x12%\n" +
-	"\x0ewindow_seconds\x18\x03 \x01(\x05R\rwindowSeconds\x12*\n" +
-	"\x11group_by_category\x18\x04 \x01(\bR\x0fgroupByCategory\"\xab\x02\n" +
+	"\x06filter\x18\x04 \x01(\v2\x18.notifier.v1.FilterRulesR\x06filter\x12G\n" +
+	"\x10target_merchants\x18\x05 \x01(\v2\x1c.notifier.v1.TargetMerchantsR\x0ftargetMerchants\x12\x18\n" +
+	"\aenabled\x18\x06 \x01(\bR\aenabled\x121\n" +
+	"\x04mode\x18\a \x01(\x0e2\x1d.notifier.v1.SubscriptionModeR\x04mode\x12=\n" +
+	"\vrate_limits\x18\b \x01(\v2\x17.notifier.v1.RateLimitsH\x00R\n" +
+	"rateLimits\x88\x01\x01B\x0e\n" +
+	"\f_rate_limits\"\x7f\n" +
+	"\vFilterRules\x123\n" +
+	"\afilters\x18\x01 \x01(\v2\x19.notifier.v1.FilterConfigR\afilters\x12;\n" +
+	"\fbatch_config\x18\x02 \x01(\v2\x18.notifier.v1.BatchConfigR\vbatchConfig\"\xb2\x01\n" +
+	"\fFilterConfig\x12-\n" +
+	"\x12merchant_whitelist\x18\x01 \x03(\x03R\x11merchantWhitelist\x12-\n" +
+	"\x12merchant_blacklist\x18\x02 \x03(\x03R\x11merchantBlacklist\x12!\n" +
+	"\fip_whitelist\x18\x03 \x03(\tR\vipWhitelist\x12!\n" +
+	"\fip_blacklist\x18\x04 \x03(\tR\vipBlacklist\"[\n" +
+	"\vBatchConfig\x12'\n" +
+	"\x0fdefault_enabled\x18\x01 \x01(\bR\x0edefaultEnabled\x12#\n" +
+	"\renabled_event\x18\x02 \x03(\tR\fenabledEvent\"\xab\x02\n" +
 	"\n" +
 	"RateLimits\x12$\n" +
 	"\x0emax_per_minute\x18\x01 \x01(\x05R\fmaxPerMinute\x12 \n" +
@@ -2649,7 +2689,7 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"httpStatus\x12\x1a\n" +
 	"\bresponse\x18\x02 \x01(\tR\bresponse\x12\x1d\n" +
 	"\n" +
-	"latency_ms\x18\x03 \x01(\x03R\tlatencyMs\"\xe5\x02\n" +
+	"latency_ms\x18\x03 \x01(\x03R\tlatencyMs\"\x9c\x03\n" +
 	"\x19CreateSubscriptionRequest\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12A\n" +
@@ -2658,10 +2698,12 @@ const file_notifier_v1_notifier_proto_rawDesc = "" +
 	"categories\x127\n" +
 	"\vevent_types\x18\x03 \x03(\x0e2\x16.notifier.v1.EventTypeR\n" +
 	"eventTypes\x120\n" +
-	"\x06filter\x18\x04 \x01(\v2\x18.notifier.v1.FilterRulesR\x06filter\x12?\n" +
-	"\vaggregation\x18\x05 \x01(\v2\x1d.notifier.v1.AggregationRulesR\vaggregation\x128\n" +
-	"\vrate_limits\x18\x06 \x01(\v2\x17.notifier.v1.RateLimitsR\n" +
-	"rateLimits\"\x86\x01\n" +
+	"\x06filter\x18\x04 \x01(\v2\x18.notifier.v1.FilterRulesR\x06filter\x12G\n" +
+	"\x10target_merchants\x18\x05 \x01(\v2\x1c.notifier.v1.TargetMerchantsR\x0ftargetMerchants\x12\x18\n" +
+	"\aenabled\x18\x06 \x01(\bR\aenabled\x12=\n" +
+	"\vrate_limits\x18\a \x01(\v2\x17.notifier.v1.RateLimitsH\x00R\n" +
+	"rateLimits\x88\x01\x01B\x0e\n" +
+	"\f_rate_limits\"\x86\x01\n" +
 	"\x1aCreateSubscriptionResponse\x12/\n" +
 	"\x04base\x18\x01 \x01(\v2\x1b.notifier.v1.NotifyBaseRespR\x04base\x127\n" +
 	"\x04data\x18\x02 \x01(\v2#.notifier.v1.CreateSubscriptionInfoR\x04data\"A\n" +
@@ -2768,40 +2810,40 @@ var file_notifier_v1_notifier_proto_goTypes = []any{
 	(*EndpointConfig)(nil),                 // 2: notifier.v1.EndpointConfig
 	(*SubscriptionConfig)(nil),             // 3: notifier.v1.SubscriptionConfig
 	(*FilterRules)(nil),                    // 4: notifier.v1.FilterRules
-	(*AggregationRules)(nil),               // 5: notifier.v1.AggregationRules
-	(*RateLimits)(nil),                     // 6: notifier.v1.RateLimits
-	(*PushTask)(nil),                       // 7: notifier.v1.PushTask
-	(*SendNotificationRequest)(nil),        // 8: notifier.v1.SendNotificationRequest
-	(*TargetMerchants)(nil),                // 9: notifier.v1.TargetMerchants
-	(*TargetCategory)(nil),                 // 10: notifier.v1.TargetCategory
-	(*TargetAll)(nil),                      // 11: notifier.v1.TargetAll
-	(*SendNotificationResponse)(nil),       // 12: notifier.v1.SendNotificationResponse
-	(*BatchSendRequest)(nil),               // 13: notifier.v1.BatchSendRequest
-	(*BatchSendResponse)(nil),              // 14: notifier.v1.BatchSendResponse
-	(*ConfigureEndpointRequest)(nil),       // 15: notifier.v1.ConfigureEndpointRequest
-	(*ConfigureEndpointResponse)(nil),      // 16: notifier.v1.ConfigureEndpointResponse
-	(*ConfigureEndpointInfo)(nil),          // 17: notifier.v1.ConfigureEndpointInfo
-	(*TestEndpointRequest)(nil),            // 18: notifier.v1.TestEndpointRequest
-	(*TestEndpointResponse)(nil),           // 19: notifier.v1.TestEndpointResponse
-	(*TestEndpointInfo)(nil),               // 20: notifier.v1.TestEndpointInfo
-	(*CreateSubscriptionRequest)(nil),      // 21: notifier.v1.CreateSubscriptionRequest
-	(*CreateSubscriptionResponse)(nil),     // 22: notifier.v1.CreateSubscriptionResponse
-	(*CreateSubscriptionInfo)(nil),         // 23: notifier.v1.CreateSubscriptionInfo
-	(*UpdateSubscriptionRequest)(nil),      // 24: notifier.v1.UpdateSubscriptionRequest
-	(*DeleteSubscriptionRequest)(nil),      // 25: notifier.v1.DeleteSubscriptionRequest
-	(*GetMerchantConfigRequest)(nil),       // 26: notifier.v1.GetMerchantConfigRequest
-	(*GetMerchantConfigResponse)(nil),      // 27: notifier.v1.GetMerchantConfigResponse
-	(*QueryPushRecordsRequest)(nil),        // 28: notifier.v1.QueryPushRecordsRequest
-	(*QueryPushRecordsResponse)(nil),       // 29: notifier.v1.QueryPushRecordsResponse
-	(*QueryPushRecords)(nil),               // 30: notifier.v1.QueryPushRecords
-	(*NotificationMsgHandlerRequest)(nil),  // 31: notifier.v1.NotificationMsgHandlerRequest
-	(*NotificationMsgHandlerInfo)(nil),     // 32: notifier.v1.NotificationMsgHandlerInfo
-	(*NotificationMsgHandlerResponse)(nil), // 33: notifier.v1.NotificationMsgHandlerResponse
-	(*GetEventTypesRequest)(nil),           // 34: notifier.v1.GetEventTypesRequest
-	(*GetEventTypesResponse)(nil),          // 35: notifier.v1.GetEventTypesResponse
-	(*GetEventTypesInfo)(nil),              // 36: notifier.v1.GetEventTypesInfo
-	nil,                                    // 37: notifier.v1.MerchantConfig.MetadataEntry
-	nil,                                    // 38: notifier.v1.FilterRules.ConditionsEntry
+	(*FilterConfig)(nil),                   // 5: notifier.v1.FilterConfig
+	(*BatchConfig)(nil),                    // 6: notifier.v1.BatchConfig
+	(*RateLimits)(nil),                     // 7: notifier.v1.RateLimits
+	(*PushTask)(nil),                       // 8: notifier.v1.PushTask
+	(*SendNotificationRequest)(nil),        // 9: notifier.v1.SendNotificationRequest
+	(*TargetMerchants)(nil),                // 10: notifier.v1.TargetMerchants
+	(*TargetCategory)(nil),                 // 11: notifier.v1.TargetCategory
+	(*TargetAll)(nil),                      // 12: notifier.v1.TargetAll
+	(*SendNotificationResponse)(nil),       // 13: notifier.v1.SendNotificationResponse
+	(*BatchSendRequest)(nil),               // 14: notifier.v1.BatchSendRequest
+	(*BatchSendResponse)(nil),              // 15: notifier.v1.BatchSendResponse
+	(*ConfigureEndpointRequest)(nil),       // 16: notifier.v1.ConfigureEndpointRequest
+	(*ConfigureEndpointResponse)(nil),      // 17: notifier.v1.ConfigureEndpointResponse
+	(*ConfigureEndpointInfo)(nil),          // 18: notifier.v1.ConfigureEndpointInfo
+	(*TestEndpointRequest)(nil),            // 19: notifier.v1.TestEndpointRequest
+	(*TestEndpointResponse)(nil),           // 20: notifier.v1.TestEndpointResponse
+	(*TestEndpointInfo)(nil),               // 21: notifier.v1.TestEndpointInfo
+	(*CreateSubscriptionRequest)(nil),      // 22: notifier.v1.CreateSubscriptionRequest
+	(*CreateSubscriptionResponse)(nil),     // 23: notifier.v1.CreateSubscriptionResponse
+	(*CreateSubscriptionInfo)(nil),         // 24: notifier.v1.CreateSubscriptionInfo
+	(*UpdateSubscriptionRequest)(nil),      // 25: notifier.v1.UpdateSubscriptionRequest
+	(*DeleteSubscriptionRequest)(nil),      // 26: notifier.v1.DeleteSubscriptionRequest
+	(*GetMerchantConfigRequest)(nil),       // 27: notifier.v1.GetMerchantConfigRequest
+	(*GetMerchantConfigResponse)(nil),      // 28: notifier.v1.GetMerchantConfigResponse
+	(*QueryPushRecordsRequest)(nil),        // 29: notifier.v1.QueryPushRecordsRequest
+	(*QueryPushRecordsResponse)(nil),       // 30: notifier.v1.QueryPushRecordsResponse
+	(*QueryPushRecords)(nil),               // 31: notifier.v1.QueryPushRecords
+	(*NotificationMsgHandlerRequest)(nil),  // 32: notifier.v1.NotificationMsgHandlerRequest
+	(*NotificationMsgHandlerInfo)(nil),     // 33: notifier.v1.NotificationMsgHandlerInfo
+	(*NotificationMsgHandlerResponse)(nil), // 34: notifier.v1.NotificationMsgHandlerResponse
+	(*GetEventTypesRequest)(nil),           // 35: notifier.v1.GetEventTypesRequest
+	(*GetEventTypesResponse)(nil),          // 36: notifier.v1.GetEventTypesResponse
+	(*GetEventTypesInfo)(nil),              // 37: notifier.v1.GetEventTypesInfo
+	nil,                                    // 38: notifier.v1.MerchantConfig.MetadataEntry
 	nil,                                    // 39: notifier.v1.RateLimits.CategoryLimitsPerHourEntry
 	(NotifierErrorCode)(0),                 // 40: notifier.v1.NotifierErrorCode
 	(MerchantStatus)(0),                    // 41: notifier.v1.MerchantStatus
@@ -2816,14 +2858,13 @@ var file_notifier_v1_notifier_proto_goTypes = []any{
 	(NotificationCategory)(0),              // 50: notifier.v1.NotificationCategory
 	(EventType)(0),                         // 51: notifier.v1.EventType
 	(SubscriptionMode)(0),                  // 52: notifier.v1.SubscriptionMode
-	(NotificationPriority)(0),              // 53: notifier.v1.NotificationPriority
-	(*NotificationPayload)(nil),            // 54: notifier.v1.NotificationPayload
-	(PushStatus)(0),                        // 55: notifier.v1.PushStatus
-	(*EventWrapper)(nil),                   // 56: notifier.v1.EventWrapper
-	(*CategoryConfig)(nil),                 // 57: notifier.v1.CategoryConfig
-	(*EventTypeInfo)(nil),                  // 58: notifier.v1.EventTypeInfo
-	(*StreamNotificationRequest)(nil),      // 59: notifier.v1.StreamNotificationRequest
-	(*StreamNotificationResponse)(nil),     // 60: notifier.v1.StreamNotificationResponse
+	(*NotificationPayload)(nil),            // 53: notifier.v1.NotificationPayload
+	(PushStatus)(0),                        // 54: notifier.v1.PushStatus
+	(*EventWrapper)(nil),                   // 55: notifier.v1.EventWrapper
+	(*CategoryConfig)(nil),                 // 56: notifier.v1.CategoryConfig
+	(*EventTypeInfo)(nil),                  // 57: notifier.v1.EventTypeInfo
+	(*StreamNotificationRequest)(nil),      // 58: notifier.v1.StreamNotificationRequest
+	(*StreamNotificationResponse)(nil),     // 59: notifier.v1.StreamNotificationResponse
 }
 var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	40, // 0: notifier.v1.NotifyBaseResp.code:type_name -> notifier.v1.NotifierErrorCode
@@ -2832,7 +2873,7 @@ var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	3,  // 3: notifier.v1.MerchantConfig.subscriptions:type_name -> notifier.v1.SubscriptionConfig
 	42, // 4: notifier.v1.MerchantConfig.created_at:type_name -> google.protobuf.Timestamp
 	42, // 5: notifier.v1.MerchantConfig.updated_at:type_name -> google.protobuf.Timestamp
-	37, // 6: notifier.v1.MerchantConfig.metadata:type_name -> notifier.v1.MerchantConfig.MetadataEntry
+	38, // 6: notifier.v1.MerchantConfig.metadata:type_name -> notifier.v1.MerchantConfig.MetadataEntry
 	43, // 7: notifier.v1.EndpointConfig.channel:type_name -> notifier.v1.PushChannel
 	44, // 8: notifier.v1.EndpointConfig.auth_type:type_name -> notifier.v1.AuthType
 	45, // 9: notifier.v1.EndpointConfig.none_auth:type_name -> notifier.v1.NoneAuth
@@ -2843,85 +2884,85 @@ var file_notifier_v1_notifier_proto_depIdxs = []int32{
 	50, // 14: notifier.v1.SubscriptionConfig.categories:type_name -> notifier.v1.NotificationCategory
 	51, // 15: notifier.v1.SubscriptionConfig.event_types:type_name -> notifier.v1.EventType
 	4,  // 16: notifier.v1.SubscriptionConfig.filter:type_name -> notifier.v1.FilterRules
-	5,  // 17: notifier.v1.SubscriptionConfig.aggregation:type_name -> notifier.v1.AggregationRules
-	6,  // 18: notifier.v1.SubscriptionConfig.rate_limits:type_name -> notifier.v1.RateLimits
-	52, // 19: notifier.v1.SubscriptionConfig.mode:type_name -> notifier.v1.SubscriptionMode
-	38, // 20: notifier.v1.FilterRules.conditions:type_name -> notifier.v1.FilterRules.ConditionsEntry
-	53, // 21: notifier.v1.FilterRules.min_priority:type_name -> notifier.v1.NotificationPriority
+	10, // 17: notifier.v1.SubscriptionConfig.target_merchants:type_name -> notifier.v1.TargetMerchants
+	52, // 18: notifier.v1.SubscriptionConfig.mode:type_name -> notifier.v1.SubscriptionMode
+	7,  // 19: notifier.v1.SubscriptionConfig.rate_limits:type_name -> notifier.v1.RateLimits
+	5,  // 20: notifier.v1.FilterRules.filters:type_name -> notifier.v1.FilterConfig
+	6,  // 21: notifier.v1.FilterRules.batch_config:type_name -> notifier.v1.BatchConfig
 	39, // 22: notifier.v1.RateLimits.category_limits_per_hour:type_name -> notifier.v1.RateLimits.CategoryLimitsPerHourEntry
 	43, // 23: notifier.v1.PushTask.channel:type_name -> notifier.v1.PushChannel
-	54, // 24: notifier.v1.PushTask.payload:type_name -> notifier.v1.NotificationPayload
-	55, // 25: notifier.v1.PushTask.status:type_name -> notifier.v1.PushStatus
+	53, // 24: notifier.v1.PushTask.payload:type_name -> notifier.v1.NotificationPayload
+	54, // 25: notifier.v1.PushTask.status:type_name -> notifier.v1.PushStatus
 	42, // 26: notifier.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
 	42, // 27: notifier.v1.PushTask.executed_at:type_name -> google.protobuf.Timestamp
-	56, // 28: notifier.v1.SendNotificationRequest.event:type_name -> notifier.v1.EventWrapper
-	9,  // 29: notifier.v1.SendNotificationRequest.merchants:type_name -> notifier.v1.TargetMerchants
-	10, // 30: notifier.v1.SendNotificationRequest.category:type_name -> notifier.v1.TargetCategory
-	11, // 31: notifier.v1.SendNotificationRequest.all:type_name -> notifier.v1.TargetAll
+	55, // 28: notifier.v1.SendNotificationRequest.event:type_name -> notifier.v1.EventWrapper
+	10, // 29: notifier.v1.SendNotificationRequest.merchants:type_name -> notifier.v1.TargetMerchants
+	11, // 30: notifier.v1.SendNotificationRequest.category:type_name -> notifier.v1.TargetCategory
+	12, // 31: notifier.v1.SendNotificationRequest.all:type_name -> notifier.v1.TargetAll
 	50, // 32: notifier.v1.TargetCategory.category:type_name -> notifier.v1.NotificationCategory
 	0,  // 33: notifier.v1.SendNotificationResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	56, // 34: notifier.v1.BatchSendRequest.events:type_name -> notifier.v1.EventWrapper
-	9,  // 35: notifier.v1.BatchSendRequest.merchants:type_name -> notifier.v1.TargetMerchants
-	10, // 36: notifier.v1.BatchSendRequest.category:type_name -> notifier.v1.TargetCategory
-	11, // 37: notifier.v1.BatchSendRequest.all:type_name -> notifier.v1.TargetAll
+	55, // 34: notifier.v1.BatchSendRequest.events:type_name -> notifier.v1.EventWrapper
+	10, // 35: notifier.v1.BatchSendRequest.merchants:type_name -> notifier.v1.TargetMerchants
+	11, // 36: notifier.v1.BatchSendRequest.category:type_name -> notifier.v1.TargetCategory
+	12, // 37: notifier.v1.BatchSendRequest.all:type_name -> notifier.v1.TargetAll
 	0,  // 38: notifier.v1.BatchSendResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	2,  // 39: notifier.v1.ConfigureEndpointRequest.config:type_name -> notifier.v1.EndpointConfig
 	0,  // 40: notifier.v1.ConfigureEndpointResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	17, // 41: notifier.v1.ConfigureEndpointResponse.data:type_name -> notifier.v1.ConfigureEndpointInfo
-	56, // 42: notifier.v1.TestEndpointRequest.test_event:type_name -> notifier.v1.EventWrapper
+	18, // 41: notifier.v1.ConfigureEndpointResponse.data:type_name -> notifier.v1.ConfigureEndpointInfo
+	55, // 42: notifier.v1.TestEndpointRequest.test_event:type_name -> notifier.v1.EventWrapper
 	0,  // 43: notifier.v1.TestEndpointResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	20, // 44: notifier.v1.TestEndpointResponse.data:type_name -> notifier.v1.TestEndpointInfo
+	21, // 44: notifier.v1.TestEndpointResponse.data:type_name -> notifier.v1.TestEndpointInfo
 	50, // 45: notifier.v1.CreateSubscriptionRequest.categories:type_name -> notifier.v1.NotificationCategory
 	51, // 46: notifier.v1.CreateSubscriptionRequest.event_types:type_name -> notifier.v1.EventType
 	4,  // 47: notifier.v1.CreateSubscriptionRequest.filter:type_name -> notifier.v1.FilterRules
-	5,  // 48: notifier.v1.CreateSubscriptionRequest.aggregation:type_name -> notifier.v1.AggregationRules
-	6,  // 49: notifier.v1.CreateSubscriptionRequest.rate_limits:type_name -> notifier.v1.RateLimits
+	10, // 48: notifier.v1.CreateSubscriptionRequest.target_merchants:type_name -> notifier.v1.TargetMerchants
+	7,  // 49: notifier.v1.CreateSubscriptionRequest.rate_limits:type_name -> notifier.v1.RateLimits
 	0,  // 50: notifier.v1.CreateSubscriptionResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	23, // 51: notifier.v1.CreateSubscriptionResponse.data:type_name -> notifier.v1.CreateSubscriptionInfo
+	24, // 51: notifier.v1.CreateSubscriptionResponse.data:type_name -> notifier.v1.CreateSubscriptionInfo
 	3,  // 52: notifier.v1.UpdateSubscriptionRequest.config:type_name -> notifier.v1.SubscriptionConfig
 	0,  // 53: notifier.v1.GetMerchantConfigResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	1,  // 54: notifier.v1.GetMerchantConfigResponse.data:type_name -> notifier.v1.MerchantConfig
 	50, // 55: notifier.v1.QueryPushRecordsRequest.category:type_name -> notifier.v1.NotificationCategory
 	51, // 56: notifier.v1.QueryPushRecordsRequest.event_type:type_name -> notifier.v1.EventType
-	55, // 57: notifier.v1.QueryPushRecordsRequest.status:type_name -> notifier.v1.PushStatus
+	54, // 57: notifier.v1.QueryPushRecordsRequest.status:type_name -> notifier.v1.PushStatus
 	42, // 58: notifier.v1.QueryPushRecordsRequest.start_time:type_name -> google.protobuf.Timestamp
 	42, // 59: notifier.v1.QueryPushRecordsRequest.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 60: notifier.v1.QueryPushRecordsResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	30, // 61: notifier.v1.QueryPushRecordsResponse.data:type_name -> notifier.v1.QueryPushRecords
-	7,  // 62: notifier.v1.QueryPushRecords.records:type_name -> notifier.v1.PushTask
-	32, // 63: notifier.v1.NotificationMsgHandlerRequest.records:type_name -> notifier.v1.NotificationMsgHandlerInfo
+	31, // 61: notifier.v1.QueryPushRecordsResponse.data:type_name -> notifier.v1.QueryPushRecords
+	8,  // 62: notifier.v1.QueryPushRecords.records:type_name -> notifier.v1.PushTask
+	33, // 63: notifier.v1.NotificationMsgHandlerRequest.records:type_name -> notifier.v1.NotificationMsgHandlerInfo
 	0,  // 64: notifier.v1.NotificationMsgHandlerResponse.base:type_name -> notifier.v1.NotifyBaseResp
 	50, // 65: notifier.v1.GetEventTypesRequest.categories:type_name -> notifier.v1.NotificationCategory
 	0,  // 66: notifier.v1.GetEventTypesResponse.base:type_name -> notifier.v1.NotifyBaseResp
-	36, // 67: notifier.v1.GetEventTypesResponse.data:type_name -> notifier.v1.GetEventTypesInfo
-	57, // 68: notifier.v1.GetEventTypesInfo.categories:type_name -> notifier.v1.CategoryConfig
-	58, // 69: notifier.v1.GetEventTypesInfo.event_types:type_name -> notifier.v1.EventTypeInfo
-	8,  // 70: notifier.v1.NotifierInnerService.SendNotification:input_type -> notifier.v1.SendNotificationRequest
-	13, // 71: notifier.v1.NotifierInnerService.BatchSend:input_type -> notifier.v1.BatchSendRequest
-	28, // 72: notifier.v1.NotifierInnerService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
-	31, // 73: notifier.v1.NotifierInnerService.NotificationMsgHandler:input_type -> notifier.v1.NotificationMsgHandlerRequest
-	26, // 74: notifier.v1.NotifierMerchantService.GetMerchantConfig:input_type -> notifier.v1.GetMerchantConfigRequest
-	15, // 75: notifier.v1.NotifierMerchantService.ConfigureEndpoint:input_type -> notifier.v1.ConfigureEndpointRequest
-	18, // 76: notifier.v1.NotifierMerchantService.TestEndpoint:input_type -> notifier.v1.TestEndpointRequest
-	21, // 77: notifier.v1.NotifierMerchantService.CreateSubscription:input_type -> notifier.v1.CreateSubscriptionRequest
-	24, // 78: notifier.v1.NotifierMerchantService.UpdateSubscription:input_type -> notifier.v1.UpdateSubscriptionRequest
-	25, // 79: notifier.v1.NotifierMerchantService.DeleteSubscription:input_type -> notifier.v1.DeleteSubscriptionRequest
-	34, // 80: notifier.v1.NotifierMerchantService.GetEventTypes:input_type -> notifier.v1.GetEventTypesRequest
-	28, // 81: notifier.v1.NotifierMerchantService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
-	59, // 82: notifier.v1.NotificationStreamService.StreamNotifications:input_type -> notifier.v1.StreamNotificationRequest
-	12, // 83: notifier.v1.NotifierInnerService.SendNotification:output_type -> notifier.v1.SendNotificationResponse
-	14, // 84: notifier.v1.NotifierInnerService.BatchSend:output_type -> notifier.v1.BatchSendResponse
-	29, // 85: notifier.v1.NotifierInnerService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
-	33, // 86: notifier.v1.NotifierInnerService.NotificationMsgHandler:output_type -> notifier.v1.NotificationMsgHandlerResponse
-	27, // 87: notifier.v1.NotifierMerchantService.GetMerchantConfig:output_type -> notifier.v1.GetMerchantConfigResponse
-	16, // 88: notifier.v1.NotifierMerchantService.ConfigureEndpoint:output_type -> notifier.v1.ConfigureEndpointResponse
-	19, // 89: notifier.v1.NotifierMerchantService.TestEndpoint:output_type -> notifier.v1.TestEndpointResponse
-	22, // 90: notifier.v1.NotifierMerchantService.CreateSubscription:output_type -> notifier.v1.CreateSubscriptionResponse
+	37, // 67: notifier.v1.GetEventTypesResponse.data:type_name -> notifier.v1.GetEventTypesInfo
+	56, // 68: notifier.v1.GetEventTypesInfo.categories:type_name -> notifier.v1.CategoryConfig
+	57, // 69: notifier.v1.GetEventTypesInfo.event_types:type_name -> notifier.v1.EventTypeInfo
+	9,  // 70: notifier.v1.NotifierInnerService.SendNotification:input_type -> notifier.v1.SendNotificationRequest
+	14, // 71: notifier.v1.NotifierInnerService.BatchSend:input_type -> notifier.v1.BatchSendRequest
+	29, // 72: notifier.v1.NotifierInnerService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
+	32, // 73: notifier.v1.NotifierInnerService.NotificationMsgHandler:input_type -> notifier.v1.NotificationMsgHandlerRequest
+	27, // 74: notifier.v1.NotifierMerchantService.GetMerchantConfig:input_type -> notifier.v1.GetMerchantConfigRequest
+	16, // 75: notifier.v1.NotifierMerchantService.ConfigureEndpoint:input_type -> notifier.v1.ConfigureEndpointRequest
+	19, // 76: notifier.v1.NotifierMerchantService.TestEndpoint:input_type -> notifier.v1.TestEndpointRequest
+	22, // 77: notifier.v1.NotifierMerchantService.CreateSubscription:input_type -> notifier.v1.CreateSubscriptionRequest
+	25, // 78: notifier.v1.NotifierMerchantService.UpdateSubscription:input_type -> notifier.v1.UpdateSubscriptionRequest
+	26, // 79: notifier.v1.NotifierMerchantService.DeleteSubscription:input_type -> notifier.v1.DeleteSubscriptionRequest
+	35, // 80: notifier.v1.NotifierMerchantService.GetEventTypes:input_type -> notifier.v1.GetEventTypesRequest
+	29, // 81: notifier.v1.NotifierMerchantService.QueryPushRecords:input_type -> notifier.v1.QueryPushRecordsRequest
+	58, // 82: notifier.v1.NotificationStreamService.StreamNotifications:input_type -> notifier.v1.StreamNotificationRequest
+	13, // 83: notifier.v1.NotifierInnerService.SendNotification:output_type -> notifier.v1.SendNotificationResponse
+	15, // 84: notifier.v1.NotifierInnerService.BatchSend:output_type -> notifier.v1.BatchSendResponse
+	30, // 85: notifier.v1.NotifierInnerService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
+	34, // 86: notifier.v1.NotifierInnerService.NotificationMsgHandler:output_type -> notifier.v1.NotificationMsgHandlerResponse
+	28, // 87: notifier.v1.NotifierMerchantService.GetMerchantConfig:output_type -> notifier.v1.GetMerchantConfigResponse
+	17, // 88: notifier.v1.NotifierMerchantService.ConfigureEndpoint:output_type -> notifier.v1.ConfigureEndpointResponse
+	20, // 89: notifier.v1.NotifierMerchantService.TestEndpoint:output_type -> notifier.v1.TestEndpointResponse
+	23, // 90: notifier.v1.NotifierMerchantService.CreateSubscription:output_type -> notifier.v1.CreateSubscriptionResponse
 	0,  // 91: notifier.v1.NotifierMerchantService.UpdateSubscription:output_type -> notifier.v1.NotifyBaseResp
 	0,  // 92: notifier.v1.NotifierMerchantService.DeleteSubscription:output_type -> notifier.v1.NotifyBaseResp
-	35, // 93: notifier.v1.NotifierMerchantService.GetEventTypes:output_type -> notifier.v1.GetEventTypesResponse
-	29, // 94: notifier.v1.NotifierMerchantService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
-	60, // 95: notifier.v1.NotificationStreamService.StreamNotifications:output_type -> notifier.v1.StreamNotificationResponse
+	36, // 93: notifier.v1.NotifierMerchantService.GetEventTypes:output_type -> notifier.v1.GetEventTypesResponse
+	30, // 94: notifier.v1.NotifierMerchantService.QueryPushRecords:output_type -> notifier.v1.QueryPushRecordsResponse
+	59, // 95: notifier.v1.NotificationStreamService.StreamNotifications:output_type -> notifier.v1.StreamNotificationResponse
 	83, // [83:96] is the sub-list for method output_type
 	70, // [70:83] is the sub-list for method input_type
 	70, // [70:70] is the sub-list for extension type_name
@@ -2943,16 +2984,18 @@ func file_notifier_v1_notifier_proto_init() {
 		(*EndpointConfig_SignatureAuth)(nil),
 		(*EndpointConfig_OauthAuth)(nil),
 	}
-	file_notifier_v1_notifier_proto_msgTypes[8].OneofWrappers = []any{
+	file_notifier_v1_notifier_proto_msgTypes[3].OneofWrappers = []any{}
+	file_notifier_v1_notifier_proto_msgTypes[9].OneofWrappers = []any{
 		(*SendNotificationRequest_Merchants)(nil),
 		(*SendNotificationRequest_Category)(nil),
 		(*SendNotificationRequest_All)(nil),
 	}
-	file_notifier_v1_notifier_proto_msgTypes[13].OneofWrappers = []any{
+	file_notifier_v1_notifier_proto_msgTypes[14].OneofWrappers = []any{
 		(*BatchSendRequest_Merchants)(nil),
 		(*BatchSendRequest_Category)(nil),
 		(*BatchSendRequest_All)(nil),
 	}
+	file_notifier_v1_notifier_proto_msgTypes[22].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
