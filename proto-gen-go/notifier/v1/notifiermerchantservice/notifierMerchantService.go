@@ -43,7 +43,6 @@ type (
 	RateLimits                     = v1.RateLimits
 	SendNotificationRequest        = v1.SendNotificationRequest
 	SendNotificationResponse       = v1.SendNotificationResponse
-	SubscriptionConfig             = v1.SubscriptionConfig
 	TargetAll                      = v1.TargetAll
 	TargetCategory                 = v1.TargetCategory
 	TargetMerchants                = v1.TargetMerchants

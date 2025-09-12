@@ -38,21 +38,6 @@ message EndpointConfig {
   optional RobotConfig robot_config = 12;   // 机器人配置
 }
 
-// 订阅配置
-message SubscriptionConfig {
-  int64 subscription_id = 1;
-
-  // 订阅范围 - 可以按大类或具体事件类型订阅
-  repeated NotificationCategory categories = 2;  // 订阅的大类
-  repeated EventType event_types = 3;           // 订阅的具体事件类型
-
-  FilterRules filter = 4;
-  TargetMerchants target_merchants = 5;
-  bool enabled = 6;
-  SubscriptionMode mode = 7;
-
-  optional RateLimits rate_limits = 8;
-}
 
 // 过滤规则
 message FilterRules {
@@ -172,10 +157,12 @@ message ConfigureEndpointInfo {
 
 // 测试端点请求
 message TestEndpointRequest {
-  int64 merchant_id = 1;
-  int64 endpoint_id = 2;
-  EventWrapper test_event = 3;              // 使用真实事件结构测试
+  int64 merchant_id = 1;                    // 商户ID
+  int64 endpoint_id = 2;                    // 端点ID
+  // 可选：指定测试哪种事件类型，不指定则使用默认测试事件
+  optional EventType test_event_type = 3;
 }
+
 
 // 测试端点响应
 message TestEndpointResponse {
@@ -185,9 +172,13 @@ message TestEndpointResponse {
 
 
 message TestEndpointInfo {
-  int32 http_status = 1;
-  string response = 2;
-  int64 latency_ms = 3;
+  int32 http_status = 1;                      // HTTP状态码
+  string response = 2;                        // 端点响应内容
+  int64 latency_ms = 3;                       // 响应延迟(毫秒)
+  string test_event_id = 4;                   // 测试事件ID
+  string test_event_type = 5;                 // 实际测试的事件类型
+  bool signature_valid = 6;                   // 签名验证是否通过(如果使用签名)
+  map<string, string> diagnostics = 7;        // 诊断信息
 }
 
 

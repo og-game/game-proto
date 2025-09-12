@@ -166,115 +166,6 @@ func (MerchantStatus) EnumDescriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{1}
 }
 
-// 数据获取方式
-type DataAcquisitionMethod int32
-
-const (
-	DataAcquisitionMethod_LEVEL_UNSPECIFIED  DataAcquisitionMethod = 0
-	DataAcquisitionMethod_LEVEL_MANDATORY    DataAcquisitionMethod = 1 // 强制推送
-	DataAcquisitionMethod_LEVEL_SUBSCRIPTION DataAcquisitionMethod = 2 // 订阅推送
-	DataAcquisitionMethod_LEVEL_PASSIVE      DataAcquisitionMethod = 3 // 被动拉取
-)
-
-// Enum value maps for DataAcquisitionMethod.
-var (
-	DataAcquisitionMethod_name = map[int32]string{
-		0: "LEVEL_UNSPECIFIED",
-		1: "LEVEL_MANDATORY",
-		2: "LEVEL_SUBSCRIPTION",
-		3: "LEVEL_PASSIVE",
-	}
-	DataAcquisitionMethod_value = map[string]int32{
-		"LEVEL_UNSPECIFIED":  0,
-		"LEVEL_MANDATORY":    1,
-		"LEVEL_SUBSCRIPTION": 2,
-		"LEVEL_PASSIVE":      3,
-	}
-)
-
-func (x DataAcquisitionMethod) Enum() *DataAcquisitionMethod {
-	p := new(DataAcquisitionMethod)
-	*p = x
-	return p
-}
-
-func (x DataAcquisitionMethod) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (DataAcquisitionMethod) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[2].Descriptor()
-}
-
-func (DataAcquisitionMethod) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[2]
-}
-
-func (x DataAcquisitionMethod) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use DataAcquisitionMethod.Descriptor instead.
-func (DataAcquisitionMethod) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{2}
-}
-
-// 订阅模式
-type SubscriptionMode int32
-
-const (
-	SubscriptionMode_MODE_UNSPECIFIED SubscriptionMode = 0
-	SubscriptionMode_MODE_ALL         SubscriptionMode = 1 // 订阅所有（需要特殊权限）
-	SubscriptionMode_MODE_CATEGORY    SubscriptionMode = 2 // 按大类订阅
-	SubscriptionMode_MODE_SPECIFIC    SubscriptionMode = 3 // 按具体事件订阅
-	SubscriptionMode_MODE_MIXED       SubscriptionMode = 4 // 混合模式（大类+具体事件）
-)
-
-// Enum value maps for SubscriptionMode.
-var (
-	SubscriptionMode_name = map[int32]string{
-		0: "MODE_UNSPECIFIED",
-		1: "MODE_ALL",
-		2: "MODE_CATEGORY",
-		3: "MODE_SPECIFIC",
-		4: "MODE_MIXED",
-	}
-	SubscriptionMode_value = map[string]int32{
-		"MODE_UNSPECIFIED": 0,
-		"MODE_ALL":         1,
-		"MODE_CATEGORY":    2,
-		"MODE_SPECIFIC":    3,
-		"MODE_MIXED":       4,
-	}
-)
-
-func (x SubscriptionMode) Enum() *SubscriptionMode {
-	p := new(SubscriptionMode)
-	*p = x
-	return p
-}
-
-func (x SubscriptionMode) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (SubscriptionMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[3].Descriptor()
-}
-
-func (SubscriptionMode) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[3]
-}
-
-func (x SubscriptionMode) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use SubscriptionMode.Descriptor instead.
-func (SubscriptionMode) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{3}
-}
-
 // 推送通道 - 实际使用的4种模式
 type PushChannel int32
 
@@ -315,11 +206,11 @@ func (x PushChannel) String() string {
 }
 
 func (PushChannel) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[4].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[2].Descriptor()
 }
 
 func (PushChannel) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[4]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[2]
 }
 
 func (x PushChannel) Number() protoreflect.EnumNumber {
@@ -328,7 +219,7 @@ func (x PushChannel) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PushChannel.Descriptor instead.
 func (PushChannel) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{4}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{2}
 }
 
 // 推送状态
@@ -371,11 +262,11 @@ func (x PushStatus) String() string {
 }
 
 func (PushStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[5].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[3].Descriptor()
 }
 
 func (PushStatus) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[5]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[3]
 }
 
 func (x PushStatus) Number() protoreflect.EnumNumber {
@@ -384,7 +275,7 @@ func (x PushStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PushStatus.Descriptor instead.
 func (PushStatus) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{5}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{3}
 }
 
 // 通知优先级
@@ -427,11 +318,11 @@ func (x NotificationPriority) String() string {
 }
 
 func (NotificationPriority) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[6].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[4].Descriptor()
 }
 
 func (NotificationPriority) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[6]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[4]
 }
 
 func (x NotificationPriority) Number() protoreflect.EnumNumber {
@@ -440,7 +331,7 @@ func (x NotificationPriority) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use NotificationPriority.Descriptor instead.
 func (NotificationPriority) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{6}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{4}
 }
 
 // 通知类别 - 大类
@@ -483,11 +374,11 @@ func (x NotificationCategory) String() string {
 }
 
 func (NotificationCategory) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[7].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[5].Descriptor()
 }
 
 func (NotificationCategory) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[7]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[5]
 }
 
 func (x NotificationCategory) Number() protoreflect.EnumNumber {
@@ -496,7 +387,7 @@ func (x NotificationCategory) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use NotificationCategory.Descriptor instead.
 func (NotificationCategory) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{7}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{5}
 }
 
 // 事件类型 - 小类（具体事件）
@@ -576,11 +467,11 @@ func (x EventType) String() string {
 }
 
 func (EventType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[8].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[6].Descriptor()
 }
 
 func (EventType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[8]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[6]
 }
 
 func (x EventType) Number() protoreflect.EnumNumber {
@@ -589,7 +480,7 @@ func (x EventType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use EventType.Descriptor instead.
 func (EventType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{8}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{6}
 }
 
 // 风险级别
@@ -632,11 +523,11 @@ func (x RiskLevel) String() string {
 }
 
 func (RiskLevel) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[9].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[7].Descriptor()
 }
 
 func (RiskLevel) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[9]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[7]
 }
 
 func (x RiskLevel) Number() protoreflect.EnumNumber {
@@ -645,7 +536,7 @@ func (x RiskLevel) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RiskLevel.Descriptor instead.
 func (RiskLevel) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{9}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{7}
 }
 
 // 风险类型
@@ -691,11 +582,11 @@ func (x RiskType) String() string {
 }
 
 func (RiskType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[10].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[8].Descriptor()
 }
 
 func (RiskType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[10]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[8]
 }
 
 func (x RiskType) Number() protoreflect.EnumNumber {
@@ -704,7 +595,7 @@ func (x RiskType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RiskType.Descriptor instead.
 func (RiskType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{10}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{8}
 }
 
 // 系统维护类型
@@ -744,11 +635,11 @@ func (x MaintenanceType) String() string {
 }
 
 func (MaintenanceType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[11].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[9].Descriptor()
 }
 
 func (MaintenanceType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[11]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[9]
 }
 
 func (x MaintenanceType) Number() protoreflect.EnumNumber {
@@ -757,7 +648,7 @@ func (x MaintenanceType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use MaintenanceType.Descriptor instead.
 func (MaintenanceType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{11}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{9}
 }
 
 // 公告类型
@@ -797,11 +688,11 @@ func (x AnnouncementType) String() string {
 }
 
 func (AnnouncementType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[12].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[10].Descriptor()
 }
 
 func (AnnouncementType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[12]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[10]
 }
 
 func (x AnnouncementType) Number() protoreflect.EnumNumber {
@@ -810,7 +701,7 @@ func (x AnnouncementType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AnnouncementType.Descriptor instead.
 func (AnnouncementType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{12}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{10}
 }
 
 // 游戏记录状态
@@ -853,11 +744,11 @@ func (x GameRecordStatus) String() string {
 }
 
 func (GameRecordStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[13].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[11].Descriptor()
 }
 
 func (GameRecordStatus) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[13]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[11]
 }
 
 func (x GameRecordStatus) Number() protoreflect.EnumNumber {
@@ -866,7 +757,7 @@ func (x GameRecordStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GameRecordStatus.Descriptor instead.
 func (GameRecordStatus) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{13}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{11}
 }
 
 // 异常类型
@@ -915,11 +806,11 @@ func (x AnomalyType) String() string {
 }
 
 func (AnomalyType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[14].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[12].Descriptor()
 }
 
 func (AnomalyType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[14]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[12]
 }
 
 func (x AnomalyType) Number() protoreflect.EnumNumber {
@@ -928,7 +819,7 @@ func (x AnomalyType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AnomalyType.Descriptor instead.
 func (AnomalyType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{14}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{12}
 }
 
 // 机器人类型
@@ -971,11 +862,11 @@ func (x RobotType) String() string {
 }
 
 func (RobotType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[15].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[13].Descriptor()
 }
 
 func (RobotType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[15]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[13]
 }
 
 func (x RobotType) Number() protoreflect.EnumNumber {
@@ -984,7 +875,7 @@ func (x RobotType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RobotType.Descriptor instead.
 func (RobotType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{15}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{13}
 }
 
 // 附件类型
@@ -1024,11 +915,11 @@ func (x AttachmentType) String() string {
 }
 
 func (AttachmentType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[16].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[14].Descriptor()
 }
 
 func (AttachmentType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[16]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[14]
 }
 
 func (x AttachmentType) Number() protoreflect.EnumNumber {
@@ -1037,7 +928,7 @@ func (x AttachmentType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AttachmentType.Descriptor instead.
 func (AttachmentType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{16}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{14}
 }
 
 // 按钮动作类型
@@ -1077,11 +968,11 @@ func (x ButtonAction) String() string {
 }
 
 func (ButtonAction) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[17].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[15].Descriptor()
 }
 
 func (ButtonAction) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[17]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[15]
 }
 
 func (x ButtonAction) Number() protoreflect.EnumNumber {
@@ -1090,7 +981,7 @@ func (x ButtonAction) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ButtonAction.Descriptor instead.
 func (ButtonAction) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{17}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{15}
 }
 
 // 按钮样式
@@ -1136,11 +1027,11 @@ func (x ButtonStyle) String() string {
 }
 
 func (ButtonStyle) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[18].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[16].Descriptor()
 }
 
 func (ButtonStyle) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[18]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[16]
 }
 
 func (x ButtonStyle) Number() protoreflect.EnumNumber {
@@ -1149,7 +1040,7 @@ func (x ButtonStyle) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ButtonStyle.Descriptor instead.
 func (ButtonStyle) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{18}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{16}
 }
 
 // WebSocket帧类型
@@ -1195,11 +1086,11 @@ func (x WebSocketFrameType) String() string {
 }
 
 func (WebSocketFrameType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[19].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[17].Descriptor()
 }
 
 func (WebSocketFrameType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[19]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[17]
 }
 
 func (x WebSocketFrameType) Number() protoreflect.EnumNumber {
@@ -1208,7 +1099,7 @@ func (x WebSocketFrameType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WebSocketFrameType.Descriptor instead.
 func (WebSocketFrameType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{19}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{17}
 }
 
 // 流控制动作
@@ -1251,11 +1142,11 @@ func (x StreamAction) String() string {
 }
 
 func (StreamAction) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[20].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[18].Descriptor()
 }
 
 func (StreamAction) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[20]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[18]
 }
 
 func (x StreamAction) Number() protoreflect.EnumNumber {
@@ -1264,7 +1155,7 @@ func (x StreamAction) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use StreamAction.Descriptor instead.
 func (StreamAction) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{20}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{18}
 }
 
 // 认证类型
@@ -1307,11 +1198,11 @@ func (x AuthType) String() string {
 }
 
 func (AuthType) Descriptor() protoreflect.EnumDescriptor {
-	return file_notifier_v1_notifier_types_proto_enumTypes[21].Descriptor()
+	return file_notifier_v1_notifier_types_proto_enumTypes[19].Descriptor()
 }
 
 func (AuthType) Type() protoreflect.EnumType {
-	return &file_notifier_v1_notifier_types_proto_enumTypes[21]
+	return &file_notifier_v1_notifier_types_proto_enumTypes[19]
 }
 
 func (x AuthType) Number() protoreflect.EnumNumber {
@@ -1320,7 +1211,7 @@ func (x AuthType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AuthType.Descriptor instead.
 func (AuthType) EnumDescriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{21}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{19}
 }
 
 // RobotConfig 通用机器人配置
@@ -2282,19 +2173,7 @@ const file_notifier_v1_notifier_types_proto_rawDesc = "" +
 	"\x1bMERCHANT_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16MERCHANT_STATUS_ACTIVE\x10\x01\x12\x1d\n" +
 	"\x19MERCHANT_STATUS_SUSPENDED\x10\x02\x12\x1c\n" +
-	"\x18MERCHANT_STATUS_DISABLED\x10\x03*n\n" +
-	"\x15DataAcquisitionMethod\x12\x15\n" +
-	"\x11LEVEL_UNSPECIFIED\x10\x00\x12\x13\n" +
-	"\x0fLEVEL_MANDATORY\x10\x01\x12\x16\n" +
-	"\x12LEVEL_SUBSCRIPTION\x10\x02\x12\x11\n" +
-	"\rLEVEL_PASSIVE\x10\x03*l\n" +
-	"\x10SubscriptionMode\x12\x14\n" +
-	"\x10MODE_UNSPECIFIED\x10\x00\x12\f\n" +
-	"\bMODE_ALL\x10\x01\x12\x11\n" +
-	"\rMODE_CATEGORY\x10\x02\x12\x11\n" +
-	"\rMODE_SPECIFIC\x10\x03\x12\x0e\n" +
-	"\n" +
-	"MODE_MIXED\x10\x04*t\n" +
+	"\x18MERCHANT_STATUS_DISABLED\x10\x03*t\n" +
 	"\vPushChannel\x12\x17\n" +
 	"\x13CHANNEL_UNSPECIFIED\x10\x00\x12\x10\n" +
 	"\fCHANNEL_HTTP\x10\x01\x12\x15\n" +
@@ -2429,52 +2308,50 @@ func file_notifier_v1_notifier_types_proto_rawDescGZIP() []byte {
 	return file_notifier_v1_notifier_types_proto_rawDescData
 }
 
-var file_notifier_v1_notifier_types_proto_enumTypes = make([]protoimpl.EnumInfo, 22)
+var file_notifier_v1_notifier_types_proto_enumTypes = make([]protoimpl.EnumInfo, 20)
 var file_notifier_v1_notifier_types_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_notifier_v1_notifier_types_proto_goTypes = []any{
-	(NotifierErrorCode)(0),     // 0: notifier.v1.NotifierErrorCode
-	(MerchantStatus)(0),        // 1: notifier.v1.MerchantStatus
-	(DataAcquisitionMethod)(0), // 2: notifier.v1.DataAcquisitionMethod
-	(SubscriptionMode)(0),      // 3: notifier.v1.SubscriptionMode
-	(PushChannel)(0),           // 4: notifier.v1.PushChannel
-	(PushStatus)(0),            // 5: notifier.v1.PushStatus
-	(NotificationPriority)(0),  // 6: notifier.v1.NotificationPriority
-	(NotificationCategory)(0),  // 7: notifier.v1.NotificationCategory
-	(EventType)(0),             // 8: notifier.v1.EventType
-	(RiskLevel)(0),             // 9: notifier.v1.RiskLevel
-	(RiskType)(0),              // 10: notifier.v1.RiskType
-	(MaintenanceType)(0),       // 11: notifier.v1.MaintenanceType
-	(AnnouncementType)(0),      // 12: notifier.v1.AnnouncementType
-	(GameRecordStatus)(0),      // 13: notifier.v1.GameRecordStatus
-	(AnomalyType)(0),           // 14: notifier.v1.AnomalyType
-	(RobotType)(0),             // 15: notifier.v1.RobotType
-	(AttachmentType)(0),        // 16: notifier.v1.AttachmentType
-	(ButtonAction)(0),          // 17: notifier.v1.ButtonAction
-	(ButtonStyle)(0),           // 18: notifier.v1.ButtonStyle
-	(WebSocketFrameType)(0),    // 19: notifier.v1.WebSocketFrameType
-	(StreamAction)(0),          // 20: notifier.v1.StreamAction
-	(AuthType)(0),              // 21: notifier.v1.AuthType
-	(*RobotConfig)(nil),        // 22: notifier.v1.RobotConfig
-	(*RobotButton)(nil),        // 23: notifier.v1.RobotButton
-	(*SlackConfig)(nil),        // 24: notifier.v1.SlackConfig
-	(*LarkConfig)(nil),         // 25: notifier.v1.LarkConfig
-	(*LarkCardConfig)(nil),     // 26: notifier.v1.LarkCardConfig
-	(*TeamsConfig)(nil),        // 27: notifier.v1.TeamsConfig
-	(*TelegramConfig)(nil),     // 28: notifier.v1.TelegramConfig
-	(*NoneAuth)(nil),           // 29: notifier.v1.NoneAuth
-	(*TokenAuth)(nil),          // 30: notifier.v1.TokenAuth
-	(*SignatureAuth)(nil),      // 31: notifier.v1.SignatureAuth
-	(*OAuthAuth)(nil),          // 32: notifier.v1.OAuthAuth
+	(NotifierErrorCode)(0),    // 0: notifier.v1.NotifierErrorCode
+	(MerchantStatus)(0),       // 1: notifier.v1.MerchantStatus
+	(PushChannel)(0),          // 2: notifier.v1.PushChannel
+	(PushStatus)(0),           // 3: notifier.v1.PushStatus
+	(NotificationPriority)(0), // 4: notifier.v1.NotificationPriority
+	(NotificationCategory)(0), // 5: notifier.v1.NotificationCategory
+	(EventType)(0),            // 6: notifier.v1.EventType
+	(RiskLevel)(0),            // 7: notifier.v1.RiskLevel
+	(RiskType)(0),             // 8: notifier.v1.RiskType
+	(MaintenanceType)(0),      // 9: notifier.v1.MaintenanceType
+	(AnnouncementType)(0),     // 10: notifier.v1.AnnouncementType
+	(GameRecordStatus)(0),     // 11: notifier.v1.GameRecordStatus
+	(AnomalyType)(0),          // 12: notifier.v1.AnomalyType
+	(RobotType)(0),            // 13: notifier.v1.RobotType
+	(AttachmentType)(0),       // 14: notifier.v1.AttachmentType
+	(ButtonAction)(0),         // 15: notifier.v1.ButtonAction
+	(ButtonStyle)(0),          // 16: notifier.v1.ButtonStyle
+	(WebSocketFrameType)(0),   // 17: notifier.v1.WebSocketFrameType
+	(StreamAction)(0),         // 18: notifier.v1.StreamAction
+	(AuthType)(0),             // 19: notifier.v1.AuthType
+	(*RobotConfig)(nil),       // 20: notifier.v1.RobotConfig
+	(*RobotButton)(nil),       // 21: notifier.v1.RobotButton
+	(*SlackConfig)(nil),       // 22: notifier.v1.SlackConfig
+	(*LarkConfig)(nil),        // 23: notifier.v1.LarkConfig
+	(*LarkCardConfig)(nil),    // 24: notifier.v1.LarkCardConfig
+	(*TeamsConfig)(nil),       // 25: notifier.v1.TeamsConfig
+	(*TelegramConfig)(nil),    // 26: notifier.v1.TelegramConfig
+	(*NoneAuth)(nil),          // 27: notifier.v1.NoneAuth
+	(*TokenAuth)(nil),         // 28: notifier.v1.TokenAuth
+	(*SignatureAuth)(nil),     // 29: notifier.v1.SignatureAuth
+	(*OAuthAuth)(nil),         // 30: notifier.v1.OAuthAuth
 }
 var file_notifier_v1_notifier_types_proto_depIdxs = []int32{
-	23, // 0: notifier.v1.RobotConfig.buttons:type_name -> notifier.v1.RobotButton
-	24, // 1: notifier.v1.RobotConfig.slack_config:type_name -> notifier.v1.SlackConfig
-	25, // 2: notifier.v1.RobotConfig.lark_config:type_name -> notifier.v1.LarkConfig
-	27, // 3: notifier.v1.RobotConfig.teams_config:type_name -> notifier.v1.TeamsConfig
-	28, // 4: notifier.v1.RobotConfig.telegram_config:type_name -> notifier.v1.TelegramConfig
-	17, // 5: notifier.v1.RobotButton.action:type_name -> notifier.v1.ButtonAction
-	18, // 6: notifier.v1.RobotButton.style:type_name -> notifier.v1.ButtonStyle
-	26, // 7: notifier.v1.LarkConfig.card_config:type_name -> notifier.v1.LarkCardConfig
+	21, // 0: notifier.v1.RobotConfig.buttons:type_name -> notifier.v1.RobotButton
+	22, // 1: notifier.v1.RobotConfig.slack_config:type_name -> notifier.v1.SlackConfig
+	23, // 2: notifier.v1.RobotConfig.lark_config:type_name -> notifier.v1.LarkConfig
+	25, // 3: notifier.v1.RobotConfig.teams_config:type_name -> notifier.v1.TeamsConfig
+	26, // 4: notifier.v1.RobotConfig.telegram_config:type_name -> notifier.v1.TelegramConfig
+	15, // 5: notifier.v1.RobotButton.action:type_name -> notifier.v1.ButtonAction
+	16, // 6: notifier.v1.RobotButton.style:type_name -> notifier.v1.ButtonStyle
+	24, // 7: notifier.v1.LarkConfig.card_config:type_name -> notifier.v1.LarkCardConfig
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -2492,7 +2369,7 @@ func file_notifier_v1_notifier_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notifier_v1_notifier_types_proto_rawDesc), len(file_notifier_v1_notifier_types_proto_rawDesc)),
-			NumEnums:      22,
+			NumEnums:      20,
 			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,

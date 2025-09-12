@@ -51,22 +51,6 @@ enum MerchantStatus {
   MERCHANT_STATUS_DISABLED = 3;     // 已禁用
 }
 
-// 数据获取方式
-enum DataAcquisitionMethod {
-  LEVEL_UNSPECIFIED = 0;
-  LEVEL_MANDATORY = 1;    // 强制推送
-  LEVEL_SUBSCRIPTION = 2; // 订阅推送
-  LEVEL_PASSIVE = 3;      // 被动拉取
-}
-
-// 订阅模式
-enum SubscriptionMode {
-  MODE_UNSPECIFIED = 0;
-  MODE_ALL = 1;           // 订阅所有（需要特殊权限）
-  MODE_CATEGORY = 2;      // 按大类订阅
-  MODE_SPECIFIC = 3;      // 按具体事件订阅
-  MODE_MIXED = 4;         // 混合模式（大类+具体事件）
-}
 
 
 // 推送通道 - 实际使用的4种模式
