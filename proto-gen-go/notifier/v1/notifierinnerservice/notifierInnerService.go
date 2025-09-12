@@ -17,6 +17,7 @@ type (
 	BatchConfig                    = v1.BatchConfig
 	BatchSendRequest               = v1.BatchSendRequest
 	BatchSendResponse              = v1.BatchSendResponse
+	CategoryWithEventTypes         = v1.CategoryWithEventTypes
 	ConfigureEndpointInfo          = v1.ConfigureEndpointInfo
 	ConfigureEndpointRequest       = v1.ConfigureEndpointRequest
 	ConfigureEndpointResponse      = v1.ConfigureEndpointResponse
@@ -25,14 +26,12 @@ type (
 	CreateSubscriptionResponse     = v1.CreateSubscriptionResponse
 	DeleteSubscriptionRequest      = v1.DeleteSubscriptionRequest
 	EndpointConfig                 = v1.EndpointConfig
+	EventTypeDetail                = v1.EventTypeDetail
 	FilterConfig                   = v1.FilterConfig
 	FilterRules                    = v1.FilterRules
-	GetEventTypesInfo              = v1.GetEventTypesInfo
+	GetEventTypesData              = v1.GetEventTypesData
 	GetEventTypesRequest           = v1.GetEventTypesRequest
 	GetEventTypesResponse          = v1.GetEventTypesResponse
-	GetMerchantConfigRequest       = v1.GetMerchantConfigRequest
-	GetMerchantConfigResponse      = v1.GetMerchantConfigResponse
-	MerchantConfig                 = v1.MerchantConfig
 	NotificationMsgHandlerInfo     = v1.NotificationMsgHandlerInfo
 	NotificationMsgHandlerRequest  = v1.NotificationMsgHandlerRequest
 	NotificationMsgHandlerResponse = v1.NotificationMsgHandlerResponse
@@ -57,8 +56,6 @@ type (
 		// 推送管理
 		SendNotification(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
 		BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
-		// 查询统计
-		QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
 		// 消费通知数据
 		NotificationMsgHandler(ctx context.Context, in *NotificationMsgHandlerRequest, opts ...grpc.CallOption) (*NotificationMsgHandlerResponse, error)
 	}
@@ -83,12 +80,6 @@ func (m *defaultNotifierInnerService) SendNotification(ctx context.Context, in *
 func (m *defaultNotifierInnerService) BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error) {
 	client := v1.NewNotifierInnerServiceClient(m.cli.Conn())
 	return client.BatchSend(ctx, in, opts...)
-}
-
-// 查询统计
-func (m *defaultNotifierInnerService) QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error) {
-	client := v1.NewNotifierInnerServiceClient(m.cli.Conn())
-	return client.QueryPushRecords(ctx, in, opts...)
 }
 
 // 消费通知数据

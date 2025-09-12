@@ -21,7 +21,6 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	NotifierInnerService_SendNotification_FullMethodName       = "/notifier.v1.NotifierInnerService/SendNotification"
 	NotifierInnerService_BatchSend_FullMethodName              = "/notifier.v1.NotifierInnerService/BatchSend"
-	NotifierInnerService_QueryPushRecords_FullMethodName       = "/notifier.v1.NotifierInnerService/QueryPushRecords"
 	NotifierInnerService_NotificationMsgHandler_FullMethodName = "/notifier.v1.NotifierInnerService/NotificationMsgHandler"
 )
 
@@ -34,8 +33,6 @@ type NotifierInnerServiceClient interface {
 	// 推送管理
 	SendNotification(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
 	BatchSend(ctx context.Context, in *BatchSendRequest, opts ...grpc.CallOption) (*BatchSendResponse, error)
-	// 查询统计
-	QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error)
 	// 消费通知数据
 	NotificationMsgHandler(ctx context.Context, in *NotificationMsgHandlerRequest, opts ...grpc.CallOption) (*NotificationMsgHandlerResponse, error)
 }
@@ -68,16 +65,6 @@ func (c *notifierInnerServiceClient) BatchSend(ctx context.Context, in *BatchSen
 	return out, nil
 }
 
-func (c *notifierInnerServiceClient) QueryPushRecords(ctx context.Context, in *QueryPushRecordsRequest, opts ...grpc.CallOption) (*QueryPushRecordsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(QueryPushRecordsResponse)
-	err := c.cc.Invoke(ctx, NotifierInnerService_QueryPushRecords_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *notifierInnerServiceClient) NotificationMsgHandler(ctx context.Context, in *NotificationMsgHandlerRequest, opts ...grpc.CallOption) (*NotificationMsgHandlerResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(NotificationMsgHandlerResponse)
@@ -97,8 +84,6 @@ type NotifierInnerServiceServer interface {
 	// 推送管理
 	SendNotification(context.Context, *SendNotificationRequest) (*SendNotificationResponse, error)
 	BatchSend(context.Context, *BatchSendRequest) (*BatchSendResponse, error)
-	// 查询统计
-	QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error)
 	// 消费通知数据
 	NotificationMsgHandler(context.Context, *NotificationMsgHandlerRequest) (*NotificationMsgHandlerResponse, error)
 	mustEmbedUnimplementedNotifierInnerServiceServer()
@@ -116,9 +101,6 @@ func (UnimplementedNotifierInnerServiceServer) SendNotification(context.Context,
 }
 func (UnimplementedNotifierInnerServiceServer) BatchSend(context.Context, *BatchSendRequest) (*BatchSendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BatchSend not implemented")
-}
-func (UnimplementedNotifierInnerServiceServer) QueryPushRecords(context.Context, *QueryPushRecordsRequest) (*QueryPushRecordsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method QueryPushRecords not implemented")
 }
 func (UnimplementedNotifierInnerServiceServer) NotificationMsgHandler(context.Context, *NotificationMsgHandlerRequest) (*NotificationMsgHandlerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NotificationMsgHandler not implemented")
@@ -180,24 +162,6 @@ func _NotifierInnerService_BatchSend_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotifierInnerService_QueryPushRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryPushRecordsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotifierInnerServiceServer).QueryPushRecords(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotifierInnerService_QueryPushRecords_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotifierInnerServiceServer).QueryPushRecords(ctx, req.(*QueryPushRecordsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _NotifierInnerService_NotificationMsgHandler_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(NotificationMsgHandlerRequest)
 	if err := dec(in); err != nil {
@@ -232,10 +196,6 @@ var NotifierInnerService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NotifierInnerService_BatchSend_Handler,
 		},
 		{
-			MethodName: "QueryPushRecords",
-			Handler:    _NotifierInnerService_QueryPushRecords_Handler,
-		},
-		{
 			MethodName: "NotificationMsgHandler",
 			Handler:    _NotifierInnerService_NotificationMsgHandler_Handler,
 		},
@@ -245,7 +205,6 @@ var NotifierInnerService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	NotifierMerchantService_GetMerchantConfig_FullMethodName  = "/notifier.v1.NotifierMerchantService/GetMerchantConfig"
 	NotifierMerchantService_ConfigureEndpoint_FullMethodName  = "/notifier.v1.NotifierMerchantService/ConfigureEndpoint"
 	NotifierMerchantService_TestEndpoint_FullMethodName       = "/notifier.v1.NotifierMerchantService/TestEndpoint"
 	NotifierMerchantService_CreateSubscription_FullMethodName = "/notifier.v1.NotifierMerchantService/CreateSubscription"
@@ -261,8 +220,6 @@ const (
 //
 // 通知服务 - 商户配置管理
 type NotifierMerchantServiceClient interface {
-	// 配置管理
-	GetMerchantConfig(ctx context.Context, in *GetMerchantConfigRequest, opts ...grpc.CallOption) (*GetMerchantConfigResponse, error)
 	// 端点管理
 	ConfigureEndpoint(ctx context.Context, in *ConfigureEndpointRequest, opts ...grpc.CallOption) (*ConfigureEndpointResponse, error)
 	TestEndpoint(ctx context.Context, in *TestEndpointRequest, opts ...grpc.CallOption) (*TestEndpointResponse, error)
@@ -282,16 +239,6 @@ type notifierMerchantServiceClient struct {
 
 func NewNotifierMerchantServiceClient(cc grpc.ClientConnInterface) NotifierMerchantServiceClient {
 	return &notifierMerchantServiceClient{cc}
-}
-
-func (c *notifierMerchantServiceClient) GetMerchantConfig(ctx context.Context, in *GetMerchantConfigRequest, opts ...grpc.CallOption) (*GetMerchantConfigResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetMerchantConfigResponse)
-	err := c.cc.Invoke(ctx, NotifierMerchantService_GetMerchantConfig_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *notifierMerchantServiceClient) ConfigureEndpoint(ctx context.Context, in *ConfigureEndpointRequest, opts ...grpc.CallOption) (*ConfigureEndpointResponse, error) {
@@ -370,8 +317,6 @@ func (c *notifierMerchantServiceClient) QueryPushRecords(ctx context.Context, in
 //
 // 通知服务 - 商户配置管理
 type NotifierMerchantServiceServer interface {
-	// 配置管理
-	GetMerchantConfig(context.Context, *GetMerchantConfigRequest) (*GetMerchantConfigResponse, error)
 	// 端点管理
 	ConfigureEndpoint(context.Context, *ConfigureEndpointRequest) (*ConfigureEndpointResponse, error)
 	TestEndpoint(context.Context, *TestEndpointRequest) (*TestEndpointResponse, error)
@@ -393,9 +338,6 @@ type NotifierMerchantServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedNotifierMerchantServiceServer struct{}
 
-func (UnimplementedNotifierMerchantServiceServer) GetMerchantConfig(context.Context, *GetMerchantConfigRequest) (*GetMerchantConfigResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMerchantConfig not implemented")
-}
 func (UnimplementedNotifierMerchantServiceServer) ConfigureEndpoint(context.Context, *ConfigureEndpointRequest) (*ConfigureEndpointResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfigureEndpoint not implemented")
 }
@@ -437,24 +379,6 @@ func RegisterNotifierMerchantServiceServer(s grpc.ServiceRegistrar, srv Notifier
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&NotifierMerchantService_ServiceDesc, srv)
-}
-
-func _NotifierMerchantService_GetMerchantConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetMerchantConfigRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotifierMerchantServiceServer).GetMerchantConfig(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotifierMerchantService_GetMerchantConfig_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotifierMerchantServiceServer).GetMerchantConfig(ctx, req.(*GetMerchantConfigRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _NotifierMerchantService_ConfigureEndpoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -590,10 +514,6 @@ var NotifierMerchantService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "notifier.v1.NotifierMerchantService",
 	HandlerType: (*NotifierMerchantServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetMerchantConfig",
-			Handler:    _NotifierMerchantService_GetMerchantConfig_Handler,
-		},
 		{
 			MethodName: "ConfigureEndpoint",
 			Handler:    _NotifierMerchantService_ConfigureEndpoint_Handler,

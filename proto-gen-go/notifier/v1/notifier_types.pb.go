@@ -1323,176 +1323,6 @@ func (AuthType) EnumDescriptor() ([]byte, []int) {
 	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{21}
 }
 
-// 事件类型映射 - 用于运行时获取事件类型和大类的对应关系
-type EventTypeInfo struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Category        NotificationCategory   `protobuf:"varint,1,opt,name=category,proto3,enum=notifier.v1.NotificationCategory" json:"category,omitempty"`
-	EventType       EventType              `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=notifier.v1.EventType" json:"event_type,omitempty"`
-	DefaultPriority NotificationPriority   `protobuf:"varint,3,opt,name=default_priority,json=defaultPriority,proto3,enum=notifier.v1.NotificationPriority" json:"default_priority,omitempty"`
-	Name            string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	Description     string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	Enabled         bool                   `protobuf:"varint,6,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *EventTypeInfo) Reset() {
-	*x = EventTypeInfo{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *EventTypeInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*EventTypeInfo) ProtoMessage() {}
-
-func (x *EventTypeInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use EventTypeInfo.ProtoReflect.Descriptor instead.
-func (*EventTypeInfo) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *EventTypeInfo) GetCategory() NotificationCategory {
-	if x != nil {
-		return x.Category
-	}
-	return NotificationCategory_CATEGORY_UNSPECIFIED
-}
-
-func (x *EventTypeInfo) GetEventType() EventType {
-	if x != nil {
-		return x.EventType
-	}
-	return EventType_EVENT_TYPE_UNSPECIFIED
-}
-
-func (x *EventTypeInfo) GetDefaultPriority() NotificationPriority {
-	if x != nil {
-		return x.DefaultPriority
-	}
-	return NotificationPriority_PRIORITY_UNSPECIFIED
-}
-
-func (x *EventTypeInfo) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *EventTypeInfo) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *EventTypeInfo) GetEnabled() bool {
-	if x != nil {
-		return x.Enabled
-	}
-	return false
-}
-
-// 大类配置
-type CategoryConfig struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	Category         NotificationCategory   `protobuf:"varint,1,opt,name=category,proto3,enum=notifier.v1.NotificationCategory" json:"category,omitempty"`
-	Name             string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description      string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	EventTypes       []EventType            `protobuf:"varint,4,rep,packed,name=event_types,json=eventTypes,proto3,enum=notifier.v1.EventType" json:"event_types,omitempty"` // 该大类包含的所有事件类型
-	AllowBatch       bool                   `protobuf:"varint,5,opt,name=allow_batch,json=allowBatch,proto3" json:"allow_batch,omitempty"`                                   // 是否允许批量推送
-	DefaultBatchSize int32                  `protobuf:"varint,6,opt,name=default_batch_size,json=defaultBatchSize,proto3" json:"default_batch_size,omitempty"`               // 默认批量大小
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *CategoryConfig) Reset() {
-	*x = CategoryConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CategoryConfig) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CategoryConfig) ProtoMessage() {}
-
-func (x *CategoryConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CategoryConfig.ProtoReflect.Descriptor instead.
-func (*CategoryConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *CategoryConfig) GetCategory() NotificationCategory {
-	if x != nil {
-		return x.Category
-	}
-	return NotificationCategory_CATEGORY_UNSPECIFIED
-}
-
-func (x *CategoryConfig) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *CategoryConfig) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *CategoryConfig) GetEventTypes() []EventType {
-	if x != nil {
-		return x.EventTypes
-	}
-	return nil
-}
-
-func (x *CategoryConfig) GetAllowBatch() bool {
-	if x != nil {
-		return x.AllowBatch
-	}
-	return false
-}
-
-func (x *CategoryConfig) GetDefaultBatchSize() int32 {
-	if x != nil {
-		return x.DefaultBatchSize
-	}
-	return 0
-}
-
 // RobotConfig 通用机器人配置
 type RobotConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -1523,7 +1353,7 @@ type RobotConfig struct {
 
 func (x *RobotConfig) Reset() {
 	*x = RobotConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[2]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1535,7 +1365,7 @@ func (x *RobotConfig) String() string {
 func (*RobotConfig) ProtoMessage() {}
 
 func (x *RobotConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[2]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1548,7 +1378,7 @@ func (x *RobotConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RobotConfig.ProtoReflect.Descriptor instead.
 func (*RobotConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{2}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RobotConfig) GetChannelId() string {
@@ -1671,7 +1501,7 @@ type RobotButton struct {
 
 func (x *RobotButton) Reset() {
 	*x = RobotButton{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[3]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1683,7 +1513,7 @@ func (x *RobotButton) String() string {
 func (*RobotButton) ProtoMessage() {}
 
 func (x *RobotButton) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[3]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1696,7 +1526,7 @@ func (x *RobotButton) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RobotButton.ProtoReflect.Descriptor instead.
 func (*RobotButton) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{3}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *RobotButton) GetId() string {
@@ -1757,7 +1587,7 @@ type SlackConfig struct {
 
 func (x *SlackConfig) Reset() {
 	*x = SlackConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[4]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1769,7 +1599,7 @@ func (x *SlackConfig) String() string {
 func (*SlackConfig) ProtoMessage() {}
 
 func (x *SlackConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[4]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1782,7 +1612,7 @@ func (x *SlackConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SlackConfig.ProtoReflect.Descriptor instead.
 func (*SlackConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{4}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SlackConfig) GetThreadTs() string {
@@ -1847,7 +1677,7 @@ type LarkConfig struct {
 
 func (x *LarkConfig) Reset() {
 	*x = LarkConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[5]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1859,7 +1689,7 @@ func (x *LarkConfig) String() string {
 func (*LarkConfig) ProtoMessage() {}
 
 func (x *LarkConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[5]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1872,7 +1702,7 @@ func (x *LarkConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LarkConfig.ProtoReflect.Descriptor instead.
 func (*LarkConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{5}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *LarkConfig) GetMsgType() string {
@@ -1916,7 +1746,7 @@ type LarkCardConfig struct {
 
 func (x *LarkCardConfig) Reset() {
 	*x = LarkCardConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[6]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1928,7 +1758,7 @@ func (x *LarkCardConfig) String() string {
 func (*LarkCardConfig) ProtoMessage() {}
 
 func (x *LarkCardConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[6]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1941,7 +1771,7 @@ func (x *LarkCardConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LarkCardConfig.ProtoReflect.Descriptor instead.
 func (*LarkCardConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{6}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *LarkCardConfig) GetWideScreenMode() bool {
@@ -1985,7 +1815,7 @@ type TeamsConfig struct {
 
 func (x *TeamsConfig) Reset() {
 	*x = TeamsConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[7]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1997,7 +1827,7 @@ func (x *TeamsConfig) String() string {
 func (*TeamsConfig) ProtoMessage() {}
 
 func (x *TeamsConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[7]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2010,7 +1840,7 @@ func (x *TeamsConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TeamsConfig.ProtoReflect.Descriptor instead.
 func (*TeamsConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{7}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *TeamsConfig) GetSummary() string {
@@ -2055,7 +1885,7 @@ type TelegramConfig struct {
 
 func (x *TelegramConfig) Reset() {
 	*x = TelegramConfig{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[8]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2067,7 +1897,7 @@ func (x *TelegramConfig) String() string {
 func (*TelegramConfig) ProtoMessage() {}
 
 func (x *TelegramConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[8]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2080,7 +1910,7 @@ func (x *TelegramConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TelegramConfig.ProtoReflect.Descriptor instead.
 func (*TelegramConfig) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{8}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *TelegramConfig) GetParseMode() string {
@@ -2127,7 +1957,7 @@ type NoneAuth struct {
 
 func (x *NoneAuth) Reset() {
 	*x = NoneAuth{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[9]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2139,7 +1969,7 @@ func (x *NoneAuth) String() string {
 func (*NoneAuth) ProtoMessage() {}
 
 func (x *NoneAuth) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[9]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2152,7 +1982,7 @@ func (x *NoneAuth) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NoneAuth.ProtoReflect.Descriptor instead.
 func (*NoneAuth) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{9}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{7}
 }
 
 // Token认证
@@ -2167,7 +1997,7 @@ type TokenAuth struct {
 
 func (x *TokenAuth) Reset() {
 	*x = TokenAuth{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[10]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2179,7 +2009,7 @@ func (x *TokenAuth) String() string {
 func (*TokenAuth) ProtoMessage() {}
 
 func (x *TokenAuth) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[10]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2192,7 +2022,7 @@ func (x *TokenAuth) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TokenAuth.ProtoReflect.Descriptor instead.
 func (*TokenAuth) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{10}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *TokenAuth) GetToken() string {
@@ -2227,7 +2057,7 @@ type SignatureAuth struct {
 
 func (x *SignatureAuth) Reset() {
 	*x = SignatureAuth{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[11]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2239,7 +2069,7 @@ func (x *SignatureAuth) String() string {
 func (*SignatureAuth) ProtoMessage() {}
 
 func (x *SignatureAuth) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[11]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2252,7 +2082,7 @@ func (x *SignatureAuth) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignatureAuth.ProtoReflect.Descriptor instead.
 func (*SignatureAuth) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{11}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SignatureAuth) GetSecret() string {
@@ -2283,7 +2113,7 @@ type OAuthAuth struct {
 
 func (x *OAuthAuth) Reset() {
 	*x = OAuthAuth{}
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[12]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2295,7 +2125,7 @@ func (x *OAuthAuth) String() string {
 func (*OAuthAuth) ProtoMessage() {}
 
 func (x *OAuthAuth) ProtoReflect() protoreflect.Message {
-	mi := &file_notifier_v1_notifier_types_proto_msgTypes[12]
+	mi := &file_notifier_v1_notifier_types_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2308,7 +2138,7 @@ func (x *OAuthAuth) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OAuthAuth.ProtoReflect.Descriptor instead.
 func (*OAuthAuth) Descriptor() ([]byte, []int) {
-	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{12}
+	return file_notifier_v1_notifier_types_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *OAuthAuth) GetClientId() string {
@@ -2350,24 +2180,7 @@ var File_notifier_v1_notifier_types_proto protoreflect.FileDescriptor
 
 const file_notifier_v1_notifier_types_proto_rawDesc = "" +
 	"\n" +
-	" notifier/v1/notifier_types.proto\x12\vnotifier.v1\"\xa3\x02\n" +
-	"\rEventTypeInfo\x12=\n" +
-	"\bcategory\x18\x01 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x125\n" +
-	"\n" +
-	"event_type\x18\x02 \x01(\x0e2\x16.notifier.v1.EventTypeR\teventType\x12L\n" +
-	"\x10default_priority\x18\x03 \x01(\x0e2!.notifier.v1.NotificationPriorityR\x0fdefaultPriority\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x18\n" +
-	"\aenabled\x18\x06 \x01(\bR\aenabled\"\x8d\x02\n" +
-	"\x0eCategoryConfig\x12=\n" +
-	"\bcategory\x18\x01 \x01(\x0e2!.notifier.v1.NotificationCategoryR\bcategory\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x127\n" +
-	"\vevent_types\x18\x04 \x03(\x0e2\x16.notifier.v1.EventTypeR\n" +
-	"eventTypes\x12\x1f\n" +
-	"\vallow_batch\x18\x05 \x01(\bR\n" +
-	"allowBatch\x12,\n" +
-	"\x12default_batch_size\x18\x06 \x01(\x05R\x10defaultBatchSize\"\xf4\x04\n" +
+	" notifier/v1/notifier_types.proto\x12\vnotifier.v1\"\xf4\x04\n" +
 	"\vRobotConfig\x12\x1d\n" +
 	"\n" +
 	"channel_id\x18\x01 \x01(\tR\tchannelId\x12\x17\n" +
@@ -2617,7 +2430,7 @@ func file_notifier_v1_notifier_types_proto_rawDescGZIP() []byte {
 }
 
 var file_notifier_v1_notifier_types_proto_enumTypes = make([]protoimpl.EnumInfo, 22)
-var file_notifier_v1_notifier_types_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_notifier_v1_notifier_types_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_notifier_v1_notifier_types_proto_goTypes = []any{
 	(NotifierErrorCode)(0),     // 0: notifier.v1.NotifierErrorCode
 	(MerchantStatus)(0),        // 1: notifier.v1.MerchantStatus
@@ -2641,39 +2454,32 @@ var file_notifier_v1_notifier_types_proto_goTypes = []any{
 	(WebSocketFrameType)(0),    // 19: notifier.v1.WebSocketFrameType
 	(StreamAction)(0),          // 20: notifier.v1.StreamAction
 	(AuthType)(0),              // 21: notifier.v1.AuthType
-	(*EventTypeInfo)(nil),      // 22: notifier.v1.EventTypeInfo
-	(*CategoryConfig)(nil),     // 23: notifier.v1.CategoryConfig
-	(*RobotConfig)(nil),        // 24: notifier.v1.RobotConfig
-	(*RobotButton)(nil),        // 25: notifier.v1.RobotButton
-	(*SlackConfig)(nil),        // 26: notifier.v1.SlackConfig
-	(*LarkConfig)(nil),         // 27: notifier.v1.LarkConfig
-	(*LarkCardConfig)(nil),     // 28: notifier.v1.LarkCardConfig
-	(*TeamsConfig)(nil),        // 29: notifier.v1.TeamsConfig
-	(*TelegramConfig)(nil),     // 30: notifier.v1.TelegramConfig
-	(*NoneAuth)(nil),           // 31: notifier.v1.NoneAuth
-	(*TokenAuth)(nil),          // 32: notifier.v1.TokenAuth
-	(*SignatureAuth)(nil),      // 33: notifier.v1.SignatureAuth
-	(*OAuthAuth)(nil),          // 34: notifier.v1.OAuthAuth
+	(*RobotConfig)(nil),        // 22: notifier.v1.RobotConfig
+	(*RobotButton)(nil),        // 23: notifier.v1.RobotButton
+	(*SlackConfig)(nil),        // 24: notifier.v1.SlackConfig
+	(*LarkConfig)(nil),         // 25: notifier.v1.LarkConfig
+	(*LarkCardConfig)(nil),     // 26: notifier.v1.LarkCardConfig
+	(*TeamsConfig)(nil),        // 27: notifier.v1.TeamsConfig
+	(*TelegramConfig)(nil),     // 28: notifier.v1.TelegramConfig
+	(*NoneAuth)(nil),           // 29: notifier.v1.NoneAuth
+	(*TokenAuth)(nil),          // 30: notifier.v1.TokenAuth
+	(*SignatureAuth)(nil),      // 31: notifier.v1.SignatureAuth
+	(*OAuthAuth)(nil),          // 32: notifier.v1.OAuthAuth
 }
 var file_notifier_v1_notifier_types_proto_depIdxs = []int32{
-	7,  // 0: notifier.v1.EventTypeInfo.category:type_name -> notifier.v1.NotificationCategory
-	8,  // 1: notifier.v1.EventTypeInfo.event_type:type_name -> notifier.v1.EventType
-	6,  // 2: notifier.v1.EventTypeInfo.default_priority:type_name -> notifier.v1.NotificationPriority
-	7,  // 3: notifier.v1.CategoryConfig.category:type_name -> notifier.v1.NotificationCategory
-	8,  // 4: notifier.v1.CategoryConfig.event_types:type_name -> notifier.v1.EventType
-	25, // 5: notifier.v1.RobotConfig.buttons:type_name -> notifier.v1.RobotButton
-	26, // 6: notifier.v1.RobotConfig.slack_config:type_name -> notifier.v1.SlackConfig
-	27, // 7: notifier.v1.RobotConfig.lark_config:type_name -> notifier.v1.LarkConfig
-	29, // 8: notifier.v1.RobotConfig.teams_config:type_name -> notifier.v1.TeamsConfig
-	30, // 9: notifier.v1.RobotConfig.telegram_config:type_name -> notifier.v1.TelegramConfig
-	17, // 10: notifier.v1.RobotButton.action:type_name -> notifier.v1.ButtonAction
-	18, // 11: notifier.v1.RobotButton.style:type_name -> notifier.v1.ButtonStyle
-	28, // 12: notifier.v1.LarkConfig.card_config:type_name -> notifier.v1.LarkCardConfig
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	23, // 0: notifier.v1.RobotConfig.buttons:type_name -> notifier.v1.RobotButton
+	24, // 1: notifier.v1.RobotConfig.slack_config:type_name -> notifier.v1.SlackConfig
+	25, // 2: notifier.v1.RobotConfig.lark_config:type_name -> notifier.v1.LarkConfig
+	27, // 3: notifier.v1.RobotConfig.teams_config:type_name -> notifier.v1.TeamsConfig
+	28, // 4: notifier.v1.RobotConfig.telegram_config:type_name -> notifier.v1.TelegramConfig
+	17, // 5: notifier.v1.RobotButton.action:type_name -> notifier.v1.ButtonAction
+	18, // 6: notifier.v1.RobotButton.style:type_name -> notifier.v1.ButtonStyle
+	26, // 7: notifier.v1.LarkConfig.card_config:type_name -> notifier.v1.LarkCardConfig
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_notifier_v1_notifier_types_proto_init() }
@@ -2687,7 +2493,7 @@ func file_notifier_v1_notifier_types_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notifier_v1_notifier_types_proto_rawDesc), len(file_notifier_v1_notifier_types_proto_rawDesc)),
 			NumEnums:      22,
-			NumMessages:   13,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

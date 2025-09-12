@@ -259,31 +259,6 @@ enum AuthType {
 
 
 
-// ==================== 辅助定义 ====================
-
-// 事件类型映射 - 用于运行时获取事件类型和大类的对应关系
-message EventTypeInfo {
-  NotificationCategory category = 1;
-  EventType event_type = 2;
-  NotificationPriority default_priority = 3;
-  string name = 4;
-  string description = 5;
-  bool enabled = 6;
-}
-
-// 大类配置
-message CategoryConfig {
-  NotificationCategory category = 1;
-  string name = 2;
-  string description = 3;
-  repeated EventType event_types = 4;      // 该大类包含的所有事件类型
-  bool allow_batch = 5;                    // 是否允许批量推送
-  int32 default_batch_size = 6;            // 默认批量大小
-}
-
-
-
-
 // ==================== 机器人配置 ====================
 
 // RobotConfig 通用机器人配置

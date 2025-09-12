@@ -19,22 +19,6 @@ message NotifyBaseResp {
 
 // ==================== 配置管理 ====================
 
-// 商户配置
-message MerchantConfig {
-  int64 merchant_id = 1;
-  string merchant_name = 2;
-  MerchantStatus status = 3;                // 使用枚举
-
-  // 端点配置
-  repeated EndpointConfig endpoints = 4;
-
-  // 订阅配置
-  repeated SubscriptionConfig subscriptions = 5;
-
-  google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp updated_at = 7;
-  map<string, string> metadata = 8;
-}
 
 // 端点配置
 message EndpointConfig {
@@ -132,7 +116,7 @@ message SendNotificationRequest {
 
 // 指定商户
 message TargetMerchants {
-  repeated int64 merchant_ids = 1;
+  repeated uint64 merchant_ids = 1;
 }
 
 // 按大类推送
@@ -210,18 +194,17 @@ message TestEndpointInfo {
 
 // 创建订阅请求
 message CreateSubscriptionRequest {
-  int64 merchant_id = 1;
-
+  int64 subscribe_type = 1; // 所有者类型 1=商户 2=系统内部
+  int64 merchant_id = 2;
+  string subscription_name = 3 ; // 订阅名称
   // 订阅选项 - 可以选择订阅大类或具体事件
-  repeated NotificationCategory categories = 2;   // 订阅哪些大类
-  repeated EventType event_types = 3;            // 订阅哪些具体事件
-
-  FilterRules filter = 4;
-  TargetMerchants target_merchants = 5;
-
-  bool enabled = 6;
-
-  optional RateLimits rate_limits = 7;
+  repeated NotificationCategory categories = 4;   // 订阅哪些大类
+  repeated EventType event_types = 5;            // 订阅哪些具体事件
+  FilterRules filter = 6;
+  TargetMerchants target_merchants = 7;
+  bool enabled = 8;
+  optional RateLimits rate_limits = 9;
+  repeated uint64 endpoint_ids = 10; // 订阅的endpointIDs
 
 }
 
@@ -239,9 +222,16 @@ message CreateSubscriptionInfo {
 
 // 更新订阅请求
 message UpdateSubscriptionRequest {
-  int64 merchant_id = 1;
-  int64 subscription_id = 2;
-  SubscriptionConfig config = 3;
+  int64 subscription_id = 1;
+  string subscription_name = 2 ; // 订阅名称
+  // 订阅选项 - 可以选择订阅大类或具体事件
+  repeated NotificationCategory categories = 4;   // 订阅哪些大类
+  repeated EventType event_types = 5;            // 订阅哪些具体事件
+  FilterRules filter = 6;
+  TargetMerchants target_merchants = 7;
+  bool enabled = 8;
+  optional RateLimits rate_limits = 9;
+  repeated uint64 endpoint_ids = 10; // 订阅的endpointIDs
 }
 
 // 删除订阅请求
@@ -250,16 +240,7 @@ message DeleteSubscriptionRequest {
   int64 subscription_id = 2;
 }
 
-// 获取配置请求
-message GetMerchantConfigRequest {
-  int64 merchant_id = 1;
-}
 
-// 获取配置响应
-message GetMerchantConfigResponse {
-  NotifyBaseResp base = 1;                    // 基础响应
-  MerchantConfig data = 2;                  // 业务数据
-}
 
 // 查询推送记录请求
 message QueryPushRecordsRequest {
@@ -308,19 +289,51 @@ message NotificationMsgHandlerResponse {
 
 // 获取事件类型列表请求
 message GetEventTypesRequest {
-  bool include_disabled = 1;
-  repeated NotificationCategory categories = 2;  // 筛选特定大类
+  // 筛选条件
+  repeated NotificationCategory categories = 1;  // 筛选特定大类，空则返回所有
+  repeated EventType event_types = 2;           // 筛选特定事件类型
+  bool include_disabled = 3;                    // 是否包含禁用的
 }
 
 // 获取事件类型列表响应
 message GetEventTypesResponse {
   NotifyBaseResp base = 1;                    // 基础响应
-  GetEventTypesInfo data = 2;               // 业务数据
+  GetEventTypesData data = 2;
 }
-message GetEventTypesInfo {
-  repeated CategoryConfig categories = 1;        // 大类配置
-  repeated EventTypeInfo event_types = 2;        // 事件类型详情
+
+message GetEventTypesData {
+  repeated CategoryWithEventTypes categories = 1;  // 按大类组织的事件类型
+  int32 total_categories = 2;                     // 大类总数
+  int32 total_event_types = 3;                    // 事件类型总数
 }
+
+
+// 事件类型详情
+message EventTypeDetail {
+  NotificationCategory category = 1;
+  EventType event_type = 2;
+  NotificationPriority default_priority = 3;
+  string name = 4;
+  string description = 5;
+  bool enabled = 6;                        // 是否启用
+  bool allow_batch = 7;                    // 是否允许批量推送
+  int32 default_batch_size = 8;            // 默认批量大小
+  map<string, string> metadata = 9;        // 扩展元数据
+}
+
+
+// 大类及其包含的事件类型
+message CategoryWithEventTypes {
+  NotificationCategory category = 1;
+  string name = 2;
+  string description = 3;
+  bool enabled = 4;                        // 大类是否启用
+  repeated EventTypeDetail event_types = 6; // 该大类下的所有事件类型
+  int32 total_count = 7;                   // 事件类型总数
+  int32 enabled_count = 8;                 // 启用的事件类型数
+}
+
+
 
 // ==================== 服务定义 ====================
 
@@ -330,17 +343,12 @@ service NotifierInnerService {
   rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
   rpc BatchSend(BatchSendRequest) returns (BatchSendResponse);
 
-  // 查询统计
-  rpc QueryPushRecords(QueryPushRecordsRequest) returns (QueryPushRecordsResponse);
-
   // 消费通知数据
   rpc NotificationMsgHandler(NotificationMsgHandlerRequest) returns (NotificationMsgHandlerResponse);
 }
 
 // 通知服务 - 商户配置管理
 service NotifierMerchantService {
-  // 配置管理
-  rpc GetMerchantConfig(GetMerchantConfigRequest) returns (GetMerchantConfigResponse);
 
   // 端点管理
   rpc ConfigureEndpoint(ConfigureEndpointRequest) returns (ConfigureEndpointResponse);
