@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package temporal.v1;
+package workflow.v1;
 option go_package = "github.com/og-game/game-proto/proto-gen-go/workflow/v1";
 
 
