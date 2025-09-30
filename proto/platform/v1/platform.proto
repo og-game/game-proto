@@ -137,6 +137,21 @@ message GetGameHTMLResp {
   string html = 1;
 }
 
+message GameSabaStatusReq {
+  repeated string refId = 1;
+}
+
+message GameSabaStatusResp {
+
+}
+
+message GameSabaRetryCheckReq {
+}
+
+message GameSabaRetryCheckResp {
+
+}
+
 service PlatformInnerService {
 
   // 获取游戏链接
@@ -165,6 +180,11 @@ service PlatformInnerService {
 
   // 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
   rpc SyncProviderGames(SyncProviderGamesReq) returns (PlatformResp);
+
+  // Saba游戏专用 投注检查
+  rpc GameSabaStatusCheck(GameSabaStatusReq) returns (GameSabaStatusResp);
+  // Saba游戏专用 重试超过次数检查
+  rpc GameSabaRetryCheck(GameSabaRetryCheckReq) returns (GameSabaRetryCheckResp);
 }
 
 // 同步厂商游戏的请求体

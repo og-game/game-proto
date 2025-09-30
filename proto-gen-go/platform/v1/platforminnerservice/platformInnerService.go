@@ -16,6 +16,10 @@ import (
 type (
 	BetRecordListItem           = v1.BetRecordListItem
 	GameInfo                    = v1.GameInfo
+	GameSabaRetryCheckReq       = v1.GameSabaRetryCheckReq
+	GameSabaRetryCheckResp      = v1.GameSabaRetryCheckResp
+	GameSabaStatusReq           = v1.GameSabaStatusReq
+	GameSabaStatusResp          = v1.GameSabaStatusResp
 	GetBetRecordListReq         = v1.GetBetRecordListReq
 	GetBetRecordListResp        = v1.GetBetRecordListResp
 	GetDemoGameLinkReq          = v1.GetDemoGameLinkReq
@@ -53,6 +57,10 @@ type (
 		GetGameHTML(ctx context.Context, in *GetGameHTMLReq, opts ...grpc.CallOption) (*GetGameHTMLResp, error)
 		// 同步指定厂商的游戏列表，用于从上游厂商拉取最新的游戏数据。
 		SyncProviderGames(ctx context.Context, in *SyncProviderGamesReq, opts ...grpc.CallOption) (*PlatformResp, error)
+		// Saba游戏专用 投注检查
+		GameSabaStatusCheck(ctx context.Context, in *GameSabaStatusReq, opts ...grpc.CallOption) (*GameSabaStatusResp, error)
+		// Saba游戏专用 重试超过次数检查
+		GameSabaRetryCheck(ctx context.Context, in *GameSabaRetryCheckReq, opts ...grpc.CallOption) (*GameSabaRetryCheckResp, error)
 	}
 
 	defaultPlatformInnerService struct {
@@ -118,4 +126,16 @@ func (m *defaultPlatformInnerService) GetGameHTML(ctx context.Context, in *GetGa
 func (m *defaultPlatformInnerService) SyncProviderGames(ctx context.Context, in *SyncProviderGamesReq, opts ...grpc.CallOption) (*PlatformResp, error) {
 	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
 	return client.SyncProviderGames(ctx, in, opts...)
+}
+
+// Saba游戏专用 投注检查
+func (m *defaultPlatformInnerService) GameSabaStatusCheck(ctx context.Context, in *GameSabaStatusReq, opts ...grpc.CallOption) (*GameSabaStatusResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.GameSabaStatusCheck(ctx, in, opts...)
+}
+
+// Saba游戏专用 重试超过次数检查
+func (m *defaultPlatformInnerService) GameSabaRetryCheck(ctx context.Context, in *GameSabaRetryCheckReq, opts ...grpc.CallOption) (*GameSabaRetryCheckResp, error) {
+	client := v1.NewPlatformInnerServiceClient(m.cli.Conn())
+	return client.GameSabaRetryCheck(ctx, in, opts...)
 }
