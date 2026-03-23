@@ -73,6 +73,8 @@ type GetGameLinkReq struct {
 	Avatar          string                 `protobuf:"bytes,11,opt,name=avatar,proto3" json:"avatar,omitempty"`                                         // 头像
 	GameId          int64                  `protobuf:"varint,12,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                          // 游戏ID
 	IsMaterial      int64                  `protobuf:"varint,13,opt,name=is_material,json=isMaterial,proto3" json:"is_material,omitempty"`              // 是否支持素材 1-支持 2-不支持
+	ReturnUrl       string                 `protobuf:"bytes,14,opt,name=return_url,json=returnUrl,proto3" json:"return_url,omitempty"`                  // 返回地址
+	NotifyUrl       string                 `protobuf:"bytes,15,opt,name=notify_url,json=notifyUrl,proto3" json:"notify_url,omitempty"`                  // 通知地址
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -196,6 +198,20 @@ func (x *GetGameLinkReq) GetIsMaterial() int64 {
 		return x.IsMaterial
 	}
 	return 0
+}
+
+func (x *GetGameLinkReq) GetReturnUrl() string {
+	if x != nil {
+		return x.ReturnUrl
+	}
+	return ""
+}
+
+func (x *GetGameLinkReq) GetNotifyUrl() string {
+	if x != nil {
+		return x.NotifyUrl
+	}
+	return ""
 }
 
 type GetGameLinkResp struct {
@@ -1492,7 +1508,7 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\x0e\n" +
-	"\fPlatformResp\"\xac\x03\n" +
+	"\fPlatformResp\"\xea\x03\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1510,7 +1526,11 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x06avatar\x18\v \x01(\tR\x06avatar\x12\x17\n" +
 	"\agame_id\x18\f \x01(\x03R\x06gameId\x12\x1f\n" +
 	"\vis_material\x18\r \x01(\x03R\n" +
-	"isMaterial\"#\n" +
+	"isMaterial\x12\x1d\n" +
+	"\n" +
+	"return_url\x18\x0e \x01(\tR\treturnUrl\x12\x1d\n" +
+	"\n" +
+	"notify_url\x18\x0f \x01(\tR\tnotifyUrl\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
