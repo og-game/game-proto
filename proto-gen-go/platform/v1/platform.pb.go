@@ -75,6 +75,7 @@ type GetGameLinkReq struct {
 	IsMaterial      int64                  `protobuf:"varint,13,opt,name=is_material,json=isMaterial,proto3" json:"is_material,omitempty"`              // 是否支持素材 1-支持 2-不支持
 	ReturnUrl       string                 `protobuf:"bytes,14,opt,name=return_url,json=returnUrl,proto3" json:"return_url,omitempty"`                  // 返回地址
 	NotifyUrl       string                 `protobuf:"bytes,15,opt,name=notify_url,json=notifyUrl,proto3" json:"notify_url,omitempty"`                  // 通知地址
+	MerchantUserId  string                 `protobuf:"bytes,16,opt,name=merchant_user_id,json=merchantUserId,proto3" json:"merchant_user_id,omitempty"` // 商户用户id
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -210,6 +211,13 @@ func (x *GetGameLinkReq) GetReturnUrl() string {
 func (x *GetGameLinkReq) GetNotifyUrl() string {
 	if x != nil {
 		return x.NotifyUrl
+	}
+	return ""
+}
+
+func (x *GetGameLinkReq) GetMerchantUserId() string {
+	if x != nil {
+		return x.MerchantUserId
 	}
 	return ""
 }
@@ -1508,7 +1516,7 @@ var File_platform_v1_platform_proto protoreflect.FileDescriptor
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"\x1aplatform/v1/platform.proto\x12\vplatform.v1\x1a\x14common/v1/enum.proto\"\x0e\n" +
-	"\fPlatformResp\"\xea\x03\n" +
+	"\fPlatformResp\"\x94\x04\n" +
 	"\x0eGetGameLinkReq\x12\"\n" +
 	"\rthird_game_id\x18\x01 \x01(\tR\vthirdGameId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12#\n" +
@@ -1530,7 +1538,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"return_url\x18\x0e \x01(\tR\treturnUrl\x12\x1d\n" +
 	"\n" +
-	"notify_url\x18\x0f \x01(\tR\tnotifyUrl\"#\n" +
+	"notify_url\x18\x0f \x01(\tR\tnotifyUrl\x12(\n" +
+	"\x10merchant_user_id\x18\x10 \x01(\tR\x0emerchantUserId\"#\n" +
 	"\x0fGetGameLinkResp\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
