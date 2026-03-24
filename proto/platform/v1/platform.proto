@@ -24,8 +24,7 @@ message GetGameLinkReq {
   int64 game_id = 12; // 游戏ID
   int64 is_material = 13; // 是否支持素材 1-支持 2-不支持
   string return_url = 14; // 返回地址
-  string notify_url = 15; // 通知地址
-  string merchant_user_id = 16; // 商户用户id
+  string merchant_user_id = 15; // 商户用户id
 }
 
 message GetGameLinkResp {
